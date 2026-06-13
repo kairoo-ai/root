@@ -761,6 +761,132 @@ git commit -m "docs(brand): rename AstraPath to Kairoo in README and GEMINI"
 
 ---
 
+## Task 11.5: Replace generic `prose` AI-output styling with a branded `RichText` component
+
+**Why:** The AI response in `FeatureModal` is rendered with the generic `@tailwindcss/typography` `prose prose-invert …` classes (off-brand, "Medium article" look). Replace it with a brand-styled markdown renderer. Also fixes a leftover old-brand gradient on the generate button.
+
+**Files:**
+- Create: `components/RichText.tsx`
+- Modify: `components/FeatureModal.tsx:93` (button gradient) and `:105-110` (prose block)
+
+- [ ] **Step 1: Create the branded markdown renderer**
+
+Create `components/RichText.tsx`:
+
+```tsx
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import type { ComponentPropsWithoutRef } from "react";
+
+/**
+ * Kairoo-branded markdown renderer. Replaces the generic Tailwind `prose`
+ * classes with on-brand element styling that works in light AND dark.
+ * Reuse anywhere we render markdown (AI output, legal pages).
+ */
+export default function RichText({ children }: { children: string }) {
+  return (
+    <div className="font-sans text-[15px] leading-relaxed text-foreground/90">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          h1: (p: ComponentPropsWithoutRef<"h1">) => (
+            <h1 className="mt-6 mb-3 text-2xl font-extrabold tracking-tight text-brand-ink" {...p} />
+          ),
+          h2: (p: ComponentPropsWithoutRef<"h2">) => (
+            <h2 className="mt-6 mb-3 text-xl font-bold tracking-tight text-brand-ink" {...p} />
+          ),
+          h3: (p: ComponentPropsWithoutRef<"h3">) => (
+            <h3 className="mt-5 mb-2 text-lg font-bold text-brand-ink" {...p} />
+          ),
+          p: (p: ComponentPropsWithoutRef<"p">) => <p className="my-3" {...p} />,
+          a: (p: ComponentPropsWithoutRef<"a">) => (
+            <a className="text-brand-teal underline decoration-brand-teal/40 underline-offset-2 hover:decoration-brand-teal" {...p} />
+          ),
+          ul: (p: ComponentPropsWithoutRef<"ul">) => (
+            <ul className="my-3 ml-5 list-disc marker:text-brand-teal" {...p} />
+          ),
+          ol: (p: ComponentPropsWithoutRef<"ol">) => (
+            <ol className="my-3 ml-5 list-decimal marker:text-brand-teal" {...p} />
+          ),
+          li: (p: ComponentPropsWithoutRef<"li">) => <li className="my-1" {...p} />,
+          blockquote: (p: ComponentPropsWithoutRef<"blockquote">) => (
+            <blockquote className="my-4 border-l-2 border-brand-teal pl-4 italic text-muted-foreground" {...p} />
+          ),
+          strong: (p: ComponentPropsWithoutRef<"strong">) => (
+            <strong className="font-semibold text-brand-ink" {...p} />
+          ),
+          code: (p: ComponentPropsWithoutRef<"code">) => (
+            <code className="rounded bg-brand-teal/10 px-1.5 py-0.5 text-[0.9em] text-brand-teal" {...p} />
+          ),
+          pre: (p: ComponentPropsWithoutRef<"pre">) => (
+            <pre className="my-4 overflow-x-auto rounded-xl bg-brand-navy p-4 text-brand-mist" {...p} />
+          ),
+          hr: (p: ComponentPropsWithoutRef<"hr">) => (
+            <hr className="my-6 border-brand-teal/20" {...p} />
+          ),
+        }}
+      >
+        {children}
+      </ReactMarkdown>
+    </div>
+  );
+}
+```
+
+- [ ] **Step 2: Use it in `FeatureModal` (replace the `prose` block)**
+
+In `components/FeatureModal.tsx`, add the import:
+
+```tsx
+import RichText from "@/components/RichText";
+```
+
+Remove the now-unused `ReactMarkdown` and `remarkGfm` imports **only if** they are no longer referenced elsewhere in the file. Replace the result block (lines ~105–110):
+
+```tsx
+      {result && (
+        <div className="mt-8 p-6 bg-gray-800/50 rounded-lg border border-white/10 min-h-[150px]">
+          <div className="prose prose-invert max-w-none prose-lg prose-p:my-4 prose-headings:my-6 prose-ul:my-4 prose-li:my-2 prose-blockquote:my-4 prose-strong:text-white">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{result}</ReactMarkdown>
+          </div>
+        </div>
+      )}
+```
+
+with:
+
+```tsx
+      {result && (
+        <div className="mt-8 p-6 rounded-lg border border-brand-teal/15 bg-card/60 min-h-[150px]">
+          <RichText>{result}</RichText>
+        </div>
+      )}
+```
+
+- [ ] **Step 3: Rebrand the leftover gradient button (line ~93)**
+
+Replace `bg-linear-to-r from-[#7c79c6] to-[#00f5d4]` in the generate button's className with:
+
+```
+bg-linear-to-r from-brand-navy to-brand-teal
+```
+
+(Keep the rest of that className unchanged.)
+
+- [ ] **Step 4: Verify**
+
+Run: `export PATH="/opt/homebrew/bin:$PATH" && npx tsc --noEmit && npm run build` → success.
+Run: `grep -rn "prose\|7c79c6\|00f5d4" components/FeatureModal.tsx` → Expected: no matches.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add components/RichText.tsx components/FeatureModal.tsx
+git commit -m "feat(brand): replace generic prose with branded RichText renderer"
+```
+
+---
+
 ## Task 12: Final full-app verification
 
 **Files:** none (verification only)
