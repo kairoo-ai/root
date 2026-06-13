@@ -22,7 +22,11 @@
       "Bash(cp .superpowers/brainstorm/31185-1781357864/content/*.html docs/brand/explorations/)",
       "Bash(cp .superpowers/brainstorm/17664-1781363284/content/*.html docs/brand/explorations/)",
       "Bash(git commit -q -m 'brand: lock Kairoo glyph \\(B3\\) + back up SVGs and exploration archive *)",
-      "Bash(git commit -q -m 'docs: complete brand identity \\(type/voice/tagline\\) + scope legal pages *)"
+      "Bash(git commit -q -m 'docs: complete brand identity \\(type/voice/tagline\\) + scope legal pages *)",
+      "Bash(git commit -q -m 'docs: add Kairoo brand-application implementation plan \\(Plan A\\) *)",
+      "Bash(cd /Users/mreshank/.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/subagent-driven-development && echo \"===IMPLEMENTER===\" && cat implementer-prompt.md && echo \"===SPEC REVIEWER===\" && cat spec-reviewer-prompt.md && echo \"===CODE QUALITY REVIEWER===\" && cat code-quality-reviewer-prompt.md)",
+      "Read(//Users/mreshank/.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/subagent-driven-development/**)",
+      "Bash(git commit *)"
     ]
   }
 }
