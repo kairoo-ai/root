@@ -26,7 +26,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/business-strategy" className="hover:text-primary">
+                <Link href="/investors/strategy" className="hover:text-primary">
                   Business Strategy
                 </Link>
               </li>
@@ -36,17 +36,17 @@ export default function Footer() {
             <h4 className="font-semibold mb-4">Resources</h4>
             <ul className="space-y-2 text-muted-foreground">
               <li>
-                <Link href="/market-analysis" className="hover:text-primary">
+                <Link href="/investors/market" className="hover:text-primary">
                   Market Analysis
                 </Link>
               </li>
               <li>
-                <Link href="/investor-deck" className="hover:text-primary">
+                <Link href="/investors/deck" className="hover:text-primary">
                   Investor Resources
                 </Link>
               </li>
               <li>
-                <Link href="/technical-architecture" className="hover:text-primary">
+                <Link href="/investors/architecture" className="hover:text-primary">
                   Tech Architecture
                 </Link>
               </li>

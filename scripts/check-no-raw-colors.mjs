@@ -12,11 +12,11 @@ const EXfiles = new Set([
 ]);
 // Legacy files awaiting rewrite — tagged DESIGN-DEBT. Allowed to keep raw colors for now.
 const LEGACY = new Set([
-  "app/page.tsx",
-  "app/business-strategy/page.tsx",
-  "app/investor-deck/page.tsx",
-  "app/market-analysis/page.tsx",
-  "app/technical-architecture/page.tsx",
+  "app/(marketing)/page.tsx",
+  "app/investors/strategy/page.tsx",
+  "app/investors/deck/page.tsx",
+  "app/investors/market/page.tsx",
+  "app/investors/architecture/page.tsx",
   "components/CompetitiveChart.tsx",
   "components/ForecastChart.tsx",
   "components/TeamSkillChart.tsx",

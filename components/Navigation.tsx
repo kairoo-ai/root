@@ -8,10 +8,10 @@ import Logo from "@/components/Logo";
 const navLinks = [
   { href: '/#features', label: 'Features', match: '/' },
   { href: '/#pricing', label: 'Pricing', match: '/' },
-  { href: '/business-strategy', label: 'Business Strategy' },
-  { href: '/market-analysis', label: 'Market Analysis' },
-  { href: '/investor-deck', label: 'Investor Resources' },
-  { href: '/technical-architecture', label: 'Tech Architecture' },
+  { href: '/investors/strategy', label: 'Business Strategy' },
+  { href: '/investors/market', label: 'Market Analysis' },
+  { href: '/investors/deck', label: 'Investor Resources' },
+  { href: '/investors/architecture', label: 'Tech Architecture' },
 ];
 
 export default function Navigation() {
@@ -64,7 +64,7 @@ export default function Navigation() {
             Get Started
           </Link>
           <Link
-            href="/investor-deck"
+            href="/investors/deck"
             className="inline-flex items-center rounded-full border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Book Demo
