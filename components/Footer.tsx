@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="mt-24 md:mt-32 border-t border-white/10">
       <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
           <div>
             <div className="mb-4"><Logo size={28} href="/" /></div>
             <p className="text-gray-400">
@@ -68,6 +68,41 @@ export default function Footer() {
               <li>
                 <Link href="/#contact" className="hover:text-cyan-400">
                   Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Legal</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Cookie Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/acceptable-use" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Acceptable Use
+                </Link>
+              </li>
+              <li>
+                <Link href="/ai-disclosure" className="text-muted-foreground hover:text-foreground transition-colors">
+                  AI Disclosure
+                </Link>
+              </li>
+              <li>
+                <Link href="/security" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Security
                 </Link>
               </li>
             </ul>
