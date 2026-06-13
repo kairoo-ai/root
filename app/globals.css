@@ -580,6 +580,6 @@ body {
 }
 
 .font-data {
-  font-family: var(--font-mona-sans);
+  font-family: var(--font-mona-sans), var(--font-dm-sans), sans-serif;
   font-variant-numeric: tabular-nums;
 }

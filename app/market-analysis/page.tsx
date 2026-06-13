@@ -186,7 +186,7 @@ export default function MarketAnalysis() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 className={`competitor-card glass-card p-6 rounded-2xl ${category.isAdvantage ? 'border-2 border-cyan-400' : ''}`}
-                style={{ '--accent-color': category.isAdvantage ? '#00f5d4' : undefined } as React.CSSProperties}
+                style={{ '--accent-color': category.isAdvantage ? '#2DD4BF' : undefined } as React.CSSProperties}
               >
                 <div className={`text-${category.color}-400 mb-4`}>
                   <category.icon className="w-8 h-8 mx-auto" />

@@ -263,7 +263,7 @@ export default function BusinessStrategy() {
                 name: 'Sarah Chen',
                 title: 'The Ambitious Career Switcher',
                 gradient: 'from-pink-500 to-red-500',
-                accent: '#ff3d7f',
+                accent: '#F59E0B',
                 demographics: 'Marketing Manager → Data Scientist, Age 29, San Francisco, $85K salary',
                 painPoints: [
                   'Overwhelmed by scattered learning resources',
@@ -284,7 +284,7 @@ export default function BusinessStrategy() {
                 name: 'Marcus Rodriguez',
                 title: 'The Efficiency-Focused Professional',
                 gradient: 'from-cyan-500 to-blue-500',
-                accent: '#00f5d4',
+                accent: '#2DD4BF',
                 demographics: 'Senior Software Engineer, Age 34, Austin, $140K salary, Team Lead',
                 painPoints: [
                   'Staying current with rapidly evolving tech',
@@ -305,7 +305,7 @@ export default function BusinessStrategy() {
                 name: 'Amanda Park',
                 title: 'The Strategic L&D Leader',
                 gradient: 'from-purple-500 to-indigo-500',
-                accent: '#7c79c6',
+                accent: '#0B1F3A',
                 demographics: 'L&D Director, Age 41, Enterprise SaaS Company, $165K salary, Manages 500+ employees',
                 painPoints: [
                   'Proving ROI of learning investments',

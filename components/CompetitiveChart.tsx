@@ -36,8 +36,8 @@ export default function CompetitiveChart() {
       {
         label: 'Kairoo',
         data: [{ x: 9, y: 4 }],
-        backgroundColor: 'rgba(0, 245, 212, 1)',
-        borderColor: 'rgb(0, 245, 212)',
+        backgroundColor: 'rgba(13, 148, 136, 0.2)',
+        borderColor: 'rgb(13, 148, 136)',
         pointRadius: 8,
       },
     ],

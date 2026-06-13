@@ -63,7 +63,7 @@ export default function Navigation() {
             href="/#pricing"
             color="secondary"
             radius="full"
-            className="hidden bg-linear-to-r from-[#7c79c6] via-[#9f7aea] to-[#00f5d4] text-sm font-semibold text-white md:inline-flex"
+            className="hidden bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-sm font-semibold text-white md:inline-flex"
           >
             Get Started
           </Button>
