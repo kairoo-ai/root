@@ -66,9 +66,60 @@ students. The unifying brand story is **"grows with you"** (free → pro → tea
 
 ---
 
-## 2. Product Name — ⏳ PENDING
+## 2. Product Name — ✅ LOCKED: **Kairoo**
 
-_To be filled in next._
+### 2.1 The name
+**Kairoo** (replaces "AstraPath AI"). Style: invented/coined word (per owner preference —
+fully ownable, trademarkable, meaning we control; drops the literal "AI" suffix per the
+"stop bragging, build real features" pivot).
+
+### 2.2 Meaning & story
+Derived from Greek **_kairos_** — "the opportune moment," the right time to act. For a
+career platform this reads as **"the right moment to grow / your next move."** The doubled
+vowel ("-oo") makes the mark distinct and ownable while preserving the sound of the
+original "Kairo" the owner was drawn to.
+
+### 2.3 Why Kairoo (reasoning)
+- **Spans all three audiences:** premium to enterprises, hopeful to job seekers, neither
+  juvenile nor stiff.
+- **Built-in brand story** = *"the right moment to grow,"* which dovetails with the
+  "grows with you" thesis (free → pro → team) from Section 1.
+- **Clear in our industry:** an availability scan (2026-06-13) found **no collision** in
+  careers / HR-tech / edtech / learning / self-development.
+
+### 2.4 Availability bar used
+A name passes if: (1) **no collision in our industry** (careers / HR-tech / edtech /
+learning / self-development), and (2) a **strong domain variant** is obtainable
+(`kairoo.com`, `kairoo.io`, `getkairoo.com`, `usekairoo.com` — exact `.com` is a bonus,
+not a requirement). Rationale: short "pretty" coined words from common roots are heavily
+claimed; out-of-industry existence (e.g. a foreign health app) is a far smaller brand/legal
+risk than an in-industry collision. **TODO before public launch:** formal trademark search
++ confirm chosen domain registration.
+
+### 2.5 Candidates considered & rejected (2026-06-13 scan)
+| Candidate | Verdict | Reason |
+|-----------|---------|--------|
+| Kairo | ❌ | Taken (owner found existing). |
+| Lumora | ❌ | Lumora.io = personality-assessment / gamified self-dev — direct competitor collision. |
+| Lunova | ❌ | Multiple AI software cos (Lunova Labs/Digital/Group) + Lumenova AI. |
+| Veyra | ❌ | Swamped — many AI startups. |
+| Cresca | ❌ | Cresça Brasil = UOL EdTech (distance education) — edtech adjacency. |
+| Kaelo | ❌ | Kaelo Healthcare (SA) — well-being/psycho-social adjacency. |
+| Aurelo | ❌ | Church-translation AI + ERP + studios — crowded. |
+| Trayve | ❌ | Phonetically "thrive"; Thrive Career Wellness / Thryve exist in career-wellness. |
+| Lumevo | ❌ | "Lum-" learning space crowded (Lumivero, Lumos Learning, Luminovo). |
+| Ascentra | ❌ | Ascentis (talent management, now UKG) — essentially our exact space. |
+| **Kairoo** | ✅ | **No in-industry collision; preserves loved "Kairo" sound; strong story.** |
+
+### 2.6 Rebrand transition requirement (NEW)
+Ship a **"AstraPath AI is now Kairoo" announcement banner / visual** so existing visitors
+understand the rebrand. Scope to define in implementation:
+- A dismissible site banner (top-of-page) with the rebrand message + optional "why we
+  renamed" link.
+- Optional shareable social/OG visual asset announcing the change.
+- Persist dismissal (localStorage) so it doesn't nag returning users.
+- Sunset the banner after a set period (e.g. 30–60 days) — candidate for a scheduled
+  cleanup once a date is chosen.
 
 ---
 
@@ -89,3 +140,5 @@ separately by the owner later._
 ## Decisions log
 - 2026-06-13: Scope = new name + full brand identity + legal pages. (Observability/GA out of scope — owner handling later.)
 - 2026-06-13: Audience strategy locked (Section 1): Enterprise-primary, pro self-serve, free funnel for students/job seekers. One tiered platform, "grows with you."
+- 2026-06-13: Name LOCKED = **Kairoo** (Section 2). 10 candidates scanned for in-industry collisions; Kairoo the only clean one that preserved the loved "Kairo" sound. Trademark + domain registration still TODO before public launch.
+- 2026-06-13: Added requirement — "AstraPath AI is now Kairoo" rebrand announcement banner/visual (Section 2.6).
