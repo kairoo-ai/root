@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Space_Grotesk, Mona_Sans } from "next/font/google";
+import { DM_Sans, Space_Grotesk, Mona_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -24,6 +24,12 @@ const monaSans = Mona_Sans({
   variable: "--font-mona-sans",
 });
 
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-geist-mono",
+});
+
 export const metadata: Metadata = {
   title: "Kairoo — The right moment to grow",
   description:
@@ -38,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${dmSans.variable} ${spaceGrotesk.variable} ${monaSans.variable} antialiased transition-colors duration-500`}
+        className={`${dmSans.variable} ${spaceGrotesk.variable} ${monaSans.variable} ${geistMono.variable} antialiased transition-colors duration-500`}
         suppressHydrationWarning
       >
         <Providers>
