@@ -9,7 +9,6 @@
     "kill": "kill $(lsof -t -i:1254) 2>/dev/null || echo 'No process running on port 1254'"
   },
   "dependencies": {
-    "@fontsource-variable/mona-sans": "^5.2.8",
     "@google/genai": "^1.30.0",
     "@heroui/react": "^2.8.5",
     "animejs": "^4.2.2",

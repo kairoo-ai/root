@@ -374,7 +374,6 @@ body {
   --tier-free: var(--brand-amber);
   --tier-pro: var(--brand-teal);
   --tier-enterprise: var(--brand-navy);
-  --font-mona-sans: "Mona Sans Variable", system-ui, sans-serif;
 }
 
 .dark {

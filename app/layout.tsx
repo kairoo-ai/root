@@ -1,6 +1,5 @@
-import "@fontsource-variable/mona-sans";
 import type { Metadata } from "next";
-import { DM_Sans, Space_Grotesk } from "next/font/google";
+import { DM_Sans, Space_Grotesk, Mona_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -18,6 +17,12 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
+const monaSans = Mona_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mona-sans",
+});
+
 export const metadata: Metadata = {
   title: "AstraPath AI - Your AI-Powered Career & Learning Command Center",
   description: "Stop wasting time on scattered career resources. AstraPath AI merges advanced career development tools with intelligent learning systems and strategic business insights.",
@@ -31,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${dmSans.variable} ${spaceGrotesk.variable} antialiased transition-colors duration-500`}
+        className={`${dmSans.variable} ${spaceGrotesk.variable} ${monaSans.variable} antialiased transition-colors duration-500`}
         suppressHydrationWarning
       >
         <Providers>
