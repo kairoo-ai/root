@@ -1,4 +1,4 @@
-# AstraPath AI - Next.js Application
+# Kairoo — Next.js Application
 
 A comprehensive AI-powered career development and learning platform built with Next.js 16, React 19, TypeScript, and Google Gemini AI integration.
 
