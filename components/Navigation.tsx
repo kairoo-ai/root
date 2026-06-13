@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Button } from '@heroui/react';
 import Logo from "@/components/Logo";
 
 const navLinks = [
@@ -58,24 +57,18 @@ export default function Navigation() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <Button
-            as={Link}
+          <Link
             href="/#pricing"
-            color="secondary"
-            radius="full"
-            className="hidden bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-sm font-semibold text-white md:inline-flex"
+            className="hidden items-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:inline-flex"
           >
             Get Started
-          </Button>
-          <Button
-            as={Link}
+          </Link>
+          <Link
             href="/investor-deck"
-            variant="bordered"
-            radius="full"
-            className="border-white/30 text-sm font-semibold text-white"
+            className="inline-flex items-center rounded-full border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Book Demo
-          </Button>
+          </Link>
         </div>
       </div>
     </nav>

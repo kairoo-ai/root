@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button, Card, CardBody } from '@heroui/react';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FeatureModal from '@/components/FeatureModal';
@@ -91,9 +92,8 @@ export default function Home() {
           
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button
-              radius="full"
               size="lg"
-              className="group bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright font-semibold text-white shadow-lg shadow-cyan-500/30"
+              className="group bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright font-semibold text-white shadow-lg shadow-cyan-500/30 rounded-full"
             >
               <span className="flex items-center gap-2">
                 Launch Your Journey
@@ -101,11 +101,10 @@ export default function Home() {
               </span>
             </Button>
             <Button
-              variant="bordered"
-              radius="full"
+              variant="outline"
               size="lg"
-              className="group border-white/40 font-semibold text-gray-100 hover:border-cyan-400"
-              onPress={() => setIsDemoModalOpen(true)}
+              className="group border-white/40 font-semibold text-gray-100 hover:border-cyan-400 rounded-full"
+              onClick={() => setIsDemoModalOpen(true)}
             >
               <span className="flex items-center gap-2">
                 Watch Demo
@@ -142,7 +141,7 @@ export default function Home() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {heroMetrics.map((metric, idx) => (
               <Card key={metric.label} className="border border-white/10 bg-white/5 backdrop-blur">
-                <CardBody className="flex items-center justify-between">
+                <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm uppercase tracking-wide text-gray-400">{metric.label}</p>
                     <p className="text-2xl font-black text-white">{metric.value}</p>
@@ -151,7 +150,7 @@ export default function Home() {
                     className={`h-12 w-12 rounded-full bg-linear-to-br ${metric.color} opacity-80 blur-[1px]`}
                     aria-hidden="true"
                   />
-                </CardBody>
+                </div>
               </Card>
             ))}
           </div>
@@ -544,8 +543,7 @@ export default function Home() {
                   {plan.period && <span className="text-lg font-medium text-gray-400">/mo</span>}
                 </p>
                 <Button
-                  radius="full"
-                  className={`mt-6 w-full font-semibold ${
+                  className={`mt-6 w-full font-semibold rounded-full ${
                     plan.popular
                       ? 'bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-white'
                       : 'bg-white/10 text-white'
@@ -617,9 +615,8 @@ export default function Home() {
 
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button
-                radius="full"
                 size="lg"
-                className="group bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-white shadow-lg"
+                className="group bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-white shadow-lg rounded-full"
               >
                 <span className="flex items-center gap-2">
                   Start Free Trial
@@ -627,10 +624,9 @@ export default function Home() {
                 </span>
               </Button>
               <Button
-                variant="bordered"
-                radius="full"
+                variant="outline"
                 size="lg"
-                className="group border-white/40 text-gray-100 hover:border-cyan-400"
+                className="group border-white/40 text-gray-100 hover:border-cyan-400 rounded-full"
               >
                 <span className="flex items-center gap-2">
                   Schedule Demo

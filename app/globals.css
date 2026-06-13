@@ -1,10 +1,29 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 @import "./styles/tokens.generated.css";
 @import "tw-animate-css";
-@plugin './hero.ts';
-/* Note: You may need to change the path to fit your project structure */
-@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
+
+/* HeroUI v3 reads these variable names — alias them to Kairoo tokens (additive, zero override of our own). */
+@layer base {
+  :root, .dark {
+    --focus: var(--ring);
+    --danger: var(--destructive);
+    --danger-foreground: var(--destructive-foreground);
+    --surface: var(--card);
+    --surface-foreground: var(--card-foreground);
+    --overlay: var(--popover);
+    --overlay-foreground: var(--popover-foreground);
+    --default: var(--secondary);
+    --default-foreground: var(--secondary-foreground);
+    --field-background: var(--input);
+    --field-foreground: var(--foreground);
+    --field-placeholder: var(--muted-foreground);
+    --field-border: var(--border);
+    --separator: var(--border);
+    --link: var(--primary);
+  }
+}
 
 @theme inline {
   /* semantic → Tailwind utility bridge */
