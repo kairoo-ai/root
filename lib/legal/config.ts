@@ -9,6 +9,7 @@ export type LegalConfig = {
   effectiveDate: string;      // ISO date shown as "Last updated"
   contactEmail: string;       // general/privacy contact
   dpoEmail: string;           // data requests
+  grievanceEmail: string;     // grievance officer (DPDP)
   websiteUrl: string;
   draft: boolean;             // true => show DRAFT banner sitewide on legal pages
   subProcessors: SubProcessor[];
@@ -21,6 +22,7 @@ export const legal: LegalConfig = {
   effectiveDate: "2026-06-14",
   contactEmail: "privacy@kairoo.com",               // TODO confirm
   dpoEmail: "privacy@kairoo.com",                   // TODO confirm
+  grievanceEmail: "privacy@kairoo.com",              // TODO confirm
   websiteUrl: "https://kairoo.com",                 // TODO confirm domain
   draft: true,
   subProcessors: [
