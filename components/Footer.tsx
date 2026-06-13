@@ -8,25 +8,25 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
           <div>
             <div className="mb-4"><Logo size={28} href="/" /></div>
-            <p className="text-gray-400">
+            <p className="text-muted-foreground">
               The most advanced AI-powered platform for career development, learning, and business strategy.
             </p>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Product</h4>
-            <ul className="space-y-2 text-gray-400">
+            <ul className="space-y-2 text-muted-foreground">
               <li>
-                <Link href="/#features" className="hover:text-cyan-400">
+                <Link href="/#features" className="hover:text-primary">
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="/#pricing" className="hover:text-cyan-400">
+                <Link href="/#pricing" className="hover:text-primary">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/business-strategy" className="hover:text-cyan-400">
+                <Link href="/business-strategy" className="hover:text-primary">
                   Business Strategy
                 </Link>
               </li>
@@ -34,19 +34,19 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-semibold mb-4">Resources</h4>
-            <ul className="space-y-2 text-gray-400">
+            <ul className="space-y-2 text-muted-foreground">
               <li>
-                <Link href="/market-analysis" className="hover:text-cyan-400">
+                <Link href="/market-analysis" className="hover:text-primary">
                   Market Analysis
                 </Link>
               </li>
               <li>
-                <Link href="/investor-deck" className="hover:text-cyan-400">
+                <Link href="/investor-deck" className="hover:text-primary">
                   Investor Resources
                 </Link>
               </li>
               <li>
-                <Link href="/technical-architecture" className="hover:text-cyan-400">
+                <Link href="/technical-architecture" className="hover:text-primary">
                   Tech Architecture
                 </Link>
               </li>
@@ -54,19 +54,19 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-semibold mb-4">Company</h4>
-            <ul className="space-y-2 text-gray-400">
+            <ul className="space-y-2 text-muted-foreground">
               <li>
-                <Link href="/#about" className="hover:text-cyan-400">
+                <Link href="/#about" className="hover:text-primary">
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/#careers" className="hover:text-cyan-400">
+                <Link href="/#careers" className="hover:text-primary">
                   Careers
                 </Link>
               </li>
               <li>
-                <Link href="/#contact" className="hover:text-cyan-400">
+                <Link href="/#contact" className="hover:text-primary">
                   Contact
                 </Link>
               </li>
@@ -108,7 +108,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
+        <div className="border-t border-border pt-8 text-center text-muted-foreground">
           <p>&copy; 2026 Kairoo. All rights reserved. Made with ❤️ for the future of work.</p>
         </div>
       </div>

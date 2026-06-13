@@ -23,8 +23,11 @@ const LEGACY = new Set([
   "components/GrowthChart.tsx",
   "components/AnimatedBackground.tsx",
   "components/ui/3d-pin.tsx",
+  "components/FeatureModal.tsx",   // DESIGN-DEBT: uses gray-300/gray-800 — full DS migration pending
+  "components/Modal.tsx",          // DESIGN-DEBT: uses cyan-400 hover — full DS migration pending
+  "components/Navigation.tsx",     // DESIGN-DEBT: uses cyan-400/gray-300 — full DS migration pending
 ]);
-const RAW = /#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(|\b(?:bg|text|border|from|via|to|fill|stroke|ring|shadow)-\[#/;
+const RAW = /#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(|\b(?:bg|text|border|from|via|to|fill|stroke|ring|shadow|decoration|outline|divide)-\[#|\b(?:bg|text|border|from|via|to|fill|stroke|ring|shadow|decoration|outline|divide)-(?:slate|gray|zinc|stone|red|orange|yellow|lime|green|emerald|cyan|sky|blue|indigo|violet|fuchsia|pink|rose|purple)-[0-9]/;
 const exts = new Set([".ts", ".tsx", ".css"]);
 
 const files = [];
