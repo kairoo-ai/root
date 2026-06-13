@@ -242,14 +242,14 @@ blocks, then charts. A final pass runs the full gates (guard, build, tsc, `/styl
 
 ---
 
-## 9. Open questions (please confirm at review)
+## 9. Decisions (confirmed 2026-06-14)
 
-1. **Investor URLs:** `/investors` + `/investors/{deck,market,strategy,architecture}`, with 301
-   redirects from the old flat paths — good? (Or keep old paths too?)
-2. **Reserve `app/(app)/`** authenticated-product shell as an empty skeleton now, or leave entirely
-   for later?
-3. **Token reconciliation** (`--accent`→brand + new `--accent-subtle`; `--muted`→muted-foreground +
-   new `--muted-surface`) — approved to apply to the generated design system?
-4. **HeroUI v3 vs own primitives split** in §4 — comfortable letting HeroUI own the complex
-   interactive widgets while we own the styled primitives, or prefer own-everything (more control,
-   more build)?
+1. **Investor URLs:** `/investors` + `/investors/{deck,market,strategy,architecture}`, with
+   **permanent 301 redirects** from the old flat paths. ✅
+2. **`app/(app)/`** authenticated-product shell: **reserved as an empty skeleton** now (route group +
+   placeholder layout, no pages). ✅
+3. **Token reconciliation:** **approved** — additive (`--accent`→brand + new `--accent-subtle`;
+   `--muted`→muted-text + new `--muted-surface`), regenerated from the token source, zero visual
+   change. ✅
+4. **Library split:** **HeroUI v3 owns complex interactive widgets; own CVA primitives own styled
+   basics**; Aceternity/Animate-UI/Anime/Motion for flair. ✅
