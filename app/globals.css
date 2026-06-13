@@ -49,11 +49,7 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  /* radius (calc-based shadcn aliases kept) */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* radius is owned by the generated tokens (--radius-xs..2xl, full) */
   /* brand backwards-compat aliases → generated ramp vars */
   --color-brand-navy: var(--color-navy-900);
   --color-brand-teal: var(--color-teal-600);
@@ -62,6 +58,7 @@
   --color-brand-gold: var(--color-gold-500);
   --color-brand-primary: var(--primary);
   --color-brand-ink: var(--foreground);
+  --color-brand-mist: var(--color-neutral-50);
 }
 
 body {
