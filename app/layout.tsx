@@ -25,8 +25,9 @@ const monaSans = Mona_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AstraPath AI - Your AI-Powered Career & Learning Command Center",
-  description: "Stop wasting time on scattered career resources. AstraPath AI merges advanced career development tools with intelligent learning systems and strategic business insights.",
+  title: "Kairoo — The right moment to grow",
+  description:
+    "Kairoo is AI career development that grows with you — coaching, learning paths, and team analytics for individuals, professionals, and enterprises.",
 };
 
 export default function RootLayout({

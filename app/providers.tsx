@@ -9,7 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       attribute="class"
       defaultTheme="dark"
       enableSystem
-      storageKey="astrapath-theme"
+      storageKey="kairoo-theme"
     >
       <HeroUIProvider>{children}</HeroUIProvider>
     </NextThemesProvider>
