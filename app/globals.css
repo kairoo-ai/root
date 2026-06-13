@@ -42,6 +42,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-teal-bright: var(--brand-teal-bright);
+  --color-brand-amber: var(--brand-amber);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-ink: var(--brand-ink);
 }
 
 body {
@@ -347,6 +354,19 @@ body {
   --surface-border: rgba(15, 23, 42, 0.08);
   --surface-border-strong: rgba(15, 23, 42, 0.15);
   --surface-glow: rgba(99, 102, 241, 0.25);
+  /* Kairoo brand palette */
+  --brand-navy: #0B1F3A;
+  --brand-teal: #0D9488;
+  --brand-teal-bright: #2DD4BF;
+  --brand-amber: #F59E0B;
+  --brand-gold: #CBA34A;
+  --brand-mist: #F8FAFC;
+  /* Semantic (light) */
+  --brand-ink: var(--brand-navy);
+  --brand-primary: var(--brand-teal);
+  --tier-free: var(--brand-amber);
+  --tier-pro: var(--brand-teal);
+  --tier-enterprise: var(--brand-navy);
 }
 
 .dark {
@@ -386,6 +406,9 @@ body {
   --surface-border: rgba(148, 163, 184, 0.18);
   --surface-border-strong: rgba(148, 163, 184, 0.35);
   --surface-glow: rgba(59, 130, 246, 0.35);
+  /* Kairoo brand (dark) */
+  --brand-ink: var(--brand-mist);
+  --brand-primary: var(--brand-teal-bright);
 }
 
 @layer base {
