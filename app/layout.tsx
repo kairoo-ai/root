@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import FloatingThemeToggle from "@/components/FloatingThemeToggle";
 import RebrandBanner from "@/components/RebrandBanner";
+import CookieConsent from "@/components/CookieConsent";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({
           <AnimatedBackground />
           <FloatingThemeToggle />
           <div className="relative z-10 flex min-h-screen flex-col">{children}</div>
+          <CookieConsent />
         </Providers>
       </body>
     </html>
