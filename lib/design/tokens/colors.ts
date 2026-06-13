@@ -67,10 +67,17 @@ export const semantic: SemanticMap = {
   "primary-foreground":  { light: "neutral.50",  dark: "navy.950" },
   secondary:             { light: "neutral.100", dark: "navy.800" },
   "secondary-foreground":{ light: "navy.800",    dark: "neutral.100" },
-  muted:                 { light: "neutral.100", dark: "navy.800" },
+  // muted = muted TEXT (HeroUI v3 reads --muted as muted text; Kairoo text uses --muted-foreground)
+  muted:                 { light: "neutral.500", dark: "neutral.400" },
   "muted-foreground":    { light: "neutral.500", dark: "neutral.400" },
-  accent:                { light: "teal.50",     dark: "navy.800" },
-  "accent-foreground":   { light: "teal.700",    dark: "teal.300" },
+  // muted SURFACE (the old --muted value), preserved additively for Kairoo surfaces
+  "muted-surface":       { light: "neutral.100", dark: "navy.800" },
+  // accent = BRAND (HeroUI v3 reads --accent as brand); mirrors primary
+  accent:                { light: "teal.600",    dark: "teal.400" },
+  "accent-foreground":   { light: "neutral.50",  dark: "navy.950" },
+  // the old pale accent tint, preserved additively
+  "accent-subtle":            { light: "teal.50",  dark: "navy.800" },
+  "accent-subtle-foreground": { light: "teal.700", dark: "teal.300" },
   destructive:           { light: "error.600",   dark: "error.500" },
   "destructive-foreground": { light: "neutral.50", dark: "navy.950" },
   success:               { light: "success.600", dark: "success.500" },

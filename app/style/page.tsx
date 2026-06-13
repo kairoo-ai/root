@@ -35,7 +35,7 @@ export default function StylePage() {
       <section className="space-y-3">
         <h2 className="text-h3 text-foreground">Semantic</h2>
         <div className="flex flex-wrap gap-3">
-          {["bg-primary text-primary-foreground","bg-secondary text-secondary-foreground","bg-muted text-muted-foreground","bg-accent text-accent-foreground","bg-destructive text-destructive-foreground"].map((c) => (
+          {["bg-primary text-primary-foreground","bg-secondary text-secondary-foreground","bg-muted-surface text-muted-foreground","bg-accent text-accent-foreground","bg-accent-subtle text-accent-subtle-foreground","bg-destructive text-destructive-foreground"].map((c) => (
             <div key={c} className={`rounded-lg px-4 py-3 text-sm ${c}`}>{c.split(" ")[0]}</div>
           ))}
         </div>

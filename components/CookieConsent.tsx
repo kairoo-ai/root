@@ -32,7 +32,7 @@ export default function CookieConsent() {
           consent. See our <a href="/cookies" className="text-primary underline">Cookie Policy</a>.
         </p>
         <div className="flex gap-2">
-          <button onClick={() => choose("rejected")} className="rounded-lg border border-border px-3 py-1.5 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Reject</button>
+          <button onClick={() => choose("rejected")} className="rounded-lg border border-border px-3 py-1.5 hover:bg-accent-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Reject</button>
           <button onClick={() => choose("accepted")} className="rounded-lg bg-primary px-3 py-1.5 font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">Accept</button>
         </div>
       </div>
