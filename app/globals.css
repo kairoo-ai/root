@@ -374,6 +374,7 @@ body {
   --tier-free: var(--brand-amber);
   --tier-pro: var(--brand-teal);
   --tier-enterprise: var(--brand-navy);
+  --font-mona-sans: "Mona Sans Variable", system-ui, sans-serif;
 }
 
 .dark {
@@ -577,4 +578,9 @@ body {
 
 .font-display {
   font-family: var(--font-space-grotesk), var(--font-dm-sans), sans-serif;
+}
+
+.font-data {
+  font-family: var(--font-mona-sans);
+  font-variant-numeric: tabular-nums;
 }

@@ -1,3 +1,4 @@
+import "@fontsource-variable/mona-sans";
 import type { Metadata } from "next";
 import { DM_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
