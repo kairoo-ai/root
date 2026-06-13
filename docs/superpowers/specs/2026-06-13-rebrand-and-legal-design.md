@@ -3,7 +3,7 @@
 **Date:** 2026-06-13
 **Owner:** Eshank Tyagi (eshank@matters.ai)
 **Current name:** AstraPath AI (to be replaced)
-**Status:** In progress — Section 1 (Strategy) locked; Naming, Brand Identity, and Legal pending.
+**Status:** Design complete — Strategy ✅, Name ✅ (Kairoo), Brand Identity ✅ (color/themes/glyph/type/voice/tagline), Rebrand banner ✅ (requirement), Legal pages 🟡 scoped (drafting + legal review pending). Ready for user review → implementation plan.
 
 > This document is the single source of truth for the rebrand. Nothing decided in
 > brainstorming should be lost — every decision is recorded here with its reasoning.
@@ -151,7 +151,28 @@ aspirational, professional yet personal. The palette itself signals tier ("grows
   `#16314F`, text `#F8FAFC` / muted `#94A3B8`, actions teal-bright `#2DD4BF`. Rationale:
   pure black reads generic; deep navy keeps the dark theme unmistakably Kairoo.
 
-### 3.3 Typography — ⏳ PENDING
+### 3.3 Typography — ✅ LOCKED
+Driven by owner's ranked preference (DM Sans > Mona Sans > Satoshi > Geist Sans >
+Space Grotesk > Open Sans). Principle: **one clear, non-overlapping job per font** so the
+system has range without becoming a mishmash.
+
+| Role | Font | Weights | Purpose / why |
+|------|------|---------|---------------|
+| Wordmark + headings (site & app) | **DM Sans** | 700 / 800 | Owner's #1; geometric warmth matches the rounded, all-curves glyph; "Kairoo" wordmark reads great at 700/800 |
+| Body + product UI | **DM Sans** | 400 / 500 | Single-family everywhere = cohesive + fast to ship; excellent UI legibility |
+| Marketing hero / display headlines (landing only) | **Space Grotesk** | 500 / 700 | Distinctive character on marketing pages without fighting DM Sans; NOT used inside the app |
+| Data surfaces — dashboards, team analytics, metrics, pricing numbers, reports/decks | **Mona Sans** | 400–700 | Strong tabular figures + slightly corporate tone; fits **enterprise/B2B** surfaces while DM Sans stays the warm individual/product face — mirrors the tiered audience |
+| Global fallback / alternate | **Satoshi** | — | Drop-in alternate for DM Sans (similar geometric feel) if DM Sans feels too common or hits a licensing/loading snag. **Not loaded by default** — on standby |
+
+**Audience mapping:** DM Sans = personal / product face (individuals, Pro). Mona Sans =
+enterprise / data face (analytics, reports, Enterprise tier).
+
+**Performance rules (carry into implementation):**
+- Load only the weights listed above — no full-family imports.
+- Load **Mona Sans only on routes that use it** (dashboards / analytics / reports), not site-wide.
+- Space Grotesk loads on marketing routes only.
+- Satoshi is documented but not bundled unless swapping in for DM Sans.
+- All are free / web-ready (DM Sans, Space Grotesk, Open Sans = Google Fonts; Mona Sans = GitHub/OFL; Satoshi = Fontshare; Geist = Vercel).
 
 ### 3.4 Logo / glyph — ✅ LOCKED (variant "B3")
 The owner's original arc sweep with a small curved stem (reads as **K** on a second look)
@@ -173,16 +194,73 @@ dots `#0D9488` light / `#2DD4BF` dark):
 - **Favicon:** thicken stroke as size drops (8.05 → ~11 at 16px) so the mark survives; verified at 48/32/24/16.
 - **App icon:** white/teal mark on navy tile, or white/amber on a navy→teal gradient tile.
 - Asset work for implementation: export `public/` SVGs (light, dark, mono), favicon set, OG image, app-icon PNGs.
-### 3.5 Voice & tone — ⏳ PENDING
-### 3.6 Tagline — ⏳ PENDING (candidates: "The right moment to grow." / "AI career development that grows with you.")
+### 3.5 Voice & tone — ✅ LOCKED
+**Confident mentor, not hype-man.** Plain-spoken, specific, encouraging. We name the next
+concrete step instead of promising the moon.
+
+- **Do:** "Here's your next step." · "Based on your last 3 interviews, focus here." · concrete, second-person, calm.
+- **Don't:** "Unlock your limitless potential!" · hype, exclamation-spam, vague superlatives, "AI-powered" as a brag.
+- **Why:** credible enough for enterprise buyers, warm enough for individuals/students; directly supports the "stop bragging, build real features" pivot. Works across all three tiers.
+
+### 3.6 Tagline — ✅ LOCKED
+**Primary:** "The right moment to grow." — ties straight to the name's meaning (*kairos*)
+and the "grows with you" thesis.
+**Secondary / descriptor (for meta, app stores, longer contexts):** "AI career development
+that grows with you."
+**Alternates considered (kept on file):** "Career growth, perfectly timed." · "Grow into
+who you're becoming." · "Your next move starts here."
+
+### 3.7 Brand identity status — ✅ COMPLETE
+Color system, themes, glyph, typography, voice, and tagline all locked. Assets backed up in
+[`../../brand/`](../../brand/) ([`README.md`](../../brand/README.md), light/dark/mono/favicon SVGs, exploration archive).
 
 ---
 
-## 4. Legal Pages — ⏳ PENDING
+## 4. Legal Pages — 🟡 SCOPED (drafting pending)
 
-_Privacy Policy, Terms of Service, and B2B/freemium-specific docs (Cookie Policy, DPA stub,
-sub-processors, acceptable-use). To be scoped. Note: observability + GA are being handled
-separately by the owner later._
+> ⚠️ **Legal-review caveat (must stay in the doc):** Claude can *draft* these pages, but
+> AI-generated legal text is a starting point only. Anything published and relied upon —
+> especially Privacy, Terms, DPA, GDPR/CCPA specifics — should get a qualified lawyer's
+> review. Drafts will carry a visible "DRAFT — pending legal review" note until cleared.
+
+### 4.1 Why now
+The product collects personal data (accounts, career/profile data, usage) and sends user
+content to **Google Gemini** for AI features. That triggers a baseline legal need
+(privacy, terms, cookie/consent, AI disclosure) even before enterprise. B2B-primary
+positioning adds enterprise-grade docs that can ship as stubs now and harden before the
+first enterprise deal.
+
+### 4.2 Document set
+
+**Ship now (public, required):**
+| Doc | Purpose / key contents |
+|-----|------------------------|
+| **Privacy Policy** | What's collected (account, profile/career data, usage), why, legal bases, retention, user rights (access/delete/export), GDPR + CCPA sections, **AI processing disclosure** (content sent to Google Gemini), third-party sub-processors, contact. |
+| **Terms of Service** | Account rules, acceptable use ref, tiers (Free/Pro/Enterprise), billing/auto-renewal/refunds for paid, IP ownership, **AI-output disclaimer** (not professional/career/legal advice; no guaranteed outcomes), liability limits, termination, governing law. |
+| **Cookie Policy + consent banner** | Cookie categories, purposes; EU/UK consent banner (needed once analytics/GA go in — owner adding observability/GA later, so build consent-ready now). |
+| **Acceptable Use Policy** | Prohibited uses of the AI tools (abuse, scraping, generating harmful content, reverse-engineering), enforcement. |
+| **AI Disclosure / Disclaimer** | Plain-language: AI assists, can be wrong, isn't professional advice; how user data is used with Gemini; human-in-the-loop expectation. (May live inside Privacy + Terms rather than a separate page — decide in implementation.) |
+
+**Stub now, harden before first enterprise deal:**
+| Doc | Purpose |
+|-----|---------|
+| **DPA (Data Processing Agreement)** | Controller/processor terms for B2B; GDPR Art. 28. Stub + "available on request." |
+| **Sub-processors list** | Public list (Google Gemini, hosting/Vercel, email, etc.) with purpose + region; enterprises expect this. |
+| **Security / Trust page** | Overview of security practices (even if light now); B2B buyers look for it. |
+
+**Explicitly out of scope (owner handling separately):** observability + analytics (GA)
+instrumentation. Legal pages will be **consent-banner-ready** so GA can drop in cleanly later.
+
+### 4.3 Open decisions (resolve before/at drafting)
+1. **Operating legal entity + governing-law jurisdiction** (country/state) — needed for Terms/Privacy. (Owner email is `@matters.ai` — confirm the entity that owns Kairoo.)
+2. **Contact channel** for privacy/legal requests (e.g. privacy@…).
+3. **Data residency / retention specifics** (how long career data is kept; deletion flow).
+4. **Confirm Gemini data-handling terms** (does Google train on the data under the API plan in use?) — drives the privacy/AI-disclosure wording.
+
+### 4.4 Implementation notes
+- Routes: `/privacy`, `/terms`, `/cookies`, `/acceptable-use`, (`/dpa`, `/sub-processors`, `/security` as stubs). Footer links + sitemap entries.
+- Shared simple legal-page layout (title, last-updated date, prose styling via existing Tailwind typography).
+- Each page carries a `Last updated` date and the DRAFT note until legal-cleared.
 
 ---
 
@@ -191,3 +269,8 @@ separately by the owner later._
 - 2026-06-13: Audience strategy locked (Section 1): Enterprise-primary, pro self-serve, free funnel for students/job seekers. One tiered platform, "grows with you."
 - 2026-06-13: Name LOCKED = **Kairoo** (Section 2). 10 candidates scanned for in-industry collisions; Kairoo the only clean one that preserved the loved "Kairo" sound. Trademark + domain registration still TODO before public launch.
 - 2026-06-13: Added requirement — "AstraPath AI is now Kairoo" rebrand announcement banner/visual (Section 2.6).
+- 2026-06-13: Glyph LOCKED = variant "B3" (owner's arc + curved stem + two teal dots). Backed up to `docs/brand/` (Section 3.4).
+- 2026-06-13: Color system + light/dark themes LOCKED (Section 3.1–3.2). Dark = navy-derived, not black.
+- 2026-06-13: Typography LOCKED (Section 3.3) — DM Sans (wordmark/headings/body/UI), Space Grotesk (marketing display), Mona Sans (data/enterprise surfaces), Satoshi (standby fallback). Per owner's ranked preference.
+- 2026-06-13: Voice LOCKED = "confident mentor, not hype-man"; Tagline LOCKED = "The right moment to grow." (Section 3.5–3.6).
+- 2026-06-13: Legal pages SCOPED (Section 4) — ship-now set + enterprise stubs; flagged lawyer-review requirement and 4 open decisions (entity/jurisdiction, contact, retention, Gemini data terms).
