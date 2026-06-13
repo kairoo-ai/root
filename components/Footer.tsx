@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from "@/components/Logo";
 
 export default function Footer() {
   return (
@@ -6,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold gradient-text mb-4">AstraPath AI</h3>
+            <div className="mb-4"><Logo size={28} href="/" /></div>
             <p className="text-gray-400">
               The most advanced AI-powered platform for career development, learning, and business strategy.
             </p>
@@ -73,7 +74,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-          <p>&copy; 2025 AstraPath AI. All rights reserved. Made with ❤️ for the future of work.</p>
+          <p>&copy; 2026 Kairoo. All rights reserved. Made with ❤️ for the future of work.</p>
         </div>
       </div>
     </footer>
