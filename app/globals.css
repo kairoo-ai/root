@@ -63,10 +63,10 @@ body {
   transform: translateX(-50%);
   width: 120%;
   height: 100vh;
-  background-image: 
-    radial-gradient(ellipse at 20% 20%, rgba(120, 119, 198, 0.2), transparent 50%),
-    radial-gradient(ellipse at 80% 40%, rgba(255, 61, 127, 0.15), transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(0, 245, 212, 0.15), transparent 50%);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(13, 148, 136, 0.18), transparent 50%),
+    radial-gradient(ellipse at 80% 40%, rgba(245, 158, 11, 0.12), transparent 50%),
+    radial-gradient(ellipse at 40% 80%, rgba(11, 31, 58, 0.18), transparent 50%);
   z-index: 0;
   pointer-events: none;
   animation: aurora 25s ease-in-out infinite alternate;
@@ -110,7 +110,13 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #7c79c6, #ff3d7f, #00f5d4);
+  background: linear-gradient(135deg, #0B1F3A, #0D9488, #F59E0B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dark .gradient-text {
+  background: linear-gradient(135deg, #2DD4BF, #0D9488, #FBBF24);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -425,9 +431,9 @@ html {
 }
 
 body {
-  background: radial-gradient(circle at 12% 18%, rgba(233, 216, 253, 0.8), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(170, 217, 255, 0.6), transparent 50%),
-    linear-gradient(135deg, #fef8ff, #edf5ff);
+  background: radial-gradient(circle at 12% 18%, rgba(13, 148, 136, 0.10), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(147, 197, 253, 0.35), transparent 50%),
+    linear-gradient(135deg, #FFFFFF, #F8FAFC);
   min-height: 100vh;
   transition: background 0.6s ease, color 0.6s ease;
   font-family: 'Inter', sans-serif;
@@ -435,9 +441,9 @@ body {
 }
 
 .dark body {
-  background: radial-gradient(circle at 10% 20%, rgba(124, 121, 198, 0.35), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(0, 245, 212, 0.2), transparent 40%),
-    linear-gradient(135deg, rgb(5, 7, 16), rgb(3, 5, 15));
+  background: radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.22), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(45, 212, 191, 0.14), transparent 40%),
+    linear-gradient(135deg, #071426, #0B1F3A);
 }
 
 .liquid-container {
