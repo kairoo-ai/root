@@ -31,8 +31,8 @@ export default function ForecastChart() {
       {
         label: 'Total Users',
         data: [1250, 2800, 8250, 25000, 62000, 125000],
-        borderColor: 'rgb(0, 245, 212)',
-        backgroundColor: 'rgba(0, 245, 212, 0.1)',
+        borderColor: 'rgb(45, 212, 191)',
+        backgroundColor: 'rgba(45, 212, 191, 0.1)',
         tension: 0.4,
         fill: true,
         yAxisID: 'y',
@@ -40,8 +40,8 @@ export default function ForecastChart() {
       {
         label: 'Paid Users',
         data: [125, 336, 1049, 3247, 7891, 15234],
-        borderColor: 'rgb(124, 121, 198)',
-        backgroundColor: 'rgba(124, 121, 198, 0.1)',
+        borderColor: 'rgb(11, 31, 58)',
+        backgroundColor: 'rgba(11, 31, 58, 0.1)',
         tension: 0.4,
         fill: true,
         yAxisID: 'y',
@@ -49,8 +49,8 @@ export default function ForecastChart() {
       {
         label: 'MRR ($K)',
         data: [3.6, 9.7, 30.4, 94.2, 228.8, 441.8],
-        borderColor: 'rgb(255, 61, 127)',
-        backgroundColor: 'rgba(255, 61, 127, 0.1)',
+        borderColor: 'rgb(245, 158, 11)',
+        backgroundColor: 'rgba(245, 158, 11, 0.1)',
         tension: 0.4,
         fill: false,
         yAxisID: 'y1',
@@ -86,11 +86,11 @@ export default function ForecastChart() {
         type: 'linear' as const,
         display: true,
         position: 'right' as const,
-        ticks: { color: '#ff3d7f' },
+        ticks: { color: '#F59E0B' },
         title: {
           display: true,
           text: 'MRR ($K)',
-          color: '#ff3d7f',
+          color: '#F59E0B',
         },
         grid: {
           drawOnChartArea: false,

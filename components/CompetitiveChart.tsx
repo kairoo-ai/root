@@ -34,10 +34,10 @@ export default function CompetitiveChart() {
         borderColor: 'rgb(251, 146, 60)',
       },
       {
-        label: 'AstraPath AI',
+        label: 'Kairoo',
         data: [{ x: 9, y: 4 }],
-        backgroundColor: 'rgba(0, 245, 212, 1)',
-        borderColor: 'rgb(0, 245, 212)',
+        backgroundColor: 'rgba(13, 148, 136, 0.2)',
+        borderColor: 'rgb(13, 148, 136)',
         pointRadius: 8,
       },
     ],

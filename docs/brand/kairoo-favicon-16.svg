@@ -1,0 +1,6 @@
+<!-- Simplified mark for the smallest favicon (16px): waypoint dropped, stroke thickened so it survives. -->
+<svg width="92" height="92" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M16.1016 71.2999C28.3682 68.2332 39.8682 59.0332 50.6016 43.6999C61.3349 28.3666 69.7682 19.9332 75.9016 18.3999" stroke="#0B1F3A" stroke-width="11" stroke-linecap="round"/>
+  <path d="M32.0476 21C32.0476 39.55 30.9762 39.2 39 42" stroke="#0B1F3A" stroke-width="11" stroke-linecap="round"/>
+  <circle cx="75.9016" cy="18.4" r="11.5" fill="#0D9488"/>
+</svg>

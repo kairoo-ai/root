@@ -1,0 +1,109 @@
+name: Auto PR (latest → main)
+
+# Opens a pull request from `latest` into `main` on a schedule.
+# Cadence:
+#   - Small changesets ("not too much"): a PR is opened on the daily run.
+#   - Large changesets ("a lot"): only opened on a ~every-3-days cadence.
+# In all cases: only opens a PR if `latest` is ahead of `main` AND no open
+# latest→main PR already exists.
+#
+# NOTE: GitHub only runs `schedule` workflows from the DEFAULT branch (main).
+# This file therefore activates once it has been merged into `main` the first time.
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily at 06:00 UTC
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+  push:
+    branches: [latest]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: auto-pr-latest
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    # Quality gate on every push to latest and every PR into main.
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npm run lint:colors
+      - run: npm run build
+
+  auto-pr:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      # Tunables: a changeset bigger than EITHER threshold counts as "a lot".
+      BIG_CHANGE_LINES: "400"
+      BIG_CHANGE_FILES: "15"
+      # For "a lot" changesets, only open a PR every Nth day-of-year.
+      BIG_CHANGE_EVERY_DAYS: "3"
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Open PR latest → main when appropriate
+        run: |
+          set -euo pipefail
+          git fetch origin main latest --quiet || true
+
+          if ! git show-ref --verify --quiet refs/remotes/origin/latest; then
+            echo "No 'latest' branch on origin yet — nothing to do."
+            exit 0
+          fi
+
+          AHEAD=$(git rev-list --count origin/main..origin/latest)
+          if [ "$AHEAD" -eq 0 ]; then
+            echo "latest has no commits ahead of main — nothing to do."
+            exit 0
+          fi
+
+          EXISTING=$(gh pr list --base main --head latest --state open --json number --jq 'length')
+          if [ "$EXISTING" -gt 0 ]; then
+            echo "An open latest→main PR already exists — skipping."
+            exit 0
+          fi
+
+          # Measure changeset size (changes since the merge-base).
+          read -r CHANGED_FILES INSERTIONS DELETIONS < <(
+            git diff --numstat origin/main...origin/latest \
+              | awk '{ f++; ins += $1; del += $2 } END { print f+0, ins+0, del+0 }'
+          )
+          CHANGED_LINES=$((INSERTIONS + DELETIONS))
+          echo "ahead=$AHEAD files=$CHANGED_FILES lines=$CHANGED_LINES"
+
+          IS_BIG=0
+          if [ "$CHANGED_LINES" -gt "$BIG_CHANGE_LINES" ] || [ "$CHANGED_FILES" -gt "$BIG_CHANGE_FILES" ]; then
+            IS_BIG=1
+          fi
+
+          TITLE="chore: sync latest → main"
+          if [ "$IS_BIG" -eq 1 ]; then
+            # Large/major changeset: throttle to the every-3-days cadence.
+            DOY=$(date -u +%j | sed 's/^0*//')
+            if [ $((DOY % BIG_CHANGE_EVERY_DAYS)) -ne 0 ]; then
+              echo "Large changeset ($CHANGED_LINES lines / $CHANGED_FILES files): waiting for the ${BIG_CHANGE_EVERY_DAYS}-day cadence (day-of-year $DOY)."
+              exit 0
+            fi
+            TITLE="chore: sync latest → main (large changeset)"
+          fi
+
+          BODY=$(printf '## Automated PR: latest → main\n\n- Commits ahead: %s\n- Files changed: %s\n- Lines changed: %s (+%s / -%s)\n\nOpened automatically by the scheduled auto-PR workflow (`.github/workflows/auto-pr-latest.yml`). Review and merge when ready.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)' "$AHEAD" "$CHANGED_FILES" "$CHANGED_LINES" "$INSERTIONS" "$DELETIONS")
+
+          gh pr create --base main --head latest --title "$TITLE" --body "$BODY"
+          echo "Opened PR: $TITLE"

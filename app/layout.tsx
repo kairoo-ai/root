@@ -1,18 +1,39 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DM_Sans, Space_Grotesk, Mona_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import FloatingThemeToggle from "@/components/FloatingThemeToggle";
+import RebrandBanner from "@/components/RebrandBanner";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "700", "800"],
+  variable: "--font-dm-sans",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-space-grotesk",
+});
+
+const monaSans = Mona_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mona-sans",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
-  title: "AstraPath AI - Your AI-Powered Career & Learning Command Center",
-  description: "Stop wasting time on scattered career resources. AstraPath AI merges advanced career development tools with intelligent learning systems and strategic business insights.",
+  title: "Kairoo — The right moment to grow",
+  description:
+    "Kairoo is AI career development that grows with you — coaching, learning paths, and team analytics for individuals, professionals, and enterprises.",
 };
 
 export default function RootLayout({
@@ -23,10 +44,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} antialiased transition-colors duration-500`}
+        className={`${dmSans.variable} ${spaceGrotesk.variable} ${monaSans.variable} ${geistMono.variable} antialiased transition-colors duration-500`}
         suppressHydrationWarning
       >
         <Providers>
+          <RebrandBanner />
           <AnimatedBackground />
           <FloatingThemeToggle />
           <div className="relative z-10 flex min-h-screen flex-col">{children}</div>

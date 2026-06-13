@@ -67,7 +67,7 @@ export default function Home() {
             <span className="block gradient-text mt-2">Command Center</span>
           </h1>
           <p className="max-w-4xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
-            Stop wasting time on scattered career resources. AstraPath AI merges{' '}
+            Stop wasting time on scattered career resources. Kairoo merges{' '}
             <span className="text-cyan-400 font-semibold">advanced career development tools</span> with{' '}
             <span className="text-purple-400 font-semibold">intelligent learning systems</span> and{' '}
             <span className="text-pink-400 font-semibold">strategic business insights</span>. From personalized AI
@@ -93,7 +93,7 @@ export default function Home() {
             <Button
               radius="full"
               size="lg"
-              className="group bg-linear-to-r from-[#7c79c6] via-[#9f7aea] to-[#00f5d4] font-semibold text-white shadow-lg shadow-cyan-500/30"
+              className="group bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright font-semibold text-white shadow-lg shadow-cyan-500/30"
             >
               <span className="flex items-center gap-2">
                 Launch Your Journey
@@ -115,7 +115,7 @@ export default function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-sm text-gray-500 mb-3">Join 1,000+ professionals already using AstraPath AI</p>
+            <p className="text-sm text-gray-500 mb-3">Join 1,000+ professionals already using Kairoo</p>
             <div className="flex justify-center items-center space-x-1">
               <div className="flex -space-x-2">
                 <div className="w-8 h-8 bg-linear-to-r from-cyan-400 to-blue-500 rounded-full border-2 border-gray-900 flex items-center justify-center text-white text-xs font-bold">
@@ -176,7 +176,7 @@ export default function Home() {
             className="glass-card p-8 rounded-2xl"
           >
             <div className="mb-6">
-              <Briefcase className="w-12 h-12 text-[#7c79c6] mb-4" />
+              <Briefcase className="w-12 h-12 text-brand-navy mb-4" />
               <h3 className="text-2xl font-bold mb-2">Career Development Suite</h3>
               <p className="text-gray-400">32+ AI-powered tools for every aspect of your professional journey</p>
             </div>
@@ -197,7 +197,7 @@ export default function Home() {
             className="glass-card p-8 rounded-2xl"
           >
             <div className="mb-6">
-              <GraduationCap className="w-12 h-12 text-[#ff3d7f] mb-4" />
+              <GraduationCap className="w-12 h-12 text-brand-amber mb-4" />
               <h3 className="text-2xl font-bold mb-2">Intelligent Learning Paths</h3>
               <p className="text-gray-400">AI-curated learning journeys from the best web resources</p>
             </div>
@@ -218,7 +218,7 @@ export default function Home() {
             className="glass-card p-8 rounded-2xl"
           >
             <div className="mb-6">
-              <BarChart3 className="w-12 h-12 text-[#00f5d4] mb-4" />
+              <BarChart3 className="w-12 h-12 text-brand-teal-bright mb-4" />
               <h3 className="text-2xl font-bold mb-2">Strategic Business Intelligence</h3>
               <p className="text-gray-400">Comprehensive market analysis and competitive insights</p>
             </div>
@@ -294,7 +294,7 @@ export default function Home() {
             </p>
             <button
               onClick={() => setIsDemoModalOpen(true)}
-              className="bg-linear-to-r from-[#7c79c6] to-[#00f5d4] text-white font-bold py-3 px-8 rounded-full hover:scale-105 transition-transform"
+              className="bg-linear-to-r from-brand-navy to-brand-teal-bright text-white font-bold py-3 px-8 rounded-full hover:scale-105 transition-transform"
             >
               Try Interactive Demo
             </button>
@@ -325,7 +325,7 @@ export default function Home() {
             transition={{ delay: 0.1 }}
             className="max-w-3xl mx-auto mt-4 text-lg text-gray-400 mb-12"
           >
-            See how professionals and organizations are transforming their careers with AstraPath AI
+            See how professionals and organizations are transforming their careers with Kairoo
           </motion.p>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
@@ -333,7 +333,7 @@ export default function Home() {
               {
                 title: 'Career Switch Success',
                 quote:
-                  "I went from marketing to data science in just 8 months using AstraPath AI. The personalized learning path saved me thousands of hours of research. I landed a $125K role at Google!",
+                  "I went from marketing to data science in just 8 months using Kairoo. The personalized learning path saved me thousands of hours of research. I landed a $125K role at Google!",
                 name: 'Sarah Chen',
                 role: 'Data Scientist at Google',
                 tag: 'Career Switcher Success',
@@ -344,7 +344,7 @@ export default function Home() {
               {
                 title: 'Leadership Growth',
                 quote:
-                  "AstraPath's AI coaching helped me navigate my promotion to Staff Engineer. The interview prep and salary negotiation tools were game-changers. Got a 40% raise!",
+                  "Kairoo's AI coaching helped me navigate my promotion to Staff Engineer. The interview prep and salary negotiation tools were game-changers. Got a 40% raise!",
                 name: 'Marcus Rodriguez',
                 role: 'Staff Engineer at Stripe',
                 tag: '40% Salary Increase',
@@ -355,7 +355,7 @@ export default function Home() {
               {
                 title: 'Enterprise Transformation',
                 quote:
-                  "Our team's productivity increased 300% after implementing AstraPath AI. The analytics dashboard gives us incredible insights into skill gaps and development ROI.",
+                  "Our team's productivity increased 300% after implementing Kairoo. The analytics dashboard gives us incredible insights into skill gaps and development ROI.",
                 name: 'Amanda Park',
                 role: 'L&D Director at Salesforce',
                 tag: '300% Productivity Gain',
@@ -547,7 +547,7 @@ export default function Home() {
                   radius="full"
                   className={`mt-6 w-full font-semibold ${
                     plan.popular
-                      ? 'bg-linear-to-r from-[#7c79c6] via-[#9f7aea] to-[#00f5d4] text-white'
+                      ? 'bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-white'
                       : 'bg-white/10 text-white'
                   }`}
                 >
@@ -594,7 +594,7 @@ export default function Home() {
               transition={{ delay: 0.1 }}
               className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto mb-8"
             >
-              Join thousands of professionals and organizations already accelerating their growth with AstraPath AI.{' '}
+              Join thousands of professionals and organizations already accelerating their growth with Kairoo.{' '}
               <span className="text-cyan-400 font-semibold">Start your transformation today.</span>
             </motion.p>
 
@@ -619,7 +619,7 @@ export default function Home() {
               <Button
                 radius="full"
                 size="lg"
-                className="group bg-linear-to-r from-[#7c79c6] via-[#9f7aea] to-[#00f5d4] text-white shadow-lg"
+                className="group bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-white shadow-lg"
               >
                 <span className="flex items-center gap-2">
                   Start Free Trial
@@ -658,7 +658,7 @@ export default function Home() {
         onClose={() => setIsDemoModalOpen(false)}
         title="Interactive Demo"
       >
-        <p className="text-gray-300 mb-6">Experience the power of AstraPath AI with our interactive demo.</p>
+        <p className="text-gray-300 mb-6">Experience the power of Kairoo with our interactive demo.</p>
         <div className="space-y-4">
           <div className="p-4 bg-gray-800 rounded-lg">
             <h3 className="font-bold text-cyan-400">Try a Career Tool</h3>

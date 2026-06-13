@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@heroui/react';
+import Logo from "@/components/Logo";
 
 const navLinks = [
   { href: '/#features', label: 'Features', match: '/' },
@@ -40,9 +41,7 @@ export default function Navigation() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        <Link href="/" className="text-3xl font-bold tracking-tight gradient-text">
-          AstraPath AI
-        </Link>
+        <Logo size={32} href="/" />
         <div className="hidden items-center space-x-8 md:flex">
           {navLinks.map((link) => (
             <Link
@@ -64,7 +63,7 @@ export default function Navigation() {
             href="/#pricing"
             color="secondary"
             radius="full"
-            className="hidden bg-linear-to-r from-[#7c79c6] via-[#9f7aea] to-[#00f5d4] text-sm font-semibold text-white md:inline-flex"
+            className="hidden bg-linear-to-r from-brand-navy via-brand-teal to-brand-teal-bright text-sm font-semibold text-white md:inline-flex"
           >
             Get Started
           </Button>

@@ -28,12 +28,12 @@ export default function InvestorDeck() {
             <span className="block gradient-text mt-2">Growth Forecasting</span>
           </h1>
           <p className="max-w-3xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
-            Comprehensive investment materials, financial projections, and growth strategies for AstraPath AI - the
+            Comprehensive investment materials, financial projections, and growth strategies for Kairoo - the
             future of AI-powered professional development. Join us in transforming how the world learns and grows.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <button className="bg-linear-to-r from-[#7c79c6] to-[#00f5d4] text-white font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-transform">
+            <button className="bg-linear-to-r from-brand-navy to-brand-teal-bright text-white font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-transform">
               View Pitch Deck
             </button>
             <button className="font-semibold text-gray-300 hover:text-white transition flex items-center gap-2 border border-gray-600 py-4 px-8 rounded-full hover:border-cyan-400">
@@ -57,9 +57,9 @@ export default function InvestorDeck() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {[
-              { value: '$2.5M', label: 'Series A Target', color: 'text-cyan-400', accent: '#00f5d4' },
-              { value: '$142B', label: 'Market Size (TAM)', color: 'text-purple-400', accent: '#7c79c6' },
-              { value: '24 Mo', label: 'Runway Extension', color: 'text-pink-400', accent: '#ff3d7f' },
+              { value: '$2.5M', label: 'Series A Target', color: 'text-cyan-400', accent: '#2DD4BF' },
+              { value: '$142B', label: 'Market Size (TAM)', color: 'text-purple-400', accent: '#0B1F3A' },
+              { value: '24 Mo', label: 'Runway Extension', color: 'text-pink-400', accent: '#F59E0B' },
               { value: '15-20%', label: 'Equity Offering', color: 'text-green-400', accent: '#10b981' },
             ].map((metric, index) => (
               <motion.div
@@ -83,7 +83,7 @@ export default function InvestorDeck() {
             viewport={{ once: true }}
             className="glass-card p-8 rounded-2xl"
           >
-            <h3 className="text-2xl font-bold mb-6">Why Invest in AstraPath AI?</h3>
+            <h3 className="text-2xl font-bold mb-6">Why Invest in Kairoo?</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
               {[
                 {
@@ -255,7 +255,7 @@ export default function InvestorDeck() {
               {
                 phase: 'Phase 1',
                 title: 'Foundation & Systems (Days 1-30)',
-                color: '#00f5d4',
+                color: '#2DD4BF',
                 tasks: {
                   product: [
                     'Finalize 90-day backlog + success metrics',
@@ -273,7 +273,7 @@ export default function InvestorDeck() {
               {
                 phase: 'Phase 2',
                 title: 'Build & Beta (Days 31-60)',
-                color: '#7c79c6',
+                color: '#0B1F3A',
                 tasks: {
                   product: [
                     'Ship AI roadmap generator + learning path studio',
@@ -291,7 +291,7 @@ export default function InvestorDeck() {
               {
                 phase: 'Phase 3',
                 title: 'Scale & Launch (Days 61-90)',
-                color: '#ff3d7f',
+                color: '#F59E0B',
                 tasks: {
                   product: [
                     'Hardening: perf, security, compliance (SOC2 lite)',
@@ -401,7 +401,7 @@ export default function InvestorDeck() {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
-              <button className="bg-linear-to-r from-[#7c79c6] to-[#00f5d4] text-white font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-transform">
+              <button className="bg-linear-to-r from-brand-navy to-brand-teal-bright text-white font-bold py-4 px-8 rounded-full text-lg hover:scale-105 transition-transform">
                 Contact Investment Team
               </button>
               <button className="font-semibold text-gray-300 hover:text-white transition flex items-center gap-2 border border-gray-600 py-4 px-8 rounded-full hover:border-cyan-400">
@@ -411,9 +411,9 @@ export default function InvestorDeck() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
               {[
-                { icon: Mail, color: 'text-cyan-400', title: 'Investment Inquiries', contact: 'investors@astrapath.ai' },
+                { icon: Mail, color: 'text-cyan-400', title: 'Investment Inquiries', contact: 'investors@kairoo.com' },
                 { icon: Phone, color: 'text-purple-400', title: 'Direct Line', contact: '+1 (555) 123-FUND' },
-                { icon: Linkedin, color: 'text-pink-400', title: 'LinkedIn', contact: 'linkedin.com/company/astrapath-ai' },
+                { icon: Linkedin, color: 'text-pink-400', title: 'LinkedIn', contact: 'linkedin.com/company/kairoo' },
               ].map((item, index) => (
                 <div key={index} className="text-center">
                   <item.icon className={`w-6 h-6 mx-auto mb-2 ${item.color}`} />

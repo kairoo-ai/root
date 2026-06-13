@@ -78,7 +78,7 @@ export default function BusinessStrategy() {
             <span className="block gradient-text mt-2">Validation Framework</span>
           </h1>
           <p className="max-w-3xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
-            Comprehensive strategic analysis, market validation, and business intelligence for AstraPath AI - your
+            Comprehensive strategic analysis, market validation, and business intelligence for Kairoo - your
             complete guide to building and scaling a successful SaaS platform.
           </p>
         </motion.div>
@@ -214,7 +214,7 @@ export default function BusinessStrategy() {
             >
               <h3 className="text-2xl font-bold mb-4 text-cyan-400">Primary Value Proposition</h3>
               <p className="text-xl text-gray-200 font-medium">
-                "AstraPath AI transforms chaotic career development into strategic growth by combining AI-powered
+                "Kairoo transforms chaotic career development into strategic growth by combining AI-powered
                 learning paths, comprehensive career tools, and business intelligence in one integrated platform, helping
                 professionals and organizations accelerate skill acquisition and achieve measurable career outcomes."
               </p>
@@ -223,9 +223,9 @@ export default function BusinessStrategy() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: Zap, color: 'text-purple-400', title: 'Action-Oriented Tone', desc: '"Stop wasting time on scattered resources. AstraPath AI delivers personalized career acceleration with AI precision, giving you the competitive edge you need today."' },
-              { icon: Shield, color: 'text-cyan-400', title: 'Trust-Building Tone', desc: '"Trusted by thousands of professionals worldwide, AstraPath AI provides scientifically-backed learning methods and proven career strategies to ensure your growth investment pays dividends."' },
-              { icon: Heart, color: 'text-pink-400', title: 'Aspirational Tone', desc: '"Unlock your unlimited potential. AstraPath AI doesn\'t just teach skills—it transforms lives, turning ambitious dreams into achievable realities through intelligent guidance."' },
+              { icon: Zap, color: 'text-purple-400', title: 'Action-Oriented Tone', desc: '"Stop wasting time on scattered resources. Kairoo delivers personalized career acceleration with AI precision, giving you the competitive edge you need today."' },
+              { icon: Shield, color: 'text-cyan-400', title: 'Trust-Building Tone', desc: '"Trusted by thousands of professionals worldwide, Kairoo provides scientifically-backed learning methods and proven career strategies to ensure your growth investment pays dividends."' },
+              { icon: Heart, color: 'text-pink-400', title: 'Aspirational Tone', desc: '"Unlock your unlimited potential. Kairoo doesn\'t just teach skills—it transforms lives, turning ambitious dreams into achievable realities through intelligent guidance."' },
             ].map((prop, index) => (
               <motion.div
                 key={index}
@@ -263,7 +263,7 @@ export default function BusinessStrategy() {
                 name: 'Sarah Chen',
                 title: 'The Ambitious Career Switcher',
                 gradient: 'from-pink-500 to-red-500',
-                accent: '#ff3d7f',
+                accent: '#F59E0B',
                 demographics: 'Marketing Manager → Data Scientist, Age 29, San Francisco, $85K salary',
                 painPoints: [
                   'Overwhelmed by scattered learning resources',
@@ -284,7 +284,7 @@ export default function BusinessStrategy() {
                 name: 'Marcus Rodriguez',
                 title: 'The Efficiency-Focused Professional',
                 gradient: 'from-cyan-500 to-blue-500',
-                accent: '#00f5d4',
+                accent: '#2DD4BF',
                 demographics: 'Senior Software Engineer, Age 34, Austin, $140K salary, Team Lead',
                 painPoints: [
                   'Staying current with rapidly evolving tech',
@@ -305,7 +305,7 @@ export default function BusinessStrategy() {
                 name: 'Amanda Park',
                 title: 'The Strategic L&D Leader',
                 gradient: 'from-purple-500 to-indigo-500',
-                accent: '#7c79c6',
+                accent: '#0B1F3A',
                 demographics: 'L&D Director, Age 41, Enterprise SaaS Company, $165K salary, Manages 500+ employees',
                 painPoints: [
                   'Proving ROI of learning investments',

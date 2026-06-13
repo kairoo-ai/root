@@ -2,8 +2,7 @@ import { useState } from 'react';
 import Modal from './Modal';
 import { CareerTool, generateInputsForTool } from '@/lib/ai-tools';
 import { Loader2 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import RichText from "@/components/RichText";
 
 interface FeatureModalProps {
   tool: CareerTool | null;
@@ -90,7 +89,7 @@ export default function FeatureModal({ tool, isOpen, onClose }: FeatureModalProp
       <button
         onClick={handleGenerate}
         disabled={loading}
-        className="w-full mt-6 bg-linear-to-r from-[#7c79c6] to-[#00f5d4] text-white font-bold py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full mt-6 bg-linear-to-r from-brand-navy to-brand-teal text-white font-bold py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {loading ? (
           <>
@@ -103,10 +102,8 @@ export default function FeatureModal({ tool, isOpen, onClose }: FeatureModalProp
       </button>
 
       {result && (
-        <div className="mt-8 p-6 bg-gray-800/50 rounded-lg border border-white/10 min-h-[150px]">
-          <div className="prose prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{result}</ReactMarkdown>
-          </div>
+        <div className="mt-8 p-6 rounded-lg border border-brand-teal/15 bg-card/60 min-h-[150px]">
+          <RichText>{result}</RichText>
         </div>
       )}
     </Modal>

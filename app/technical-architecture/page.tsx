@@ -191,7 +191,7 @@ export default function TechnicalArchitecture() {
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
             Technical Architecture
-            <span className="block gradient-text mt-2">AstraPath AI v2.0</span>
+            <span className="block gradient-text mt-2">Kairoo v2.0</span>
           </h1>
           <p className="max-w-4xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
             Comprehensive full-stack architecture for scalable AI-powered career development platform. Built for
@@ -906,7 +906,7 @@ type Mutation {
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: astrapath-api-hpa
+  name: kairoo-api-hpa
 spec:
   minReplicas: 3
   maxReplicas: 50
@@ -928,8 +928,8 @@ spec:
               <h3 className="text-xl font-bold mb-4 text-green-400">Infrastructure as Code</h3>
               <div className="code-block bg-gray-900 p-4 rounded-lg text-sm font-mono text-gray-300 overflow-x-auto">
                 <pre>{`# Terraform AWS Infrastructure
-resource "aws_eks_cluster" "astrapath" {
-  name     = "astrapath-cluster"
+resource "aws_eks_cluster" "kairoo" {
+  name     = "kairoo-cluster"
   role_arn = aws_iam_role.cluster.arn
   version  = "1.28"
   

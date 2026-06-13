@@ -1,10 +1,10 @@
-# AstraPath AI Project Analysis
+# Kairoo Project Analysis
 
-This document provides a summary of the AstraPath AI project, a comprehensive AI-powered career development and learning platform.
+This document provides a summary of the Kairoo project, a comprehensive AI-powered career development and learning platform.
 
 ## Project Overview
 
-- **Project Name:** AstraPath AI
+- **Project Name:** Kairoo
 - **Description:** An AI-powered platform for career development, learning, and business intelligence.
 - **Framework:** Next.js 16 (with App Router)
 - **Language:** TypeScript
