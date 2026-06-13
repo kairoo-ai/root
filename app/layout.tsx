@@ -48,11 +48,17 @@ export default function RootLayout({
         className={`${dmSans.variable} ${spaceGrotesk.variable} ${monaSans.variable} ${geistMono.variable} antialiased transition-colors duration-500`}
         suppressHydrationWarning
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[var(--z-tooltip)] focus:rounded-lg focus:bg-card focus:px-4 focus:py-2 focus:text-foreground focus:ring-2 focus:ring-ring"
+        >
+          Skip to main content
+        </a>
         <Providers>
           <RebrandBanner />
           <AnimatedBackground />
           <FloatingThemeToggle />
-          <div className="relative z-10 flex min-h-screen flex-col">{children}</div>
+          <div id="main-content" className="relative z-10 flex min-h-screen flex-col">{children}</div>
           <CookieConsent />
         </Providers>
       </body>

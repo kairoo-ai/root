@@ -22,7 +22,7 @@ export default function RebrandBanner() {
   if (!visible) return null;
 
   return (
-    <div className="relative z-50 bg-brand-navy text-brand-mist">
+    <div role="region" aria-label="Site announcement" className="relative z-50 bg-brand-navy text-brand-mist">
       <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-4 py-2 text-sm">
         <span>
           <strong>AstraPath AI is now Kairoo.</strong> Same mission — the right moment to grow.
@@ -34,7 +34,7 @@ export default function RebrandBanner() {
             localStorage.setItem(DISMISS_KEY, "1");
             setVisible(false);
           }}
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 hover:bg-white/10"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-1 focus-visible:ring-offset-brand-navy"
         >
           <X size={16} />
         </button>
