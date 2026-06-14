@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { Map, Briefcase, FileText, Zap, ArrowRight } from 'lucide-react'
-import { CardSpotlight } from '@/components/aceternity/CardSpotlight'
+import { CardSpotlight, StatefulButton } from '@/components/aceternity'
 import { cn } from '@/lib/utils'
 
 const tools = [
@@ -18,9 +18,9 @@ export function QuickLaunch() {
     <div>
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Quick Launch</h2>
-        <button onClick={() => router.push('/tools')} className="text-xs text-teal-400 hover:text-teal-300 transition-colors cursor-pointer">
+        <StatefulButton onClick={() => router.push('/tools')} className="text-xs text-teal-400 hover:text-teal-300 transition-colors cursor-pointer" variant="ghost">
           All 38 tools →
-        </button>
+        </StatefulButton>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {tools.map((tool, i) => (

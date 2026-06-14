@@ -1,7 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { Zap, Map, BookOpen, Flame } from 'lucide-react'
-import { CardSpotlight } from '@/components/aceternity/CardSpotlight'
+import { CardSpotlight, GlowingEffect, ShimmerLoader } from '@/components/aceternity'
 import { cn } from '@/lib/utils'
 import type { DerivedStats } from '@/data/repositories/stats.repo'
 
@@ -45,7 +45,7 @@ export function StatsGrid({ stats, usedCredits }: StatsGridProps) {
     {
       label: 'Day Streak',
       value: stats?.streak?.toString() ?? '0',
-      sub: stats?.streak === 1 ? 'day 🔥' : 'days 🔥',
+      sub: stats?.streak === 1 ? 'day active' : 'days active',
       icon: Flame,
       color: 'text-emerald-400',
       bg: 'bg-emerald-500/10',
@@ -63,17 +63,19 @@ export function StatsGrid({ stats, usedCredits }: StatsGridProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: i * 0.06, ease: 'easeOut' }}
         >
-          <CardSpotlight className="rounded-xl border border-border bg-card p-4 hover:border-teal-500/25 transition-colors cursor-default">
-            <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center mb-3', stat.bg)}>
-              <stat.icon className={cn('w-4 h-4', stat.color)} />
-            </div>
-            <div className="text-2xl font-extrabold text-foreground tracking-tight leading-none mb-0.5">{stat.value}</div>
-            <div className="text-[11px] text-muted-foreground">{stat.label}</div>
-            <div className="text-[11px] text-muted-foreground mt-1">{stat.sub}</div>
-            <div className={cn('inline-flex items-center text-[10px] font-semibold mt-2 px-1.5 py-0.5 rounded-full', stat.positive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400')}>
-              {stat.delta}
-            </div>
-          </CardSpotlight>
+          <GlowingEffect>
+            <CardSpotlight className="rounded-xl border border-border bg-card p-4 hover:border-teal-500/25 transition-colors cursor-default">
+              <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center mb-3', stat.bg)}>
+                <stat.icon className={cn('w-4 h-4', stat.color)} />
+              </div>
+              <div className="text-2xl font-extrabold text-foreground tracking-tight leading-none mb-0.5">{stat.value}</div>
+              <div className="text-[11px] text-muted-foreground">{stat.label}</div>
+              <div className="text-[11px] text-muted-foreground mt-1">{stat.sub}</div>
+              <div className={cn('inline-flex items-center text-[10px] font-semibold mt-2 px-1.5 py-0.5 rounded-full', stat.positive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400')}>
+                {stat.delta}
+              </div>
+            </CardSpotlight>
+          </GlowingEffect>
         </motion.div>
       ))}
     </div>

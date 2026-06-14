@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { Zap, Calendar } from 'lucide-react'
-import { SparklesCore } from '@/components/aceternity/SparklesCore'
+import { SparklesCore, GridDotBackground } from '@/components/aceternity'
 
 export function WelcomeBanner() {
   const { user } = useUser()
@@ -17,10 +17,11 @@ export function WelcomeBanner() {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="relative overflow-hidden rounded-2xl border border-teal-500/15 bg-gradient-to-br from-teal-500/8 via-transparent to-cyan-500/4 p-6"
+      className="relative overflow-hidden rounded-2xl"
     >
-      <SparklesCore particleCount={20} particleColor="#14b8a6" minSize={0.5} maxSize={1.5} speed={0.2} />
-      <div className="relative z-10">
+      <GridDotBackground variant="dots" className="rounded-xl overflow-hidden border border-teal-500/15 bg-gradient-to-br from-teal-500/8 via-transparent to-cyan-500/4 p-6">
+        <SparklesCore particleCount={20} particleColor="#14b8a6" minSize={0.5} maxSize={1.5} speed={0.2} />
+        <div className="relative z-10">
         <p className="text-xs font-semibold text-teal-400 uppercase tracking-widest mb-1">{greeting} ✦</p>
         <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1.5">
           Ready to level up, {firstName}?
@@ -45,6 +46,7 @@ export function WelcomeBanner() {
           </button>
         </div>
       </div>
+      </GridDotBackground>
     </motion.div>
   )
 }
