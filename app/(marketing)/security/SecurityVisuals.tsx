@@ -24,6 +24,17 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Separator } from "@/components/ui/Separator";
+import { Tabs } from "@/components/ui/Tabs";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionHeading,
+  AccordionTrigger,
+  AccordionPanel,
+  AccordionBody,
+  AccordionIndicator,
+} from "@/components/ui/Accordion";
+import type { FAQItem } from "@/types";
 import IconRenderer from "@/components/IconRenderer";
 import { Spotlight } from "@/components/motion/Spotlight";
 import { CardSpotlight } from "@/components/blocks/CardSpotlight";
@@ -39,10 +50,29 @@ import { StatGrid, type StatCounterProps } from "@/components/blocks/StatCounter
 export type LayerVM = {
   title: string;
   icon: string;
+  /** Small kicker, e.g. "Layer 01 — Edge". */
+  tag: string;
   summary: string;
   controls: string[];
+  /** Coverage figure (0–100) rendered as an animated meter. */
+  coverage: number;
   /** Bento footprint on the lg grid. */
   span: "wide" | "tall" | "cell";
+};
+
+export type DeepDiveTab = {
+  id: string;
+  label: string;
+  icon: string;
+  headline: string;
+  blurb: string;
+  controls: { icon: string; title: string; detail: string }[];
+};
+
+export type LifecycleStep = {
+  icon: string;
+  title: string;
+  detail: string;
 };
 
 export type ComplianceVM = {
@@ -375,11 +405,14 @@ export function SecurityStats({
   heading,
   subtitle,
   stats,
+  note,
 }: {
   eyebrow: string;
   heading: string;
   subtitle: string;
   stats: StatCounterProps[];
+  /** Honesty note rendered as a glass footer strip on the stat band. */
+  note?: string;
 }) {
   const reduce = useReducedMotion();
   return (
@@ -412,7 +445,37 @@ export function SecurityStats({
                   "linear-gradient(120deg, color-mix(in oklab, var(--primary) 10%, transparent), transparent 45%, color-mix(in oklab, var(--accent) 12%, transparent))",
               }}
             />
+            {/* sweeping highlight bar along the top edge */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent) 80%, transparent), transparent)",
+              }}
+              initial={reduce ? false : { x: "-40%", opacity: 0 }}
+              whileInView={reduce ? undefined : { x: "40%", opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.4, ease: EASE }}
+            />
             <StatGrid items={stats} cols={4} gap="lg" className="relative" />
+
+            {note ? (
+              <div className="relative mt-8 flex items-start gap-3 rounded-xl border border-border/60 bg-card/60 p-4 backdrop-blur-glass">
+                <span
+                  aria-hidden
+                  className="mt-0.5 shrink-0 text-accent"
+                >
+                  <IconRenderer name="badge-check" size={18} />
+                </span>
+                <p className="text-body-sm text-muted-foreground">
+                  <span className="font-medium text-foreground">
+                    How we talk about compliance.{" "}
+                  </span>
+                  {note}
+                </p>
+              </div>
+            ) : null}
           </Card>
         </motion.div>
       </Stack>
@@ -472,27 +535,70 @@ export function SecurityLayers({
               variants={itemVariants}
               className={cn("flex", layerSpan[layer.span])}
             >
-              <CardSpotlight className="flex h-full w-full flex-col gap-5 rounded-xl border-border bg-card p-7">
-                <motion.span
+              <CardSpotlight className="group/layer relative flex h-full w-full flex-col gap-5 overflow-hidden rounded-xl border-border bg-card p-7">
+                {/* faint scanning grid that brightens on hover */}
+                <div
                   aria-hidden
-                  whileHover={reduce ? undefined : { rotate: -6, scale: 1.08 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                  className="inline-flex size-12 items-center justify-center rounded-xl text-accent"
+                  className="pointer-events-none absolute inset-0 -z-0 opacity-[0.18] transition-opacity duration-300 group-hover/layer:opacity-[0.32] [mask-image:radial-gradient(70%_70%_at_70%_0%,black,transparent)]"
                   style={{
-                    background: "color-mix(in oklab, var(--accent) 14%, transparent)",
-                    boxShadow:
-                      "0 0 0 1px color-mix(in oklab, var(--accent) 28%, transparent)",
+                    backgroundImage:
+                      "linear-gradient(color-mix(in oklab, var(--accent) 40%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklab, var(--accent) 40%, transparent) 1px, transparent 1px)",
+                    backgroundSize: "26px 26px",
                   }}
-                >
-                  <IconRenderer name={layer.icon} size={24} />
-                </motion.span>
+                />
 
-                <Stack gap={2}>
+                <div className="relative flex items-start justify-between gap-3">
+                  <motion.span
+                    aria-hidden
+                    whileHover={reduce ? undefined : { rotate: -6, scale: 1.08 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                    className="inline-flex size-12 items-center justify-center rounded-xl text-accent"
+                    style={{
+                      background: "color-mix(in oklab, var(--accent) 14%, transparent)",
+                      boxShadow:
+                        "0 0 0 1px color-mix(in oklab, var(--accent) 28%, transparent)",
+                    }}
+                  >
+                    <IconRenderer name={layer.icon} size={24} />
+                  </motion.span>
+                  <Badge variant="info" size="sm" className="font-mono">
+                    {layer.tag}
+                  </Badge>
+                </div>
+
+                <Stack gap={2} className="relative">
                   <h3 className="text-h4 text-foreground">{layer.title}</h3>
                   <p className="text-body-sm text-muted-foreground">{layer.summary}</p>
                 </Stack>
 
-                <ul className="mt-auto flex flex-col gap-2 border-t border-border pt-4">
+                {/* animated coverage meter */}
+                <div className="relative">
+                  <div className="flex items-center justify-between text-caption text-muted-foreground">
+                    <span>Control coverage</span>
+                    <span className="font-mono tabular-nums text-primary">
+                      {layer.coverage}%
+                    </span>
+                  </div>
+                  <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-muted-surface">
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, var(--primary), var(--accent))",
+                      }}
+                      initial={reduce ? false : { width: 0 }}
+                      whileInView={
+                        reduce
+                          ? { width: `${layer.coverage}%` }
+                          : { width: `${layer.coverage}%` }
+                      }
+                      viewport={{ once: true, amount: 0.6 }}
+                      transition={{ duration: 1, ease: EASE, delay: 0.15 }}
+                    />
+                  </div>
+                </div>
+
+                <ul className="relative mt-auto flex flex-col gap-2 border-t border-border pt-4">
                   {layer.controls.map((control) => (
                     <li
                       key={control}
@@ -869,6 +975,306 @@ export function SecurityPerformance({
           </motion.div>
         </div>
       </Stack>
+    </Section>
+  );
+}
+
+/* =========================================================================== */
+/*  DEEP DIVE — HeroUI Tabs: dense control breakdown per layer                  */
+/* =========================================================================== */
+
+export function SecurityDeepDive({
+  eyebrow,
+  heading,
+  subtitle,
+  tabs,
+}: {
+  eyebrow: string;
+  heading: string;
+  subtitle: string;
+  tabs: DeepDiveTab[];
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <Section className="pt-0" aria-labelledby="deepdive-heading">
+      <Stack gap={10}>
+        <motion.header
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="max-w-2xl"
+        >
+          <p className="text-overline text-primary">{eyebrow}</p>
+          <h2 id="deepdive-heading" className="text-h2 text-foreground">
+            {heading}
+          </h2>
+          <p className="mt-3 text-body-lg text-muted-foreground">{subtitle}</p>
+        </motion.header>
+
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55, ease: EASE }}
+        >
+          <Card variant="glass" className="relative overflow-hidden p-6 sm:p-8">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(130deg, color-mix(in oklab, var(--primary) 8%, transparent), transparent 50%, color-mix(in oklab, var(--accent) 10%, transparent))",
+              }}
+            />
+            <Tabs
+              defaultSelectedKey={tabs[0]?.id}
+              variant="primary"
+              className="relative"
+            >
+              <Tabs.List aria-label="Security control layers" className="flex-wrap">
+                {tabs.map((t) => (
+                  <Tabs.Tab key={t.id} id={t.id}>
+                    <span className="inline-flex items-center gap-2">
+                      <IconRenderer name={t.icon} size={15} />
+                      {t.label}
+                    </span>
+                  </Tabs.Tab>
+                ))}
+              </Tabs.List>
+
+              {tabs.map((t) => (
+                <Tabs.Panel key={t.id} id={t.id} className="pt-6">
+                  <div className="mb-5">
+                    <h3 className="text-h4 text-foreground">{t.headline}</h3>
+                    <p className="mt-1.5 max-w-2xl text-body-sm text-muted-foreground">
+                      {t.blurb}
+                    </p>
+                  </div>
+                  <motion.div
+                    variants={containerVariants}
+                    initial={reduce ? false : "hidden"}
+                    animate={reduce ? undefined : "show"}
+                    className="grid grid-cols-1 gap-4 sm:grid-cols-2"
+                  >
+                    {t.controls.map((c) => (
+                      <motion.div
+                        key={c.title}
+                        variants={itemVariants}
+                        whileHover={reduce ? undefined : { y: -3 }}
+                        className="flex items-start gap-4 rounded-xl border border-border bg-card/70 p-5 backdrop-blur-glass"
+                      >
+                        <span
+                          aria-hidden
+                          className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg text-accent"
+                          style={{
+                            background:
+                              "color-mix(in oklab, var(--accent) 14%, transparent)",
+                            boxShadow:
+                              "0 0 0 1px color-mix(in oklab, var(--accent) 22%, transparent)",
+                          }}
+                        >
+                          <IconRenderer name={c.icon} size={20} />
+                        </span>
+                        <div>
+                          <p className="text-body-sm font-semibold text-foreground">
+                            {c.title}
+                          </p>
+                          <p className="mt-1 text-body-sm text-muted-foreground">
+                            {c.detail}
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </Tabs.Panel>
+              ))}
+            </Tabs>
+          </Card>
+        </motion.div>
+      </Stack>
+    </Section>
+  );
+}
+
+/* =========================================================================== */
+/*  LIFECYCLE — horizontal stepper of a request's journey                       */
+/* =========================================================================== */
+
+export function SecurityLifecycle({
+  eyebrow,
+  heading,
+  subtitle,
+  steps,
+}: {
+  eyebrow: string;
+  heading: string;
+  subtitle: string;
+  steps: LifecycleStep[];
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <Section
+      className="relative overflow-hidden bg-muted-surface"
+      aria-labelledby="lifecycle-heading"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-70"
+        style={{
+          background:
+            "radial-gradient(55% 60% at 15% 0%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 60%)",
+        }}
+      />
+      <Stack gap={10}>
+        <motion.header
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="max-w-2xl"
+        >
+          <p className="text-overline text-primary">{eyebrow}</p>
+          <h2 id="lifecycle-heading" className="text-h2 text-foreground">
+            {heading}
+          </h2>
+          <p className="mt-3 text-body-lg text-muted-foreground">{subtitle}</p>
+        </motion.header>
+
+        <div className="relative">
+          {/* connecting line behind the steps (lg+) */}
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute left-0 right-0 top-6 hidden h-px origin-left lg:block"
+            style={{
+              background:
+                "linear-gradient(90deg, color-mix(in oklab, var(--primary) 50%, transparent), color-mix(in oklab, var(--accent) 50%, transparent))",
+            }}
+            initial={reduce ? false : { scaleX: 0 }}
+            whileInView={reduce ? undefined : { scaleX: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 1.2, ease: EASE }}
+          />
+
+          <motion.ol
+            variants={containerVariants}
+            initial={reduce ? false : "hidden"}
+            whileInView={reduce ? undefined : "show"}
+            viewport={{ once: true, amount: 0.15 }}
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5"
+          >
+            {steps.map((step, i) => (
+              <motion.li
+                key={step.title}
+                variants={itemVariants}
+                className="relative flex flex-col gap-3"
+              >
+                <span
+                  aria-hidden
+                  className="relative z-10 inline-flex size-12 items-center justify-center rounded-2xl text-primary-foreground"
+                  style={{
+                    background:
+                      "linear-gradient(150deg, var(--primary), color-mix(in oklab, var(--accent) 65%, var(--primary)))",
+                    boxShadow:
+                      "0 12px 30px -12px color-mix(in oklab, var(--primary) 60%, transparent)",
+                  }}
+                >
+                  <IconRenderer name={step.icon} size={22} />
+                </span>
+                <div>
+                  <p className="text-caption font-mono text-accent">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-0.5 text-h5 text-foreground">{step.title}</h3>
+                  <p className="mt-1 text-body-sm text-muted-foreground">
+                    {step.detail}
+                  </p>
+                </div>
+              </motion.li>
+            ))}
+          </motion.ol>
+        </div>
+      </Stack>
+    </Section>
+  );
+}
+
+/* =========================================================================== */
+/*  FAQ — HeroUI Accordion in a glass card                                       */
+/* =========================================================================== */
+
+export function SecurityFAQ({
+  eyebrow,
+  heading,
+  subtitle,
+  items,
+}: {
+  eyebrow: string;
+  heading: string;
+  subtitle: string;
+  items: FAQItem[];
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <Section className="pt-0" aria-labelledby="faq-heading">
+      <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <motion.header
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="lg:sticky lg:top-28"
+        >
+          <p className="text-overline text-primary">{eyebrow}</p>
+          <h2 id="faq-heading" className="text-h2 text-foreground">
+            {heading}
+          </h2>
+          <p className="mt-3 text-body-lg text-muted-foreground">{subtitle}</p>
+          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 text-caption text-muted-foreground backdrop-blur-glass">
+            <span className="text-accent">
+              <IconRenderer name="shield-check" size={15} />
+            </span>
+            Straight answers, no overstated badges
+          </div>
+        </motion.header>
+
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55, ease: EASE }}
+        >
+          <Card variant="glass" className="relative overflow-hidden p-2 sm:p-3">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent) 70%, transparent), transparent)",
+              }}
+            />
+            <Accordion variant="surface" defaultExpandedKeys={[items[0]?.id]}>
+              {items.map((item) => (
+                <AccordionItem key={item.id} id={item.id}>
+                  <AccordionHeading>
+                    <AccordionTrigger className="text-left text-body-lg font-medium text-foreground">
+                      {item.question}
+                      <AccordionIndicator>
+                        <IconRenderer name="chevron-down" size={18} />
+                      </AccordionIndicator>
+                    </AccordionTrigger>
+                  </AccordionHeading>
+                  <AccordionPanel>
+                    <AccordionBody className="text-body-sm text-muted-foreground">
+                      {item.answer}
+                    </AccordionBody>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </Card>
+        </motion.div>
+      </div>
     </Section>
   );
 }

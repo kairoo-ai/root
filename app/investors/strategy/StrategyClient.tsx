@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { animate, stagger } from "animejs";
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import { ramps } from "@/lib/design/tokens/colors";
@@ -17,9 +19,18 @@ import {
   AccordionIndicator,
 } from "@/components/ui/Accordion";
 import { Tabs } from "@/components/ui/Tabs";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { Grid } from "@/components/layout/Grid";
 import { Stack } from "@/components/layout/Stack";
 import IconRenderer from "@/components/IconRenderer";
+import { Spotlight } from "@/components/motion/Spotlight";
+import { CardSpotlight } from "@/components/blocks/CardSpotlight";
+import { StatGrid } from "@/components/blocks/StatCounter";
+import {
+  CardContainer,
+  CardBody,
+  CardItem,
+} from "@/components/motion/ThreeDCard";
 
 /* ----------------------------------------------------------------------------
  * Scroll-reveal — token-clean Motion wrapper that respects reduced motion.
@@ -49,6 +60,143 @@ export function Reveal({
     >
       {children}
     </motion.div>
+  );
+}
+
+/* ----------------------------------------------------------------------------
+ * Hero — Spotlight + elaborate Anime.js entrance sequence (token-only).
+ * -------------------------------------------------------------------------- */
+const HERO_PILLS = [
+  { icon: "target", label: "94/100 validated" },
+  { icon: "users", label: "3 high-intent ICPs" },
+  { icon: "layers", label: "24 features scored" },
+  { icon: "rocket", label: "12-month roadmap" },
+] as const;
+
+export function StrategyHero() {
+  const reduce = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reduce || !rootRef.current) return;
+    const root = rootRef.current;
+    const q = (sel: string) => Array.from(root.querySelectorAll<HTMLElement>(sel));
+
+    animate(q("[data-hero-rise]"), {
+      opacity: [0, 1],
+      translateY: [28, 0],
+      filter: ["blur(8px)", "blur(0px)"],
+      delay: stagger(110, { start: 120 }),
+      duration: 900,
+      ease: "out(3)",
+    });
+    animate(q("[data-hero-pill]"), {
+      opacity: [0, 1],
+      scale: [0.85, 1],
+      translateY: [12, 0],
+      delay: stagger(80, { start: 620 }),
+      duration: 700,
+      ease: "out(4)",
+    });
+    animate(q("[data-hero-ring]"), {
+      opacity: [0, 1],
+      scale: [0.6, 1],
+      duration: 1200,
+      delay: 200,
+      ease: "out(4)",
+    });
+  }, [reduce]);
+
+  return (
+    <div ref={rootRef} className="relative overflow-hidden">
+      <Spotlight className="-top-40 left-0 md:-top-20 md:left-60" fill="var(--primary)" />
+      <span
+        aria-hidden
+        data-hero-ring
+        className="pointer-events-none absolute -right-24 -top-24 -z-10 size-[34rem] rounded-full opacity-0"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)",
+        }}
+      />
+      <div className="relative">
+        <span data-hero-rise className="inline-block opacity-0">
+          <Badge variant="info" size="md" className="mb-6 gap-2">
+            <IconRenderer name="lightbulb" size={14} />
+            Strategic Business Intelligence
+          </Badge>
+        </span>
+        <h1 data-hero-rise className="text-display text-foreground opacity-0">
+          SaaS Strategy &amp;{" "}
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(110deg, var(--primary), color-mix(in oklab, var(--accent) 80%, var(--primary)))",
+            }}
+          >
+            Validation Framework
+          </span>
+        </h1>
+        <p
+          data-hero-rise
+          className="mt-4 max-w-2xl text-body-lg text-muted-foreground opacity-0"
+        >
+          Comprehensive strategic analysis, market validation, and business intelligence for
+          Kairoo — your complete guide to building and scaling a successful SaaS platform.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          {HERO_PILLS.map((pill) => (
+            <span
+              key={pill.label}
+              data-hero-pill
+              className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 text-body-sm font-medium text-foreground opacity-0 backdrop-blur-[var(--blur-glass)]"
+            >
+              <IconRenderer name={pill.icon} size={16} className="text-primary" />
+              {pill.label}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------------------------------------------------------
+ * Validation score panel — hero score + animated StatGrid for every metric.
+ * -------------------------------------------------------------------------- */
+export function ValidationScorePanel() {
+  return (
+    <CardSpotlight className="rounded-2xl p-8 text-center md:p-10">
+      <p className="text-overline text-muted-foreground">Overall Validation Score</p>
+      <div className="mt-2 flex items-end justify-center gap-1">
+        <StatGrid
+          cols={1}
+          gap="sm"
+          className="w-auto"
+          items={[{ value: 94, suffix: "/100", label: "Exceptional market opportunity" }]}
+        />
+      </div>
+      <div
+        aria-hidden
+        className="mx-auto mt-6 h-px w-2/3"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 50%, transparent), transparent)",
+        }}
+      />
+      <div className="mt-6">
+        <StatGrid
+          cols={2}
+          gap="md"
+          items={SUBSCORES.map((s) => ({
+            value: s.value,
+            suffix: "%",
+            label: s.label,
+          }))}
+        />
+      </div>
+    </CardSpotlight>
   );
 }
 
@@ -333,32 +481,50 @@ export function IcpTabs() {
 
       {ICPS.map((icp) => (
         <Tabs.Panel key={icp.id} id={icp.id} className="pt-6">
-          <Card variant="elevated" className="overflow-hidden p-6 md:p-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-primary text-h5 font-bold text-primary-foreground">
-                {icp.initials}
-              </span>
-              <div>
-                <h3 className="text-h4 text-foreground">{icp.name}</h3>
-                <p className="text-body text-primary">{icp.title}</p>
-              </div>
-            </div>
+          <CardContainer containerClassName="py-0!" className="w-full">
+            <CardBody className="w-full">
+              <CardSpotlight className="w-full rounded-2xl p-6 md:p-8">
+                <CardItem translateZ={40} className="w-full!">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <span
+                      className="flex size-16 shrink-0 items-center justify-center rounded-2xl text-h5 font-bold text-primary-foreground"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(135deg, var(--primary), color-mix(in oklab, var(--accent) 70%, var(--primary)))",
+                      }}
+                    >
+                      {icp.initials}
+                    </span>
+                    <div>
+                      <h3 className="text-h4 text-foreground">{icp.name}</h3>
+                      <p className="text-body text-primary">{icp.title}</p>
+                    </div>
+                  </div>
+                </CardItem>
 
-            <div className="mt-6 rounded-lg border border-border bg-muted-surface/50 p-4">
-              <h4 className="text-overline text-primary">Demographics</h4>
-              <p className="mt-1 text-body-sm text-foreground">{icp.demographics}</p>
-            </div>
+                <CardItem translateZ={28} className="mt-6! w-full!">
+                  <div className="rounded-xl border border-border bg-muted-surface/50 p-4">
+                    <h4 className="text-overline text-primary">Demographics</h4>
+                    <p className="mt-1 text-body-sm text-foreground">{icp.demographics}</p>
+                  </div>
+                </CardItem>
 
-            <Grid cols={2} gap="lg" className="mt-6">
-              <PersonaColumn heading="Daily Pain Points" items={icp.painPoints} />
-              <PersonaColumn heading="Buying Behavior" items={icp.buyingBehavior} />
-            </Grid>
+                <CardItem translateZ={20} className="mt-6! w-full!">
+                  <Grid cols={2} gap="lg">
+                    <PersonaColumn heading="Daily Pain Points" items={icp.painPoints} />
+                    <PersonaColumn heading="Buying Behavior" items={icp.buyingBehavior} />
+                  </Grid>
+                </CardItem>
 
-            <div className="mt-6 rounded-lg border border-success/30 bg-success/10 p-4">
-              <h4 className="text-overline text-success">Success Metrics</h4>
-              <p className="mt-1 text-body-sm text-foreground">{icp.successMetrics}</p>
-            </div>
-          </Card>
+                <CardItem translateZ={30} className="mt-6! w-full!">
+                  <div className="rounded-xl border border-success/30 bg-success/10 p-4">
+                    <h4 className="text-overline text-success">Success Metrics</h4>
+                    <p className="mt-1 text-body-sm text-foreground">{icp.successMetrics}</p>
+                  </div>
+                </CardItem>
+              </CardSpotlight>
+            </CardBody>
+          </CardContainer>
         </Tabs.Panel>
       ))}
     </Tabs>
@@ -431,5 +597,173 @@ export function ProblemAnalysis() {
         </Reveal>
       ))}
     </Stack>
+  );
+}
+
+/* ----------------------------------------------------------------------------
+ * Value proposition tones — hover-lift cards with a tooltip on each glyph.
+ * -------------------------------------------------------------------------- */
+const VALUE_TONES = [
+  {
+    icon: "lightbulb",
+    title: "Action-Oriented Tone",
+    hint: "Drives urgency and immediate activation.",
+    quote:
+      "Stop wasting time on scattered resources. Kairoo delivers personalized career acceleration with AI precision, giving you the competitive edge you need today.",
+  },
+  {
+    icon: "shield-check",
+    title: "Trust-Building Tone",
+    hint: "Anchors credibility and proof.",
+    quote:
+      "Trusted by thousands of professionals worldwide, Kairoo provides scientifically-backed learning methods and proven career strategies to ensure your growth investment pays dividends.",
+  },
+  {
+    icon: "heart-pulse",
+    title: "Aspirational Tone",
+    hint: "Connects to identity and ambition.",
+    quote:
+      "Unlock your unlimited potential. Kairoo doesn't just teach skills—it transforms lives, turning ambitious dreams into achievable realities through intelligent guidance.",
+  },
+] as const;
+
+export function ValueToneCards() {
+  return (
+    <Grid cols={3} gap="lg">
+      {VALUE_TONES.map((tone, i) => (
+        <Reveal key={tone.title} delay={i * 0.1} className="h-full">
+          <motion.div
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 300, damping: 22 }}
+            className="h-full"
+          >
+            <CardSpotlight className="h-full rounded-2xl p-6">
+              <Tooltip delay={0}>
+                <span
+                  className="flex size-12 cursor-help items-center justify-center rounded-xl"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(135deg, var(--accent-subtle), color-mix(in oklab, var(--primary) 16%, transparent))",
+                  }}
+                >
+                  <IconRenderer name={tone.icon} className="text-primary" size={22} />
+                </span>
+                <Tooltip.Content showArrow placement="top">
+                  <Tooltip.Arrow />
+                  {tone.hint}
+                </Tooltip.Content>
+              </Tooltip>
+              <h4 className="mt-4 text-h6 text-foreground">{tone.title}</h4>
+              <p className="mt-2 text-body-sm text-muted-foreground">
+                &ldquo;{tone.quote}&rdquo;
+              </p>
+            </CardSpotlight>
+          </motion.div>
+        </Reveal>
+      ))}
+    </Grid>
+  );
+}
+
+/* ----------------------------------------------------------------------------
+ * Implementation roadmap — animated vertical timeline (Anime.js draw + reveal).
+ * -------------------------------------------------------------------------- */
+const ROADMAP = [
+  {
+    phase: "Phase 1",
+    icon: "rocket",
+    title: "MVP Development",
+    time: "Months 1–3",
+    desc: "Build core Must-Have features, establish user base, validate market fit.",
+  },
+  {
+    phase: "Phase 2",
+    icon: "layers",
+    title: "Feature Expansion",
+    time: "Months 4–8",
+    desc: "Add Should-Have features, enterprise customers, scale operations.",
+  },
+  {
+    phase: "Phase 3",
+    icon: "crown",
+    title: "Market Leadership",
+    time: "Months 9–12",
+    desc: "Advanced features, partnerships, international expansion.",
+  },
+] as const;
+
+export function RoadmapTimeline() {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLOListElement>(null);
+
+  useEffect(() => {
+    if (reduce || !ref.current) return;
+    const root = ref.current;
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const line = root.querySelector<HTMLElement>("[data-rm-line]");
+          if (line) {
+            animate(line, { scaleY: [0, 1], duration: 1100, ease: "out(3)" });
+          }
+          animate(Array.from(root.querySelectorAll<HTMLElement>("[data-rm-node]")), {
+            opacity: [0, 1],
+            translateX: [-16, 0],
+            scale: [0.9, 1],
+            delay: stagger(180, { start: 200 }),
+            duration: 700,
+            ease: "out(4)",
+          });
+          animate(Array.from(root.querySelectorAll<HTMLElement>("[data-rm-card]")), {
+            opacity: [0, 1],
+            translateY: [20, 0],
+            delay: stagger(180, { start: 280 }),
+            duration: 700,
+            ease: "out(3)",
+          });
+          obs.disconnect();
+        });
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(root);
+    return () => io.disconnect();
+  }, [reduce]);
+
+  return (
+    <ol ref={ref} className="relative ml-2 space-y-8 pl-10">
+      <li aria-hidden className="pointer-events-none absolute inset-0 list-none">
+        <span
+          data-rm-line
+          className="absolute bottom-2 left-[15px] top-2 w-px origin-top"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--primary), color-mix(in oklab, var(--accent) 70%, var(--primary)))",
+          }}
+        />
+      </li>
+      {ROADMAP.map((phase) => (
+        <li key={phase.phase} className="relative">
+          <span
+            aria-hidden
+            data-rm-node
+            className="absolute -left-10 top-1 flex size-8 items-center justify-center rounded-full border border-border bg-card text-primary shadow-elevation-2"
+          >
+            <IconRenderer name={phase.icon} size={16} />
+          </span>
+          <div data-rm-card>
+            <Card variant="interactive" className="p-6">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-data-sm text-primary">{phase.phase}</span>
+                <Badge variant="info">{phase.time}</Badge>
+              </div>
+              <h3 className="mt-3 text-h5 text-foreground">{phase.title}</h3>
+              <p className="mt-2 text-body-sm text-muted-foreground">{phase.desc}</p>
+            </Card>
+          </div>
+        </li>
+      ))}
+    </ol>
   );
 }

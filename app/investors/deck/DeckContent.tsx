@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { motion, useInView, useReducedMotion } from "motion/react";
+import { animate, stagger } from "animejs";
 import {
   BarChart3,
   Rocket,
@@ -23,8 +24,11 @@ import {
   Layers,
   Crown,
   CheckCircle2,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Grid } from "@/components/layout/Grid";
@@ -107,7 +111,24 @@ function Reveal({
   );
 }
 
-/** Shared section heading. */
+/** Brand gradient text helper — teal -> navy via token color-mix. */
+const GRADIENT_TEXT =
+  "bg-clip-text text-transparent [background-image:linear-gradient(110deg,var(--primary),color-mix(in_oklab,var(--accent)_85%,var(--primary)),var(--primary))]";
+
+/** Hairline divider with a teal->transparent token wash. */
+function GradientRule({ className }: { className?: string }) {
+  return (
+    <div
+      aria-hidden
+      className={cn(
+        "h-px w-full [background-image:linear-gradient(to_right,transparent,color-mix(in_oklab,var(--accent)_45%,transparent),transparent)]",
+        className,
+      )}
+    />
+  );
+}
+
+/** Shared section heading with eyebrow chip + optional gradient highlight. */
 function SectionHeading({
   eyebrow,
   title,
@@ -118,8 +139,13 @@ function SectionHeading({
   subtitle?: ReactNode;
 }) {
   return (
-    <Stack gap={3} align="center" className="mx-auto max-w-2xl text-center">
-      {eyebrow ? <p className="text-overline text-accent">{eyebrow}</p> : null}
+    <Stack gap={4} align="center" className="mx-auto max-w-2xl text-center">
+      {eyebrow ? (
+        <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent-subtle px-3 py-1 text-overline text-accent">
+          <Sparkles aria-hidden className="size-3.5" />
+          {eyebrow}
+        </span>
+      ) : null}
       <h2 className="text-balance text-h2 text-foreground">{title}</h2>
       {subtitle ? (
         <p className="text-pretty text-body-lg text-muted-foreground">{subtitle}</p>
@@ -387,6 +413,135 @@ const TOOLS = [
 ];
 
 /* -------------------------------------------------------------------------- */
+/* Hero — Spotlight + Aurora + anime.js per-word entrance                      */
+/* -------------------------------------------------------------------------- */
+
+function DeckHero() {
+  const reduce = useReducedMotion();
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (reduce || !headlineRef.current) return;
+    const words = headlineRef.current.querySelectorAll<HTMLElement>(
+      "[data-anim-word]",
+    );
+    if (!words.length) return;
+
+    words.forEach((w) => (w.style.opacity = "0"));
+    const animation = animate(words, {
+      opacity: [0, 1],
+      translateY: [30, 0],
+      rotateZ: [4, 0],
+      filter: ["blur(10px)", "blur(0px)"],
+      duration: 950,
+      delay: stagger(65, { start: 180 }),
+      ease: "out(3)",
+    });
+    return () => {
+      animation.cancel();
+    };
+  }, [reduce]);
+
+  const line1 = ["Investor", "Resources", "&"];
+
+  return (
+    <Section className="relative isolate overflow-hidden">
+      <AuroraBackground intensity="vivid" className="absolute! inset-0! -z-10!" />
+      <Spotlight className="-top-40 left-0 -z-10 md:left-60" fill="var(--primary)" />
+      <Spotlight
+        className="-top-10 right-0 -z-10 hidden lg:block lg:right-20"
+        fill="var(--accent)"
+      />
+
+      {/* Floating token glow blobs */}
+      {!reduce && (
+        <>
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute -left-24 top-20 -z-10 size-72 rounded-full blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in oklab, var(--accent) 30%, transparent), transparent 70%)",
+            }}
+            animate={{ y: [0, -24, 0], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute -right-20 bottom-0 -z-10 size-80 rounded-full blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in oklab, var(--primary) 28%, transparent), transparent 70%)",
+            }}
+            animate={{ y: [0, 26, 0], opacity: [0.45, 0.7, 0.45] }}
+            transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </>
+      )}
+
+      <Stack gap={8} align="center" className="mx-auto max-w-3xl py-12 text-center">
+        <Badge variant="info" size="md" className="gap-2">
+          <BarChart3 className="size-4" />
+          Investment Opportunity • Series A Ready
+        </Badge>
+
+        <Stack gap={4} align="center">
+          <h1
+            ref={headlineRef}
+            className="text-balance text-display text-foreground"
+          >
+            {line1.map((w, i) => (
+              <span key={`${w}-${i}`} data-anim-word className="inline-block">
+                {w}
+                {i < line1.length - 1 ? " " : ""}
+              </span>
+            ))}{" "}
+            <span data-anim-word className={cn("inline-block", GRADIENT_TEXT)}>
+              Growth&nbsp;Forecasting
+            </span>
+          </h1>
+          <p className="text-pretty text-body-lg text-muted-foreground">
+            Comprehensive investment materials, financial projections, and
+            growth strategies for Kairoo — the future of AI-powered professional
+            development. Join us in transforming how the world learns and grows.
+          </p>
+        </Stack>
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Button asChild size="lg">
+            <a href="#pitch-deck">
+              View Pitch Deck
+              <ArrowRight className="size-5" />
+            </a>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <a href="#tools">
+              Download Materials
+              <Download className="size-5" />
+            </a>
+          </Button>
+        </div>
+
+        {/* Inline hero stat ribbon */}
+        <Reveal delay={0.2} className="w-full">
+          <Card variant="glass" className="mx-auto max-w-2xl px-6 py-5">
+            <StatGrid
+              cols={3}
+              gap="md"
+              items={[
+                { value: 2.5, prefix: "$", suffix: "M", label: "Series A Target" },
+                { value: 92, suffix: "%", label: "Gross Margins" },
+                { value: 94, suffix: "/100", label: "Validation Score" },
+              ]}
+            />
+          </Card>
+        </Reveal>
+      </Stack>
+    </Section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 /* Page                                                                        */
 /* -------------------------------------------------------------------------- */
 
@@ -394,60 +549,33 @@ export function DeckContent() {
   return (
     <>
       {/* ============================== HERO ============================== */}
-      <Section className="relative isolate overflow-hidden">
-        <AuroraBackground
-          intensity="vivid"
-          className="absolute! inset-0! -z-10!"
-        />
-        <Spotlight className="-top-40 left-0 -z-10 md:left-60" />
-
-        <Reveal>
-          <Stack gap={8} align="center" className="mx-auto max-w-3xl py-12 text-center">
-            <Badge variant="info" size="md" className="gap-2">
-              <BarChart3 className="size-4" />
-              Investment Opportunity • Series A Ready
-            </Badge>
-
-            <Stack gap={4} align="center">
-              <h1 className="text-balance text-display text-foreground">
-                Investor Resources &{" "}
-                <span className="text-primary">Growth Forecasting</span>
-              </h1>
-              <p className="text-pretty text-body-lg text-muted-foreground">
-                Comprehensive investment materials, financial projections, and
-                growth strategies for Kairoo — the future of AI-powered
-                professional development. Join us in transforming how the world
-                learns and grows.
-              </p>
-            </Stack>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button asChild size="lg">
-                <a href="#pitch-deck">View Pitch Deck</a>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href="#tools">
-                  Download Materials
-                  <Download className="size-5" />
-                </a>
-              </Button>
-            </div>
-          </Stack>
-        </Reveal>
-      </Section>
+      <DeckHero />
 
       {/* ===================== INVESTMENT OVERVIEW ====================== */}
-      <Section id="opportunity">
+      <Section id="opportunity" className="relative isolate overflow-hidden pt-0">
         <Reveal>
           <SectionHeading
             eyebrow="The Raise"
-            title="Investment Opportunity Overview"
+            title={
+              <>
+                Investment Opportunity{" "}
+                <span className={GRADIENT_TEXT}>Overview</span>
+              </>
+            }
             subtitle="A focused Series A to extend runway, ship the platform, and capture a first-mover position in a $142B market."
           />
         </Reveal>
 
         <Reveal delay={0.05} className="mt-12">
-          <Card variant="glass" className="p-8 sm:p-10">
+          <Card
+            variant="glass"
+            className="relative overflow-hidden p-8 sm:p-10"
+          >
+            {/* teal -> navy token wash */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 opacity-60 [background-image:linear-gradient(135deg,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_55%,color-mix(in_oklab,var(--accent)_12%,transparent))]"
+            />
             <StatGrid
               cols={4}
               items={[
@@ -460,23 +588,47 @@ export function DeckContent() {
           </Card>
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-8">
+        <Reveal delay={0.1} className="mt-12">
           <Stack gap={6}>
             <h3 className="text-h3 text-foreground">Why Invest in Kairoo?</h3>
             <Grid cols={3} gap="lg">
-              {WHY_INVEST.map((item) => (
-                <CardSpotlight key={item.title} className="h-full rounded-xl p-6">
-                  <Stack gap={4}>
-                    <span
-                      aria-hidden
-                      className="inline-flex size-12 items-center justify-center rounded-lg bg-accent-subtle text-accent"
-                    >
-                      {item.icon}
-                    </span>
-                    <h4 className="text-h5 text-foreground">{item.title}</h4>
-                    <p className="text-body-sm text-muted-foreground">{item.desc}</p>
-                  </Stack>
-                </CardSpotlight>
+              {WHY_INVEST.map((item, i) => (
+                <CardContainer
+                  key={item.title}
+                  containerClassName="!py-0 h-full"
+                  className="h-full w-full"
+                >
+                  <CardBody className="h-full w-full">
+                    <CardSpotlight className="h-full rounded-xl p-6">
+                      <Stack gap={4}>
+                        <CardItem
+                          translateZ={40}
+                          as="span"
+                          aria-hidden
+                          className="inline-flex size-12 items-center justify-center rounded-lg bg-accent-subtle text-accent ring-1 ring-accent/20"
+                        >
+                          {item.icon}
+                        </CardItem>
+                        <CardItem translateZ={24} as="h4" className="text-h5 text-foreground">
+                          {item.title}
+                        </CardItem>
+                        <CardItem
+                          translateZ={12}
+                          as="p"
+                          className="text-body-sm text-muted-foreground"
+                        >
+                          {item.desc}
+                        </CardItem>
+                        <span
+                          aria-hidden
+                          className="text-overline text-accent/60"
+                        >
+                          {`0${i + 1}`}
+                        </span>
+                      </Stack>
+                    </CardSpotlight>
+                  </CardBody>
+                </CardContainer>
               ))}
             </Grid>
           </Stack>
@@ -484,11 +636,19 @@ export function DeckContent() {
       </Section>
 
       {/* ======================= 10-SLIDE PITCH ========================= */}
-      <Section id="pitch-deck">
+      <Section id="pitch-deck" className="relative isolate overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-0 -z-10 h-64 w-[120%] -translate-x-1/2 opacity-50 blur-3xl [background-image:radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_70%)]"
+        />
         <Reveal>
           <SectionHeading
             eyebrow="The Story"
-            title="10-Slide Pitch Deck Structure"
+            title={
+              <>
+                10-Slide <span className={GRADIENT_TEXT}>Pitch Deck</span> Structure
+              </>
+            }
             subtitle="Step through the full investor narrative — from the problem we solve to exactly what we're asking for."
           />
         </Reveal>
@@ -510,48 +670,73 @@ export function DeckContent() {
 
             {SLIDES.map((slide) => (
               <TabPanel key={slide.id} id={slide.id}>
-                <Card
-                  variant={slide.highlight ? "elevated" : "default"}
-                  className={
-                    slide.highlight
-                      ? "mt-6 border-2 border-primary p-8"
-                      : "mt-6 p-8"
-                  }
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: EASE }}
                 >
-                  <Stack gap={6}>
-                    <div className="flex items-center gap-4">
-                      <span
-                        aria-hidden
-                        className="inline-flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground"
-                      >
-                        {slide.icon}
-                      </span>
-                      <div>
-                        <p className="text-overline text-accent">
-                          Slide {slide.num} of 10
-                        </p>
-                        <h3 className="text-h3 text-foreground">{slide.title}</h3>
-                      </div>
-                      {slide.highlight ? (
-                        <Badge variant="success" className="ml-auto">
-                          The Ask
-                        </Badge>
-                      ) : null}
-                    </div>
+                  <Card
+                    variant={slide.highlight ? "elevated" : "glass"}
+                    className={cn(
+                      "relative mt-6 overflow-hidden p-8",
+                      slide.highlight && "border-2 border-primary",
+                    )}
+                  >
+                    {/* ambient slide-number watermark */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -right-2 -top-6 select-none text-[7rem] font-bold leading-none text-foreground/[0.04]"
+                    >
+                      {slide.num.toString().padStart(2, "0")}
+                    </span>
 
-                    <ul className="grid gap-3 sm:grid-cols-2">
-                      {slide.items.map((item) => (
-                        <li key={item} className="flex items-start gap-3">
-                          <CheckCircle2
-                            aria-hidden
-                            className="mt-0.5 size-5 shrink-0 text-accent"
-                          />
-                          <span className="text-body text-foreground">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </Stack>
-                </Card>
+                    <Stack gap={6}>
+                      <div className="flex items-center gap-4">
+                        <span
+                          aria-hidden
+                          className="inline-flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-elevation-2"
+                        >
+                          {slide.icon}
+                        </span>
+                        <div>
+                          <p className="text-overline text-accent">
+                            Slide {slide.num} of 10
+                          </p>
+                          <h3 className="text-h3 text-foreground">{slide.title}</h3>
+                        </div>
+                        {slide.highlight ? (
+                          <Badge variant="success" className="ml-auto">
+                            The Ask
+                          </Badge>
+                        ) : null}
+                      </div>
+
+                      <GradientRule />
+
+                      <ul className="grid gap-3 sm:grid-cols-2">
+                        {slide.items.map((item, i) => (
+                          <motion.li
+                            key={item}
+                            className="flex items-start gap-3 rounded-lg border border-border/50 bg-card/40 p-3"
+                            initial={{ opacity: 0, x: -12 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.4,
+                              ease: EASE,
+                              delay: 0.08 + i * 0.06,
+                            }}
+                          >
+                            <CheckCircle2
+                              aria-hidden
+                              className="mt-0.5 size-5 shrink-0 text-accent"
+                            />
+                            <span className="text-body text-foreground">{item}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </Stack>
+                  </Card>
+                </motion.div>
               </TabPanel>
             ))}
           </Tabs>
@@ -559,18 +744,30 @@ export function DeckContent() {
       </Section>
 
       {/* ===================== GROWTH FORECAST ========================== */}
-      <Section id="growth-forecast">
+      <Section id="growth-forecast" className="relative isolate overflow-hidden">
         <Reveal>
           <SectionHeading
             eyebrow="The Numbers"
-            title="12-Month Growth & Revenue Forecast"
+            title={
+              <>
+                12-Month <span className={GRADIENT_TEXT}>Growth & Revenue</span>{" "}
+                Forecast
+              </>
+            }
             subtitle="Modelled on a $29 average price, 5% monthly churn, and 15% monthly growth."
           />
         </Reveal>
 
         <Grid cols={2} gap="lg" className="mt-12 lg:items-stretch">
           <Reveal>
-            <Card variant="glass" className="h-full p-6 sm:p-8">
+            <Card
+              variant="glass"
+              className="relative h-full overflow-hidden p-6 sm:p-8"
+            >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -z-10 opacity-50 [background-image:linear-gradient(160deg,color-mix(in_oklab,var(--primary)_10%,transparent),transparent_60%)]"
+              />
               <Stack gap={6}>
                 <h3 className="text-h4 text-foreground">
                   User Growth & MRR Projection
@@ -624,16 +821,18 @@ export function DeckContent() {
                 <Card variant="default" className="border-success/30 bg-success/10 p-5">
                   <p className="text-overline text-success">Year 1 Totals</p>
                   <Grid cols={2} gap="md" className="mt-3">
-                    <div>
-                      <p className="text-h2 text-success">15.2K</p>
-                      <p className="text-caption text-muted-foreground">Paid Users</p>
-                    </div>
-                    <div>
-                      <p className="text-h2 text-success">$441K</p>
-                      <p className="text-caption text-muted-foreground">
-                        Monthly Revenue
-                      </p>
-                    </div>
+                    <StatGrid
+                      cols={1}
+                      items={[
+                        { value: 15.2, suffix: "K", label: "Paid Users" },
+                      ]}
+                    />
+                    <StatGrid
+                      cols={1}
+                      items={[
+                        { value: 441, prefix: "$", suffix: "K", label: "Monthly Revenue" },
+                      ]}
+                    />
                   </Grid>
                 </Card>
               </Stack>
@@ -647,7 +846,11 @@ export function DeckContent() {
         <Reveal>
           <SectionHeading
             eyebrow="Execution"
-            title="90-Day MVP Launch Action Plan"
+            title={
+              <>
+                90-Day <span className={GRADIENT_TEXT}>MVP Launch</span> Action Plan
+              </>
+            }
             subtitle="Three disciplined phases — foundation, beta, then scale — each with parallel product and go-to-market workstreams."
           />
         </Reveal>
@@ -657,7 +860,17 @@ export function DeckContent() {
             {PHASES.map((phase, i) => (
               <CardContainer key={phase.id} containerClassName="!py-0 h-full">
                 <CardBody className="h-full w-full">
-                  <Card variant="interactive" className="flex h-full flex-col p-6">
+                  <Card
+                    variant="interactive"
+                    className="relative flex h-full flex-col overflow-hidden p-6"
+                  >
+                    {/* connector / step index */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute right-5 top-5 text-[3rem] font-bold leading-none text-accent/10"
+                    >
+                      {i + 1}
+                    </span>
                     <CardItem translateZ={30} as="div">
                       <Badge variant="neutral" className="mb-3">
                         {phase.phase}
@@ -726,7 +939,11 @@ export function DeckContent() {
         <Reveal>
           <SectionHeading
             eyebrow="The Toolkit"
-            title="Required Tools & Resources"
+            title={
+              <>
+                Required <span className={GRADIENT_TEXT}>Tools & Resources</span>
+              </>
+            }
             subtitle="The lean, proven stack powering build, growth, and operations from day one."
           />
         </Reveal>
@@ -740,7 +957,7 @@ export function DeckContent() {
                     <span className="inline-flex items-center gap-3">
                       <span
                         aria-hidden
-                        className="inline-flex size-9 items-center justify-center rounded-lg bg-accent-subtle text-accent"
+                        className="inline-flex size-9 items-center justify-center rounded-lg bg-accent-subtle text-accent ring-1 ring-accent/20"
                       >
                         {cat.icon}
                       </span>
@@ -755,7 +972,7 @@ export function DeckContent() {
                       {cat.items.map((item) => (
                         <li
                           key={item}
-                          className="flex items-center gap-2 text-body-sm text-muted-foreground"
+                          className="flex items-center gap-2 rounded-lg border border-border/50 bg-card/40 px-3 py-2 text-body-sm text-muted-foreground"
                         >
                           <CheckCircle2 aria-hidden className="size-4 text-accent" />
                           {item}
@@ -783,36 +1000,41 @@ export function DeckContent() {
       <Section className="pt-0">
         <Reveal>
           <Grid cols={3} gap="lg">
-            <Card variant="default" className="p-6 text-center">
-              <Mail aria-hidden className="mx-auto size-6 text-accent" />
-              <h4 className="mt-3 text-h5 text-foreground">Investment Inquiries</h4>
-              <Link
-                href="mailto:investors@kairoo.com"
-                className="text-body-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                investors@kairoo.com
-              </Link>
-            </Card>
-            <Card variant="default" className="p-6 text-center">
-              <CalendarCheck aria-hidden className="mx-auto size-6 text-accent" />
-              <h4 className="mt-3 text-h5 text-foreground">Book a Call</h4>
-              <Link
-                href="/contact"
-                className="text-body-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Schedule time with the team
-              </Link>
-            </Card>
-            <Card variant="default" className="p-6 text-center">
-              <Linkedin aria-hidden className="mx-auto size-6 text-accent" />
-              <h4 className="mt-3 text-h5 text-foreground">LinkedIn</h4>
-              <Link
-                href="https://linkedin.com/company/kairoo"
-                className="text-body-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-              >
-                linkedin.com/company/kairoo
-              </Link>
-            </Card>
+            {[
+              {
+                icon: <Mail aria-hidden className="size-6 text-accent" />,
+                title: "Investment Inquiries",
+                href: "mailto:investors@kairoo.com",
+                label: "investors@kairoo.com",
+              },
+              {
+                icon: <CalendarCheck aria-hidden className="size-6 text-accent" />,
+                title: "Book a Call",
+                href: "/contact",
+                label: "Schedule time with the team",
+              },
+              {
+                icon: <Linkedin aria-hidden className="size-6 text-accent" />,
+                title: "LinkedIn",
+                href: "https://linkedin.com/company/kairoo",
+                label: "linkedin.com/company/kairoo",
+              },
+            ].map((c) => (
+              <CardSpotlight key={c.title} className="rounded-xl p-6 text-center">
+                <Stack gap={2} align="center">
+                  <span className="inline-flex size-12 items-center justify-center rounded-full bg-accent-subtle ring-1 ring-accent/20">
+                    {c.icon}
+                  </span>
+                  <h4 className="mt-1 text-h5 text-foreground">{c.title}</h4>
+                  <Link
+                    href={c.href}
+                    className="text-body-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                  >
+                    {c.label}
+                  </Link>
+                </Stack>
+              </CardSpotlight>
+            ))}
           </Grid>
         </Reveal>
       </Section>

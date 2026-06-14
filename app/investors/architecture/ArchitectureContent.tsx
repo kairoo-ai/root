@@ -1,12 +1,13 @@
 'use client';
 
-import { type ReactNode, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 import {
   motion,
   useReducedMotion,
   useScroll,
   useSpring,
 } from 'motion/react';
+import { animate, stagger } from 'animejs';
 import {
   Activity,
   Brain,
@@ -30,15 +31,18 @@ import { Section } from '@/components/layout/Section';
 import { Container } from '@/components/layout/Container';
 import { Grid } from '@/components/layout/Grid';
 import { Stack } from '@/components/layout/Stack';
-import { Prose } from '@/components/layout/Prose';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/Alert';
 import { Tabs } from '@/components/ui/Tabs';
-import { Hero } from '@/components/blocks/Hero';
+import { Accordion } from '@/components/ui/Accordion';
+import { Tooltip } from '@/components/ui/Tooltip';
 import { StatGrid } from '@/components/blocks/StatCounter';
 import { CTA } from '@/components/blocks/CTA';
 import { CardSpotlight } from '@/components/blocks/CardSpotlight';
+import { BentoGrid } from '@/components/blocks/BentoGrid';
+import { Spotlight } from '@/components/motion/Spotlight';
+import { CardContainer, CardBody, CardItem } from '@/components/motion/ThreeDCard';
 import AuroraBackground from '@/components/motion/AuroraBackground';
 
 /* ---------------------------------------------------------------------------
@@ -93,19 +97,33 @@ function SectionHeading({
             </Badge>
           ) : null}
         </div>
-        <h2 className="text-h2 text-foreground">{title}</h2>
+        <h2 className="text-h2 text-foreground">
+          <span className="bg-gradient-to-r from-primary to-[color-mix(in_oklab,var(--accent)_70%,var(--foreground))] bg-clip-text text-transparent">
+            {title}
+          </span>
+        </h2>
         {intro ? <p className="text-body-lg text-muted-foreground">{intro}</p> : null}
       </Stack>
     </Reveal>
   );
 }
 
-/* A token-skinned code block. */
+/* A token-skinned code block, dressed up in a polished window-chrome panel. */
 function CodeBlock({ title, lang, code }: { title: string; lang: string; code: string }) {
   return (
-    <Card variant="elevated" className="overflow-hidden">
-      <div className="flex items-center justify-between border-b border-border bg-muted-surface px-4 py-2.5">
-        <span className="text-caption font-medium text-foreground">{title}</span>
+    <Card
+      variant="elevated"
+      className="group overflow-hidden ring-1 ring-border/60 transition-shadow duration-300 hover:shadow-elevation-4"
+    >
+      <div className="flex items-center justify-between border-b border-border bg-[linear-gradient(120deg,color-mix(in_oklab,var(--primary)_12%,var(--card)),var(--card))] px-4 py-2.5">
+        <span className="flex items-center gap-2.5">
+          <span className="flex gap-1.5" aria-hidden>
+            <span className="size-2.5 rounded-full bg-[color-mix(in_oklab,var(--destructive)_70%,transparent)]" />
+            <span className="size-2.5 rounded-full bg-[color-mix(in_oklab,var(--warning,var(--accent))_80%,transparent)]" />
+            <span className="size-2.5 rounded-full bg-[color-mix(in_oklab,var(--success)_70%,transparent)]" />
+          </span>
+          <span className="text-caption font-medium text-foreground">{title}</span>
+        </span>
         <Badge variant="neutral" size="sm" className="font-mono uppercase tracking-wider">
           {lang}
         </Badge>
@@ -117,10 +135,10 @@ function CodeBlock({ title, lang, code }: { title: string; lang: string; code: s
   );
 }
 
-/* Small icon medallion using accent token surface. */
+/* Small icon medallion using a teal→navy token gradient surface. */
 function IconBadge({ Icon }: { Icon: LucideIcon }) {
   return (
-    <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl bg-accent-subtle text-accent-subtle-foreground">
+    <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[linear-gradient(140deg,color-mix(in_oklab,var(--primary)_22%,transparent),color-mix(in_oklab,var(--accent)_18%,transparent))] text-accent-subtle-foreground ring-1 ring-[color-mix(in_oklab,var(--primary)_30%,transparent)]">
       <Icon className="size-6" aria-hidden />
     </span>
   );
@@ -189,26 +207,30 @@ const FLOW_STAGES: { title: string; Icon: LucideIcon; bullets: string[] }[] = [
   },
 ];
 
-const FLOW_NODES: { title: string; Icon: LucideIcon; items: string[] }[] = [
+const FLOW_NODES: { title: string; Icon: LucideIcon; items: string[]; span: '2x1' | '1x1' }[] = [
   {
     title: 'Experience Layer',
     Icon: Monitor,
     items: ['Next.js App Router UI', 'Adaptive theming + experiments', 'Offline-first surfaces'],
+    span: '2x1',
   },
   {
     title: 'Intelligence Layer',
     Icon: Brain,
     items: ['Hybrid RAG engine', 'Vector + relational fusion', 'Knowledge graph updates'],
+    span: '1x1',
   },
   {
     title: 'Infrastructure Layer',
     Icon: Cloud,
     items: ['Kubernetes + Wasm pods', 'Service mesh (Linkerd)', 'Observability via OpenTelemetry'],
+    span: '1x1',
   },
   {
     title: 'Trust Layer',
     Icon: Shield,
     items: ['Zero-trust IAM', 'Secrets lattice (Vault)', 'Compliance automation'],
+    span: '2x1',
   },
 ];
 
@@ -306,12 +328,12 @@ const CACHE_LAYERS: { title: string; Icon: LucideIcon; items: string[] }[] = [
   },
 ];
 
-const PERF_TARGETS = [
-  { metric: 'First Contentful Paint', target: '< 1.2s' },
-  { metric: 'Largest Contentful Paint', target: '< 2.5s' },
-  { metric: 'Time to Interactive', target: '< 3.8s' },
-  { metric: 'API Response Time', target: '< 200ms' },
-  { metric: 'AI Processing Time', target: '< 5s' },
+const PERF_TARGETS: { metric: string; target: string; value: number; suffix: string; hint: string }[] = [
+  { metric: 'First Contentful Paint', target: '< 1.2s', value: 1.2, suffix: 's', hint: 'Target ceiling — p75 field budget' },
+  { metric: 'Largest Contentful Paint', target: '< 2.5s', value: 2.5, suffix: 's', hint: 'Core Web Vitals "good" threshold' },
+  { metric: 'Time to Interactive', target: '< 3.8s', value: 3.8, suffix: 's', hint: 'Main thread free for input' },
+  { metric: 'API Response Time', target: '< 200ms', value: 200, suffix: 'ms', hint: 'p95 gateway round-trip' },
+  { metric: 'AI Processing Time', target: '< 5s', value: 5, suffix: 's', hint: 'End-to-end multimodal inference' },
 ];
 
 const MONITORING = [
@@ -514,11 +536,80 @@ resource "aws_eks_cluster" "kairoo" {
 }`;
 
 /* ---------------------------------------------------------------------------
+ * Hero — Anime.js elaborate entrance sequence (reduced-motion safe).
+ * ------------------------------------------------------------------------- */
+function HeroSequence() {
+  const reduce = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (reduce || !rootRef.current) return;
+    const root = rootRef.current;
+    const targets = root.querySelectorAll<HTMLElement>('[data-anim]');
+    targets.forEach((el) => {
+      el.style.opacity = '0';
+    });
+
+    const tl = animate(targets, {
+      opacity: [0, 1],
+      translateY: [26, 0],
+      filter: ['blur(8px)', 'blur(0px)'],
+      duration: 900,
+      delay: stagger(120, { start: 120 }),
+      ease: 'out(3)',
+    });
+
+    return () => {
+      tl.cancel();
+    };
+  }, [reduce]);
+
+  return (
+    <Container className="relative pb-16 pt-24 text-center md:pt-32">
+      <div ref={rootRef} className="mx-auto max-w-4xl">
+        <p
+          data-anim
+          className="text-overline mx-auto inline-flex items-center gap-2 rounded-full border border-[color-mix(in_oklab,var(--primary)_28%,transparent)] bg-card/60 px-4 py-1.5 text-primary"
+        >
+          <Sparkles className="size-3.5" aria-hidden />
+          Enterprise-Grade Architecture · V2 Technical Blueprint
+        </p>
+        <h1 data-anim className="text-display mt-6 text-balance text-foreground">
+          Technical Architecture —{' '}
+          <span className="bg-gradient-to-r from-primary via-accent to-[color-mix(in_oklab,var(--accent)_55%,var(--foreground))] bg-clip-text text-transparent">
+            Kairoo v2.0
+          </span>
+        </h1>
+        <p data-anim className="text-body-lg mx-auto mt-6 max-w-3xl text-pretty text-muted-foreground">
+          Comprehensive full-stack architecture for a scalable, AI-powered career development
+          platform. Built for enterprise performance with Next.js, Express.js, MongoDB, Redis, and
+          advanced multimodal AI integration.
+        </p>
+
+        <div data-anim className="mt-8 flex flex-wrap justify-center gap-3">
+          <Badge variant="success" size="md">
+            <span className="mr-1.5 inline-block size-1.5 rounded-full bg-success" aria-hidden />
+            Microservices Architecture
+          </Badge>
+          <Badge variant="info" size="md">
+            <span className="mr-1.5 inline-block size-1.5 rounded-full bg-info" aria-hidden />
+            Auto-Scaling Infrastructure
+          </Badge>
+          <Badge variant="neutral" size="md">
+            <span className="mr-1.5 inline-block size-1.5 rounded-full bg-accent" aria-hidden />
+            Multi-Modal AI Pipeline
+          </Badge>
+        </div>
+      </div>
+    </Container>
+  );
+}
+
+/* ---------------------------------------------------------------------------
  * Page content
  * ------------------------------------------------------------------------- */
 export function ArchitectureContent() {
   const reduce = useReducedMotion();
-  const railRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
@@ -528,7 +619,7 @@ export function ArchitectureContent() {
       {!reduce ? (
         <motion.div
           aria-hidden
-          className="fixed inset-x-0 top-16 z-40 h-0.5 origin-left bg-primary"
+          className="fixed inset-x-0 top-16 z-40 h-0.5 origin-left bg-gradient-to-r from-primary to-accent"
           style={{ scaleX }}
         />
       ) : null}
@@ -536,29 +627,12 @@ export function ArchitectureContent() {
       {/* HERO */}
       <div className="relative isolate overflow-hidden">
         <AuroraBackground intensity="vivid" className="absolute! inset-0 -z-10" />
-        <Hero
-          eyebrow="Enterprise-Grade Architecture · V2 Technical Blueprint"
-          title="Technical Architecture — Kairoo v2.0"
-          subtitle="Comprehensive full-stack architecture for a scalable, AI-powered career development platform. Built for enterprise performance with Next.js, Express.js, MongoDB, Redis, and advanced multimodal AI integration."
-        />
-        <Container className="-mt-6 pb-16">
-          <Reveal>
-            <div className="mb-8 flex flex-wrap justify-center gap-3">
-              <Badge variant="success" size="md">
-                <span className="mr-1.5 inline-block size-1.5 rounded-full bg-success" aria-hidden />
-                Microservices Architecture
-              </Badge>
-              <Badge variant="info" size="md">
-                <span className="mr-1.5 inline-block size-1.5 rounded-full bg-info" aria-hidden />
-                Auto-Scaling Infrastructure
-              </Badge>
-              <Badge variant="neutral" size="md">
-                <span className="mr-1.5 inline-block size-1.5 rounded-full bg-accent" aria-hidden />
-                Multi-Modal AI Pipeline
-              </Badge>
-            </div>
-          </Reveal>
+        <Spotlight className="-top-40 left-0 md:-top-24 md:left-60" fill="var(--primary)" />
+        <Spotlight className="-top-10 right-0 md:right-40 lg:w-[60%]" fill="var(--accent)" />
 
+        <HeroSequence />
+
+        <Container className="-mt-2 pb-16">
           <Reveal delay={0.05}>
             <Alert variant="info" className="mx-auto mb-10 max-w-3xl">
               <AlertTitle>Read this as a blueprint.</AlertTitle>
@@ -574,7 +648,14 @@ export function ArchitectureContent() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <Card variant="glass" className="p-8">
+            <Card
+              variant="glass"
+              className="relative overflow-hidden p-8 ring-1 ring-[color-mix(in_oklab,var(--primary)_18%,transparent)]"
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_120%_at_50%_0%,color-mix(in_oklab,var(--primary)_14%,transparent),transparent)]"
+              />
               <StatGrid items={HERO_STATS} cols={3} gap="lg" />
             </Card>
           </Reveal>
@@ -593,8 +674,15 @@ export function ArchitectureContent() {
       {/* STORY RAIL */}
       <Section>
         <Grid cols={1} gap="lg" className="lg:grid-cols-[320px_1fr]">
-          <div ref={railRef} className="hidden lg:block">
-            <Card variant="glass" className="sticky top-24 p-6">
+          <div className="hidden lg:block">
+            <Card
+              variant="glass"
+              className="sticky top-24 overflow-hidden p-6 ring-1 ring-[color-mix(in_oklab,var(--primary)_16%,transparent)]"
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(160deg,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_60%)]"
+              />
               <p className="text-overline text-primary">Architecture Story</p>
               <h3 className="mt-4 text-h4 text-foreground">
                 From signal ingestion to action, the system is orchestrated like a narrative arc.
@@ -661,7 +749,14 @@ export function ArchitectureContent() {
         <Grid cols={3} gap="lg">
           {FLOW_STAGES.map((stage, i) => (
             <Reveal key={stage.title} delay={i * 0.08}>
-              <Card variant="interactive" className="relative h-full p-6">
+              <Card
+                variant="interactive"
+                className="group relative h-full overflow-hidden p-6 ring-1 ring-transparent transition-shadow hover:ring-[color-mix(in_oklab,var(--primary)_30%,transparent)]"
+              >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-accent"
+                />
                 <div className="flex items-center gap-3">
                   <IconBadge Icon={stage.Icon} />
                   <span className="text-h5 text-foreground">{stage.title}</span>
@@ -677,7 +772,7 @@ export function ArchitectureContent() {
                 {i < FLOW_STAGES.length - 1 ? (
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute -right-7 top-1/2 hidden h-0.5 w-7 -translate-y-1/2 bg-border md:block"
+                    className="pointer-events-none absolute -right-7 top-1/2 hidden h-0.5 w-7 -translate-y-1/2 bg-gradient-to-r from-primary to-transparent md:block"
                   />
                 ) : null}
               </Card>
@@ -686,7 +781,7 @@ export function ArchitectureContent() {
         </Grid>
       </Section>
 
-      {/* LAYERED FLOWCHART */}
+      {/* LAYERED FLOWCHART — animated Bento */}
       <Section>
         <SectionHeading
           eyebrow="System decomposition"
@@ -694,29 +789,18 @@ export function ArchitectureContent() {
           intro="Four cooperating layers — Experience, Intelligence, Infrastructure, and Trust — each with explicit responsibilities."
           blueprint
         />
-        <Grid cols={2} gap="lg">
-          {FLOW_NODES.map((node, i) => (
-            <Reveal key={node.title} delay={i * 0.06}>
-              <Card variant="glass" className="h-full p-6">
-                <div className="flex items-center gap-3">
-                  <IconBadge Icon={node.Icon} />
-                  <h3 className="text-h5 text-foreground">{node.title}</h3>
-                </div>
-                <Stack gap={2} className="mt-4">
-                  {node.items.map((item) => (
-                    <div key={item} className="flex items-start gap-2 text-body-sm text-muted-foreground">
-                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                      {item}
-                    </div>
-                  ))}
-                </Stack>
-              </Card>
-            </Reveal>
-          ))}
-        </Grid>
+        <BentoGrid
+          asSection={false}
+          items={FLOW_NODES.map((node) => ({
+            title: node.title,
+            span: node.span,
+            icon: <node.Icon aria-hidden />,
+            description: node.items.join(' · '),
+          }))}
+        />
       </Section>
 
-      {/* SYSTEM OVERVIEW */}
+      {/* SYSTEM OVERVIEW — ThreeDCard tilt request path */}
       <Section>
         <SectionHeading
           eyebrow="High level"
@@ -724,18 +808,35 @@ export function ArchitectureContent() {
           intro="The request path: a Next.js frontend talks to an Nginx API gateway, which routes into the Python/FastAPI AI service and supporting microservices."
         />
         <Reveal>
-          <Card variant="elevated" className="mb-8 p-8">
+          <Card
+            variant="elevated"
+            className="relative mb-8 overflow-hidden p-8 ring-1 ring-[color-mix(in_oklab,var(--primary)_16%,transparent)]"
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_120%_at_50%_0%,color-mix(in_oklab,var(--accent)_12%,transparent),transparent)]"
+            />
             <h3 className="mb-6 text-center text-h5 text-foreground">Interactive system architecture</h3>
-            <div className="flex flex-col items-stretch gap-4 md:flex-row md:items-center md:justify-center">
+            <div className="flex flex-col items-stretch gap-2 md:flex-row md:items-center md:justify-center">
               {SYSTEM_NODES.map((node, i) => (
-                <div key={node.title} className="flex flex-col items-center gap-4 md:flex-row">
-                  <Card variant="interactive" className="w-full p-6 text-center md:w-48">
-                    <node.Icon className="mx-auto mb-2 size-8 text-primary" aria-hidden />
-                    <div className="font-semibold text-foreground">{node.title}</div>
-                    <div className="text-caption text-muted-foreground">{node.sub}</div>
-                  </Card>
+                <div key={node.title} className="flex flex-col items-center gap-2 md:flex-row">
+                  <CardContainer containerClassName="py-0" className="h-full">
+                    <CardBody className="w-full md:w-52">
+                      <Card variant="interactive" className="w-full p-6 text-center">
+                        <CardItem translateZ={50} className="mx-auto">
+                          <node.Icon className="mx-auto mb-2 size-8 text-primary" aria-hidden />
+                        </CardItem>
+                        <CardItem translateZ={36} as="div" className="mx-auto font-semibold text-foreground">
+                          {node.title}
+                        </CardItem>
+                        <CardItem translateZ={20} as="div" className="mx-auto text-caption text-muted-foreground">
+                          {node.sub}
+                        </CardItem>
+                      </Card>
+                    </CardBody>
+                  </CardContainer>
                   {i < SYSTEM_NODES.length - 1 ? (
-                    <span className="text-h4 text-muted-foreground" aria-hidden>
+                    <span className="text-h4 text-primary" aria-hidden>
                       →
                     </span>
                   ) : null}
@@ -748,7 +849,7 @@ export function ArchitectureContent() {
         <Grid cols={2} gap="lg">
           {ARCH_LAYERS.map((layer, i) => (
             <Reveal key={layer.title} delay={i * 0.08}>
-              <Card variant="default" className="h-full border-l-4 border-l-primary p-6">
+              <CardSpotlight className="h-full border-l-4 border-l-primary p-6">
                 <div className="mb-4 flex items-center gap-3">
                   <layer.Icon className="size-6 text-primary" aria-hidden />
                   <h3 className="text-h5 text-foreground">{layer.title}</h3>
@@ -760,7 +861,7 @@ export function ArchitectureContent() {
                     </p>
                   ))}
                 </Stack>
-              </Card>
+              </CardSpotlight>
             </Reveal>
           ))}
         </Grid>
@@ -777,12 +878,19 @@ export function ArchitectureContent() {
         <Grid cols={3} gap="lg">
           {TECH_STACKS.map((stack, i) => (
             <Reveal key={stack.title} delay={i * 0.08}>
-              <Card variant="glass" className="h-full p-6">
-                <div className="mb-6 flex items-center gap-3">
+              <Card
+                variant="glass"
+                className="group relative h-full overflow-hidden p-6 ring-1 ring-transparent transition-all hover:-translate-y-1 hover:ring-[color-mix(in_oklab,var(--accent)_28%,transparent)]"
+              >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(80%_100%_at_50%_0%,color-mix(in_oklab,var(--accent)_12%,transparent),transparent)]"
+                />
+                <div className="relative mb-6 flex items-center gap-3">
                   <stack.Icon className="size-6 text-primary" aria-hidden />
                   <h3 className="text-h5 text-foreground">{stack.title}</h3>
                 </div>
-                <Stack gap={3}>
+                <Stack gap={3} className="relative">
                   {stack.items.map((item) => (
                     <div
                       key={item.name}
@@ -861,8 +969,8 @@ export function ArchitectureContent() {
         <Grid cols={3} gap="lg">
           {CACHE_LAYERS.map((layer, i) => (
             <Reveal key={layer.title} delay={i * 0.08}>
-              <Card variant="interactive" className="h-full p-6 text-center">
-                <span className="mx-auto mb-4 inline-flex size-16 items-center justify-center rounded-full bg-accent-subtle text-accent-subtle-foreground">
+              <CardSpotlight className="h-full p-6 text-center">
+                <span className="mx-auto mb-4 inline-flex size-16 items-center justify-center rounded-full bg-[linear-gradient(140deg,color-mix(in_oklab,var(--primary)_22%,transparent),color-mix(in_oklab,var(--accent)_18%,transparent))] text-accent-subtle-foreground ring-1 ring-[color-mix(in_oklab,var(--primary)_28%,transparent)]">
                   <layer.Icon className="size-8" aria-hidden />
                 </span>
                 <h4 className="mb-3 text-h5 text-foreground">{layer.title}</h4>
@@ -873,13 +981,13 @@ export function ArchitectureContent() {
                     </p>
                   ))}
                 </Stack>
-              </Card>
+              </CardSpotlight>
             </Reveal>
           ))}
         </Grid>
       </Section>
 
-      {/* PERFORMANCE */}
+      {/* PERFORMANCE — StatGrid + monitoring */}
       <Section>
         <SectionHeading
           eyebrow="SLOs"
@@ -887,21 +995,40 @@ export function ArchitectureContent() {
           intro="Hard latency budgets across the rendering and AI pipeline, backed by a full observability stack."
           blueprint
         />
+        <Reveal>
+          <Card
+            variant="glass"
+            className="mb-8 overflow-hidden p-8 ring-1 ring-[color-mix(in_oklab,var(--primary)_16%,transparent)]"
+          >
+            <StatGrid
+              gap="lg"
+              className="grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+              items={PERF_TARGETS.map((p) => ({
+                value: p.value,
+                suffix: p.suffix,
+                label: p.metric,
+              }))}
+            />
+          </Card>
+        </Reveal>
         <Grid cols={2} gap="lg">
           <Reveal>
             <Card variant="default" className="h-full p-6">
               <h3 className="mb-6 text-h5 text-foreground">Performance targets</h3>
               <Stack gap={3}>
                 {PERF_TARGETS.map((item) => (
-                  <div
-                    key={item.metric}
-                    className="flex items-center justify-between rounded-lg border-l-2 border-l-primary bg-muted-surface p-3"
-                  >
-                    <span className="text-body text-foreground">{item.metric}</span>
-                    <Badge variant="success" size="md" className="font-mono">
-                      {item.target}
-                    </Badge>
-                  </div>
+                  <Tooltip key={item.metric} delay={0}>
+                    <div className="flex w-full cursor-default items-center justify-between rounded-lg border-l-2 border-l-primary bg-muted-surface p-3">
+                      <span className="text-body text-foreground">{item.metric}</span>
+                      <Badge variant="success" size="md" className="font-mono">
+                        {item.target}
+                      </Badge>
+                    </div>
+                    <Tooltip.Content showArrow placement="top">
+                      <Tooltip.Arrow />
+                      {item.hint}
+                    </Tooltip.Content>
+                  </Tooltip>
                 ))}
               </Stack>
             </Card>
@@ -913,7 +1040,7 @@ export function ArchitectureContent() {
                 {MONITORING.map((tool) => (
                   <div
                     key={tool.name}
-                    className="rounded-lg border-l-2 border-l-accent bg-muted-surface p-4"
+                    className="rounded-lg border-l-2 border-l-accent bg-muted-surface p-4 transition-colors hover:bg-accent-subtle"
                   >
                     <div className="font-semibold text-foreground">{tool.name}</div>
                     <div className="text-caption text-muted-foreground">{tool.desc}</div>
@@ -935,41 +1062,50 @@ export function ArchitectureContent() {
         />
         <Grid cols={2} gap="lg">
           <Reveal>
-            <Card variant="glass" className="h-full p-6">
+            <Card variant="glass" className="h-full p-6 ring-1 ring-[color-mix(in_oklab,var(--primary)_14%,transparent)]">
               <h3 className="mb-6 text-h5 text-foreground">Security layers</h3>
-              <Stack gap={4}>
+              <Accordion variant="surface" defaultExpandedKeys={['Network Security']}>
                 {SECURITY_LAYERS.map((layer) => (
-                  <div
-                    key={layer.title}
-                    className="rounded-lg border-l-2 border-l-destructive bg-muted-surface p-4"
-                  >
-                    <div className="mb-2 flex items-center gap-2">
-                      <Shield className="size-4 text-destructive" aria-hidden />
-                      <h4 className="font-semibold text-foreground">{layer.title}</h4>
-                    </div>
-                    <Stack gap={1}>
-                      {layer.items.map((item) => (
-                        <p key={item} className="text-body-sm text-muted-foreground">
-                          {item}
-                        </p>
-                      ))}
-                    </Stack>
-                  </div>
+                  <Accordion.Item key={layer.title} id={layer.title}>
+                    <Accordion.Heading>
+                      <Accordion.Trigger>
+                        <span className="flex items-center gap-2 text-foreground">
+                          <Shield className="size-4 text-primary" aria-hidden />
+                          {layer.title}
+                        </span>
+                        <Accordion.Indicator />
+                      </Accordion.Trigger>
+                    </Accordion.Heading>
+                    <Accordion.Panel>
+                      <Accordion.Body>
+                        <Stack gap={1}>
+                          {layer.items.map((item) => (
+                            <p key={item} className="flex items-start gap-2 text-body-sm text-muted-foreground">
+                              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
+                              {item}
+                            </p>
+                          ))}
+                        </Stack>
+                      </Accordion.Body>
+                    </Accordion.Panel>
+                  </Accordion.Item>
                 ))}
-              </Stack>
+              </Accordion>
             </Card>
           </Reveal>
           <Reveal delay={0.08}>
-            <Card variant="glass" className="h-full p-6">
+            <Card variant="glass" className="h-full p-6 ring-1 ring-[color-mix(in_oklab,var(--accent)_14%,transparent)]">
               <h3 className="mb-6 text-h5 text-foreground">Compliance standards</h3>
               <Grid cols={2} gap="md">
                 {COMPLIANCE.map((standard) => (
-                  <Card key={standard.name} variant="default" className="p-4 text-center">
-                    <div className="text-h4 text-primary">{standard.name}</div>
+                  <CardSpotlight key={standard.name} className="p-4 text-center">
+                    <div className="text-h4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                      {standard.name}
+                    </div>
                     <Badge variant="success" size="sm" className="mt-2">
                       {standard.desc}
                     </Badge>
-                  </Card>
+                  </CardSpotlight>
                 ))}
               </Grid>
             </Card>
@@ -1001,12 +1137,19 @@ export function ArchitectureContent() {
         </Grid>
 
         <Reveal>
-          <Card variant="elevated" className="p-8">
+          <Card
+            variant="elevated"
+            className="relative overflow-hidden p-8 ring-1 ring-[color-mix(in_oklab,var(--primary)_16%,transparent)]"
+          >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_120%_at_50%_0%,color-mix(in_oklab,var(--primary)_12%,transparent),transparent)]"
+            />
             <h3 className="mb-6 text-h4 text-foreground">Multi-region deployment architecture</h3>
             <Grid cols={3} gap="lg">
               {REGIONS.map((region, i) => (
                 <Reveal key={region.region} delay={i * 0.08}>
-                  <Card variant="glass" className="h-full p-6">
+                  <CardSpotlight className="h-full p-6">
                     <IconBadge Icon={region.Icon} />
                     <h4 className="mt-4 text-h5 text-foreground">{region.region}</h4>
                     <p className="text-body-sm text-muted-foreground">{region.role}</p>
@@ -1020,7 +1163,7 @@ export function ArchitectureContent() {
                       <span className="text-muted-foreground">Compliance</span>
                       <span className="text-right font-medium text-foreground">{region.shield}</span>
                     </div>
-                  </Card>
+                  </CardSpotlight>
                 </Reveal>
               ))}
             </Grid>
@@ -1028,7 +1171,7 @@ export function ArchitectureContent() {
         </Reveal>
       </Section>
 
-      {/* ROADMAP */}
+      {/* ROADMAP — timeline */}
       <Section>
         <SectionHeading
           eyebrow="Sequencing"
@@ -1036,45 +1179,55 @@ export function ArchitectureContent() {
           intro="A phased path from foundation to scale to innovation — including custom model training, edge compute, blockchain, and VR/AR learning modules."
           blueprint
         />
-        <Grid cols={3} gap="lg">
-          {ROADMAP.map((phase, i) => (
-            <Reveal key={phase.quarter} delay={i * 0.08}>
-              <Card variant="interactive" className="h-full p-6">
-                <div className="mb-6 flex items-center gap-3">
-                  <span className="inline-flex size-14 items-center justify-center rounded-full bg-primary text-h5 font-bold text-primary-foreground">
-                    {phase.quarter}
-                  </span>
-                  <h4 className="text-h5 text-foreground">{phase.title}</h4>
-                </div>
-                <Stack gap={3}>
-                  {phase.items.map((item) => (
-                    <div key={item.text} className="flex items-start gap-2">
-                      {item.done ? (
-                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" aria-hidden />
-                      ) : (
-                        <Circle className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
-                      )}
-                      <span
-                        className={
-                          item.done
-                            ? 'text-body-sm text-foreground'
-                            : 'text-body-sm text-muted-foreground'
-                        }
-                      >
-                        {item.text}
-                      </span>
-                      {item.done ? (
-                        <span className="sr-only"> (shipped)</span>
-                      ) : (
-                        <span className="sr-only"> (planned)</span>
-                      )}
-                    </div>
-                  ))}
-                </Stack>
-              </Card>
-            </Reveal>
-          ))}
-        </Grid>
+        <div className="relative">
+          {/* connecting timeline spine on lg */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute left-0 right-0 top-7 hidden h-0.5 bg-gradient-to-r from-primary via-accent to-transparent lg:block"
+          />
+          <Grid cols={3} gap="lg">
+            {ROADMAP.map((phase, i) => (
+              <Reveal key={phase.quarter} delay={i * 0.08}>
+                <Card
+                  variant="interactive"
+                  className="relative h-full overflow-hidden p-6 ring-1 ring-transparent transition-shadow hover:ring-[color-mix(in_oklab,var(--primary)_28%,transparent)]"
+                >
+                  <div className="mb-6 flex items-center gap-3">
+                    <span className="relative inline-flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-h5 font-bold text-primary-foreground shadow-elevation-2">
+                      {phase.quarter}
+                    </span>
+                    <h4 className="text-h5 text-foreground">{phase.title}</h4>
+                  </div>
+                  <Stack gap={3}>
+                    {phase.items.map((item) => (
+                      <div key={item.text} className="flex items-start gap-2">
+                        {item.done ? (
+                          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" aria-hidden />
+                        ) : (
+                          <Circle className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
+                        )}
+                        <span
+                          className={
+                            item.done
+                              ? 'text-body-sm text-foreground'
+                              : 'text-body-sm text-muted-foreground'
+                          }
+                        >
+                          {item.text}
+                        </span>
+                        {item.done ? (
+                          <span className="sr-only"> (shipped)</span>
+                        ) : (
+                          <span className="sr-only"> (planned)</span>
+                        )}
+                      </div>
+                    ))}
+                  </Stack>
+                </Card>
+              </Reveal>
+            ))}
+          </Grid>
+        </div>
       </Section>
 
       {/* CLOSING CTA */}

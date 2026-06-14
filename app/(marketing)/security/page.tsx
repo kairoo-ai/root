@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 
-import { Section } from "@/components/layout/Section";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/Alert";
-import { FAQ } from "@/components/blocks/FAQ";
 import { CTA } from "@/components/blocks/CTA";
 import type { FAQItem } from "@/types";
 import type { StatCounterProps } from "@/components/blocks/StatCounter";
@@ -11,13 +8,18 @@ import {
   SecurityHero,
   SecurityStats,
   SecurityLayers,
+  SecurityDeepDive,
+  SecurityLifecycle,
   SecurityPractices,
   SecurityCompliance,
   SecurityPerformance,
+  SecurityFAQ,
   type LayerVM,
   type ComplianceVM,
   type PracticeVM,
   type TargetVM,
+  type DeepDiveTab,
+  type LifecycleStep,
 } from "./SecurityVisuals";
 
 export const metadata: Metadata = {
@@ -89,6 +91,7 @@ const LAYERS: LayerVM[] = [
   {
     title: "Network security",
     icon: "network",
+    tag: "Layer 01 — Edge",
     summary:
       "Traffic is filtered, encrypted, and rate-shaped before it ever reaches the app.",
     controls: [
@@ -96,11 +99,13 @@ const LAYERS: LayerVM[] = [
       "SSL / TLS 1.3 encryption in transit",
       "IP allow-listing for administrative access",
     ],
+    coverage: 96,
     span: "wide",
   },
   {
     title: "Application security",
     icon: "app-window",
+    tag: "Layer 02 — Runtime",
     summary:
       "Every request is authenticated, authorized, and scoped to least privilege.",
     controls: [
@@ -108,19 +113,78 @@ const LAYERS: LayerVM[] = [
       "Role-based access control (RBAC)",
       "API rate limiting and abuse protection",
     ],
+    coverage: 94,
     span: "cell",
   },
   {
     title: "Data security",
     icon: "database",
+    tag: "Layer 03 — Core",
     summary: "Your data is encrypted at rest, minimized, and isolated by design.",
     controls: [
       "AES-256 encryption at rest",
       "PII anonymization and data minimization",
       "Secure key management (HSM-backed)",
     ],
+    coverage: 98,
     span: "cell",
   },
+];
+
+// Dense, tabbed control deep-dive — HeroUI Tabs. Mirrors the three defense
+// layers with the concrete controls behind each, framed honestly.
+const DEEP_DIVE: DeepDiveTab[] = [
+  {
+    id: "network",
+    label: "Network",
+    icon: "network",
+    headline: "Hardened at the edge",
+    blurb:
+      "Nothing reaches application code until it has been inspected, encrypted, and rate-shaped.",
+    controls: [
+      { icon: "shield-half", title: "Web application firewall", detail: "Inline WAF with DDoS absorption and anomaly rules at the edge." },
+      { icon: "lock-keyhole", title: "TLS 1.3 in transit", detail: "Modern ciphers only; HSTS and forward secrecy enforced." },
+      { icon: "fingerprint", title: "Admin allow-listing", detail: "Privileged surfaces are reachable only from known IP ranges." },
+      { icon: "gauge", title: "Rate shaping", detail: "Per-client throttling protects the platform from abusive bursts." },
+    ],
+  },
+  {
+    id: "application",
+    label: "Application",
+    icon: "app-window",
+    headline: "Least privilege, every request",
+    blurb:
+      "Authentication, authorization, and abuse protection wrap every call into the product.",
+    controls: [
+      { icon: "key-round", title: "OAuth 2.0 + JWT", detail: "Short-lived, scoped tokens issued through a controlled flow." },
+      { icon: "user-check", title: "Role-based access control", detail: "Permissions are scoped to the minimum a role requires." },
+      { icon: "siren", title: "Abuse protection", detail: "API rate limiting and abuse heuristics on sensitive endpoints." },
+      { icon: "bot", title: "Gated AI gateway", detail: "Model calls route through engines/ai — authenticated and auditable." },
+    ],
+  },
+  {
+    id: "data",
+    label: "Data",
+    icon: "database",
+    headline: "Protected at rest, minimized by design",
+    blurb:
+      "Your data is encrypted, isolated, and reduced to only what a feature genuinely needs.",
+    controls: [
+      { icon: "file-lock-2", title: "AES-256 at rest", detail: "Stored data is encrypted with industry-standard symmetric keys." },
+      { icon: "eye-off", title: "PII minimization", detail: "We collect less, and anonymize wherever the product allows." },
+      { icon: "server-cog", title: "HSM-backed keys", detail: "Key material is generated and held in hardware-backed storage." },
+      { icon: "scan-eye", title: "Access auditing", detail: "Reads and writes to sensitive records leave an immutable trail." },
+    ],
+  },
+];
+
+// Data lifecycle / threat-response timeline — horizontal stepper.
+const LIFECYCLE: LifecycleStep[] = [
+  { icon: "lock-keyhole", title: "Encrypted in transit", detail: "TLS 1.3 secures every byte from your device to our edge." },
+  { icon: "shield-half", title: "Inspected & authorized", detail: "WAF, auth, and RBAC validate the request before it runs." },
+  { icon: "file-lock-2", title: "Stored & minimized", detail: "AES-256 at rest, with PII reduced to what's truly needed." },
+  { icon: "scan-eye", title: "Monitored continuously", detail: "APM, logs, and error tracking watch for anomalies in real time." },
+  { icon: "siren", title: "Responded to fast", detail: "Alerts route to on-call so regressions get fixed before they spread." },
 ];
 
 const PRACTICES: PracticeVM[] = [
@@ -223,25 +287,13 @@ export default function SecurityPage() {
         ]}
       />
 
-      {/* Honesty note — sets expectations up front. */}
-      <Section className="pt-0">
-        <Alert variant="info">
-          <AlertTitle>How we talk about compliance</AlertTitle>
-          <AlertDescription>
-            We describe our posture as <strong>compliance-ready</strong> and{" "}
-            <strong>in progress</strong> rather than overstating certifications. Where a
-            framework is fully reflected in how we operate today, we say so; where it is on our
-            roadmap, we say that too.
-          </AlertDescription>
-        </Alert>
-      </Section>
-
       {/* Performance targets as an animated count-up band. */}
       <SecurityStats
         eyebrow="Performance targets"
         heading="Fast is a feature — and a target"
         subtitle="A secure product still has to feel instant. These are figures we design and monitor against — targets, not guarantees."
         stats={PERF_STATS}
+        note="We describe our posture as compliance-ready and in progress rather than overstating certifications — where a framework is fully reflected in how we operate today, we say so; where it's on our roadmap, we say that too."
       />
 
       {/* Defense-in-depth layers as an asymmetric Bento of spotlight cards. */}
@@ -250,6 +302,22 @@ export default function SecurityPage() {
         heading="A layered security model"
         subtitle="Security is enforced at every layer — from the edge of the network, through the application, down to the data itself."
         layers={LAYERS}
+      />
+
+      {/* Dense, tabbed control deep-dive (HeroUI Tabs). */}
+      <SecurityDeepDive
+        eyebrow="Controls, in detail"
+        heading="Every layer, control by control"
+        subtitle="Switch between the network, application, and data layers to see the concrete controls behind each one."
+        tabs={DEEP_DIVE}
+      />
+
+      {/* Data lifecycle / threat-response timeline. */}
+      <SecurityLifecycle
+        eyebrow="Data lifecycle"
+        heading="What happens to a request, end to end"
+        subtitle="From the moment data leaves your device to the moment we respond to an anomaly — every stage is accounted for."
+        steps={LIFECYCLE}
       />
 
       {/* Security practices as a 3D-tilt grid. */}
@@ -282,9 +350,10 @@ export default function SecurityPage() {
         monitoring={MONITORING}
       />
 
-      <FAQ
+      <SecurityFAQ
         eyebrow="Trust & transparency"
-        title="Security questions, answered straight"
+        heading="Security questions, answered straight"
+        subtitle="No hedging, no overstated badges — here's exactly where we stand."
         items={FAQ_ITEMS}
       />
 
