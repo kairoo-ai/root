@@ -11,6 +11,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 import { Drawer } from '@/components/ui/Drawer';
 import { Container } from '@/components/layout/Container';
 import { primaryNav, type NavItem } from '@/config/navigation';
+import RebrandBanner from '../RebrandBanner';
 
 /**
  * Button-shaped CTA link classes. Our Button renders a real <button>, so for
@@ -177,6 +178,7 @@ export default function PublicNav() {
           </div>
         </nav>
       </Container>
+      <RebrandBanner forceHide={scrolled} />
     </header>
   );
 }

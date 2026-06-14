@@ -3,7 +3,7 @@ import { DM_Sans, Space_Grotesk, Mona_Sans, Geist_Mono } from "next/font/google"
 import "./globals.css";
 import { Providers } from "./providers";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import RebrandBanner from "@/components/RebrandBanner";
+// import RebrandBanner from "@/components/RebrandBanner";
 import CookieConsent from "@/components/CookieConsent";
 
 const dmSans = DM_Sans({
@@ -54,7 +54,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Providers>
-          <RebrandBanner />
+          {/* <RebrandBanner /> */}
           <AnimatedBackground />
           <div id="main-content" className="relative z-10 flex min-h-screen flex-col">{children}</div>
           <CookieConsent />

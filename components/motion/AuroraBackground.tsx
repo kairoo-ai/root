@@ -31,15 +31,17 @@ export interface AuroraBackgroundProps
  */
 function AuroraBackground({
   className,
-  intensity = "default",
+  intensity = "subtle",
   style,
   ...props
 }: AuroraBackgroundProps) {
   // Per-intensity tuning: blob opacity, blur radius, and gradient mix strength.
+  // Deliberately faint — this is an AMBIENT depth layer, not a colored show.
+  // Brand stays clean deep-navy with only a hint of teal.
   const tuning = {
-    subtle: { opacity: 0.35, blur: 70, primaryMix: 16, accentMix: 18 },
-    default: { opacity: 0.55, blur: 90, primaryMix: 24, accentMix: 28 },
-    vivid: { opacity: 0.8, blur: 110, primaryMix: 34, accentMix: 40 },
+    subtle: { opacity: 0.1, blur: 55, primaryMix: 6, accentMix: 6 },
+    default: { opacity: 0.16, blur: 60, primaryMix: 9, accentMix: 9 },
+    vivid: { opacity: 0.28, blur: 70, primaryMix: 14, accentMix: 14 },
   }[intensity];
 
   // Each blob is a single large radial gradient sized/positioned via inline
