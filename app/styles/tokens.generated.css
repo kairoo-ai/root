@@ -149,7 +149,7 @@
   --spacing-24: 6rem;
   --spacing-32: 8rem;
   --layout-gutter: 1.5rem;
-  --layout-section-y: clamp(3rem, 8vw, 6rem);
+  --layout-section-y: clamp(2rem, 5vw, 3.5rem);
   --layout-stack: 1rem;
   --layout-content-max: 75rem;
   --blur-glass: 18px;

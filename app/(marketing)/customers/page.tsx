@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Award } from "lucide-react";
 
-import { Section } from "@/components/layout/Section";
-import { Stack } from "@/components/layout/Stack";
 import { CTA } from "@/components/blocks/CTA";
 
 import { testimonials } from "@/content/testimonials";
@@ -133,27 +131,23 @@ export default function CustomersPage() {
         heading="The system behind every success story"
         description="The same engine — personalized paths, AI coaching, and analytics — powers every outcome above."
         items={outcomeHighlights}
+        disclaimer={
+          <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 rounded-2xl border border-border bg-muted/40 p-5 text-body-sm text-muted-foreground">
+              <span
+                aria-hidden
+                className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-accent-subtle text-accent"
+              >
+                <Award className="size-4" />
+              </span>
+              <p>
+                Outcomes vary by individual goals, effort, and starting point. The
+                figures above reflect reported customer results.
+              </p>
+            </div>
+          </div>
+        }
       />
-
-      <Section>
-        <Stack
-          direction="row"
-          gap={3}
-          align="center"
-          className="rounded-2xl border border-border bg-muted/40 p-6 text-body-sm text-muted-foreground"
-        >
-          <span
-            aria-hidden
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent-subtle text-accent"
-          >
-            <Award className="size-5" />
-          </span>
-          <p>
-            Outcomes vary by individual goals, effort, and starting point. The
-            figures above reflect reported customer results.
-          </p>
-        </Stack>
-      </Section>
 
       <CTA
         headline="Write your own success story"

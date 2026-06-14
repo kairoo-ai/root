@@ -5,7 +5,7 @@ export const space: Record<string, string> = {
 };
 export const layout = {
   gutter: "1.5rem",
-  "section-y": "clamp(3rem, 8vw, 6rem)",
+  "section-y": "clamp(2rem, 5vw, 3.5rem)",
   stack: "1rem",
   "content-max": "75rem",
 } as const;

@@ -410,10 +410,12 @@ export function CustomersBento({
   heading,
   description,
   items,
+  disclaimer,
 }: {
   heading: string;
   description: string;
   items: (Omit<BentoItem, "icon"> & { icon: string })[];
+  disclaimer?: React.ReactNode;
 }) {
   const bentoItems: BentoItem[] = items.map((it) => ({
     title: it.title,
@@ -423,10 +425,13 @@ export function CustomersBento({
   }));
 
   return (
-    <BentoGrid
-      heading={heading}
-      description={description}
-      items={bentoItems}
-    />
+    <>
+      <BentoGrid
+        heading={heading}
+        description={description}
+        items={bentoItems}
+      />
+      {disclaimer}
+    </>
   );
 }
