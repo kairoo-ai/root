@@ -35,6 +35,7 @@ import { tiers } from "@/config/tiers";
 import type { Feature, Testimonial, FAQItem } from "@/types";
 import { PaginationDemo } from "./PaginationDemo";
 import { InteractiveDemos } from "./InteractiveDemos";
+import { MotionDemos } from "./MotionDemos";
 
 export const metadata: Metadata = { title: "Kairoo — Style reference", robots: { index: false } };
 
@@ -130,6 +131,11 @@ export default function StylePage() {
           <Card variant="glass" className="p-4"><div className="text-foreground">Glass</div></Card>
           <Card variant="elevated" className="p-4"><div className="text-foreground">Elevated</div></Card>
         </div>
+      </section>
+
+      <section className="space-y-8">
+        <h2 className="text-h3 text-foreground">Motion &amp; advanced states</h2>
+        <MotionDemos />
       </section>
 
       <section className="space-y-4">
