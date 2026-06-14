@@ -9,7 +9,8 @@
     "kill": "kill $(lsof -t -i:1254) 2>/dev/null || echo 'No process running on port 1254'",
     "tokens": "tsx scripts/build-tokens.ts",
     "prebuild": "tsx scripts/build-tokens.ts",
-    "lint:colors": "node scripts/check-no-raw-colors.mjs"
+    "lint:colors": "node scripts/check-no-raw-colors.mjs",
+    "evals": "tsx engines/ai/evals/run.ts"
   },
   "dependencies": {
     "@google/genai": "^1.30.0",
