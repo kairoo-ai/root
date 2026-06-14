@@ -42,7 +42,7 @@ export async function generate(
   }
 
   const client = createAiClient();
-  const prompt = feature.buildPrompt(inputs ?? {});
+  const prompt = feature.buildUserPrompt(inputs ?? {});
 
   try {
     const result = await client.models.generateContent({

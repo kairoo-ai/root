@@ -10,5 +10,5 @@ export const promptRegistry: Record<string, (inputs: Record<string, string>) => 
   Object.fromEntries(
     features
       .filter((f) => f.status === 'ready')
-      .map((f) => [f.id, f.buildPrompt]),
+      .map((f) => [f.id, f.buildUserPrompt]),
   );
