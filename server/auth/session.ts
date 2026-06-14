@@ -1,6 +1,19 @@
-// Server-only by convention; do NOT import the 'server-only' package until installed.
-// Reserved skeleton — no business logic yet.
+import { auth, currentUser } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 
-export async function getSession(): Promise<null> {
-  return null;
+export async function requireUser() {
+  const { userId } = await auth()
+  if (!userId) redirect('/sign-in')
+  return userId
+}
+
+export async function requireUserFull() {
+  const user = await currentUser()
+  if (!user) redirect('/sign-in')
+  return user
+}
+
+export async function getOptionalUser() {
+  const { userId } = await auth()
+  return userId
 }

@@ -61,3 +61,59 @@ export async function generate(req: GenerationRequest): Promise<Result<Generatio
   }
   return err(new UpstreamError(`All providers failed: ${String(lastErr)}`, "ai_upstream_error", 502));
 }
+
+/**
+ * Stream tokens as they arrive from the first capable provider.
+ * Falls back to the non-streaming `generate()` path (emits the full result as
+ * a single chunk) when no provider implements `generateStream`.
+ */
+export async function* generateStream(req: GenerationRequest): AsyncIterable<string> {
+  const candidates = MODEL_TIERS[req.tier] ?? MODEL_TIERS.fast;
+  const enabled = new Set(enabledProviders().map((p) => p.name));
+  const usable = candidates.filter((c) => enabled.has(c.provider));
+  if (!usable.length) throw new UpstreamError("No AI provider configured.", "ai_no_provider", 503);
+
+  const ordered = rotate(usable, req.tier);
+  let lastErr: unknown;
+
+  for (const cand of ordered) {
+    const adapter = getProvider(cand.provider);
+    if (!adapter) continue;
+
+    // Prefer streaming path if the provider supports it
+    if (adapter.generateStream) {
+      try {
+        yield* withTimeoutStream(adapter.generateStream(req, cand.model), TIMEOUT_MS);
+        return;
+      } catch (e) {
+        lastErr = e;
+        logger.warn("ai.generateStream.fail", { provider: cand.provider, model: cand.model, error: String(e) });
+      }
+    } else {
+      // Fallback: non-streaming, emit full text as one chunk
+      try {
+        const res = await withTimeout(adapter.generate(req, cand.model), TIMEOUT_MS);
+        if (res.text) yield res.text;
+        return;
+      } catch (e) {
+        lastErr = e;
+        logger.warn("ai.generateStream.fail.nonstream", { provider: cand.provider, model: cand.model, error: String(e) });
+      }
+    }
+  }
+
+  throw new UpstreamError(`All providers failed: ${String(lastErr)}`, "ai_upstream_error", 502);
+}
+
+/** Wrap an async iterable with a hard timeout — throws if no chunk arrives within `ms`. */
+async function* withTimeoutStream(source: AsyncIterable<string>, ms: number): AsyncIterable<string> {
+  const iter = source[Symbol.asyncIterator]();
+  while (true) {
+    const next = await Promise.race([
+      iter.next(),
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error("stream timeout")), ms)),
+    ]);
+    if (next.done) break;
+    yield next.value;
+  }
+}

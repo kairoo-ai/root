@@ -1,6 +1,7 @@
-// Reserved skeleton — no business logic yet.
+import { neon } from '@neondatabase/serverless'
+import { drizzle } from 'drizzle-orm/neon-http'
+import * as schema from './schema'
 
-// TODO: return a configured database client once a driver/ORM is installed.
-export function getDb(): never {
-  throw new Error("Not implemented");
-}
+const sql = neon(process.env.DATABASE_URL!)
+export const db = drizzle(sql, { schema })
+export type DB = typeof db

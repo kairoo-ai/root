@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Space_Grotesk, Mona_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from '@clerk/nextjs';
 import { Providers } from "./providers";
 import AnimatedBackground from "@/components/AnimatedBackground";
 // import RebrandBanner from "@/components/RebrandBanner";
@@ -42,24 +43,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body
-        className={`${dmSans.variable} ${spaceGrotesk.variable} ${monaSans.variable} ${geistMono.variable} antialiased transition-colors duration-500`}
-        suppressHydrationWarning
-      >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[var(--z-tooltip)] focus:rounded-lg focus:bg-card focus:px-4 focus:py-2 focus:text-foreground focus:ring-2 focus:ring-ring"
+    <ClerkProvider>
+      <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+        <body
+          className={`${dmSans.variable} ${spaceGrotesk.variable} ${monaSans.variable} ${geistMono.variable} antialiased transition-colors duration-500`}
+          suppressHydrationWarning
         >
-          Skip to main content
-        </a>
-        <Providers>
-          {/* <RebrandBanner /> */}
-          <AnimatedBackground />
-          <div id="main-content" className="relative z-10 flex min-h-screen flex-col">{children}</div>
-          <CookieConsent />
-        </Providers>
-      </body>
-    </html>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[var(--z-tooltip)] focus:rounded-lg focus:bg-card focus:px-4 focus:py-2 focus:text-foreground focus:ring-2 focus:ring-ring"
+          >
+            Skip to main content
+          </a>
+          <Providers>
+            {/* <RebrandBanner /> */}
+            <AnimatedBackground />
+            <div id="main-content" className="relative z-10 flex min-h-screen flex-col">{children}</div>
+            <CookieConsent />
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

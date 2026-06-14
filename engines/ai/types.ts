@@ -22,6 +22,8 @@ export interface ProviderAdapter {
   readonly name: string;
   isEnabled(): boolean;
   generate(req: GenerationRequest, model: string): Promise<GenerationResult>;
+  /** Optional: stream tokens as they arrive. Returns an async iterable of text chunks. */
+  generateStream?(req: GenerationRequest, model: string): AsyncIterable<string>;
 }
 
 export type ModelCandidate = { provider: string; model: string };

@@ -41,4 +41,31 @@ export const geminiAdapter: ProviderAdapter = {
     const finishReason = response.candidates?.[0]?.finishReason?.toString();
     return { text, provider: "gemini", model, usage, finishReason };
   },
+
+  async *generateStream(req: GenerationRequest, model: string): AsyncIterable<string> {
+    const ai = createAiClient();
+    const systemParts = req.messages
+      .filter((m) => m.role === "system")
+      .map((m) => m.content)
+      .join("\n\n");
+    const conversationMessages = req.messages.filter((m) => m.role !== "system");
+    const contents = conversationMessages.map((m) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+    const stream = await ai.models.generateContentStream({
+      model,
+      contents,
+      config: {
+        ...(systemParts ? { systemInstruction: systemParts } : {}),
+        ...(req.temperature !== undefined ? { temperature: req.temperature } : {}),
+        ...(req.maxOutputTokens !== undefined ? { maxOutputTokens: req.maxOutputTokens } : {}),
+        ...(req.signal ? { abortSignal: req.signal } : {}),
+      },
+    });
+    for await (const chunk of stream) {
+      const text = chunk.text;
+      if (text) yield text;
+    }
+  },
 };

@@ -1,34 +1,23 @@
-// Reserved skeleton — no business logic yet.
+import { db } from '@/data/client'
+import { users } from '@/data/schema'
+import { eq } from 'drizzle-orm'
+import { nanoid } from 'nanoid'
 
-export interface User {
-  id: string;
-  email: string;
-  tier: "free" | "pro" | "enterprise";
-  createdAt: string;
+export async function upsertUserByClerkId(clerkId: string, data: {
+  email: string
+  name?: string | null
+  avatarUrl?: string | null
+}) {
+  const existing = await db.select().from(users).where(eq(users.id, clerkId)).limit(1)
+  if (existing.length > 0) {
+    await db.update(users).set({ ...data, updatedAt: new Date() }).where(eq(users.id, clerkId))
+    return existing[0]
+  }
+  const [user] = await db.insert(users).values({ id: clerkId, ...data }).returning()
+  return user
 }
 
-export interface UsersRepository {
-  findById(id: string): Promise<User | null>;
-  findByEmail(email: string): Promise<User | null>;
-  create(input: Omit<User, "id" | "createdAt">): Promise<User>;
-  update(id: string, patch: Partial<Omit<User, "id">>): Promise<User>;
-  delete(id: string): Promise<void>;
+export async function findUserById(id: string) {
+  const [user] = await db.select().from(users).where(eq(users.id, id)).limit(1)
+  return user ?? null
 }
-
-export const usersRepository: UsersRepository = {
-  findById(_id: string): Promise<User | null> {
-    throw new Error("Not implemented");
-  },
-  findByEmail(_email: string): Promise<User | null> {
-    throw new Error("Not implemented");
-  },
-  create(_input: Omit<User, "id" | "createdAt">): Promise<User> {
-    throw new Error("Not implemented");
-  },
-  update(_id: string, _patch: Partial<Omit<User, "id">>): Promise<User> {
-    throw new Error("Not implemented");
-  },
-  delete(_id: string): Promise<void> {
-    throw new Error("Not implemented");
-  },
-};

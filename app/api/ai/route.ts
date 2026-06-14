@@ -1,33 +1,107 @@
-import { NextRequest, NextResponse } from "next/server";
-import { generate } from "@/engines/ai";
-import { rateLimit, validateInput, checkBudget, estimateTokens } from "@/services/ai";
-import { AppError } from "@/lib/errors";
+import { auth } from '@clerk/nextjs/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { features } from '@/engines/ai/features/registry';
+import { generateStream } from '@/engines/ai/gateway';
+import { compose } from '@/engines/ai/prompts/compose';
+import { noopRetriever } from '@/engines/ai/retrieval/noop';
+import { sanitizeOutput } from '@/engines/ai/guardrails/output';
+import { getRemainingCredits, recordUsage } from '@/data/repositories/usage.repo';
+import { rateLimit } from '@/services/ai';
 
-export async function POST(request: NextRequest) {
-  const id = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anon";
-  const rl = rateLimit(id);
-  if (!rl.ok) {
-    return NextResponse.json(
-      { error: "Too many requests. Please slow down." },
-      { status: 429, headers: { "Retry-After": String(rl.retryAfter ?? 60) } }
-    );
-  }
-
-  const parsed = validateInput(await request.json().catch(() => null));
-  if (!parsed.ok) return NextResponse.json({ error: parsed.message }, { status: 400 });
-
-  const budget = checkBudget(estimateTokens(parsed.value.inputs));
-  if (!budget.ok) {
-    return NextResponse.json({ error: "We've hit today's free AI limit. Please try again later." }, { status: 503 });
-  }
-
+export async function POST(req: NextRequest) {
   try {
-    const result = await generate(parsed.value.toolId, parsed.value.inputs);
-    return NextResponse.json({ result });
-  } catch (e) {
-    const status = e instanceof AppError ? e.httpStatus ?? 500 : 500;
-    const message =
-      status >= 500 ? "AI is temporarily unavailable. Please try again." : (e instanceof Error ? e.message : "Request failed.");
-    return NextResponse.json({ error: message }, { status });
+    // 1. Auth — every call must be authenticated
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // 2. Rate-limit by userId (replaces the old IP-based limiter)
+    const rl = rateLimit(userId);
+    if (!rl.ok) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please slow down.' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfter ?? 60) } }
+      );
+    }
+
+    // 3. Parse body
+    const body = await req.json().catch(() => null);
+    const featureId: string | undefined = body?.featureId;
+    const inputs: Record<string, string> | undefined = body?.inputs;
+
+    if (!featureId || !inputs || typeof inputs !== 'object') {
+      return NextResponse.json({ error: 'Missing or invalid featureId / inputs.' }, { status: 400 });
+    }
+
+    // 4. Find feature in registry
+    const feature = features.find((f) => f.id === featureId);
+    if (!feature) {
+      return NextResponse.json({ error: `Unknown feature: ${featureId}` }, { status: 404 });
+    }
+    if (feature.status === 'coming-soon') {
+      return NextResponse.json(
+        { error: 'This feature is coming soon and is not yet available.' },
+        { status: 400 }
+      );
+    }
+
+    // 5. Credit check
+    const remaining = await getRemainingCredits(userId);
+    if (remaining <= 0) {
+      return NextResponse.json(
+        { error: 'No credits remaining. Please upgrade your plan.' },
+        { status: 402 }
+      );
+    }
+
+    // 6. Build prompt using the same compose() + retrieval path as generate()
+    const userPrompt = feature.buildUserPrompt(inputs);
+    const context = await noopRetriever.retrieve(userPrompt);
+    const messages = compose({ systemAddendum: feature.systemAddendum, userPrompt, context });
+
+    // 7. Stream tokens back — gateway handles provider fallback & retries
+    const tokenStream = generateStream({
+      messages,
+      tier: feature.tier ?? 'fast',
+      maxOutputTokens: 2048,
+    });
+
+    const encoder = new TextEncoder();
+    let totalChars = 0;
+
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of tokenStream) {
+            const clean = sanitizeOutput(chunk);
+            if (clean) {
+              controller.enqueue(encoder.encode(clean));
+              totalChars += clean.length;
+            }
+          }
+          controller.close();
+          // Fire-and-forget usage recording after stream completes
+          recordUsage(userId, featureId, totalChars).catch((e) =>
+            console.error('[ai/route] recordUsage failed:', e)
+          );
+        } catch (err) {
+          console.error('[ai/route] stream error:', err);
+          controller.error(err);
+        }
+      },
+    });
+
+    return new Response(readable, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Transfer-Encoding': 'chunked',
+        'X-Content-Type-Options': 'nosniff',
+        'Cache-Control': 'no-store',
+      },
+    });
+  } catch (err) {
+    console.error('[ai/route] unhandled error:', err);
+    return NextResponse.json({ error: 'AI is temporarily unavailable. Please try again.' }, { status: 500 });
   }
 }

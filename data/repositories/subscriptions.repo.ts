@@ -1,27 +1,24 @@
-// Reserved skeleton — no business logic yet.
+import { db } from '@/data/client'
+import { subscriptions } from '@/data/schema'
+import { eq } from 'drizzle-orm'
+import { nanoid } from 'nanoid'
 
-export interface Subscription {
-  id: string;
-  userId: string;
-  tier: "free" | "pro" | "enterprise";
-  status: "active" | "canceled" | "past_due" | "trialing";
-  currentPeriodEnd: string;
+export async function findSubscriptionByUserId(userId: string) {
+  const [sub] = await db.select().from(subscriptions).where(eq(subscriptions.userId, userId)).limit(1)
+  return sub ?? null
 }
 
-export interface SubscriptionsRepository {
-  getForUser(userId: string): Promise<Subscription | null>;
-  upsert(input: Omit<Subscription, "id">): Promise<Subscription>;
-  cancel(id: string): Promise<Subscription>;
+export async function upsertSubscription(userId: string, data: Partial<typeof subscriptions.$inferInsert>) {
+  const existing = await findSubscriptionByUserId(userId)
+  if (existing) {
+    await db.update(subscriptions).set({ ...data, updatedAt: new Date() }).where(eq(subscriptions.userId, userId))
+    return { ...existing, ...data }
+  }
+  const [sub] = await db.insert(subscriptions).values({ id: nanoid(), userId, ...data } as typeof subscriptions.$inferInsert).returning()
+  return sub
 }
 
-export const subscriptionsRepository: SubscriptionsRepository = {
-  getForUser(_userId: string): Promise<Subscription | null> {
-    throw new Error("Not implemented");
-  },
-  upsert(_input: Omit<Subscription, "id">): Promise<Subscription> {
-    throw new Error("Not implemented");
-  },
-  cancel(_id: string): Promise<Subscription> {
-    throw new Error("Not implemented");
-  },
-};
+export async function getUserPlan(userId: string): Promise<'free' | 'pro' | 'enterprise'> {
+  const sub = await findSubscriptionByUserId(userId)
+  return (sub?.plan ?? 'free') as 'free' | 'pro' | 'enterprise'
+}
