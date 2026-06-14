@@ -9,7 +9,7 @@
 // Canonical home per docs/ARCHITECTURE.md migration seam:
 //   app/api/ai/route.ts + lib/ai-tools.ts -> engines/ai/* (lib/ai-tools is now a shim).
 
-import type { ModelTier } from '@/lib/ai/types';
+import type { ModelTier } from '@/engines/ai/types';
 
 /** A single declarative input field for a feature. */
 export interface FeatureInput {

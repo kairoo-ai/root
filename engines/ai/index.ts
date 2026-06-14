@@ -12,3 +12,5 @@ export type { ModelKey } from './models';
 export { features, featureRegistry, getFeature } from './features/registry';
 export type { FeatureDef, FeatureInput } from './features/registry';
 export { promptRegistry } from './prompts/registry';
+export { generate as gatewayGenerate } from './gateway';
+export type { ModelTier } from './types';
