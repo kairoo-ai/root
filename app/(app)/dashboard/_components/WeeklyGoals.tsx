@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { triggerXpBurst } from '@/lib/xp-burst'
 
 const defaultGoals = [
   { id: '1', text: 'Complete Interview Prep session', xp: 50, done: true },
@@ -14,7 +15,14 @@ const defaultGoals = [
 
 export function WeeklyGoals() {
   const [goals, setGoals] = useState(defaultGoals)
-  const toggle = (id: string) => setGoals(g => g.map(goal => goal.id === id ? { ...goal, done: !goal.done } : goal))
+  const toggle = (id: string, e: React.MouseEvent<HTMLDivElement>) => {
+    const goal = goals.find(g => g.id === id)
+    const isCompleting = goal && !goal.done
+    setGoals(g => g.map(g2 => g2.id === id ? { ...g2, done: !g2.done } : g2))
+    if (isCompleting) {
+      triggerXpBurst(e.currentTarget as HTMLElement, goal.xp ?? 50)
+    }
+  }
   const done = goals.filter(g => g.done).length
 
   return (
@@ -33,7 +41,7 @@ export function WeeklyGoals() {
             initial={{ opacity: 0, x: -6 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 + i * 0.05 }}
-            onClick={() => toggle(goal.id)}
+            onClick={(e) => toggle(goal.id, e)}
             className="flex items-center gap-3 px-4 py-2.5 border-b border-border/30 last:border-0 hover:bg-white/[0.02] cursor-pointer transition-colors"
           >
             <div className={cn('w-4.5 h-4.5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all', goal.done ? 'bg-teal-500 border-teal-500' : 'border-teal-500/50')}>
