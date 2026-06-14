@@ -86,11 +86,8 @@ export function BentoGrid({
 
   const grid = (
     <div className={cn(!asSection && className)}>
-      {(eyebrow || heading || description) && (
+      {(heading || description) && (
         <header className="mx-auto mb-10 max-w-2xl text-center">
-          {eyebrow && (
-            <p className="text-overline mb-3 text-accent">{eyebrow}</p>
-          )}
           {heading && (
             <h2 className="text-h2 text-balance text-foreground">{heading}</h2>
           )}

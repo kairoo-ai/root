@@ -130,13 +130,6 @@ function PricingHero() {
       <Spotlight className="-top-40 left-0 md:-top-24 md:left-52" fill="var(--primary)" />
 
       <Stack gap={8} align="center" className="mx-auto max-w-4xl py-10 text-center sm:py-16">
-        <motion.div {...reveal(0)}>
-          <Badge variant="info" size="md" className="gap-2">
-            <IconRenderer name="sparkles" size={14} />
-            Simple, transparent pricing
-          </Badge>
-        </motion.div>
-
         <h1
           ref={headlineRef}
           className="text-display text-balance text-foreground"
@@ -241,7 +234,6 @@ function PricingPlans({ tiers }: { tiers: Tier[] }) {
         transition={{ duration: 0.5, ease: EASE }}
         className="mx-auto flex max-w-2xl flex-col items-center text-center"
       >
-        <p className="text-overline text-primary">Plans</p>
         <h2 id="pricing-heading" className="mt-3 text-h1 text-balance text-foreground">
           Choose the plan that fits{" "}
           <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -377,8 +369,7 @@ function Objections({
         {...reveal(0)}
         className="mx-auto flex max-w-2xl flex-col items-center text-center"
       >
-        <p className="text-overline text-primary">Buy with confidence</p>
-        <h2 id="why-kairoo-heading" className="mt-3 text-h2 text-balance text-foreground">
+        <h2 id="why-kairoo-heading" className="text-h2 text-balance text-foreground">
           Built to remove the guesswork
         </h2>
         <p className="mt-4 text-body-lg text-muted-foreground">

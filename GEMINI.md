@@ -59,3 +59,9 @@ The project follows a standard Next.js App Router structure.
 - `npm run build`: Creates a production build.
 - `npm run start`: Starts the production server.
 - `npm run kill`: Stops the process running on port 1254.
+
+## Design & UI/UX Rules
+
+- **Never create AI-SLOP designs/UI/UX**: Always build clean, premium, and meaningful interfaces.
+- **No Unnecessary Overline Labels**: Remove and avoid all generic or redundant overline labels and badges (like `<p className="text-overline text-primary">Plans</p>`) above section headings throughout the application.
+

@@ -120,7 +120,9 @@ export function HomeHero() {
       delay: stagger(70, { start: 150 }),
       ease: "out(3)",
     });
-    return () => animation.cancel();
+    return () => {
+      animation.cancel();
+    };
   }, [reduce]);
 
   const line1 = ["Your", "AI-Powered", "Career", "&", "Learning"];

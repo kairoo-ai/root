@@ -136,14 +136,7 @@ function ContactHero({
       <div className="grid items-stretch gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14">
         {/* LEFT — animated accent / message side */}
         <div className="relative flex flex-col justify-center py-6 lg:py-12">
-          <Stack gap={7} align="start">
-            <motion.div {...reveal(0)}>
-              <Badge variant="info" size="md" className="gap-2">
-                <IconRenderer name="message-square" size={14} />
-                Contact
-              </Badge>
-            </motion.div>
-
+          <Stack gap={8} align="start">
             <h1
               ref={headlineRef}
               className="text-display text-balance text-foreground"
@@ -294,10 +287,9 @@ function Channels({
         {...reveal(0)}
         className="mx-auto flex max-w-2xl flex-col items-center text-center"
       >
-        <p className="text-overline text-primary">Other ways to reach us</p>
         <h2
           id="channels-heading"
-          className="mt-3 text-h2 text-balance text-foreground"
+          className="text-h2 text-balance text-foreground"
         >
           Pick the door that fits{" "}
           <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">

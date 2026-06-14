@@ -141,23 +141,8 @@ export function TestimonialGrid({
   const prefersReducedMotion = useReducedMotion();
 
   const header =
-    eyebrow || heading || description ? (
+    heading || description ? (
       <Stack gap={3} className="mb-12 max-w-2xl">
-        {eyebrow ? (
-          <motion.span
-            className="text-overline text-accent"
-            {...(prefersReducedMotion
-              ? {}
-              : {
-                  initial: { opacity: 0, y: 12 },
-                  whileInView: { opacity: 1, y: 0 },
-                  viewport: { once: true, amount: 0.6 },
-                  transition: { duration: 0.4 },
-                })}
-          >
-            {eyebrow}
-          </motion.span>
-        ) : null}
         {heading ? (
           <motion.h2
             className="text-h2 text-foreground"

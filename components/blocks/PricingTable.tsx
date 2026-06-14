@@ -54,8 +54,7 @@ export function PricingTable({
   return (
     <Section aria-labelledby="pricing-heading">
       <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-        {eyebrow ? <p className="text-overline text-primary">{eyebrow}</p> : null}
-        <h2 id="pricing-heading" className="mt-3 text-h1 text-foreground">
+        <h2 id="pricing-heading" className="text-h1 text-foreground">
           {title}
         </h2>
         {description ? (
