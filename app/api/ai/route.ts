@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generate } from "@/engines/ai";
-import { rateLimit, validateInput } from "@/services/ai";
+import { rateLimit, validateInput, checkBudget, estimateTokens } from "@/services/ai";
 import { AppError } from "@/lib/errors";
 
 export async function POST(request: NextRequest) {
@@ -15,6 +15,11 @@ export async function POST(request: NextRequest) {
 
   const parsed = validateInput(await request.json().catch(() => null));
   if (!parsed.ok) return NextResponse.json({ error: parsed.message }, { status: 400 });
+
+  const budget = checkBudget(estimateTokens(parsed.value.inputs));
+  if (!budget.ok) {
+    return NextResponse.json({ error: "We've hit today's free AI limit. Please try again later." }, { status: 503 });
+  }
 
   try {
     const result = await generate(parsed.value.toolId, parsed.value.inputs);
