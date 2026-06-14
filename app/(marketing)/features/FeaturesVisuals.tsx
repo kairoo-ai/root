@@ -177,10 +177,9 @@ export function FeaturesHero({
                     ? "bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
                     : undefined
                 }
-                style={reduce ? undefined : { display: "inline-block" }}
+                style={reduce ? undefined : { display: "inline-block", marginRight: "0.25em" }}
               >
                 {word}
-                {i < words.length - 1 ? " " : ""}
               </span>
             );
           })}

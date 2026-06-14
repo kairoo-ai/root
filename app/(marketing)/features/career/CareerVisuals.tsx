@@ -115,11 +115,10 @@ export function CareerHero({
               <span
                 key={`t-${i}`}
                 data-word
-                className="inline-block will-change-transform"
+                className="mr-[0.25em] inline-block will-change-transform"
                 style={reduce ? undefined : { opacity: 0 }}
               >
                 {w}
-                {i < titleWords.length - 1 ? " " : ""}
               </span>
             ))}{" "}
             <span className="bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
@@ -127,11 +126,10 @@ export function CareerHero({
                 <span
                   key={`h-${i}`}
                   data-word
-                  className="inline-block will-change-transform"
+                  className="mr-[0.25em] inline-block will-change-transform"
                   style={reduce ? undefined : { opacity: 0 }}
                 >
                   {w}
-                  {i < highlightWords.length - 1 ? " " : ""}
                 </span>
               ))}
             </span>

@@ -138,18 +138,16 @@ function PricingHero() {
           {headline.map((word, i) => {
             const isHighlight = word === "grows" || word === "career";
             return (
-              <span key={`${word}-${i}`} className="inline-block">
-                <span
-                  data-word
-                  className={cn(
-                    "inline-block",
-                    isHighlight &&
-                      "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
-                  )}
-                >
-                  {word}
-                </span>
-                {i < headline.length - 1 ? " " : null}
+              <span
+                key={`${word}-${i}`}
+                data-word
+                className={cn(
+                  "mr-[0.25em] inline-block",
+                  isHighlight &&
+                    "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
+                )}
+              >
+                {word}
               </span>
             );
           })}

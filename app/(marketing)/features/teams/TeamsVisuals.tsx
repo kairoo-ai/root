@@ -112,19 +112,17 @@ export function TeamsHero({ eyebrow, title, subtitle }: TeamsHeroProps) {
           {words.map((word, i) => {
             const isHighlight = i >= splitAt;
             return (
-              <span key={`${word}-${i}`} className="inline-block">
-                <span
-                  data-word
-                  className={
-                    isHighlight
-                      ? "inline-block bg-linear-to-r from-primary to-accent bg-clip-text text-transparent"
-                      : "inline-block"
-                  }
-                  style={reduce ? undefined : { opacity: 0 }}
-                >
-                  {word}
-                </span>
-                {i < words.length - 1 ? " " : null}
+              <span
+                key={`${word}-${i}`}
+                data-word
+                className={
+                  isHighlight
+                    ? "mr-[0.25em] inline-block bg-linear-to-r from-primary to-accent bg-clip-text text-transparent"
+                    : "mr-[0.25em] inline-block"
+                }
+                style={reduce ? undefined : { opacity: 0 }}
+              >
+                {word}
               </span>
             );
           })}

@@ -110,16 +110,14 @@ export function CustomersHero({
           className="text-display text-balance text-foreground"
         >
           {lead.map((w, i) => (
-            <span key={`l-${i}`} data-word className="inline-block">
+            <span key={`l-${i}`} data-word className="mr-[0.25em] inline-block">
               {w}
-              {" "}
             </span>
           ))}
           <span style={GRADIENT_TEXT}>
             {high.map((w, i) => (
-              <span key={`h-${i}`} data-word className="inline-block">
+              <span key={`h-${i}`} data-word className="mr-[0.25em] inline-block">
                 {w}
-                {i < high.length - 1 ? " " : ""}
               </span>
             ))}
           </span>

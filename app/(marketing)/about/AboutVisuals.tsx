@@ -205,10 +205,9 @@ export function AboutHero({
                       ? "bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-[var(--primary)] bg-clip-text text-transparent"
                       : undefined
                   }
-                  style={reduce ? undefined : { display: "inline-block" }}
+                  style={reduce ? undefined : { display: "inline-block", marginRight: "0.25em" }}
                 >
                   {word}
-                  {i < words.length - 1 ? " " : ""}
                 </span>
               );
             })}
