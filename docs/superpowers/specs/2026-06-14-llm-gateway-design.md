@@ -199,3 +199,4 @@ CI for the demo; runnable locally.
 
 ## Decisions log
 - 2026-06-14: $0 budget → Gemini-primary free multi-provider gateway w/ fallback; Claude/OpenAI off unless keyed. RAG = interface + no-op stub (no content yet, 2-day demo). Full robustness + guardrails. Phased for demo.
+- 2026-06-14: **Canonical location reconciled.** Spec/plan originally referenced `lib/ai/`; the codebase had since adopted the `engines/`/`services/` architecture, so Phase 1 was relocated: pure model capability (gateway, providers, prompts, compose, retrieval, output guardrail) lives in **`engines/ai/`** (single entrypoint `engines/ai/generate.ts` → `engines/ai/gateway.ts`); per-request policy (rate limit, request validation) lives in **`services/ai/`**; the route uses both. `lib/ai/` removed. Wherever this doc says `lib/ai/…`, read `engines/ai/…` (and policy in `services/ai/…`).
