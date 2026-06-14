@@ -28,7 +28,18 @@
       "Read(//Users/mreshank/.claude/plugins/cache/claude-plugins-official/superpowers/5.1.0/skills/subagent-driven-development/**)",
       "Bash(git commit *)",
       "Bash(git branch *)",
-      "Bash(git symbolic-ref *)"
+      "Bash(git symbolic-ref *)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(gh pr *)",
+      "WebFetch(domain:heroui.com)",
+      "WebFetch(domain:v3.heroui.com)",
+      "WebFetch(domain:beta.heroui.com)",
+      "Bash(git checkout *)",
+      "Bash(npm view *)",
+      "Bash",
+      "Edit",
+      "Write",
+      "Read"
     ]
   }
 }

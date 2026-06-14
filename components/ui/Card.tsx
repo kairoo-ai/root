@@ -6,8 +6,10 @@ const card = cva("rounded-xl border", {
   variants: {
     variant: {
       default: "border-border bg-card text-card-foreground",
-      glass: "border-border/60 bg-card/60 backdrop-blur-[18px]",
+      glass: "border-border/60 bg-card/70 backdrop-blur-[var(--blur-glass)]",
       elevated: "border-border bg-card text-card-foreground shadow-elevation-3",
+      interactive:
+        "border-border bg-card text-card-foreground transition-all duration-200 hover:shadow-elevation-3 hover:-translate-y-0.5",
     },
   },
   defaultVariants: { variant: "default" },
