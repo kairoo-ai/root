@@ -107,17 +107,6 @@ export function CareerHero({
       <div className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         {/* ---- Left: copy ---- */}
         <Stack gap={8} className="max-w-2xl">
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={reduce ? undefined : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            <Badge variant="info" size="md" className="gap-2">
-              <IconRenderer name="sparkles" size={14} />
-              {eyebrow}
-            </Badge>
-          </motion.div>
-
           <h1
             ref={headlineRef}
             className="text-display text-balance text-foreground"

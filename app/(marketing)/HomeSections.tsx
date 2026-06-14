@@ -162,13 +162,6 @@ export function HomeHero() {
         align="center"
         className="relative mx-auto max-w-4xl py-14 text-center sm:py-20"
       >
-        <motion.div {...reveal(0)}>
-          <Badge variant="info" size="md" className="gap-2">
-            <IconRenderer name="sparkles" size={14} />
-            Powered by Advanced AI &middot; Gemini Integration
-          </Badge>
-        </motion.div>
-
         <h1
           ref={headlineRef}
           className="text-display text-balance text-foreground"
@@ -353,7 +346,6 @@ export function HomePillars() {
   return (
     <Section className="relative">
       <SectionHeading
-        eyebrow="One platform, three pillars"
         title="Everything you need to plan, learn, and"
         highlight="lead"
         description="Every tool is powered by advanced AI, providing personalized, contextual, and intelligent assistance for your unique needs."
@@ -487,7 +479,6 @@ export function HomeFeaturedTools() {
   return (
     <Section className="relative">
       <SectionHeading
-        eyebrow="A taste of the toolkit"
         title="Six of 32+ tools, each"
         highlight="ready when you are"
         description="Six of 32+ AI tools spanning career, learning, and strategy. Each one is personalized, contextual, and ready the moment you are."
@@ -690,7 +681,6 @@ export function HomeWorkflow() {
   return (
     <Section className="relative">
       <SectionHeading
-        eyebrow="How it all fits"
         title="One continuous flow from goal to"
         highlight="growth"
         description="Plan, learn, and lead inside a single system — switch contexts without losing momentum."
@@ -807,7 +797,6 @@ export function HomeSocialProof() {
     <Section>
       <TestimonialGrid
         withSection={false}
-        eyebrow="Real success stories"
         heading="Careers transformed with Kairoo"
         description="See how professionals and organizations are accelerating their growth."
         items={TESTIMONIALS}
@@ -933,7 +922,6 @@ export function HomePricingTeaser() {
   return (
     <Section className="relative">
       <SectionHeading
-        eyebrow="Pricing"
         title="Choose your growth"
         highlight="plan"
         description="Start free and scale with your success. No credit card required for Explorer."
