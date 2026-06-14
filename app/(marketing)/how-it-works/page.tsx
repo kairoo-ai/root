@@ -161,7 +161,7 @@ const FAQ_ITEMS = [
     id: "tools",
     question: "How many tools can I run through this loop?",
     answer:
-      "The same Sense → Think → Act loop powers every feature in the Kairoo catalog — 35+ AI tools are ready to use today across career and learning, with a few more on the way. New tools plug into the same flow.",
+      "The same Sense → Think → Act loop powers every feature in the Kairoo catalog — 35 AI tools are ready to use today across career and learning, with 3 more on the way. New tools plug into the same flow.",
   },
   {
     id: "control",
