@@ -11,7 +11,8 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import ChartCanvas from '@/components/charts/ChartCanvas';
+import { getChartColors } from '@/components/charts/chart-theme';
 
 ChartJS.register(
   CategoryScale,
@@ -31,22 +32,24 @@ interface GrowthChartProps {
 }
 
 export default function GrowthChart({ labels, totalUsers, paidUsers }: GrowthChartProps) {
+  const c = getChartColors();
+  // series[0]=teal (Total Users), series[1]=navy (Paid Users).
   const data = {
     labels,
     datasets: [
       {
         label: 'Total Users',
         data: totalUsers,
-        borderColor: 'rgb(45, 212, 191)',
-        backgroundColor: 'rgba(45, 212, 191, 0.1)',
+        borderColor: c.series[0],
+        backgroundColor: c.seriesFill[0],
         tension: 0.4,
         fill: true,
       },
       {
         label: 'Paid Users',
         data: paidUsers,
-        borderColor: 'rgb(11, 31, 58)',
-        backgroundColor: 'rgba(11, 31, 58, 0.1)',
+        borderColor: c.series[1],
+        backgroundColor: c.seriesFill[1],
         tension: 0.4,
         fill: true,
       },
@@ -54,29 +57,29 @@ export default function GrowthChart({ labels, totalUsers, paidUsers }: GrowthCha
   };
 
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
     scales: {
       x: {
-        grid: { color: 'rgba(255,255,255,0.1)' },
-        ticks: { color: '#fff' },
+        grid: { color: c.grid },
+        ticks: { color: c.mutedText },
       },
       y: {
-        grid: { color: 'rgba(255,255,255,0.1)' },
-        ticks: { color: '#fff' },
+        grid: { color: c.grid },
+        ticks: { color: c.mutedText },
       },
     },
     plugins: {
       legend: {
-        labels: { color: '#fff' },
+        labels: { color: c.text },
       },
     },
   };
 
   return (
-    <div className="relative h-80 w-full">
-      <Line data={data} options={options} />
-    </div>
+    <ChartCanvas
+      type="line"
+      data={data}
+      options={options}
+      ariaLabel="User growth over time comparing total users and paid users"
+    />
   );
 }
-

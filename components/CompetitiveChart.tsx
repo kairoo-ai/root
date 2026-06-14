@@ -2,50 +2,59 @@
 
 import {
   Chart as ChartJS,
+  ScatterController,
   LinearScale,
   PointElement,
   LineElement,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Scatter } from 'react-chartjs-2';
+import ChartCanvas from '@/components/charts/ChartCanvas';
+import { getChartColors } from '@/components/charts/chart-theme';
 
-ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
+ChartJS.register(
+  ScatterController,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend
+);
 
 export default function CompetitiveChart() {
+  const c = getChartColors();
+  // Brand (Kairoo) uses the teal series[0]; competitors use the remaining ramps.
   const data = {
     datasets: [
       {
         label: 'Coursera',
         data: [{ x: 8, y: 6 }],
-        backgroundColor: 'rgba(239, 68, 68, 0.8)',
-        borderColor: 'rgb(239, 68, 68)',
+        backgroundColor: c.seriesFill[1],
+        borderColor: c.series[1],
       },
       {
         label: 'LinkedIn Learning',
         data: [{ x: 6, y: 7 }],
-        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-        borderColor: 'rgb(59, 130, 246)',
+        backgroundColor: c.seriesFill[3],
+        borderColor: c.series[3],
       },
       {
         label: 'Pluralsight',
         data: [{ x: 7, y: 5 }],
-        backgroundColor: 'rgba(251, 146, 60, 0.8)',
-        borderColor: 'rgb(251, 146, 60)',
+        backgroundColor: c.seriesFill[2],
+        borderColor: c.series[2],
       },
       {
         label: 'Kairoo',
         data: [{ x: 9, y: 4 }],
-        backgroundColor: 'rgba(13, 148, 136, 0.2)',
-        borderColor: 'rgb(13, 148, 136)',
+        backgroundColor: c.seriesFill[0],
+        borderColor: c.series[0],
         pointRadius: 8,
       },
     ],
   };
 
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
     scales: {
       x: {
         type: 'linear' as const,
@@ -53,33 +62,33 @@ export default function CompetitiveChart() {
         title: {
           display: true,
           text: 'Feature Completeness →',
-          color: '#fff',
+          color: c.text,
         },
         min: 0,
         max: 10,
-        grid: { color: 'rgba(255,255,255,0.1)' },
-        ticks: { color: '#fff' },
+        grid: { color: c.grid },
+        ticks: { color: c.mutedText },
       },
       y: {
         title: {
           display: true,
           text: 'Price Level →',
-          color: '#fff',
+          color: c.text,
         },
         min: 0,
         max: 10,
-        grid: { color: 'rgba(255,255,255,0.1)' },
-        ticks: { color: '#fff' },
+        grid: { color: c.grid },
+        ticks: { color: c.mutedText },
       },
     },
     plugins: {
       legend: {
-        labels: { color: '#fff' },
+        labels: { color: c.text },
       },
       tooltip: {
         callbacks: {
-          label: function(context: any) {
-            return context.dataset.label + ': High Features, Competitive Price';
+          label: function (context: { dataset: { label?: string } }) {
+            return (context.dataset.label ?? '') + ': High Features, Competitive Price';
           },
         },
       },
@@ -87,9 +96,11 @@ export default function CompetitiveChart() {
   };
 
   return (
-    <div className="relative h-80 w-full">
-      <Scatter data={data} options={options} />
-    </div>
+    <ChartCanvas
+      type="scatter"
+      data={data}
+      options={options}
+      ariaLabel="Competitive positioning: feature completeness versus price level across learning platforms"
+    />
   );
 }
-

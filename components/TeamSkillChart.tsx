@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -10,7 +9,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Radar } from 'react-chartjs-2';
+import ChartCanvas from '@/components/charts/ChartCanvas';
+import { getChartColors } from '@/components/charts/chart-theme';
 
 ChartJS.register(
   RadialLinearScale,
@@ -22,6 +22,8 @@ ChartJS.register(
 );
 
 export default function TeamSkillChart() {
+  const c = getChartColors();
+  // series[0]=teal (Team Average), series[1]=navy (Industry Benchmark).
   const data = {
     labels: ['AI/ML', 'Leadership', 'Technical Skills', 'Communication', 'Strategy', 'Innovation'],
     datasets: [
@@ -29,44 +31,48 @@ export default function TeamSkillChart() {
         label: 'Team Average',
         data: [85, 75, 90, 80, 70, 85],
         fill: true,
-        backgroundColor: 'rgba(45, 212, 191, 0.2)',
-        borderColor: 'rgb(45, 212, 191)',
-        pointBackgroundColor: 'rgb(45, 212, 191)',
+        backgroundColor: c.seriesFill[0],
+        borderColor: c.series[0],
+        pointBackgroundColor: c.series[0],
       },
       {
         label: 'Industry Benchmark',
         data: [70, 80, 85, 75, 75, 70],
         fill: true,
-        backgroundColor: 'rgba(11, 31, 58, 0.2)',
-        borderColor: 'rgb(11, 31, 58)',
-        pointBackgroundColor: 'rgb(11, 31, 58)',
+        backgroundColor: c.seriesFill[1],
+        borderColor: c.series[1],
+        pointBackgroundColor: c.series[1],
       },
     ],
   };
 
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
     scales: {
       r: {
-        angleLines: { color: 'rgba(255,255,255,0.2)' },
-        grid: { color: 'rgba(255,255,255,0.2)' },
-        pointLabels: { color: '#fff', font: { size: 12 } },
-        ticks: { color: 'transparent' },
+        angleLines: { color: c.grid },
+        grid: { color: c.grid },
+        pointLabels: { color: c.text, font: { size: 12 } },
+        ticks: {
+          color: c.mutedText,
+          // No solid backdrop behind the radial tick numbers (reads on any surface).
+          showLabelBackdrop: false,
+        },
       },
     },
     plugins: {
       legend: {
         position: 'top' as const,
-        labels: { color: '#fff' },
+        labels: { color: c.text },
       },
     },
   };
 
   return (
-    <div className="relative h-80 w-full">
-      <Radar data={data} options={options} />
-    </div>
+    <ChartCanvas
+      type="radar"
+      data={data}
+      options={options}
+      ariaLabel="Team skills radar comparing team average against the industry benchmark across AI/ML, leadership, technical skills, communication, strategy, and innovation"
+    />
   );
 }
-

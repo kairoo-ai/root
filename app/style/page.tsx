@@ -22,12 +22,52 @@ import { Grid } from "@/components/layout/Grid";
 import { Stack } from "@/components/layout/Stack";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Prose } from "@/components/layout/Prose";
+import { Hero } from "@/components/blocks/Hero";
+import { FeatureGrid } from "@/components/blocks/FeatureGrid";
+import { BentoGrid } from "@/components/blocks/BentoGrid";
+import { PricingTable } from "@/components/blocks/PricingTable";
+import { StatGrid } from "@/components/blocks/StatCounter";
+import { TestimonialGrid } from "@/components/blocks/Testimonial";
+import { CTA } from "@/components/blocks/CTA";
+import { FAQ } from "@/components/blocks/FAQ";
+import { LogoMarquee } from "@/components/blocks/LogoMarquee";
+import { tiers } from "@/config/tiers";
+import type { Feature, Testimonial, FAQItem } from "@/types";
 import { PaginationDemo } from "./PaginationDemo";
 import { InteractiveDemos } from "./InteractiveDemos";
 
 export const metadata: Metadata = { title: "Kairoo — Style reference", robots: { index: false } };
 
 const STEPS = ["50","100","200","300","400","500","600","700","800","900","950"] as const;
+
+const SAMPLE_FEATURES: Feature[] = [
+  { id: "f1", icon: "compass", title: "Chart the path", description: "Turn ambiguous goals into a clear, sequenced route." },
+  { id: "f2", icon: "code", title: "Build with intent", description: "Every milestone is scoped, measurable, and tied to outcomes." },
+  { id: "f3", icon: "trending-up", title: "Track momentum", description: "See progress as it happens with signals that matter." },
+];
+
+const SAMPLE_TESTIMONIALS: Testimonial[] = [
+  { id: "t1", quote: "Kairoo turned a vague ambition into a weekly plan I actually follow.", name: "Ada Lovelace", role: "Staff Engineer", company: "Analytical" },
+  { id: "t2", quote: "The momentum tracking is the first tool that kept me honest about progress.", name: "Grace Hopper", role: "VP Engineering", company: "Compiler Co" },
+];
+
+const SAMPLE_FAQ: FAQItem[] = [
+  { id: "q1", question: "What is Kairoo?", answer: "An AI career copilot that turns goals into a sequenced, trackable plan." },
+  { id: "q2", question: "Can I cancel anytime?", answer: "Yes — plans are month-to-month and you can downgrade or cancel whenever you like." },
+];
+
+const SAMPLE_STATS = [
+  { value: 12000, suffix: "+", label: "Paths charted" },
+  { value: 94, suffix: "%", label: "Hit their milestone" },
+  { value: 4.9, label: "Average rating" },
+];
+
+const SAMPLE_LOGOS = [
+  { name: "Northwind" },
+  { name: "Acme" },
+  { name: "Globex" },
+  { name: "Initech" },
+];
 
 export default function StylePage() {
   return (
@@ -202,6 +242,66 @@ export default function StylePage() {
           stabilization — none were skipped.
         </p>
         <InteractiveDemos />
+      </section>
+
+      <section className="space-y-10">
+        <h2 className="text-h3 text-foreground">Blocks</h2>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">Hero</h3>
+          <Hero
+            eyebrow="The right moment"
+            title="Grow on your own timeline"
+            subtitle="A compact hero showcasing the marketing block with token-only styling."
+            primaryCta={{ label: "Get started", href: "#" }}
+            secondaryCta={{ label: "Learn more", href: "#" }}
+          />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">FeatureGrid</h3>
+          <FeatureGrid items={SAMPLE_FEATURES} />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">BentoGrid</h3>
+          <BentoGrid asSection={false} />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">PricingTable</h3>
+          <PricingTable tiers={tiers} />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">StatGrid</h3>
+          <StatGrid items={SAMPLE_STATS} cols={3} />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">TestimonialGrid</h3>
+          <TestimonialGrid items={SAMPLE_TESTIMONIALS} cols={2} withSection={false} />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">CTA</h3>
+          <CTA
+            headline="Ready when you are"
+            body="Start free and upgrade when the moment is right."
+            primary={{ label: "Get started", href: "#" }}
+            secondary={{ label: "Talk to us", href: "#" }}
+          />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">FAQ</h3>
+          <FAQ items={SAMPLE_FAQ} section={false} />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="text-h5 text-muted-foreground">LogoMarquee</h3>
+          <LogoMarquee items={SAMPLE_LOGOS} />
+        </div>
       </section>
     </main>
   );

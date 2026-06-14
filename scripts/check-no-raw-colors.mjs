@@ -17,10 +17,6 @@ const LEGACY = new Set([
   "app/investors/deck/page.tsx",
   "app/investors/market/page.tsx",
   "app/investors/architecture/page.tsx",
-  "components/CompetitiveChart.tsx",
-  "components/ForecastChart.tsx",
-  "components/TeamSkillChart.tsx",
-  "components/GrowthChart.tsx",
   "components/AnimatedBackground.tsx",
   "components/ui/3d-pin.tsx",
   "components/FeatureModal.tsx",   // DESIGN-DEBT: uses gray-300/gray-800 — full DS migration pending

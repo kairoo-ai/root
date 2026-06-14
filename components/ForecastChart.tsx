@@ -2,6 +2,7 @@
 
 import {
   Chart as ChartJS,
+  LineController,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -11,9 +12,11 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import ChartCanvas from '@/components/charts/ChartCanvas';
+import { getChartColors } from '@/components/charts/chart-theme';
 
 ChartJS.register(
+  LineController,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -25,14 +28,18 @@ ChartJS.register(
 );
 
 export default function ForecastChart() {
+  const c = getChartColors();
+  // series[0]=teal (Total Users), series[1]=navy (Paid Users), series[2]=amber (MRR).
+  const amber = c.series[2];
+
   const data = {
     labels: ['Month 1', 'Month 2', 'Month 3', 'Month 6', 'Month 9', 'Month 12'],
     datasets: [
       {
         label: 'Total Users',
         data: [1250, 2800, 8250, 25000, 62000, 125000],
-        borderColor: 'rgb(45, 212, 191)',
-        backgroundColor: 'rgba(45, 212, 191, 0.1)',
+        borderColor: c.series[0],
+        backgroundColor: c.seriesFill[0],
         tension: 0.4,
         fill: true,
         yAxisID: 'y',
@@ -40,8 +47,8 @@ export default function ForecastChart() {
       {
         label: 'Paid Users',
         data: [125, 336, 1049, 3247, 7891, 15234],
-        borderColor: 'rgb(11, 31, 58)',
-        backgroundColor: 'rgba(11, 31, 58, 0.1)',
+        borderColor: c.series[1],
+        backgroundColor: c.seriesFill[1],
         tension: 0.4,
         fill: true,
         yAxisID: 'y',
@@ -49,8 +56,8 @@ export default function ForecastChart() {
       {
         label: 'MRR ($K)',
         data: [3.6, 9.7, 30.4, 94.2, 228.8, 441.8],
-        borderColor: 'rgb(245, 158, 11)',
-        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+        borderColor: amber,
+        backgroundColor: c.seriesFill[2],
         tension: 0.4,
         fill: false,
         yAxisID: 'y1',
@@ -59,38 +66,36 @@ export default function ForecastChart() {
   };
 
   const options = {
-    responsive: true,
-    maintainAspectRatio: false,
     interaction: {
       mode: 'index' as const,
       intersect: false,
     },
     scales: {
       x: {
-        grid: { color: 'rgba(255,255,255,0.1)' },
-        ticks: { color: '#fff' },
+        grid: { color: c.grid },
+        ticks: { color: c.mutedText },
       },
       y: {
         type: 'linear' as const,
         display: true,
         position: 'left' as const,
-        grid: { color: 'rgba(255,255,255,0.1)' },
-        ticks: { color: '#fff' },
+        grid: { color: c.grid },
+        ticks: { color: c.mutedText },
         title: {
           display: true,
           text: 'Users',
-          color: '#fff',
+          color: c.text,
         },
       },
       y1: {
         type: 'linear' as const,
         display: true,
         position: 'right' as const,
-        ticks: { color: '#F59E0B' },
+        ticks: { color: amber },
         title: {
           display: true,
           text: 'MRR ($K)',
-          color: '#F59E0B',
+          color: amber,
         },
         grid: {
           drawOnChartArea: false,
@@ -99,20 +104,22 @@ export default function ForecastChart() {
     },
     plugins: {
       legend: {
-        labels: { color: '#fff' },
+        labels: { color: c.text },
       },
       tooltip: {
-        backgroundColor: 'rgba(0,0,0,0.8)',
-        titleColor: '#fff',
-        bodyColor: '#fff',
+        backgroundColor: c.tooltipBg,
+        titleColor: c.tooltipText,
+        bodyColor: c.tooltipText,
       },
     },
   };
 
   return (
-    <div className="relative h-80 w-full">
-      <Line data={data} options={options} />
-    </div>
+    <ChartCanvas
+      type="line"
+      data={data}
+      options={options}
+      ariaLabel="Growth forecast over twelve months: total users, paid users, and monthly recurring revenue"
+    />
   );
 }
-
