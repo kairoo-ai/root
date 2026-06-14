@@ -1,16 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import ForecastChart from '@/components/ForecastChart';
 import { BarChart3, Download, Rocket, Zap, TrendingUp, Mail, Phone, Linkedin, Calendar } from 'lucide-react';
 
 export default function InvestorDeck() {
   return (
     <>
-      <Navigation />
-      
       <header className="pt-32 pb-16 text-center container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -425,8 +421,6 @@ export default function InvestorDeck() {
           </motion.div>
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }

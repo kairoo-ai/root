@@ -1,6 +1,4 @@
 import Link from "next/link";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 export const metadata = { title: "Investors" };
 
@@ -30,7 +28,6 @@ const sections = [
 export default function InvestorsPage() {
   return (
     <>
-      <Navigation />
       <main className="container mx-auto px-6 pt-32 pb-24">
         <header className="mb-12 max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-foreground">Investors</h1>
@@ -52,7 +49,6 @@ export default function InvestorsPage() {
           ))}
         </ul>
       </main>
-      <Footer />
     </>
   );
 }

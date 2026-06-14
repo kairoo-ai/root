@@ -1,8 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import GrowthChart from '@/components/GrowthChart';
 import CompetitiveChart from '@/components/CompetitiveChart';
 import { TrendingUp, Globe, Target, Crosshair, Zap, Circle, Crown } from 'lucide-react';
@@ -10,8 +8,6 @@ import { TrendingUp, Globe, Target, Crosshair, Zap, Circle, Crown } from 'lucide
 export default function MarketAnalysis() {
   return (
     <>
-      <Navigation />
-      
       <header className="pt-32 pb-16 text-center container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -424,8 +420,6 @@ export default function MarketAnalysis() {
           </motion.div>
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }

@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import FeatureModal from '@/components/FeatureModal';
 import TeamSkillChart from '@/components/TeamSkillChart';
 import IconRenderer from '@/components/IconRenderer';
@@ -48,8 +46,6 @@ export default function Home() {
 
   return (
     <>
-      <Navigation />
-      
       {/* Hero Section */}
       <header className="pt-32 pb-16 text-center container mx-auto px-6">
         <motion.div
@@ -643,8 +639,6 @@ export default function Home() {
           </div>
         </motion.section>
       </main>
-
-      <Footer />
 
       {/* Modals */}
       <FeatureModal tool={selectedTool} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

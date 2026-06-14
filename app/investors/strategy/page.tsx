@@ -1,8 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { Brain, Zap, DollarSign, Shield, Heart, Check } from 'lucide-react';
 import {
   Chart as ChartJS,
@@ -59,8 +57,6 @@ export default function BusinessStrategy() {
 
   return (
     <>
-      <Navigation />
-      
       <header className="pt-32 pb-16 text-center container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -511,8 +507,6 @@ export default function BusinessStrategy() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }

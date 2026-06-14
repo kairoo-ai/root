@@ -2,8 +2,6 @@
 
 import { useMemo, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import {
   Activity,
   Brain,
@@ -167,7 +165,6 @@ export default function TechnicalArchitecture() {
   );
   return (
     <>
-      <Navigation />
       <motion.div
         className="fixed left-0 top-0 z-40 h-1 w-full origin-left bg-linear-to-r from-cyan-400 via-purple-500 to-rose-500"
         style={{ scaleX: scrollYProgress, opacity: progressOpacity }}
@@ -1059,8 +1056,6 @@ resource "aws_eks_cluster" "kairoo" {
           </motion.div>
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }
