@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import type { FeatureDef } from '@/engines/ai/features/registry'
 import { cn } from '@/lib/utils'
 
-interface Props { feature: FeatureDef }
+interface Props { feature: Omit<FeatureDef, 'buildUserPrompt' | 'systemAddendum'> }
 
 export function ToolPageClient({ feature }: Props) {
   const router = useRouter()

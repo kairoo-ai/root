@@ -10,7 +10,10 @@ export default async function ToolPage({ params }: Props) {
   const { featureId } = await params
   const feature = features.find(f => f.id === featureId)
   if (!feature) notFound()
-  return <ToolPageClient feature={feature} />
+
+  // Omit functions to prevent React 19 / Next 16 prerender error
+  const { buildUserPrompt, systemAddendum, ...clientFeature } = feature
+  return <ToolPageClient feature={clientFeature} />
 }
 
 export async function generateStaticParams() {
