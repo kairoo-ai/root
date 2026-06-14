@@ -1,7 +1,12 @@
 import type { ProviderAdapter } from "../types";
 import { geminiAdapter } from "./gemini";
+import { makeOpenAICompatAdapter } from "./openai-compat";
+import { OPENAI_COMPAT_PROVIDERS } from "./registry.config";
 
-const ALL: ProviderAdapter[] = [geminiAdapter];
+const ALL: ProviderAdapter[] = [
+  geminiAdapter,
+  ...OPENAI_COMPAT_PROVIDERS.map(makeOpenAICompatAdapter),
+];
 
 export function enabledProviders(): ProviderAdapter[] {
   const priority = (process.env.AI_PROVIDER_PRIORITY ?? "")
