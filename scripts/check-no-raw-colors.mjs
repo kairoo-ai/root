@@ -12,13 +12,6 @@ const EXfiles = new Set([
 ]);
 // Legacy files awaiting rewrite — tagged DESIGN-DEBT. Allowed to keep raw colors for now.
 const LEGACY = new Set([
-  "app/(marketing)/page.tsx",
-  "app/investors/strategy/page.tsx",
-  "app/investors/deck/page.tsx",
-  "app/investors/market/page.tsx",
-  "app/investors/architecture/page.tsx",
-  "components/AnimatedBackground.tsx",
-  "components/ui/3d-pin.tsx",
   "components/FeatureModal.tsx",   // DESIGN-DEBT: uses gray-300/gray-800 — full DS migration pending
   "components/Modal.tsx",          // DESIGN-DEBT: uses cyan-400 hover — full DS migration pending
   "components/Navigation.tsx",     // DESIGN-DEBT: uses cyan-400/gray-300 — full DS migration pending
