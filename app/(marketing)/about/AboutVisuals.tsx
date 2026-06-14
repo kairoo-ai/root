@@ -209,6 +209,7 @@ export function AboutHero({
         </motion.span>
 
         <Stack gap={3} align="center">
+          {/* EYEBROS LOOKS LIKE AI SLOP */}
           <motion.p
             initial={reduce ? false : { opacity: 0 }}
             animate={reduce ? undefined : { opacity: 1 }}
@@ -309,6 +310,7 @@ export function MissionStatement({
           >
             <IconRenderer name="target" size={28} />
           </span>
+          {/* EYEBROS LOOKS LIKE AI SLOP */}
           <p className="text-overline text-accent">{eyebrow}</p>
           <h2 className="text-h2 text-balance text-foreground">
             <span className="bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-[var(--primary)] bg-clip-text text-transparent">
@@ -397,6 +399,7 @@ export function PillarBento({
   return (
     <Section className="pt-2">
       <header className="mx-auto mb-10 max-w-2xl text-center">
+        {/* EYEBROS LOOKS LIKE AI SLOP */}
         <p className="text-overline mb-3 text-accent">{eyebrow}</p>
         <h2 className="text-h2 text-balance text-foreground">{heading}</h2>
         <p className="text-body-lg mt-4 text-pretty text-muted-foreground">
@@ -548,6 +551,7 @@ export function MilestoneStats({
   return (
     <Section className="pt-2">
       <header className="mx-auto mb-10 max-w-2xl text-center">
+        {/* EYEBROS LOOKS LIKE AI SLOP */}
         <p className="text-overline mb-3 text-accent">{eyebrow}</p>
         <h2 className="text-h2 text-balance text-foreground">{heading}</h2>
         <p className="text-body-lg mt-4 text-pretty text-muted-foreground">
@@ -613,6 +617,7 @@ export function ValueGrid({
   return (
     <Section className="pt-2">
       <header className="mx-auto mb-10 max-w-2xl text-center">
+        {/* EYEBROS LOOKS LIKE AI SLOP */}
         <p className="text-overline mb-3 text-accent">{eyebrow}</p>
         <h2 className="text-h2 text-balance text-foreground">{heading}</h2>
         <p className="text-body-lg mt-4 text-pretty text-muted-foreground">
@@ -680,6 +685,7 @@ export function TeamSection({
   return (
     <Section className="pt-2">
       <header className="mx-auto mb-10 max-w-3xl text-center">
+        {/* EYEBROS LOOKS LIKE AI SLOP */}
         <p className="text-overline mb-3 text-accent">{eyebrow}</p>
         <h2 className="text-h2 text-balance text-foreground">{heading}</h2>
         <p className="text-body-lg mt-4 text-pretty text-muted-foreground">

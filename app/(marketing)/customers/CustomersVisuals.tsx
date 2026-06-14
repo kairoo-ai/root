@@ -124,6 +124,7 @@ export function CustomersHero({
           </Badge>
         </motion.div>
 
+{/* EYEBROS LOOKS LIKE AI SLOP */}
         <motion.span
           className="text-overline text-accent"
           initial={reduce ? false : { opacity: 0, y: 12 }}

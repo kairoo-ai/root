@@ -67,6 +67,7 @@ function SectionHeading({
       align="center"
       className={cn("mx-auto mb-12 max-w-2xl text-center", className)}
     >
+      {/* EYEBROS LOOKS LIKE AI SLOP */}
       <motion.span
         {...reveal(0)}
         className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/60 px-3 py-1 text-overline text-accent backdrop-blur-glass"
