@@ -96,3 +96,35 @@ export const goals = pgTable('goals', {
   weekOf: text('week_of').notNull(), // ISO week string e.g. "2026-W24"
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
+
+export const interviewSessions = pgTable('interview_sessions', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  title: text('title').notNull(),
+  type: text('type', { enum: ['behavioral', 'technical', 'system_design', 'case_study'] }).notNull(),
+  targetRole: text('target_role').notNull(),
+  targetCompany: text('target_company'),
+  difficulty: text('difficulty', { enum: ['easy', 'medium', 'hard'] }).notNull().default('medium'),
+  questionCount: integer('question_count').notNull().default(5),
+  status: text('status', { enum: ['in_progress', 'completed'] }).notNull().default('in_progress'),
+  overallScore: integer('overall_score'),
+  strengths: jsonb('strengths').$type<string[]>().default([]),
+  improvements: jsonb('improvements').$type<string[]>().default([]),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+export const interviewExchanges = pgTable('interview_exchanges', {
+  id: text('id').primaryKey(),
+  sessionId: text('session_id').notNull().references(() => interviewSessions.id, { onDelete: 'cascade' }),
+  questionText: text('question_text').notNull(),
+  questionType: text('question_type', { enum: ['behavioral', 'technical', 'situational'] }).notNull(),
+  userAnswer: text('user_answer'),
+  aiFeedback: text('ai_feedback'),
+  starScore: integer('star_score'),
+  keywords: jsonb('keywords').$type<string[]>().default([]),
+  keywordsUsed: jsonb('keywords_used').$type<string[]>().default([]),
+  duration: integer('duration'),
+  order: integer('order').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
