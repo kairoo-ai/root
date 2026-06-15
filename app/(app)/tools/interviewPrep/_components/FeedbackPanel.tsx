@@ -53,7 +53,7 @@ export function FeedbackPanel({
         setParsed(result)
         onFeedbackComplete(result)
       } catch {
-        // malformed — show raw
+        // malformed - show raw
       }
       setLoading(false)
     }
@@ -82,8 +82,8 @@ export function FeedbackPanel({
     parsed.score >= 80
       ? 'text-emerald-500'
       : parsed.score >= 60
-      ? 'text-amber-500'
-      : 'text-rose-500'
+        ? 'text-amber-500'
+        : 'text-rose-500'
 
   return (
     <AnimatePresence>

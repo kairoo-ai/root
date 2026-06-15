@@ -18,14 +18,14 @@ import {
 } from "./CareerVisuals";
 
 export const metadata: Metadata = {
-  title: `Career & Coaching Tools — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
+  title: `Career & Coaching Tools - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
   description:
-    `The full ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} career toolkit: AI tools for roadmaps, interviews, salary negotiation, performance reviews, networking, and more — the real, single-source catalog from our AI engine.`,
+    `The full ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} career toolkit: AI tools for roadmaps, interviews, salary negotiation, performance reviews, networking, and more - the real, single-source catalog from our AI engine.`,
 };
 
 /**
  * Career tools catalog. The registry in `engines/ai/features/registry.ts` is the
- * single source of truth for what the AI engine can do — this page renders the
+ * single source of truth for what the AI engine can do - this page renders the
  * `career` category directly from it, so the catalog can never drift from the
  * product. Honest-public: counts are derived from the registry (no invented
  * numbers), and any tool that is not `ready` is labeled "Coming soon".
@@ -34,7 +34,7 @@ const careerTools = features.filter((f) => f.category === "career");
 
 /**
  * Coarse, display-only theme grouping derived from each tool's id. Used purely
- * to power the filter Tabs — it adds no product claims and never changes the
+ * to power the filter Tabs - it adds no product claims and never changes the
  * underlying registry data.
  */
 const THEME_LABELS: Record<string, string> = {
@@ -97,7 +97,7 @@ const cards: CareerToolCard[] = careerTools.map((f) => {
 const readyCount = cards.filter((c) => c.ready).length;
 const comingSoonCount = cards.length - readyCount;
 
-// Tabs with live counts — "All" plus each theme that actually has tools.
+// Tabs with live counts - "All" plus each theme that actually has tools.
 const themeTabs: ThemeTab[] = [
   { id: "all", label: "All tools", count: cards.length },
   ...Object.entries(THEME_LABELS)
@@ -133,7 +133,7 @@ const bentoItems = [
   {
     title: "One catalog, every career move",
     description:
-      "Roadmaps, interview prep, salary negotiation, performance reviews, networking and more — drawn from a single source of truth so nothing ever drifts from the product.",
+      "Roadmaps, interview prep, salary negotiation, performance reviews, networking and more - drawn from a single source of truth so nothing ever drifts from the product.",
     icon: "layers",
     span: "2x2" as const,
   },
@@ -151,13 +151,13 @@ const bentoItems = [
   },
   {
     title: "Honest by design",
-    description: "Every count here is derived from the live engine — no invented numbers.",
+    description: "Every count here is derived from the live engine - no invented numbers.",
     icon: "shield-check",
   },
   {
     title: "Built for momentum",
     description:
-      "Start with one tool, add the rest as your goals evolve — the toolkit grows with your career.",
+      "Start with one tool, add the rest as your goals evolve - the toolkit grows with your career.",
     icon: "rocket",
     span: "2x1" as const,
   },
@@ -168,7 +168,7 @@ const steps = [
     icon: "target",
     title: "Pick your goal",
     description:
-      "Choose the tool that matches the move you're making — a roadmap, an interview, a raise, a review.",
+      "Choose the tool that matches the move you're making - a roadmap, an interview, a raise, a review.",
   },
   {
     icon: "wand",
@@ -180,15 +180,15 @@ const steps = [
     icon: "rocket",
     title: "Get a concrete plan",
     description:
-      "Receive sequenced, actionable output you can use immediately — then move to the next tool.",
+      "Receive sequenced, actionable output you can use immediately - then move to the next tool.",
   },
 ];
 
 export default function CareerFeaturesPage() {
   const subtitle =
     comingSoonCount > 0
-      ? `${cards.length} AI tools that turn ambiguous career goals into concrete, sequenced action — from roadmaps and interview prep to salary negotiation and performance reviews. ${readyCount} are ready to use today.`
-      : `${cards.length} AI tools that turn ambiguous career goals into concrete, sequenced action — from roadmaps and interview prep to salary negotiation and performance reviews.`;
+      ? `${cards.length} AI tools that turn ambiguous career goals into concrete, sequenced action - from roadmaps and interview prep to salary negotiation and performance reviews. ${readyCount} are ready to use today.`
+      : `${cards.length} AI tools that turn ambiguous career goals into concrete, sequenced action - from roadmaps and interview prep to salary negotiation and performance reviews.`;
 
   return (
     <>
@@ -222,7 +222,7 @@ export default function CareerFeaturesPage() {
       </Section>
 
       <Section className="pt-0">
-        {/* Honest stat band — every figure is derived from the live registry. */}
+        {/* Honest stat band - every figure is derived from the live registry. */}
         <CareerStatBand items={bandStats} />
       </Section>
 

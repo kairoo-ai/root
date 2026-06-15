@@ -37,9 +37,9 @@ import { PaginationDemo } from "./PaginationDemo";
 import { InteractiveDemos } from "./InteractiveDemos";
 import { MotionDemos } from "./MotionDemos";
 
-export const metadata: Metadata = { title: `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} — Style reference`, robots: { index: false } };
+export const metadata: Metadata = { title: `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - Style reference`, robots: { index: false } };
 
-const STEPS = ["50","100","200","300","400","500","600","700","800","900","950"] as const;
+const STEPS = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"] as const;
 
 const SAMPLE_FEATURES: Feature[] = [
   { id: "f1", icon: "compass", title: "Chart the path", description: "Turn ambiguous goals into a clear, sequenced route." },
@@ -54,7 +54,7 @@ const SAMPLE_TESTIMONIALS: Testimonial[] = [
 
 const SAMPLE_FAQ: FAQItem[] = [
   { id: "q1", question: `What is ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}?`, answer: "An AI career copilot that turns goals into a sequenced, trackable plan." },
-  { id: "q2", question: "Can I cancel anytime?", answer: "Yes — plans are month-to-month and you can downgrade or cancel whenever you like." },
+  { id: "q2", question: "Can I cancel anytime?", answer: "Yes - plans are month-to-month and you can downgrade or cancel whenever you like." },
 ];
 
 const SAMPLE_STATS = [
@@ -95,7 +95,7 @@ export default function StylePage() {
       <section className="space-y-3">
         <h2 className="text-h3 text-foreground">Semantic</h2>
         <div className="flex flex-wrap gap-3">
-          {["bg-primary text-primary-foreground","bg-secondary text-secondary-foreground","bg-muted-surface text-muted-foreground","bg-accent text-accent-foreground","bg-accent-subtle text-accent-subtle-foreground","bg-destructive text-destructive-foreground"].map((c) => (
+          {["bg-primary text-primary-foreground", "bg-secondary text-secondary-foreground", "bg-muted-surface text-muted-foreground", "bg-accent text-accent-foreground", "bg-accent-subtle text-accent-subtle-foreground", "bg-destructive text-destructive-foreground"].map((c) => (
             <div key={c} className={`rounded-lg px-4 py-3 text-sm ${c}`}>{c.split(" ")[0]}</div>
           ))}
         </div>
@@ -104,7 +104,7 @@ export default function StylePage() {
       <section className="space-y-2">
         <h2 className="text-h3 text-foreground">Type scale</h2>
         {Object.keys(typeScale).map((t) => (
-          <div key={t} className={`text-${t} text-foreground`}>{t} — The right moment to grow</div>
+          <div key={t} className={`text-${t} text-foreground`}>{t} - The right moment to grow</div>
         ))}
       </section>
 
@@ -245,7 +245,7 @@ export default function StylePage() {
         <p className="text-body text-muted-foreground">
           Live wrappers from <code>@/components/ui</code>, rendered on HeroUI&apos;s
           themed defaults (token-only). All requested primitives resolved during
-          stabilization — none were skipped.
+          stabilization - none were skipped.
         </p>
         <InteractiveDemos />
       </section>

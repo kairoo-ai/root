@@ -1,4 +1,4 @@
-// AI feature registry — the single source of truth for what the AI engine can do.
+// AI feature registry - the single source of truth for what the AI engine can do.
 //
 // Each feature colocates its display metadata, its input fields, and its prompt
 // builder so inputs and prompts can never drift apart. This module is PURE and
@@ -65,24 +65,24 @@ export const features: FeatureDef[] = [
     buildUserPrompt: (i) => `You are a senior career strategist building a detailed, personalized roadmap.
 ${line('Goal', i.goal)}${line('Current background', i.background)}${line('Timeframe', i.timeframe || '12 months')}
 
-CRITICAL REQUIREMENTS — every single phase MUST include:
+CRITICAL REQUIREMENTS - every single phase MUST include:
 1. **Named courses with platform**: e.g., "Andrew Ng's Machine Learning Specialization (Coursera, ~3 months)", "CS50P: Python (edX, free)", "The Odin Project Full Stack JavaScript (theodinproject.com, free)"
 2. **Named YouTube channels/playlists**: e.g., "StatQuest with Josh Starmer (statistics + ML)", "Traversy Media (web dev)", "3Blue1Brown (math intuition)", "Fireship (quick concepts)", "NetworkChuck (networking/cloud)"
 3. **Named books**: e.g., "Hands-On ML with Scikit-Learn & TensorFlow by Aurélien Géron", "Clean Code by Robert C. Martin", "Designing Data-Intensive Applications by Martin Kleppmann"
 4. **Specific tools to install and practice with** (with links to official docs)
-5. **Certification to pursue this phase**: exact name, issuing body, estimated cost, and URL — e.g., "Google Data Analytics Certificate (Coursera, ~$200 or financial aid)", "AWS Certified Cloud Practitioner (aws.amazon.com/certification, $100)"
-6. **A concrete project to build** as the phase milestone — specific enough to put on a portfolio
+5. **Certification to pursue this phase**: exact name, issuing body, estimated cost, and URL - e.g., "Google Data Analytics Certificate (Coursera, ~$200 or financial aid)", "AWS Certified Cloud Practitioner (aws.amazon.com/certification, $100)"
+6. **A concrete project to build** as the phase milestone - specific enough to put on a portfolio
 7. **Communities to join**: e.g., specific subreddits, Discord servers, newsletters
 
 Format each phase exactly like this:
 
 ---
-## Phase N — [Name] ([Month range])
+## Phase N - [Name] ([Month range])
 **Goal this phase:** one sentence
 
 ### Topics & Weekly Focus
-- Week 1–2: [Specific topic] — [Why it matters]
-- Week 3–4: [Specific topic] — [Why it matters]
+- Week 1–2: [Specific topic] - [Why it matters]
+- Week 3–4: [Specific topic] - [Why it matters]
 (continue for all weeks in the phase)
 
 ### Courses & Structured Learning
@@ -94,17 +94,17 @@ Format each phase exactly like this:
 - **[Channel name]**: what to watch and why
 
 ### Books (optional but recommended)
-- [Title by Author] — [1-line reason]
+- [Title by Author] - [1-line reason]
 
 ### Tools to Install & Practice
-- [Tool name] — [what to do with it] — [docs.example.com]
+- [Tool name] - [what to do with it] - [docs.example.com]
 
 ### Certification to Pursue
-**[Exact certification name]** — [Issuing body] — [Cost] — [Where to register: URL]
+**[Exact certification name]** - [Issuing body] - [Cost] - [Where to register: URL]
 Recommended prep: [Specific prep resource]
 
 ### Phase Project (Portfolio Milestone)
-Build: [Specific project description — what it does, what stack, where to deploy]
+Build: [Specific project description - what it does, what stack, where to deploy]
 This demonstrates: [specific skills]
 
 ### Communities & Networking
@@ -145,7 +145,7 @@ ${line('Role', i.role)}${line('Company/context', i.company)}${line('Question', i
 Return markdown with:
 
 ## Question Type & What They're Really Testing
-Identify what the interviewer is probing for (not just the surface question). Be specific — e.g., "This is testing conflict resolution + cross-functional communication, NOT just leadership."
+Identify what the interviewer is probing for (not just the surface question). Be specific - e.g., "This is testing conflict resolution + cross-functional communication, NOT just leadership."
 
 ## Answer Framework
 Use the right structure for the question type (STAR for behavioral, structured opinion for "what do you think about X", breadth-first for "design a system"). Explain the framework briefly.
@@ -157,7 +157,7 @@ Write a full, realistic answer tailored to the role${i.company ? ` and ${i.compa
 3–4 bullet points on what the answer does well.
 
 ## What to Avoid
-Specific pitfalls that would hurt this answer — not generic "don't be vague" but actual common mistakes on this type of question.
+Specific pitfalls that would hurt this answer - not generic "don't be vague" but actual common mistakes on this type of question.
 
 ## 3 Likely Follow-Up Questions
 Include a coaching note on each: what they're probing with the follow-up and a 1-sentence answer direction.
@@ -179,10 +179,10 @@ Name 1–2 specific resources for this type of question: e.g., "Grokking the Beh
     buildUserPrompt: (i) => `You are a compensation and negotiation advisor.
 ${line('Role', i.role)}${line('Experience (years)', i.experience)}${line('Location', i.location)}
 Return markdown with:
-1. **Market rate** — a reasoned range for this role/experience/location (state assumptions; you are not quoting live data)
+1. **Market rate** - a reasoned range for this role/experience/location (state assumptions; you are not quoting live data)
 2. **Negotiation strategy**
 3. **Key talking points** to justify a higher offer
-4. **Beyond base pay** — benefits and perks to negotiate
+4. **Beyond base pay** - benefits and perks to negotiate
 5. **When to walk away**`,
   },
   {
@@ -204,14 +204,14 @@ Return markdown with:
 ## Transferable Strengths
 List 4–6 specific skills from the current role that directly apply, with a sentence on HOW each transfers.
 
-## Skill Gaps — Ranked by Importance
-For each gap, name it, explain why it's required in the target role, estimate how long to close it, and name the specific resource to use (course, certification, book). Be concrete — not "learn SQL" but "Complete Mode Analytics SQL Tutorial (mode.com/sql-tutorial, free) — 2 weeks".
+## Skill Gaps - Ranked by Importance
+For each gap, name it, explain why it's required in the target role, estimate how long to close it, and name the specific resource to use (course, certification, book). Be concrete - not "learn SQL" but "Complete Mode Analytics SQL Tutorial (mode.com/sql-tutorial, free) - 2 weeks".
 
 ## Realistic Transition Timeline
-Break into phases. For each phase: what to learn, specific resources, and what milestone signals you're ready to move on. Typical transitions take 3–18 months depending on gap size — be honest.
+Break into phases. For each phase: what to learn, specific resources, and what milestone signals you're ready to move on. Typical transitions take 3–18 months depending on gap size - be honest.
 
 ## First 3 Actions This Week
-Ultra-specific — not "research the field" but "Read [specific book/article], sign up for [specific course], message 3 people on LinkedIn with [specific job title] using this template: [template]".
+Ultra-specific - not "research the field" but "Read [specific book/article], sign up for [specific course], message 3 people on LinkedIn with [specific job title] using this template: [template]".
 
 ## Salary Reality Check
 Typical entry-level vs. senior compensation range in the target role. Be honest if there's likely a pay cut initially.
@@ -240,7 +240,7 @@ Suggest 3 portfolio projects. For each:
 **Why employers care:** (what real-world problem it mirrors; which companies build things like this)
 
 **Exact feature list to build (v1):**
-1. [Specific feature] — [what technology/pattern it demonstrates]
+1. [Specific feature] - [what technology/pattern it demonstrates]
 2. ...
 
 **Stretch features (v2, after getting hired):**
@@ -250,11 +250,11 @@ Suggest 3 portfolio projects. For each:
 - Frontend: [specific library/framework + version if relevant]
 - Backend: [specific framework]
 - Database: [specific DB and why]
-- Deployment: [exact platform — Vercel, Railway, Fly.io, AWS Free Tier — with link]
+- Deployment: [exact platform - Vercel, Railway, Fly.io, AWS Free Tier - with link]
 - Auth: [Clerk / NextAuth / etc.]
 
 **Reference repos to study** (real GitHub repos or open-source projects to learn from):
-- github.com/[real-repo] — [what to learn from it]
+- github.com/[real-repo] - [what to learn from it]
 
 **Skills demonstrated:** [comma-separated list exactly matching job description keywords]
 
@@ -278,8 +278,8 @@ Return markdown with:
 ## Top 5 Trends Reshaping ${i.industry || 'This Field'}
 For each trend:
 - **What it is** (plain language)
-- **Evidence it's real** (name actual companies, products, or job posting patterns — e.g., "every major bank now has a dedicated AI team", "Vercel's edge runtime adoption grew 3× in 2024")
-- **Skills rising in demand because of it** — name the specific technologies, certifications, or capabilities
+- **Evidence it's real** (name actual companies, products, or job posting patterns - e.g., "every major bank now has a dedicated AI team", "Vercel's edge runtime adoption grew 3× in 2024")
+- **Skills rising in demand because of it** - name the specific technologies, certifications, or capabilities
 - **How long before it's table stakes** (already required / 1–2 years / 3–5 years)
 
 ## Skills to Add Now (High ROI, Low Learning Curve)
@@ -288,11 +288,11 @@ For each: skill name, why it matters right now, and the fastest way to get it (s
 ## Skills to Add Soon (High Impact, Takes Time)
 Same format.
 
-## Skills That Are Declining — Don't Over-Invest
+## Skills That Are Declining - Don't Over-Invest
 Be direct. Name specific technologies or approaches that are losing market share.
 
 ## 3 Concrete Career Moves for Someone in This Field
-Ultra-specific — not "network more" but "Join [specific Slack community / conference / newsletter]" or "Get [specific certification] in the next 6 months because [reason]".
+Ultra-specific - not "network more" but "Join [specific Slack community / conference / newsletter]" or "Get [specific certification] in the next 6 months because [reason]".
 
 ## Where to Track This Field Going Forward
 Name specific newsletters, blogs, podcasts, and communities: e.g., "The Pragmatic Engineer by Gergely Orosz (substack)", "TLDR Newsletter (tldr.tech)", "Hacker News (news.ycombinator.com)".`,
@@ -364,7 +364,7 @@ Return markdown with: an **overall fit score (0-100)** with one-line justificati
     ],
     buildUserPrompt: (i) => `You are an onboarding coach. Build a 30-60-90 day plan.
 ${line('New role', i.role)}${line('Stated priorities', i.focus)}
-Return markdown with three sections — **First 30 days (learn)**, **Days 31-60 (contribute)**, **Days 61-90 (own)** — each with goals, key relationships to build, and a measurable success signal.`,
+Return markdown with three sections - **First 30 days (learn)**, **Days 31-60 (contribute)**, **Days 61-90 (own)** - each with goals, key relationships to build, and a measurable success signal.`,
   },
   {
     id: 'emailAssistant', name: 'Email Assistant', icon: 'mail-plus', color: 'violet-400',
@@ -446,7 +446,7 @@ Return markdown with: a **SWOT analysis** (Strengths, Weaknesses, Opportunities,
 ${line('Topic', i.topic)}
 
 ## Core Explanation
-Explain the concept from first principles. Be thorough — don't skip the parts that "everyone knows". Use plain English. If it's a technical concept, explain why it exists (what problem it solves) before explaining how it works.
+Explain the concept from first principles. Be thorough - don't skip the parts that "everyone knows". Use plain English. If it's a technical concept, explain why it exists (what problem it solves) before explaining how it works.
 
 ## Real-World Analogy
 One analogy that makes it click. Then show the places this concept appears in the real world (name actual products, companies, or systems that use it).
@@ -671,7 +671,7 @@ Return markdown with: a **stakeholder map** categorizing each by **influence vs.
 - No filler phrases ("responsible for", "worked on")
 - Active voice
 - For the summary section: 3-4 sentences, first person omitted, starts with job title or expertise
-- Return ONLY the improved content — no preamble, no explanation`,
+- Return ONLY the improved content - no preamble, no explanation`,
     buildUserPrompt: (i) =>
       `Improve the "${i.section}" section of my resume.\n` +
       line('Current content', i.currentContent) +
@@ -717,7 +717,7 @@ Return ONLY a valid JSON object (no markdown, no prose outside the JSON) in this
   ]
 }
 
-RULES for resources — you MUST follow:
+RULES for resources - you MUST follow:
 - Use ONLY real, well-known resources with accurate URLs. Examples of correct URLs:
   - Coursera courses: https://www.coursera.org/learn/[course-slug]
   - YouTube channels: https://www.youtube.com/@[channel-handle]
@@ -747,16 +747,16 @@ ${line('Question', i.question)}${line('Subject', i.subject)}
 
 Answer in markdown:
 
-**Direct answer** — get straight to the point, no filler intro.
+**Direct answer** - get straight to the point, no filler intro.
 
-**Explanation with example** — show a concrete example (code, diagram description, or real-world scenario). If it's a technical topic, include a runnable code snippet.
+**Explanation with example** - show a concrete example (code, diagram description, or real-world scenario). If it's a technical topic, include a runnable code snippet.
 
-**The "why it works" part** — explain the underlying reason, not just the mechanics.
+**The "why it works" part** - explain the underlying reason, not just the mechanics.
 
-**Common confusion** — what do people usually misunderstand about this?
+**Common confusion** - what do people usually misunderstand about this?
 
 **Where to go deeper:**
-Name 1–2 specific resources to continue learning: actual article titles, documentation pages, or YouTube videos — e.g., "JavaScript.info's closures chapter (javascript.info/closure)" or "Fireship's '100 seconds of X' video on YouTube".`,
+Name 1–2 specific resources to continue learning: actual article titles, documentation pages, or YouTube videos - e.g., "JavaScript.info's closures chapter (javascript.info/closure)" or "Fireship's '100 seconds of X' video on YouTube".`,
   },
   {
     id: 'projectLearning', name: 'Project-Based Learning', icon: 'wrench', color: 'purple-400',
@@ -771,7 +771,7 @@ Name 1–2 specific resources to continue learning: actual article titles, docum
     buildUserPrompt: (i) => `You are a hands-on engineering mentor who teaches by building real things. Produce a project brief specific enough to start coding today.
 ${line('Skill', i.skill)}${line('Level', i.level || 'Beginner')}
 
-## Project: [Name it — make it sound like a real product, not "Todo App v2"]
+## Project: [Name it - make it sound like a real product, not "Todo App v2"]
 **What it does:** one paragraph. Write it like a product description.
 **Why this project teaches ${i.skill}:** what specific aspects of the skill are unavoidable to build this.
 **Estimated time to v1:** X hours/weeks at ${i.level || 'beginner'} level
@@ -785,17 +785,17 @@ For each milestone:
 **What you're building:** specific feature or component
 **Concept you're learning:** the core skill mechanic this milestone teaches
 **Step-by-step tasks:**
-1. [Concrete task — not "set up routing" but "create \`GET /api/posts\` endpoint that reads from a JSON file and returns \`{ posts: [] }\`"]
+1. [Concrete task - not "set up routing" but "create \`GET /api/posts\` endpoint that reads from a JSON file and returns \`{ posts: [] }\`"]
 2. ...
-**Stuck? Read:** [specific doc URL or article — e.g., "Express routing guide: expressjs.com/en/guide/routing.html"]
+**Stuck? Read:** [specific doc URL or article - e.g., "Express routing guide: expressjs.com/en/guide/routing.html"]
 
 ## Testing Your Work
 How to verify each milestone works. Name the tool (curl, Postman, browser DevTools, Jest, etc.).
 
 ## Where to Deploy When Done
-Exact platform and free tier: e.g., "Deploy backend on Railway (railway.app) — free tier, no credit card. Deploy frontend on Vercel (vercel.com) — free for personal projects."
+Exact platform and free tier: e.g., "Deploy backend on Railway (railway.app) - free tier, no credit card. Deploy frontend on Vercel (vercel.com) - free for personal projects."
 
-## Stretch Goals (v2 — after the job is done)
+## Stretch Goals (v2 - after the job is done)
 3–5 features that push the skill further.
 
 ## Similar Real-World Codebases to Study
@@ -848,7 +848,7 @@ REQUIREMENTS:
 - Name the exact resource for each topic (book chapter, course module, YouTube video/playlist, official docs page)
 - Include ACTUAL resource names: e.g. "AWS Certified Solutions Architect Study Guide by Ben Piper (Sybex)", "Stephane Maarek's AWS SAA course on Udemy", "TutorialsDojo practice exams (tutorialsdojo.com)", "freeCodeCamp full exam prep on YouTube"
 - Give daily/weekly hour breakdown
-- Include active recall techniques (not just "read" — specify flashcards, practice tests, spaced repetition with Anki)
+- Include active recall techniques (not just "read" - specify flashcards, practice tests, spaced repetition with Anki)
 - Mark which topics are highest exam/assessment weight
 - Include practice test schedule (when to take them and which ones)
 
@@ -856,9 +856,9 @@ Format each week:
 ## Week N: [Theme]
 **Topics:** list each topic
 **Daily breakdown (X hrs/day):**
-- Day 1–2: [Topic] — [Specific resource: title, platform, URL or where to get it]
-- Day 3–4: [Topic] — [Specific resource]
-- Day 5–6: Practice / review — [Specific practice resource]
+- Day 1–2: [Topic] - [Specific resource: title, platform, URL or where to get it]
+- Day 3–4: [Topic] - [Specific resource]
+- Day 5–6: Practice / review - [Specific practice resource]
 - Day 7: Rest + light review
 **Active recall:** [specific technique for this week's content]
 **Milestone check:** what you should be able to do/score by end of week
@@ -879,11 +879,11 @@ Name specific apps: Anki (ankiweb.net) for flashcards, Quizlet, Notion for notes
       { id: 'background', label: 'Your background (optional)', type: 'text', placeholder: 'e.g. I know basic Python but no CS theory' },
       { id: 'depth', label: 'Depth', type: 'select', placeholder: 'How deep to go', options: ['ELI5 (very simple)', 'Clear overview', 'Technical depth', 'Expert level'] },
     ],
-    buildUserPrompt: (i) => `You are a world-class explainer — think Richard Feynman meets a senior engineer. Make this genuinely click.
+    buildUserPrompt: (i) => `You are a world-class explainer - think Richard Feynman meets a senior engineer. Make this genuinely click.
 ${line('Concept', i.concept)}${line('Background', i.background)}${line('Depth requested', i.depth || 'Clear overview')}
 
 ## The Core Idea (1 paragraph)
-Explain from first principles. WHY does this exist — what problem does it solve? Pitch it at the stated background level.
+Explain from first principles. WHY does this exist - what problem does it solve? Pitch it at the stated background level.
 
 ## The Analogy That Makes It Click
 One real-world analogy. Then: where does the analogy break down? (Knowing where an analogy fails is part of understanding the concept.)
@@ -892,7 +892,7 @@ One real-world analogy. Then: where does the analogy break down? (Knowing where 
 Step by step. If there's a process/sequence, walk through every step. If it's a formula or model, build it up from components. Include a concrete minimal example.
 
 ## Visual or Diagram (described in text)
-Describe a diagram or visual that would help — ASCII if possible, or a clear verbal description.
+Describe a diagram or visual that would help - ASCII if possible, or a clear verbal description.
 
 ## The Most Common Misconception
 What do people usually get wrong when first learning this? Why?
@@ -905,9 +905,9 @@ What does understanding this unlock? What does it depend on?
 
 ## Where to Go Deeper
 2–3 specific resources ordered by effort:
-1. [Quick win — specific article/video that explains this in 10 min: title + URL]
-2. [Intermediate — specific course chapter, book chapter, or documentation page]
-3. [Deep mastery — specific book or full course with author/platform]`,
+1. [Quick win - specific article/video that explains this in 10 min: title + URL]
+2. [Intermediate - specific course chapter, book chapter, or documentation page]
+3. [Deep mastery - specific book or full course with author/platform]`,
   },
   {
     id: 'practiceQuizzes', name: 'Practice Quizzes', icon: 'check-square', color: 'green-500',
@@ -948,11 +948,11 @@ After ALL questions, add a section:
 **Q[N]. Correct answer: [X]**
 **Explanation:** [2–4 sentences explaining WHY this is correct, and why the wrong options are wrong. Reference the underlying concept, not just "because it is".]
 **Common mistake:** [What people often confuse here]
-**Go deeper:** [One specific resource to read/watch if they got this wrong — name the article/video/docs page]
+**Go deeper:** [One specific resource to read/watch if they got this wrong - name the article/video/docs page]
 
 QUALITY RULES:
 - Questions must test genuine understanding, not trivia or rote recall
-- Wrong answer choices (distractors) must be plausible — not obviously wrong
+- Wrong answer choices (distractors) must be plausible - not obviously wrong
 - Advanced questions should require synthesis across concepts
 - At least 30% of questions should test application ("given this scenario, what happens?") not just definition`,
   },

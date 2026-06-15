@@ -28,7 +28,7 @@ import { Timeline } from "@/components/aceternity";
 import type { TimelineItem } from "@/components/aceternity";
 
 /* ------------------------------------------------------------------ *
- * Serializable data shapes — every value crossing the server→client   *
+ * Serializable data shapes - every value crossing the server→client   *
  * boundary is a primitive or icon NAME string (never a component ref). *
  * ------------------------------------------------------------------ */
 
@@ -118,7 +118,7 @@ function HeroCta({
 }
 
 /* ------------------------------------------------------------------ *
- * HERO — Spotlight + Anime.js sequenced gradient mission headline     *
+ * HERO - Spotlight + Anime.js sequenced gradient mission headline     *
  * ------------------------------------------------------------------ */
 
 export function AboutHero({
@@ -179,7 +179,7 @@ export function AboutHero({
           ].join(", "),
         }}
       />
-      {/* Subtle dotted grid for depth — token border color, low opacity. */}
+      {/* Subtle dotted grid for depth - token border color, low opacity. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35] [mask-image:radial-gradient(60%_50%_at_50%_0%,black,transparent)]"
@@ -245,7 +245,7 @@ export function AboutHero({
 }
 
 /* ------------------------------------------------------------------ *
- * MISSION — gradient statement on a 3D tilt glass card, with the      *
+ * MISSION - gradient statement on a 3D tilt glass card, with the      *
  * narrative prose alongside. Scroll-reveal.                           *
  * ------------------------------------------------------------------ */
 
@@ -347,7 +347,7 @@ export function MissionStatement({
 }
 
 /* ------------------------------------------------------------------ *
- * PILLARS — Bento of CardSpotlight cells; lead cell is a 3D tilt.     *
+ * PILLARS - Bento of CardSpotlight cells; lead cell is a 3D tilt.     *
  * ------------------------------------------------------------------ */
 
 export function PillarBento({
@@ -497,7 +497,7 @@ function PillarCell({ pillar }: { pillar: PillarData }) {
 }
 
 /* ------------------------------------------------------------------ *
- * MILESTONES / STATS — animated counters on a gradient glass band     *
+ * MILESTONES / STATS - animated counters on a gradient glass band     *
  * ------------------------------------------------------------------ */
 
 export function MilestoneStats({
@@ -556,7 +556,7 @@ export function MilestoneStats({
 }
 
 /* ------------------------------------------------------------------ *
- * VALUES — bento of CardSpotlight cells with tooltips. Stagger.       *
+ * VALUES - bento of CardSpotlight cells with tooltips. Stagger.       *
  * ------------------------------------------------------------------ */
 
 export function ValueGrid({
@@ -618,7 +618,7 @@ export function ValueGrid({
 }
 
 /* ------------------------------------------------------------------ *
- * TEAM — staggered glass cards + honest note callout.                 *
+ * TEAM - staggered glass cards + honest note callout.                 *
  * ------------------------------------------------------------------ */
 
 export function TeamSection({
@@ -706,7 +706,7 @@ export function TeamSection({
 }
 
 /* ------------------------------------------------------------------ *
- * CLOSING CTA — gradient glass band with motion buttons              *
+ * CLOSING CTA - gradient glass band with motion buttons              *
  * ------------------------------------------------------------------ */
 
 export function AboutCta({
@@ -773,7 +773,7 @@ export function AboutCta({
 }
 
 /* ================================================================== */
-/* MILESTONES TIMELINE — aceternity Timeline                           */
+/* MILESTONES TIMELINE - aceternity Timeline                           */
 /* ================================================================== */
 export function MilestonesTimeline() {
   const milestones: TimelineItem[] = [

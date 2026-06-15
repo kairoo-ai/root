@@ -1,5 +1,5 @@
 // Content data-layer barrel.
-// Reserved skeleton — no business logic yet.
+// Reserved skeleton - no business logic yet.
 
 export { hero } from "./marketing/hero";
 export type { Hero } from "./marketing/hero";

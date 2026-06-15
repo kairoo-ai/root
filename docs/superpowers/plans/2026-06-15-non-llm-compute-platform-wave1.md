@@ -1,8 +1,8 @@
-# Non-LLM Compute Platform — Wave 1 Implementation Plan
+# Non-LLM Compute Platform - Wave 1 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the foundation for Kairoo's non-LLM compute platform — durable Postgres rate-limit/budget (fixing the live in-memory bug), a Python FastAPI compute service on HuggingFace Spaces, and a pgvector embedding substrate — all additive and behind a `computeEnabled` flag so existing flows never break.
+**Goal:** Build the foundation for Kairoo's non-LLM compute platform - durable Postgres rate-limit/budget (fixing the live in-memory bug), a Python FastAPI compute service on HuggingFace Spaces, and a pgvector embedding substrate - all additive and behind a `computeEnabled` flag so existing flows never break.
 
 **Architecture:** Next.js monolith stays the gateway/UI (Drizzle = sole schema owner). A new `compute/` Python FastAPI service runs on a HuggingFace Docker Space and holds an embedding model warm in RAM. They share a Neon Postgres + pgvector database. Next→Python is REST/JSON over HTTPS with a `Bearer` shared secret; every call goes through one typed client gated by `computeEnabled` with graceful fallback.
 
@@ -15,21 +15,23 @@
 ## File Structure
 
 **Next.js (existing app):**
-- `vitest.config.ts` *(create)* — test runner config
-- `config/flags.ts` *(modify)* — add `computeEnabled`
-- `config/env.ts` *(modify)* — add compute service env
-- `data/schema/index.ts` *(modify)* — add `rateLimitBuckets`, `usageBudgets`, `embeddings` tables + vector custom type
-- `data/migrations/*` *(generate + hand-edit for pgvector)*
-- `services/ai/window.ts` *(create)* — pure fixed-window state helpers (unit-testable)
-- `services/ai/rateLimit.ts` *(rewrite)* — async, Postgres-backed
-- `services/ai/budget.ts` *(rewrite)* — async, Postgres-backed
-- `services/ai/window.test.ts` *(create)* — Vitest unit tests
-- `app/api/ai/route.ts`, `app/api/interview/sessions/route.ts`, `app/api/interview/sessions/[id]/answer/route.ts`, `app/api/interview/sessions/[id]/next-question/route.ts` *(modify)* — `await rateLimit(...)`
-- `services/compute/schemas.ts` *(create)* — Zod request/response shapes
-- `services/compute/client.ts` *(create)* — typed compute client
-- `services/compute/client.test.ts` *(create)* — Vitest with mocked fetch
+
+- `vitest.config.ts` _(create)_ - test runner config
+- `config/flags.ts` _(modify)_ - add `computeEnabled`
+- `config/env.ts` _(modify)_ - add compute service env
+- `data/schema/index.ts` _(modify)_ - add `rateLimitBuckets`, `usageBudgets`, `embeddings` tables + vector custom type
+- `data/migrations/*` _(generate + hand-edit for pgvector)_
+- `services/ai/window.ts` _(create)_ - pure fixed-window state helpers (unit-testable)
+- `services/ai/rateLimit.ts` _(rewrite)_ - async, Postgres-backed
+- `services/ai/budget.ts` _(rewrite)_ - async, Postgres-backed
+- `services/ai/window.test.ts` _(create)_ - Vitest unit tests
+- `app/api/ai/route.ts`, `app/api/interview/sessions/route.ts`, `app/api/interview/sessions/[id]/answer/route.ts`, `app/api/interview/sessions/[id]/next-question/route.ts` _(modify)_ - `await rateLimit(...)`
+- `services/compute/schemas.ts` _(create)_ - Zod request/response shapes
+- `services/compute/client.ts` _(create)_ - typed compute client
+- `services/compute/client.test.ts` _(create)_ - Vitest with mocked fetch
 
 **Python service (new `compute/` dir, deployed to HF):**
+
 - `compute/Dockerfile`, `compute/requirements.txt`, `compute/README.md`, `compute/.dockerignore`
 - `compute/app/main.py`, `compute/app/config.py`, `compute/app/auth.py`, `compute/app/db.py`
 - `compute/app/routers/health.py`, `compute/app/routers/embed.py`
@@ -38,21 +40,23 @@
 - `compute/tests/test_health.py`, `compute/tests/test_auth.py`, `compute/tests/test_embed.py`, `compute/tests/test_backfill.py`
 
 **Ops:**
-- `.github/workflows/compute-ping.yml` *(create)* — keep-warm pinger
-- `docs/runbooks/hf-space-deploy.md` *(create)* — deploy runbook
+
+- `.github/workflows/compute-ping.yml` _(create)_ - keep-warm pinger
+- `docs/runbooks/hf-space-deploy.md` _(create)_ - deploy runbook
 
 ---
 
 ## Task 1: Test harness + config scaffolding (Next.js)
 
 **Files:**
+
 - Create: `vitest.config.ts`
 - Modify: `package.json` (devDeps + scripts)
 - Modify: `config/flags.ts`
 - Modify: `config/env.ts`
 - Modify: `.env.example`
 
-- [ ] **Step 1: Install Vitest (devDependency only — does not affect the app bundle)**
+- [ ] **Step 1: Install Vitest (devDependency only - does not affect the app bundle)**
 
 Run: `npm install -D vitest@^2.1.0`
 Expected: `vitest` appears under `devDependencies` in `package.json`.
@@ -60,24 +64,25 @@ Expected: `vitest` appears under `devDependencies` in `package.json`.
 - [ ] **Step 2: Create `vitest.config.ts`**
 
 ```ts
-import { defineConfig } from 'vitest/config'
-import path from 'node:path'
+import { defineConfig } from "vitest/config";
+import path from "node:path";
 
 export default defineConfig({
   test: {
-    environment: 'node',
-    include: ['**/*.test.ts'],
-    exclude: ['**/node_modules/**', '**/.next/**', 'compute/**'],
+    environment: "node",
+    include: ["**/*.test.ts"],
+    exclude: ["**/node_modules/**", "**/.next/**", "compute/**"],
   },
   resolve: {
-    alias: { '@': path.resolve(__dirname, '.') },
+    alias: { "@": path.resolve(__dirname, ".") },
   },
-})
+});
 ```
 
 - [ ] **Step 3: Add test script to `package.json`**
 
 Add to the `"scripts"` block:
+
 ```json
 "test": "vitest run",
 "test:watch": "vitest"
@@ -86,6 +91,7 @@ Add to the `"scripts"` block:
 - [ ] **Step 4: Add `computeEnabled` flag to `config/flags.ts`**
 
 Replace the file contents with:
+
 ```ts
 export const flags = {
   analytics: false,
@@ -101,6 +107,7 @@ export type FeatureFlag = keyof typeof flags;
 - [ ] **Step 5: Extend `config/env.ts` with compute service env**
 
 Replace the file contents with:
+
 ```ts
 // TODO: validate with zod once installed; this module is server-only by convention
 export const env = {
@@ -113,6 +120,7 @@ export const env = {
 - [ ] **Step 6: Add env var names to `.env.example`**
 
 Append:
+
 ```
 # --- Non-LLM compute service (HuggingFace Space) ---
 COMPUTE_SERVICE_URL=
@@ -125,7 +133,7 @@ AI_RATE_MAX_REQ=
 - [ ] **Step 7: Verify the harness runs and the app still type-checks**
 
 Run: `npx tsc --noEmit && npx vitest run`
-Expected: `tsc` clean; Vitest reports "No test files found" (exit 0) — harness works, no tests yet.
+Expected: `tsc` clean; Vitest reports "No test files found" (exit 0) - harness works, no tests yet.
 
 - [ ] **Step 8: Commit**
 
@@ -141,62 +149,77 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ## Task 2: Pure fixed-window helpers + tests
 
 **Files:**
+
 - Create: `services/ai/window.ts`
 - Test: `services/ai/window.test.ts`
 
-- [ ] **Step 1: Write the failing test** — `services/ai/window.test.ts`
+- [ ] **Step 1: Write the failing test** - `services/ai/window.test.ts`
 
 ```ts
-import { describe, it, expect } from 'vitest'
-import { nextBucketState, computeRetryAfterSec } from './window'
+import { describe, it, expect } from "vitest";
+import { nextBucketState, computeRetryAfterSec } from "./window";
 
-describe('nextBucketState', () => {
-  it('starts a fresh bucket when none exists', () => {
-    expect(nextBucketState(null, 1000, 5000)).toEqual({ windowStart: 1000, count: 1 })
-  })
+describe("nextBucketState", () => {
+  it("starts a fresh bucket when none exists", () => {
+    expect(nextBucketState(null, 1000, 5000)).toEqual({
+      windowStart: 1000,
+      count: 1,
+    });
+  });
 
-  it('increments within the window', () => {
-    const prev = { windowStart: 1000, count: 3 }
-    expect(nextBucketState(prev, 2000, 5000)).toEqual({ windowStart: 1000, count: 4 })
-  })
+  it("increments within the window", () => {
+    const prev = { windowStart: 1000, count: 3 };
+    expect(nextBucketState(prev, 2000, 5000)).toEqual({
+      windowStart: 1000,
+      count: 4,
+    });
+  });
 
-  it('rolls over when the window has elapsed', () => {
-    const prev = { windowStart: 1000, count: 19 }
-    expect(nextBucketState(prev, 7000, 5000)).toEqual({ windowStart: 7000, count: 1 })
-  })
+  it("rolls over when the window has elapsed", () => {
+    const prev = { windowStart: 1000, count: 19 };
+    expect(nextBucketState(prev, 7000, 5000)).toEqual({
+      windowStart: 7000,
+      count: 1,
+    });
+  });
 
-  it('rolls over exactly at the window boundary', () => {
-    const prev = { windowStart: 1000, count: 10 }
-    expect(nextBucketState(prev, 6000, 5000)).toEqual({ windowStart: 6000, count: 1 })
-  })
-})
+  it("rolls over exactly at the window boundary", () => {
+    const prev = { windowStart: 1000, count: 10 };
+    expect(nextBucketState(prev, 6000, 5000)).toEqual({
+      windowStart: 6000,
+      count: 1,
+    });
+  });
+});
 
-describe('computeRetryAfterSec', () => {
-  it('returns whole seconds remaining in the window', () => {
-    expect(computeRetryAfterSec(1000, 5000, 2000)).toBe(4)
-  })
-  it('never returns less than 1', () => {
-    expect(computeRetryAfterSec(1000, 5000, 5999)).toBe(1)
-    expect(computeRetryAfterSec(1000, 5000, 9000)).toBe(1)
-  })
-})
+describe("computeRetryAfterSec", () => {
+  it("returns whole seconds remaining in the window", () => {
+    expect(computeRetryAfterSec(1000, 5000, 2000)).toBe(4);
+  });
+  it("never returns less than 1", () => {
+    expect(computeRetryAfterSec(1000, 5000, 5999)).toBe(1);
+    expect(computeRetryAfterSec(1000, 5000, 9000)).toBe(1);
+  });
+});
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run services/ai/window.test.ts`
-Expected: FAIL — `window.ts` does not exist / exports undefined.
+Expected: FAIL - `window.ts` does not exist / exports undefined.
 
-- [ ] **Step 3: Write minimal implementation** — `services/ai/window.ts`
+- [ ] **Step 3: Write minimal implementation** - `services/ai/window.ts`
 
 ```ts
 /**
  * Pure helpers for fixed-window rate limiting & daily budgets.
- * No I/O — these mirror the atomic SQL in rateLimit.ts/budget.ts and exist
+ * No I/O - these mirror the atomic SQL in rateLimit.ts/budget.ts and exist
  * so the window algorithm is unit-testable without a database.
  */
 
-export const RATE_WINDOW_MS = Number(process.env.AI_RATE_WINDOW_MS ?? 5 * 60_000);
+export const RATE_WINDOW_MS = Number(
+  process.env.AI_RATE_WINDOW_MS ?? 5 * 60_000,
+);
 export const RATE_MAX_REQ = Number(process.env.AI_RATE_MAX_REQ ?? 20);
 
 export type BucketState = { windowStart: number; count: number };
@@ -214,7 +237,11 @@ export function nextBucketState(
 }
 
 /** Whole seconds until the current window expires (minimum 1). */
-export function computeRetryAfterSec(windowStartMs: number, windowMs: number, nowMs: number): number {
+export function computeRetryAfterSec(
+  windowStartMs: number,
+  windowMs: number,
+  nowMs: number,
+): number {
   return Math.max(1, Math.ceil((windowStartMs + windowMs - nowMs) / 1000));
 }
 ```
@@ -238,6 +265,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ## Task 3: Durable rate-limit (Postgres) + caller updates
 
 **Files:**
+
 - Modify: `data/schema/index.ts` (add `rateLimitBuckets`)
 - Rewrite: `services/ai/rateLimit.ts`
 - Modify: `app/api/ai/route.ts:22`, `app/api/interview/sessions/route.ts:14`, `app/api/interview/sessions/[id]/answer/route.ts:23`, `app/api/interview/sessions/[id]/next-question/route.ts:19`
@@ -246,25 +274,26 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 - [ ] **Step 1: Add the `rateLimitBuckets` table to `data/schema/index.ts`**
 
 Append at the end of the file:
+
 ```ts
 // --- Durable rate limiting (replaces in-memory Map) ---
-export const rateLimitBuckets = pgTable('rate_limit_buckets', {
-  key: text('key').primaryKey(),               // e.g. "ai:{userId}"
-  windowStart: timestamp('window_start').defaultNow().notNull(),
-  count: integer('count').notNull().default(0),
-})
+export const rateLimitBuckets = pgTable("rate_limit_buckets", {
+  key: text("key").primaryKey(), // e.g. "ai:{userId}"
+  windowStart: timestamp("window_start").defaultNow().notNull(),
+  count: integer("count").notNull().default(0),
+});
 ```
 
 - [ ] **Step 2: Rewrite `services/ai/rateLimit.ts` to use an atomic Postgres upsert**
 
 ```ts
-import { sql } from 'drizzle-orm';
-import { db } from '@/data/client';
-import { RATE_WINDOW_MS, RATE_MAX_REQ } from './window';
+import { sql } from "drizzle-orm";
+import { db } from "@/data/client";
+import { RATE_WINDOW_MS, RATE_MAX_REQ } from "./window";
 
 /**
  * Durable fixed-window rate limiter. State lives in Postgres (rate_limit_buckets)
- * so limits hold across serverless instances — replaces the old in-memory Map.
+ * so limits hold across serverless instances - replaces the old in-memory Map.
  * The whole read-modify-write is a single atomic INSERT ... ON CONFLICT DO UPDATE,
  * so concurrent requests cannot race. DB now() is the clock (no instance drift).
  */
@@ -298,7 +327,7 @@ export async function rateLimit(
     return { ok: true };
   } catch (e) {
     // Fail-open on DB error so a transient DB blip never blocks all traffic.
-    console.error('[rateLimit] db error, failing open:', e);
+    console.error("[rateLimit] db error, failing open:", e);
     return { ok: true };
   }
 }
@@ -310,10 +339,10 @@ export async function rateLimit(
 
 In each file, change the synchronous call to async. Exact edits:
 
-`app/api/ai/route.ts:22` — `const rl = rateLimit(userId);` → `const rl = await rateLimit(userId);`
-`app/api/interview/sessions/route.ts:14` — `const rl = rateLimit(userId)` → `const rl = await rateLimit(userId)`
-`app/api/interview/sessions/[id]/answer/route.ts:23` — `const rl = rateLimit(userId)` → `const rl = await rateLimit(userId)`
-`app/api/interview/sessions/[id]/next-question/route.ts:19` — `const rl = rateLimit(userId)` → `const rl = await rateLimit(userId)`
+`app/api/ai/route.ts:22` - `const rl = rateLimit(userId);` → `const rl = await rateLimit(userId);`
+`app/api/interview/sessions/route.ts:14` - `const rl = rateLimit(userId)` → `const rl = await rateLimit(userId)`
+`app/api/interview/sessions/[id]/answer/route.ts:23` - `const rl = rateLimit(userId)` → `const rl = await rateLimit(userId)`
+`app/api/interview/sessions/[id]/next-question/route.ts:19` - `const rl = rateLimit(userId)` → `const rl = await rateLimit(userId)`
 
 (All four are already inside `async` handlers, so adding `await` is valid.)
 
@@ -344,43 +373,69 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ## Task 4: Durable daily budget (Postgres)
 
 **Files:**
+
 - Modify: `data/schema/index.ts` (add `usageBudgets`)
 - Rewrite: `services/ai/budget.ts`
 - Generate: migration
 
-(`checkBudget`/`estimateTokens` have no external callers today — verified by grep — so the async change is safe. We keep the exact export names from `services/ai/index.ts`.)
+(`checkBudget`/`estimateTokens` have no external callers today - verified by grep - so the async change is safe. We keep the exact export names from `services/ai/index.ts`.)
 
 - [ ] **Step 1: Add the `usageBudgets` table to `data/schema/index.ts`**
 
 Append:
+
 ```ts
 // --- Durable daily budget guard (replaces in-memory counters) ---
-export const usageBudgets = pgTable('usage_budgets', {
-  day: text('day').notNull(),                 // 'YYYY-MM-DD' (UTC)
-  scope: text('scope').notNull().default('global'),
-  reqCount: integer('req_count').notNull().default(0),
-  tokenEstimate: integer('token_estimate').notNull().default(0),
-}, (t) => ({
-  pk: primaryKey({ columns: [t.day, t.scope] }),
-}))
+export const usageBudgets = pgTable(
+  "usage_budgets",
+  {
+    day: text("day").notNull(), // 'YYYY-MM-DD' (UTC)
+    scope: text("scope").notNull().default("global"),
+    reqCount: integer("req_count").notNull().default(0),
+    tokenEstimate: integer("token_estimate").notNull().default(0),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.day, t.scope] }),
+  }),
+);
 ```
 
 - [ ] **Step 2: Add `primaryKey` to the schema import line**
 
 Change `data/schema/index.ts` line 1 from:
+
 ```ts
-import { pgTable, text, timestamp, integer, jsonb, boolean, uuid } from 'drizzle-orm/pg-core'
+import {
+  pgTable,
+  text,
+  timestamp,
+  integer,
+  jsonb,
+  boolean,
+  uuid,
+} from "drizzle-orm/pg-core";
 ```
+
 to:
+
 ```ts
-import { pgTable, text, timestamp, integer, jsonb, boolean, uuid, primaryKey } from 'drizzle-orm/pg-core'
+import {
+  pgTable,
+  text,
+  timestamp,
+  integer,
+  jsonb,
+  boolean,
+  uuid,
+  primaryKey,
+} from "drizzle-orm/pg-core";
 ```
 
 - [ ] **Step 3: Rewrite `services/ai/budget.ts`**
 
 ```ts
-import { sql } from 'drizzle-orm';
-import { db } from '@/data/client';
+import { sql } from "drizzle-orm";
+import { db } from "@/data/client";
 
 const MAX_REQ_PER_DAY = Number(process.env.AI_DAILY_REQUEST_CAP ?? 5000);
 const MAX_TOKENS_PER_DAY = Number(process.env.AI_DAILY_TOKEN_CAP ?? 2_000_000);
@@ -392,7 +447,7 @@ const MAX_TOKENS_PER_DAY = Number(process.env.AI_DAILY_TOKEN_CAP ?? 2_000_000);
  */
 export async function checkBudget(
   estTokens: number,
-  scope = 'global',
+  scope = "global",
 ): Promise<{ ok: boolean; reason?: string }> {
   const day = new Date().toISOString().slice(0, 10); // YYYY-MM-DD UTC
   try {
@@ -406,17 +461,22 @@ export async function checkBudget(
     `)) as unknown as { rows: { req_count: number; token_estimate: number }[] };
 
     const row = rows.rows[0];
-    if (row && row.req_count > MAX_REQ_PER_DAY) return { ok: false, reason: 'daily request cap reached' };
-    if (row && row.token_estimate > MAX_TOKENS_PER_DAY) return { ok: false, reason: 'daily token cap reached' };
+    if (row && row.req_count > MAX_REQ_PER_DAY)
+      return { ok: false, reason: "daily request cap reached" };
+    if (row && row.token_estimate > MAX_TOKENS_PER_DAY)
+      return { ok: false, reason: "daily token cap reached" };
     return { ok: true };
   } catch (e) {
-    console.error('[checkBudget] db error, failing open:', e);
+    console.error("[checkBudget] db error, failing open:", e);
     return { ok: true };
   }
 }
 
-export function estimateTokens(inputs: Record<string, string>, expectedOutput = 700): number {
-  const inChars = Object.values(inputs).join('').length;
+export function estimateTokens(
+  inputs: Record<string, string>,
+  expectedOutput = 700,
+): number {
+  const inChars = Object.values(inputs).join("").length;
   return Math.ceil(inChars / 4) + expectedOutput;
 }
 ```
@@ -442,46 +502,56 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 
 ---
 
-## Task 5: pgvector substrate — `embeddings` table + extension + index
+## Task 5: pgvector substrate - `embeddings` table + extension + index
 
 **Files:**
+
 - Modify: `data/schema/index.ts` (custom `vector` type + `embeddings` table)
 - Generate + hand-edit: migration (drizzle-kit won't emit `CREATE EXTENSION`/HNSW)
 
 - [ ] **Step 1: Define a custom pgvector column type and the `embeddings` table in `data/schema/index.ts`**
 
 Add near the top (after the import line):
+
 ```ts
-import { customType } from 'drizzle-orm/pg-core'
+import { customType } from "drizzle-orm/pg-core";
 
 /** Minimal pgvector column type (stores a fixed-dimension float vector). */
 const vector = (dimensions: number) =>
   customType<{ data: number[]; driverData: string }>({
     dataType() {
-      return `vector(${dimensions})`
+      return `vector(${dimensions})`;
     },
     toDriver(value: number[]) {
-      return `[${value.join(',')}]`
+      return `[${value.join(",")}]`;
     },
     fromDriver(value: string) {
-      return value.replace(/^\[|\]$/g, '').split(',').map(Number)
+      return value
+        .replace(/^\[|\]$/g, "")
+        .split(",")
+        .map(Number);
     },
-  })('embedding')
+  })("embedding");
 ```
 
 Append the table at the end of the file:
+
 ```ts
 // --- Shared embedding substrate (pgvector) ---
-export const embeddings = pgTable('embeddings', {
-  entityType: text('entity_type').notNull(),   // 'skill' | 'resource' | 'profile' | ...
-  entityId: text('entity_id').notNull(),
-  contentHash: text('content_hash').notNull(), // skip re-embed when unchanged
-  embedding: vector(384),
-  model: text('model').notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-}, (t) => ({
-  pk: primaryKey({ columns: [t.entityType, t.entityId] }),
-}))
+export const embeddings = pgTable(
+  "embeddings",
+  {
+    entityType: text("entity_type").notNull(), // 'skill' | 'resource' | 'profile' | ...
+    entityId: text("entity_id").notNull(),
+    contentHash: text("content_hash").notNull(), // skip re-embed when unchanged
+    embedding: vector(384),
+    model: text("model").notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.entityType, t.entityId] }),
+  }),
+);
 ```
 
 - [ ] **Step 2: Generate the base migration**
@@ -492,10 +562,13 @@ Expected: a new migration `data/migrations/0006_*.sql` with `CREATE TABLE "embed
 - [ ] **Step 3: Hand-edit the generated embeddings migration to add the extension + HNSW index**
 
 At the **very top** of that migration file add:
+
 ```sql
 CREATE EXTENSION IF NOT EXISTS vector;
 ```
+
 At the **very bottom** add:
+
 ```sql
 CREATE INDEX IF NOT EXISTS embeddings_vec_hnsw
   ON embeddings USING hnsw (embedding vector_cosine_ops);
@@ -515,13 +588,14 @@ git commit -m "feat(data): pgvector embeddings substrate (extension + table + HN
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ```
 
-> Migration is **applied** to Neon in Task 9 (`npm run db:push`) once reviewed — keeps schema changes auditable before they hit the shared DB.
+> Migration is **applied** to Neon in Task 9 (`npm run db:push`) once reviewed - keeps schema changes auditable before they hit the shared DB.
 
 ---
 
 ## Task 6: Python compute service skeleton (health + auth)
 
 **Files:**
+
 - Create: `compute/requirements.txt`, `compute/Dockerfile`, `compute/.dockerignore`, `compute/README.md`
 - Create: `compute/app/__init__.py`, `compute/app/config.py`, `compute/app/auth.py`, `compute/app/main.py`
 - Create: `compute/app/routers/__init__.py`, `compute/app/routers/health.py`
@@ -629,9 +703,10 @@ app = create_app()
 
 - [ ] **Step 6: Create the empty package + test files**
 
-`compute/app/__init__.py`, `compute/app/routers/__init__.py`, `compute/tests/__init__.py` — all empty.
+`compute/app/__init__.py`, `compute/app/routers/__init__.py`, `compute/tests/__init__.py` - all empty.
 
 `compute/tests/conftest.py`:
+
 ```python
 import pytest
 from fastapi.testclient import TestClient
@@ -643,7 +718,7 @@ def client():
     return TestClient(create_app())
 ```
 
-- [ ] **Step 7: Write the failing tests** — `compute/tests/test_health.py`
+- [ ] **Step 7: Write the failing tests** - `compute/tests/test_health.py`
 
 ```python
 def test_health_ok(client):
@@ -653,6 +728,7 @@ def test_health_ok(client):
 ```
 
 `compute/tests/test_auth.py`:
+
 ```python
 def test_protected_route_requires_bearer(client):
     # /health is public; we assert the dependency itself rejects bad tokens
@@ -700,7 +776,7 @@ tests/
 .env
 ```
 
-- [ ] **Step 11: Create `compute/README.md`** (short — purpose + local run)
+- [ ] **Step 11: Create `compute/README.md`** (short - purpose + local run)
 
 ```md
 # Kairoo Compute Service
@@ -711,8 +787,10 @@ this service only reads/writes rows.
 
 ## Local run
 ```
+
 pip install -r requirements.txt
 PYTHONPATH=. uvicorn app.main:app --reload --port 7860
+
 ```
 
 ## Env
@@ -733,6 +811,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ## Task 7: Embedding endpoint `/v1/embed` + warm model
 
 **Files:**
+
 - Create: `compute/app/services/__init__.py`, `compute/app/services/embedder.py`
 - Create: `compute/app/routers/embed.py`
 - Modify: `compute/app/main.py` (load embedder in lifespan, mount embed router)
@@ -793,6 +872,7 @@ def embed(req: EmbedRequest, request: Request) -> EmbedResponse:
 - [ ] **Step 3: Wire the embedder into `compute/app/main.py` lifespan + mount the router**
 
 Replace the lifespan and `create_app` in `compute/app/main.py` with:
+
 ```python
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -825,7 +905,7 @@ def create_app(load_model: bool = True) -> FastAPI:
 app = create_app()
 ```
 
-- [ ] **Step 4: Write the test** — `compute/tests/test_embed.py`
+- [ ] **Step 4: Write the test** - `compute/tests/test_embed.py`
 
 ```python
 import pytest
@@ -882,6 +962,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ## Task 8: Next.js → compute client (typed, gated, graceful)
 
 **Files:**
+
 - Create: `services/compute/schemas.ts`
 - Create: `services/compute/client.ts`
 - Test: `services/compute/client.test.ts`
@@ -889,7 +970,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 - [ ] **Step 1: Create `services/compute/schemas.ts`**
 
 ```ts
-import { z } from 'zod';
+import { z } from "zod";
 
 export const embedResponseSchema = z.object({
   model: z.string(),
@@ -900,76 +981,98 @@ export const embedResponseSchema = z.object({
 export type EmbedResponse = z.infer<typeof embedResponseSchema>;
 ```
 
-- [ ] **Step 2: Write the failing test** — `services/compute/client.test.ts`
+- [ ] **Step 2: Write the failing test** - `services/compute/client.test.ts`
 
 ```ts
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const ORIGINAL = { ...process.env }
+const ORIGINAL = { ...process.env };
 
 beforeEach(() => {
-  vi.resetModules()
-  process.env = { ...ORIGINAL, COMPUTE_SERVICE_URL: 'https://x.hf.space', COMPUTE_SHARED_SECRET: 's' }
-})
+  vi.resetModules();
+  process.env = {
+    ...ORIGINAL,
+    COMPUTE_SERVICE_URL: "https://x.hf.space",
+    COMPUTE_SHARED_SECRET: "s",
+  };
+});
 
-describe('embed()', () => {
-  it('sends bearer auth and returns parsed vectors', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(
-      new Response(JSON.stringify({ model: 'm', dim: 2, vectors: [[1, 2]] }), { status: 200 }),
-    )
-    vi.stubGlobal('fetch', fetchMock)
-    const { embed } = await import('./client')
-    const out = await embed(['hi'])
-    expect(out).toEqual([[1, 2]])
-    const [, init] = fetchMock.mock.calls[0]
-    expect((init.headers as Record<string, string>).Authorization).toBe('Bearer s')
-  })
+describe("embed()", () => {
+  it("sends bearer auth and returns parsed vectors", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(
+        new Response(
+          JSON.stringify({ model: "m", dim: 2, vectors: [[1, 2]] }),
+          { status: 200 },
+        ),
+      );
+    vi.stubGlobal("fetch", fetchMock);
+    const { embed } = await import("./client");
+    const out = await embed(["hi"]);
+    expect(out).toEqual([[1, 2]]);
+    const [, init] = fetchMock.mock.calls[0];
+    expect((init.headers as Record<string, string>).Authorization).toBe(
+      "Bearer s",
+    );
+  });
 
-  it('throws UpstreamError on malformed response shape', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
-      new Response(JSON.stringify({ nope: true }), { status: 200 }),
-    ))
-    const { embed } = await import('./client')
-    await expect(embed(['hi'])).rejects.toThrow()
-  })
-})
+  it("throws UpstreamError on malformed response shape", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValue(
+          new Response(JSON.stringify({ nope: true }), { status: 200 }),
+        ),
+    );
+    const { embed } = await import("./client");
+    await expect(embed(["hi"])).rejects.toThrow();
+  });
+});
 ```
 
 - [ ] **Step 3: Run test to verify it fails**
 
 Run: `npx vitest run services/compute/client.test.ts`
-Expected: FAIL — `./client` does not exist.
+Expected: FAIL - `./client` does not exist.
 
 - [ ] **Step 4: Create `services/compute/client.ts`**
 
 ```ts
-import { env } from '@/config/env';
-import { UpstreamError } from '@/lib/errors';
-import { embedResponseSchema } from './schemas';
+import { env } from "@/config/env";
+import { UpstreamError } from "@/lib/errors";
+import { embedResponseSchema } from "./schemas";
 
 const TIMEOUT_MS = 15_000;
 
-async function callCompute<T>(path: string, body: unknown, retries = 1): Promise<T> {
-  if (!env.computeServiceUrl) throw new UpstreamError('compute service not configured');
+async function callCompute<T>(
+  path: string,
+  body: unknown,
+  retries = 1,
+): Promise<T> {
+  if (!env.computeServiceUrl)
+    throw new UpstreamError("compute service not configured");
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
     const res = await fetch(`${env.computeServiceUrl}${path}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${env.computeSharedSecret}`,
       },
       body: JSON.stringify(body),
       signal: controller.signal,
     });
     if (!res.ok) {
-      if (res.status >= 500 && retries > 0) return callCompute<T>(path, body, retries - 1);
+      if (res.status >= 500 && retries > 0)
+        return callCompute<T>(path, body, retries - 1);
       throw new UpstreamError(`compute ${path} failed: ${res.status}`);
     }
     return (await res.json()) as T;
   } catch (e) {
-    if (retries > 0 && e instanceof Error && e.name === 'AbortError') {
+    if (retries > 0 && e instanceof Error && e.name === "AbortError") {
       return callCompute<T>(path, body, retries - 1);
     }
     if (e instanceof UpstreamError) throw e;
@@ -981,9 +1084,13 @@ async function callCompute<T>(path: string, body: unknown, retries = 1): Promise
 
 /** Embed texts via the compute service. Returns one vector per input. */
 export async function embed(texts: string[]): Promise<number[][]> {
-  const raw = await callCompute<unknown>('/v1/embed', { texts, normalize: true });
+  const raw = await callCompute<unknown>("/v1/embed", {
+    texts,
+    normalize: true,
+  });
   const parsed = embedResponseSchema.safeParse(raw);
-  if (!parsed.success) throw new UpstreamError('compute /v1/embed returned an unexpected shape');
+  if (!parsed.success)
+    throw new UpstreamError("compute /v1/embed returned an unexpected shape");
   return parsed.data.vectors;
 }
 
@@ -991,7 +1098,9 @@ export async function embed(texts: string[]): Promise<number[][]> {
 export async function computeHealth(): Promise<boolean> {
   if (!env.computeServiceUrl) return false;
   try {
-    const res = await fetch(`${env.computeServiceUrl}/health`, { method: 'GET' });
+    const res = await fetch(`${env.computeServiceUrl}/health`, {
+      method: "GET",
+    });
     return res.ok;
   } catch {
     return false;
@@ -1020,6 +1129,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ## Task 9: Embedding backfill job + idempotency
 
 **Files:**
+
 - Create: `compute/app/db.py`
 - Create: `compute/app/jobs/__init__.py`, `compute/app/jobs/backfill.py`, `compute/app/jobs/scheduler.py`
 - Modify: `compute/app/main.py` (start scheduler in lifespan)
@@ -1100,6 +1210,7 @@ def start_scheduler(app):
 - [ ] **Step 4: Add the internal backfill trigger to `compute/app/routers/embed.py`**
 
 Append to that file:
+
 ```python
 class BackfillItem(BaseModel):
     entity_type: str
@@ -1130,12 +1241,13 @@ async def embed_backfill(req: BackfillRequest, request: Request) -> dict:
 - [ ] **Step 5: Start the scheduler in `compute/app/main.py` lifespan**
 
 In the lifespan function, after `app.state.embedder = Embedder(...)`, add:
+
 ```python
     from .jobs.scheduler import start_scheduler
     start_scheduler(app)
 ```
 
-- [ ] **Step 6: Write the test** — `compute/tests/test_backfill.py` (pure hash, no DB)
+- [ ] **Step 6: Write the test** - `compute/tests/test_backfill.py` (pure hash, no DB)
 
 ```python
 from app.jobs.backfill import content_hash
@@ -1166,10 +1278,11 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 ## Task 10: Deploy runbook, keep-warm pinger, apply migrations, flip the flag
 
 **Files:**
+
 - Create: `docs/runbooks/hf-space-deploy.md`
 - Create: `.github/workflows/compute-ping.yml`
 - Apply: migrations to Neon
-- Modify: `config/flags.ts` (`computeEnabled: true`) — only after the Space is verified
+- Modify: `config/flags.ts` (`computeEnabled: true`) - only after the Space is verified
 
 - [ ] **Step 1: Create `docs/runbooks/hf-space-deploy.md`**
 
@@ -1180,15 +1293,15 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 2. New Space → SDK: **Docker** → name e.g. `kairoo-compute` → **Public** (free CPU).
 3. Push the `compute/` directory to the Space repo:
    git clone https://huggingface.co/spaces/<user>/kairoo-compute
-   copy the repo's compute/* into it, commit, push.
+   copy the repo's compute/\* into it, commit, push.
    (Or use the Space web "Files" upload.)
 4. Space → Settings → **Variables and secrets**, add:
-   - COMPUTE_SHARED_SECRET  (a long random string)
-   - DATABASE_URL           (the Neon connection string)
-   - MODEL_NAME             BAAI/bge-small-en-v1.5
-   - ALLOWED_ORIGIN         https://<your-next-app-origin>
+   - COMPUTE_SHARED_SECRET (a long random string)
+   - DATABASE_URL (the Neon connection string)
+   - MODEL_NAME BAAI/bge-small-en-v1.5
+   - ALLOWED_ORIGIN https://<your-next-app-origin>
 5. Space builds the Docker image and serves at https://<user>-kairoo-compute.hf.space
-6. Verify: curl https://<user>-kairoo-compute.hf.space/health  → {"status":"ok","model_loaded":true}
+6. Verify: curl https://<user>-kairoo-compute.hf.space/health → {"status":"ok","model_loaded":true}
 7. In the Next.js env (.env.local / host), set:
    - COMPUTE_SERVICE_URL=https://<user>-kairoo-compute.hf.space
    - COMPUTE_SHARED_SECRET=<same as the Space secret>
@@ -1200,7 +1313,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 name: keep-compute-warm
 on:
   schedule:
-    - cron: '*/10 * * * *'   # every 10 minutes
+    - cron: "*/10 * * * *" # every 10 minutes
   workflow_dispatch:
 jobs:
   ping:
@@ -1224,19 +1337,23 @@ Expected: Drizzle reports the new tables (`rate_limit_buckets`, `usage_budgets`,
 - [ ] **Step 4: Integration smoke test (manual, after the Space is live)**
 
 Run (replace URL/secret):
+
 ```bash
 curl -fsS -X POST "$COMPUTE_SERVICE_URL/v1/embed" \
   -H "Authorization: Bearer $COMPUTE_SHARED_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"texts":["python data engineer"]}' | head -c 200
 ```
+
 Expected: JSON with `"dim":384` and a 384-length vector. Then a backfill round-trip:
+
 ```bash
 curl -fsS -X POST "$COMPUTE_SERVICE_URL/v1/embed/backfill" \
   -H "Authorization: Bearer $COMPUTE_SHARED_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"items":[{"entity_type":"smoke","entity_id":"1","text":"hello"}]}'
 ```
+
 Expected: `{"processed":1,"changed":1}`; a second identical call returns `"changed":0` (idempotent).
 
 - [ ] **Step 5: Flip `computeEnabled` to true in `config/flags.ts`** (only after Steps 3–4 pass)
@@ -1263,7 +1380,7 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 
 ---
 
-## Wave 1 Done — Definition of Done
+## Wave 1 Done - Definition of Done
 
 - [ ] `rateLimit`/`checkBudget` enforce limits durably via Postgres (in-memory Maps gone).
 - [ ] All 4 `rateLimit` callers `await`; `npx tsc --noEmit` clean.
@@ -1273,8 +1390,8 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 - [ ] Keep-warm workflow committed.
 - [ ] Existing app verified running normally (`npm run dev`).
 
-## Out of Scope (later waves — own spec→plan→build each)
+## Out of Scope (later waves - own spec→plan→build each)
 
 - **Wave 2:** analytics events table + scheduled rollups replacing per-request JS aggregation.
-- **Wave 3:** skill/job matching engine (ESCO/O*NET ingest + pgvector cosine + rule weighting) + wire `engines/ai/retrieval` off `noop`.
+- **Wave 3:** skill/job matching engine (ESCO/O\*NET ingest + pgvector cosine + rule weighting) + wire `engines/ai/retrieval` off `noop`.
 - **Wave 4:** deterministic resume parser (`pdfplumber` + `spaCy`) replacing LLM JSON extraction.

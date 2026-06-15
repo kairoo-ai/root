@@ -54,7 +54,7 @@ const connector: Connector = {
         user.articles_count > 0 ? ['Technical Writing', 'Developer Advocacy'] : []
 
       const resumeParts = [
-        `Dev.to: ${user.name} — ${user.articles_count} articles, ${user.comments_count} comments.`,
+        `Dev.to: ${user.name} - ${user.articles_count} articles, ${user.comments_count} comments.`,
         user.summary ? `Summary: ${user.summary}` : '',
       ]
 
@@ -67,7 +67,7 @@ const connector: Connector = {
         resumeText: resumeParts.filter(Boolean).join(' '),
       }
 
-      const summary = `Dev.to: ${user.name} — ${user.articles_count} articles, ${user.comments_count} comments`
+      const summary = `Dev.to: ${user.name} - ${user.articles_count} articles, ${user.comments_count} comments`
 
       return { success: true, source, extracted, summary }
     } catch (err) {

@@ -100,7 +100,7 @@ function SidebarNav() {
       <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
         {NAV_GROUPS.map(group => (
           <div key={group.title}>
-            {/* Section heading — hidden when collapsed */}
+            {/* Section heading - hidden when collapsed */}
             <AnimatePresence initial={false}>
               {open && (
                 <motion.p

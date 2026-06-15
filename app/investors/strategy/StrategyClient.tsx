@@ -33,7 +33,7 @@ import {
 } from "@/components/motion/ThreeDCard";
 
 /* ----------------------------------------------------------------------------
- * Scroll-reveal — token-clean Motion wrapper that respects reduced motion.
+ * Scroll-reveal - token-clean Motion wrapper that respects reduced motion.
  * -------------------------------------------------------------------------- */
 export function Reveal({
   children,
@@ -64,7 +64,7 @@ export function Reveal({
 }
 
 /* ----------------------------------------------------------------------------
- * Hero — Spotlight + elaborate Anime.js entrance sequence (token-only).
+ * Hero - Spotlight + elaborate Anime.js entrance sequence (token-only).
  * -------------------------------------------------------------------------- */
 const HERO_PILLS = [
   { icon: "target", label: "94/100 validated" },
@@ -143,7 +143,7 @@ export function StrategyHero() {
           className="mt-4 max-w-2xl text-body-lg text-muted-foreground opacity-0"
         >
           Comprehensive strategic analysis, market validation, and business intelligence for
-          {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} — your complete guide to building and scaling a successful SaaS platform.
+          {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - your complete guide to building and scaling a successful SaaS platform.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           {HERO_PILLS.map((pill) => (
@@ -163,7 +163,7 @@ export function StrategyHero() {
 }
 
 /* ----------------------------------------------------------------------------
- * Validation score panel — hero score + animated StatGrid for every metric.
+ * Validation score panel - hero score + animated StatGrid for every metric.
  * -------------------------------------------------------------------------- */
 export function ValidationScorePanel() {
   return (
@@ -201,7 +201,7 @@ export function ValidationScorePanel() {
 }
 
 /* ----------------------------------------------------------------------------
- * Validation sub-scores — the four weighted dimensions behind 94/100.
+ * Validation sub-scores - the four weighted dimensions behind 94/100.
  * -------------------------------------------------------------------------- */
 const SUBSCORES = [
   { label: "Problem Urgency", value: 92 },
@@ -233,7 +233,7 @@ export function ValidationSubscores() {
 }
 
 /* ----------------------------------------------------------------------------
- * MoSCoW doughnut — token-themed via the OKLCH ramps (no raw hex/rgb).
+ * MoSCoW doughnut - token-themed via the OKLCH ramps (no raw hex/rgb).
  * -------------------------------------------------------------------------- */
 const MOSCOW_SLICES = [
   { label: "Must Have", pct: 35, color: ramps.error[500] },
@@ -285,7 +285,7 @@ export function MoscowChart() {
 }
 
 /* ----------------------------------------------------------------------------
- * MoSCoW detail — 24 itemized features inside an Accordion.
+ * MoSCoW detail - 24 itemized features inside an Accordion.
  * -------------------------------------------------------------------------- */
 const MOSCOW_DETAIL = [
   {
@@ -366,7 +366,7 @@ export function MoscowDetail() {
                 {cat.items.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span aria-hidden className="text-primary">
-                      —
+                      -
                     </span>
                     {item}
                   </li>
@@ -381,7 +381,7 @@ export function MoscowDetail() {
 }
 
 /* ----------------------------------------------------------------------------
- * Ideal Customer Profiles — three full personas, surfaced through Tabs.
+ * Ideal Customer Profiles - three full personas, surfaced through Tabs.
  * -------------------------------------------------------------------------- */
 const ICPS = [
   {
@@ -458,7 +458,7 @@ function PersonaColumn({ heading, items }: { heading: string; items: readonly st
         {items.map((item) => (
           <li key={item} className="flex gap-2">
             <span aria-hidden className="text-primary">
-              —
+              -
             </span>
             {item}
           </li>
@@ -532,7 +532,7 @@ export function IcpTabs() {
 }
 
 /* ----------------------------------------------------------------------------
- * Core Problem Analysis — urgency + WTP signal meters.
+ * Core Problem Analysis - urgency + WTP signal meters.
  * -------------------------------------------------------------------------- */
 const PROBLEM_BLOCKS = [
   {
@@ -601,7 +601,7 @@ export function ProblemAnalysis() {
 }
 
 /* ----------------------------------------------------------------------------
- * Value proposition tones — hover-lift cards with a tooltip on each glyph.
+ * Value proposition tones - hover-lift cards with a tooltip on each glyph.
  * -------------------------------------------------------------------------- */
 const VALUE_TONES = [
   {
@@ -623,7 +623,7 @@ const VALUE_TONES = [
     title: "Aspirational Tone",
     hint: "Connects to identity and ambition.",
     quote:
-      `Unlock your unlimited potential. ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} doesn't just teach skills—it transforms lives, turning ambitious dreams into achievable realities through intelligent guidance.`,
+      `Unlock your unlimited potential. ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} doesn't just teach skills-it transforms lives, turning ambitious dreams into achievable realities through intelligent guidance.`,
   },
 ] as const;
 
@@ -666,7 +666,7 @@ export function ValueToneCards() {
 }
 
 /* ----------------------------------------------------------------------------
- * Implementation roadmap — animated vertical timeline (Anime.js draw + reveal).
+ * Implementation roadmap - animated vertical timeline (Anime.js draw + reveal).
  * -------------------------------------------------------------------------- */
 const ROADMAP = [
   {

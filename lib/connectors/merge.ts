@@ -3,7 +3,7 @@ import type { UserProfileUpdate } from '@/data/repositories/profiles.repo'
 
 /**
  * Merges extracted connector data into existing profile fields.
- * Existing non-empty values are preserved — imports only fill gaps or append to arrays.
+ * Existing non-empty values are preserved - imports only fill gaps or append to arrays.
  */
 export function mergeIntoProfile(
   existing: UserProfileUpdate,
@@ -20,7 +20,7 @@ export function mergeIntoProfile(
   if (!merged.githubUrl && extracted.githubUrl) merged.githubUrl = extracted.githubUrl
   if (!merged.portfolioUrl && extracted.portfolioUrl) merged.portfolioUrl = extracted.portfolioUrl
 
-  // Merge arrays — deduplicate
+  // Merge arrays - deduplicate
   if (extracted.skills?.length) {
     const existing_skills = merged.skills ?? []
     merged.skills = [...new Set([...existing_skills, ...extracted.skills])]

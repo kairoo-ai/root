@@ -1,7 +1,7 @@
 /**
- * AI feature orchestration — the enforcement side of the per-user AI cost-cap.
+ * AI feature orchestration - the enforcement side of the per-user AI cost-cap.
  *
- * Reserved skeleton — typed stubs only. No network/AI calls at module scope.
+ * Reserved skeleton - typed stubs only. No network/AI calls at module scope.
  */
 
 import { UpstreamError } from "@/lib/errors";

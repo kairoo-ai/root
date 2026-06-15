@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Tabs — thin wrapper around HeroUI v3's real Tabs.
+ * Tabs - thin wrapper around HeroUI v3's real Tabs.
  *
  * Source of truth: https://heroui.com/docs/react/components/tabs
  * Verified against installed @heroui/react v3.1.0
@@ -52,7 +52,7 @@
  */
 
 export {
-  // Compound default — `Tabs` is callable AND has .Root/.List/.Tab/.Panel/etc.
+  // Compound default - `Tabs` is callable AND has .Root/.List/.Tab/.Panel/etc.
   Tabs,
 
   // Flat named primitives (same components, attached on the compound above).

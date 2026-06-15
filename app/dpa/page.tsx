@@ -3,7 +3,7 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { dpa } from "@/lib/legal/content/dpa";
 
-export const metadata: Metadata = { title: `Data Processing Agreement — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}` };
+export const metadata: Metadata = { title: `Data Processing Agreement - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}` };
 
 export default function DpaPage() {
   return <LegalLayout title="Data Processing Agreement" body={dpa(legal)} />;

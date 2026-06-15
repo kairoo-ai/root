@@ -12,7 +12,7 @@ import { buildUserContext } from '@/engines/user-context';
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Auth — every call must be authenticated
+    // 1. Auth - every call must be authenticated
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     const systemAddendum = [feature.systemAddendum, userContext].filter(Boolean).join('\n\n');
     const messages = compose({ systemAddendum, userPrompt, context });
 
-    // 7. Stream tokens back — gateway handles provider fallback & retries
+    // 7. Stream tokens back - gateway handles provider fallback & retries
     const tokenStream = generateStream({
       messages,
       tier: feature.tier ?? 'fast',

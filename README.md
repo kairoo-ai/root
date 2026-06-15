@@ -1,4 +1,4 @@
-# Kairoo — Next.js Application
+# Kairoo - Next.js Application
 
 A comprehensive AI-powered career development and learning platform built with Next.js 16, React 19, TypeScript, and Google Gemini AI integration.
 
@@ -20,12 +20,14 @@ A comprehensive AI-powered career development and learning platform built with N
 ## 🛠️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd "AstraPath AI"
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
@@ -35,13 +37,15 @@ A comprehensive AI-powered career development and learning platform built with N
    ```
 
 3. **Set up environment variables**
-   
+
    Create a `.env.local` file in the root directory:
+
    ```env
    GEMINI_API_KEY=your_gemini_api_key_here
    ```
 
 4. **Run the development server**
+
    ```bash
    npm run dev
    # or
@@ -51,7 +55,7 @@ A comprehensive AI-powered career development and learning platform built with N
    ```
 
 5. **Open your browser**
-   
+
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Project Structure
@@ -116,6 +120,7 @@ A comprehensive AI-powered career development and learning platform built with N
 ## 🤖 AI Integration
 
 The application uses Google Gemini AI for:
+
 - Career roadmap generation
 - Interview coaching
 - Salary negotiation guidance
@@ -137,6 +142,7 @@ All AI interactions are handled through the `/api/ai` route, which securely comm
 ## 🚢 Deployment
 
 The application is ready to deploy on:
+
 - **Vercel** (Recommended) - Zero-config deployment
 - **Netlify** - Easy deployment with CI/CD
 - **AWS** - Full control over infrastructure
@@ -145,6 +151,7 @@ The application is ready to deploy on:
 ## 📝 Environment Variables
 
 Required:
+
 - `GEMINI_API_KEY` - Your Google Gemini API key
 
 ## 🔒 Security

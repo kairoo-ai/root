@@ -72,7 +72,7 @@ import {
 import ForecastChart from "@/components/ForecastChart";
 
 /* -------------------------------------------------------------------------- */
-/* Motion helpers — reduced-motion safe scroll reveal                          */
+/* Motion helpers - reduced-motion safe scroll reveal                          */
 /* -------------------------------------------------------------------------- */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -111,7 +111,7 @@ function Reveal({
   );
 }
 
-/** Brand gradient text helper — teal -> navy via token color-mix. */
+/** Brand gradient text helper - teal -> navy via token color-mix. */
 const GRADIENT_TEXT =
   "bg-clip-text text-transparent [background-image:linear-gradient(110deg,var(--primary),color-mix(in_oklab,var(--accent)_85%,var(--primary)),var(--primary))]";
 
@@ -413,7 +413,7 @@ const TOOLS = [
 ];
 
 /* -------------------------------------------------------------------------- */
-/* Hero — Spotlight + Aurora + anime.js per-word entrance                      */
+/* Hero - Spotlight + Aurora + anime.js per-word entrance                      */
 /* -------------------------------------------------------------------------- */
 
 function DeckHero() {
@@ -502,7 +502,7 @@ function DeckHero() {
           </h1>
           <p className="text-pretty text-body-lg text-muted-foreground">
             Comprehensive investment materials, financial projections, and
-            growth strategies for {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} — the future of AI-powered professional
+            growth strategies for {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - the future of AI-powered professional
             development. Join us in transforming how the world learns and grows.
           </p>
         </Stack>
@@ -649,7 +649,7 @@ export function DeckContent() {
                 10-Slide <span className={GRADIENT_TEXT}>Pitch Deck</span> Structure
               </>
             }
-            subtitle="Step through the full investor narrative — from the problem we solve to exactly what we're asking for."
+            subtitle="Step through the full investor narrative - from the problem we solve to exactly what we're asking for."
           />
         </Reveal>
 
@@ -851,7 +851,7 @@ export function DeckContent() {
                 90-Day <span className={GRADIENT_TEXT}>MVP Launch</span> Action Plan
               </>
             }
-            subtitle="Three disciplined phases — foundation, beta, then scale — each with parallel product and go-to-market workstreams."
+            subtitle="Three disciplined phases - foundation, beta, then scale - each with parallel product and go-to-market workstreams."
           />
         </Reveal>
 

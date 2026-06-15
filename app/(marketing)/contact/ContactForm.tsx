@@ -10,16 +10,16 @@ import { Label } from "@/components/ui/Label";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/Alert";
 import { Stack } from "@/components/layout/Stack";
 
-/** Minimal client-side validity check — real submission is wired to a TODO handler. */
+/** Minimal client-side validity check - real submission is wired to a TODO handler. */
 type Status = "idle" | "submitting" | "success" | "error";
 
 /**
- * ContactForm — accessible, token-only contact form.
+ * ContactForm - accessible, token-only contact form.
  *
  * NOTE (non-functional): this form does NOT currently send anything. On submit
  * it runs a placeholder handler (`submitContact`) that resolves locally and
  * shows a success Alert. Wire it to a real endpoint / server action before
- * launch — see the `// TODO` below.
+ * launch - see the `// TODO` below.
  */
 export function ContactForm() {
   const nameId = useId();
@@ -35,7 +35,7 @@ export function ContactForm() {
     setStatus("submitting");
 
     try {
-      // TODO(contact): replace this placeholder with a real submission — a Next.js
+      // TODO(contact): replace this placeholder with a real submission - a Next.js
       // server action, an API route (e.g. POST /api/contact), or an email/CRM
       // integration. Currently this only simulates a successful round-trip so
       // the UI can be reviewed; no data leaves the browser.
@@ -52,11 +52,11 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} noValidate aria-describedby={statusId}>
       <Stack gap={5}>
-        {/* Live region for submission feedback — announced to assistive tech. */}
+        {/* Live region for submission feedback - announced to assistive tech. */}
         <div id={statusId} aria-live="polite">
           {status === "success" ? (
             <Alert variant="success">
-              <AlertTitle>Thanks — your message is ready to send.</AlertTitle>
+              <AlertTitle>Thanks - your message is ready to send.</AlertTitle>
               <AlertDescription>
                 This demo form is not yet connected to a backend, so nothing was
                 actually delivered. For anything urgent, email us directly using

@@ -63,11 +63,10 @@ export default function ResumePreview({ sections, templateId, onTemplateChange }
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => onTemplateChange(t.id)}
-              className={`relative shrink-0 rounded-xl border transition-all overflow-hidden ${
-                templateId === t.id
+              className={`relative shrink-0 rounded-xl border transition-all overflow-hidden ${templateId === t.id
                   ? 'border-violet-500/60 ring-1 ring-violet-500/40'
                   : 'border-white/10 hover:border-white/25'
-              }`}
+                }`}
             >
               <Cover className={`bg-linear-to-br ${t.accent} px-3 py-2 min-w-[80px]`}>
                 <div className="text-xs font-semibold text-white">{t.label}</div>
@@ -90,7 +89,7 @@ export default function ResumePreview({ sections, templateId, onTemplateChange }
         </button>
       </div>
 
-      {/* Preview container — scaled A4 */}
+      {/* Preview container - scaled A4 */}
       <div className="flex-1 overflow-y-auto rounded-xl border border-white/10 bg-white">
         <div ref={printRef} className="w-full min-h-full">
           <TemplateComponent sections={sections} />

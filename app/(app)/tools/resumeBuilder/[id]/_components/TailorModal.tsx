@@ -70,7 +70,7 @@ export function TailorModal({ resumeId, isOpen, onClose, onTailored }: TailorMod
               </button>
             </div>
             <p className="mb-4 text-sm text-muted-foreground">
-              Paste the job description and we&apos;ll rewrite your resume to match it — keywords,
+              Paste the job description and we&apos;ll rewrite your resume to match it - keywords,
               tone, and emphasis.
             </p>
             <div className="space-y-3">

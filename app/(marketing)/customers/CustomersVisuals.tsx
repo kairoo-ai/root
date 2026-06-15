@@ -26,7 +26,7 @@ import type { Testimonial as TestimonialType } from "@/types";
 
 /* ------------------------------------------------------------------ */
 /* Shared, token-only gradient text (teal -> navy -> bright teal).      */
-/* Built from color-mix on brand tokens — never raw hex.                */
+/* Built from color-mix on brand tokens - never raw hex.                */
 /* ------------------------------------------------------------------ */
 const GRADIENT_TEXT: React.CSSProperties = {
   backgroundImage:
@@ -39,7 +39,7 @@ const GRADIENT_TEXT: React.CSSProperties = {
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* ================================================================== */
-/* HERO — anime.js headline sequence + Spotlight + token aurora        */
+/* HERO - anime.js headline sequence + Spotlight + token aurora        */
 /* ================================================================== */
 export function CustomersHero({
   titleLead,
@@ -159,7 +159,7 @@ export function CustomersHero({
           </motion.a>
         </motion.div>
 
-        {/* Inline trust ribbon — fills the hero, keeps rhythm tight */}
+        {/* Inline trust ribbon - fills the hero, keeps rhythm tight */}
         <motion.div
           className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-body-sm text-muted-foreground"
           initial={reduce ? false : { opacity: 0 }}
@@ -180,7 +180,7 @@ export function CustomersHero({
           </span>
           <span className="inline-flex items-center gap-1.5">
             <IconRenderer name="globe" className="size-4 text-accent" size={16} />
-            Growing team — join us
+            Growing team - join us
           </span>
         </motion.div>
       </Stack>
@@ -189,7 +189,7 @@ export function CustomersHero({
 }
 
 /* ================================================================== */
-/* LOGO MARQUEE — trusted-by row                                       */
+/* LOGO MARQUEE - trusted-by row                                       */
 /* ================================================================== */
 export function CustomersLogoMarquee({
   label,
@@ -213,7 +213,7 @@ export function CustomersLogoMarquee({
 }
 
 /* ================================================================== */
-/* TESTIMONIALS — CardSpotlight + ThreeDCard tilt                      */
+/* TESTIMONIALS - CardSpotlight + ThreeDCard tilt                      */
 /* ================================================================== */
 export function CustomersTestimonials({
   heading,
@@ -339,7 +339,7 @@ export function CustomersTestimonials({
 }
 
 /* ================================================================== */
-/* IMPACT STATS — animated StatGrid inside a glass spotlight panel     */
+/* IMPACT STATS - animated StatGrid inside a glass spotlight panel     */
 /* ================================================================== */
 export function CustomersImpact({
   heading,
@@ -364,7 +364,7 @@ export function CustomersImpact({
           variant="glass"
           className="relative overflow-hidden p-8 sm:p-12"
         >
-          {/* token glow accents — teal + amber, no purple */}
+          {/* token glow accents - teal + amber, no purple */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 -z-0"
@@ -413,7 +413,7 @@ export function CustomersImpact({
 }
 
 /* ================================================================== */
-/* OUTCOME BENTO — why customers win, BentoGrid                        */
+/* OUTCOME BENTO - why customers win, BentoGrid                        */
 /* ================================================================== */
 export function CustomersBento({
   heading,

@@ -1,11 +1,11 @@
 "use client";
 
 /* -------------------------------------------------------------------------- */
-/*  Security & Trust — client visuals                                           */
+/*  Security & Trust - client visuals                                           */
 /*                                                                             */
 /*  All interactive / animated sections live here so page.tsx stays a pure      */
 /*  server component with `export const metadata`. Data crosses the RSC          */
-/*  boundary as plain serializable values only (strings, numbers, arrays) —     */
+/*  boundary as plain serializable values only (strings, numbers, arrays) -     */
 /*  icons are passed as NAME strings and rendered via <IconRenderer>, never as  */
 /*  lucide component references (that previously broke prerender with           */
 /*  "Refs cannot be passed to Client Components").                              */
@@ -50,7 +50,7 @@ import { StatGrid, type StatCounterProps } from "@/components/blocks/StatCounter
 export type LayerVM = {
   title: string;
   icon: string;
-  /** Small kicker, e.g. "Layer 01 — Edge". */
+  /** Small kicker, e.g. "Layer 01 - Edge". */
   tag: string;
   summary: string;
   controls: string[];
@@ -112,7 +112,7 @@ const itemVariants: Variants = {
 };
 
 /* =========================================================================== */
-/*  HERO — Spotlight + animated shield/lock motif + anime.js headline          */
+/*  HERO - Spotlight + animated shield/lock motif + anime.js headline          */
 /* =========================================================================== */
 
 export function SecurityHero({
@@ -181,7 +181,7 @@ export function SecurityHero({
           ].join(", "),
         }}
       />
-      {/* Fine dotted grid for depth — fades into the background. */}
+      {/* Fine dotted grid for depth - fades into the background. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35] [mask-image:radial-gradient(60%_50%_at_50%_30%,black,transparent)]"
@@ -278,7 +278,7 @@ export function SecurityHero({
 }
 
 /**
- * ShieldMotif — a layered, animated trust crest: concentric scanning rings
+ * ShieldMotif - a layered, animated trust crest: concentric scanning rings
  * orbiting a glassy shield with a pulsing lock at its core. Pure transform +
  * opacity, token-only colors, fully neutralized under reduced-motion.
  */
@@ -289,16 +289,16 @@ function ShieldMotif() {
     reduce
       ? {}
       : {
-          animate: { rotate: 360 },
-          transition: { duration: 26 + delay * 6, ease: "linear", repeat: Infinity },
-        };
+        animate: { rotate: 360 },
+        transition: { duration: 26 + delay * 6, ease: "linear", repeat: Infinity },
+      };
 
   const counterRing: MotionProps = reduce
     ? {}
     : {
-        animate: { rotate: -360 },
-        transition: { duration: 34, ease: "linear", repeat: Infinity },
-      };
+      animate: { rotate: -360 },
+      transition: { duration: 34, ease: "linear", repeat: Infinity },
+    };
 
   return (
     <motion.div
@@ -384,7 +384,7 @@ function ShieldMotif() {
 }
 
 /* =========================================================================== */
-/*  STATS — animated count-up band of performance targets                      */
+/*  STATS - animated count-up band of performance targets                      */
 /* =========================================================================== */
 
 export function SecurityStats({
@@ -468,7 +468,7 @@ export function SecurityStats({
 }
 
 /* =========================================================================== */
-/*  LAYERS — defense-in-depth as an asymmetric Bento of CardSpotlight cells     */
+/*  LAYERS - defense-in-depth as an asymmetric Bento of CardSpotlight cells     */
 /* =========================================================================== */
 
 const layerSpan: Record<LayerVM["span"], string> = {
@@ -602,7 +602,7 @@ export function SecurityLayers({
 }
 
 /* =========================================================================== */
-/*  PRACTICES — ThreeDCard tilt grid of operating principles                   */
+/*  PRACTICES - ThreeDCard tilt grid of operating principles                   */
 /* =========================================================================== */
 
 export function SecurityPractices({
@@ -687,7 +687,7 @@ export function SecurityPractices({
 }
 
 /* =========================================================================== */
-/*  COMPLIANCE — animated posture cards + procurement callout                   */
+/*  COMPLIANCE - animated posture cards + procurement callout                   */
 /* =========================================================================== */
 
 export function SecurityCompliance({
@@ -815,7 +815,7 @@ export function SecurityCompliance({
 }
 
 /* =========================================================================== */
-/*  PERFORMANCE + MONITORING — split panel with animated targets               */
+/*  PERFORMANCE + MONITORING - split panel with animated targets               */
 /* =========================================================================== */
 
 export function SecurityPerformance({
@@ -952,7 +952,7 @@ export function SecurityPerformance({
 }
 
 /* =========================================================================== */
-/*  DEEP DIVE — HeroUI Tabs: dense control breakdown per layer                  */
+/*  DEEP DIVE - HeroUI Tabs: dense control breakdown per layer                  */
 /* =========================================================================== */
 
 export function SecurityDeepDive({
@@ -1067,7 +1067,7 @@ export function SecurityDeepDive({
 }
 
 /* =========================================================================== */
-/*  LIFECYCLE — horizontal stepper of a request's journey                       */
+/*  LIFECYCLE - horizontal stepper of a request's journey                       */
 /* =========================================================================== */
 
 export function SecurityLifecycle({
@@ -1166,7 +1166,7 @@ export function SecurityLifecycle({
 }
 
 /* =========================================================================== */
-/*  FAQ — HeroUI Accordion in a glass card                                       */
+/*  FAQ - HeroUI Accordion in a glass card                                       */
 /* =========================================================================== */
 
 export function SecurityFAQ({

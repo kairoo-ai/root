@@ -84,7 +84,7 @@ const connector: Connector = {
         githubUrl: user.html_url,
         skills: topLanguages.length > 0 ? topLanguages : undefined,
         resumeText: [
-          `GitHub profile: ${username} — ${user.public_repos} public repos, followers: ${user.followers}.`,
+          `GitHub profile: ${username} - ${user.public_repos} public repos, followers: ${user.followers}.`,
           topLanguages.length > 0 ? `Top languages: ${topLanguages.join(', ')}.` : '',
         ]
           .filter(Boolean)

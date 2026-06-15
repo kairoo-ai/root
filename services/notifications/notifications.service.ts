@@ -1,7 +1,7 @@
 /**
  * Outbound user notifications (email / in-app).
  *
- * Reserved skeleton — typed stubs only. No network calls at module scope.
+ * Reserved skeleton - typed stubs only. No network calls at module scope.
  */
 
 export type NotificationChannel = "email" | "in_app";

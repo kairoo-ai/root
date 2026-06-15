@@ -1,7 +1,7 @@
 /**
  * Auth / session resolution.
  *
- * Reserved skeleton — typed stubs only. No network/DB calls at module scope.
+ * Reserved skeleton - typed stubs only. No network/DB calls at module scope.
  */
 
 import { AuthError } from "@/lib/errors";

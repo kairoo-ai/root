@@ -117,7 +117,7 @@ export function OnboardingWizard({ initialStep = 0, initialData = {} }: Props) {
           ))}
         </div>
         <p className="text-xs text-zinc-500 text-center">
-          Step {step + 1} of {STEPS.length} — {STEPS[step]}
+          Step {step + 1} of {STEPS.length} - {STEPS[step]}
         </p>
       </div>
 

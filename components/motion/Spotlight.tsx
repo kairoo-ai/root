@@ -13,7 +13,7 @@ type SpotlightProps = {
 };
 
 /**
- * Aceternity Spotlight — a large, blurred, off-screen ellipse that animates into
+ * Aceternity Spotlight - a large, blurred, off-screen ellipse that animates into
  * view to spotlight hero content. Fully token-skinned: the default fill resolves
  * to `var(--accent)` and the entrance animation is driven by the token-based
  * `.animate-spotlight` keyframes in globals.css.

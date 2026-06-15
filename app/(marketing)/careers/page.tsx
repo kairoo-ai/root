@@ -3,9 +3,9 @@ import Link from "next/link";
 import { MapPin, Clock, Users, Zap, Heart, Code2, Megaphone, BarChart3, Pen, Globe } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: `Careers — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
+  title: `Careers - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
   description:
-    `Join ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} — we're building the AI-powered career platform for the next generation of professionals. Part-time roles, internships, and student contributor positions open.`,
+    `Join ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - we're building the AI-powered career platform for the next generation of professionals. Part-time roles, internships, and student contributor positions open.`,
 };
 
 const OPEN_ROLES = [
@@ -75,7 +75,7 @@ const OPEN_ROLES = [
     requirements: [
       "Hands-on experience with LLMs (OpenAI, Anthropic, etc.)",
       "Interest in career AI or learning tech",
-      "Analytical — can evaluate output quality systematically",
+      "Analytical - can evaluate output quality systematically",
       "Background in AI/ML, engineering, or linguistics",
     ],
   },
@@ -96,7 +96,7 @@ const OPEN_ROLES = [
 ];
 
 const PERKS = [
-  { icon: Heart, title: "Mission-first", body: "We're building something that actually matters — career tools that help real people land jobs, level up, and grow." },
+  { icon: Heart, title: "Mission-first", body: "We're building something that actually matters - career tools that help real people land jobs, level up, and grow." },
   { icon: Users, title: "Tiny team, big impact", body: "Small team means your work ships. Every feature you build or idea you raise has a real chance of reaching thousands of users." },
   { icon: Clock, title: "Async-friendly", body: "Part-time and student contributors are first-class. We work around your schedule, not the other way around." },
   { icon: Zap, title: "Learn by doing", body: "Work directly with founders, get real product experience, and build things you can talk about in every future interview." },
@@ -115,7 +115,7 @@ export default function CareersPage() {
           </span>
         </h1>
         <p className="mb-8 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-          {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is a small team building an AI-powered career and learning platform for the next generation of professionals. We&apos;re early, ambitious, and looking for people who want to grow alongside us — students, recent grads, and part-timers very welcome.
+          {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is a small team building an AI-powered career and learning platform for the next generation of professionals. We&apos;re early, ambitious, and looking for people who want to grow alongside us - students, recent grads, and part-timers very welcome.
         </p>
         <div className="flex flex-wrap gap-3">
           <a href="mailto:careers@kairoo.in"
@@ -193,7 +193,7 @@ export default function CareersPage() {
       <div className="mt-16 rounded-2xl border border-teal-500/20 bg-teal-500/5 p-8 text-center">
         <h3 className="mb-2 text-lg font-black text-foreground">Don&apos;t see your role?</h3>
         <p className="mb-5 text-sm text-muted-foreground max-w-md mx-auto">
-          We&apos;re open to unconventional profiles. If you care about career development, love building, and want real ownership early — send us a note.
+          We&apos;re open to unconventional profiles. If you care about career development, love building, and want real ownership early - send us a note.
         </p>
         <a href="mailto:careers@kairoo.in?subject=Open Application"
           className="inline-flex items-center gap-2 rounded-xl bg-teal-500 px-5 py-2.5 text-sm font-bold text-black hover:bg-teal-400 transition-colors">

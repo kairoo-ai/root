@@ -50,7 +50,7 @@ const DEFAULT_ITEMS: BentoItem[] = [
   {
     title: "Unified care timeline",
     description:
-      "Every signal, note, and result on one chronological surface — no tab-hopping, no lost context.",
+      "Every signal, note, and result on one chronological surface - no tab-hopping, no lost context.",
     span: "2x2",
   },
   {
@@ -64,7 +64,7 @@ const DEFAULT_ITEMS: BentoItem[] = [
   },
   {
     title: "Real-time presence",
-    description: "See who's looking, editing, and acting — live.",
+    description: "See who's looking, editing, and acting - live.",
   },
   {
     title: "Composable workflows",

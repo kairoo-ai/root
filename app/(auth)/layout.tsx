@@ -6,7 +6,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <BackgroundRipple className="min-h-screen bg-background" numRings={5}>
       <SpotlightNew className="relative flex min-h-screen flex-col items-center justify-center px-4 py-12" size={500}>
-        {/* Subtle token aurora — uses CSS vars so it adapts to light/dark */}
+        {/* Subtle token aurora - uses CSS vars so it adapts to light/dark */}
         <div aria-hidden className="auth-aurora pointer-events-none fixed inset-0 -z-10" />
 
         {/* Logo mark */}

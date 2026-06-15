@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebrand the app from "AstraPath AI" to **Kairoo** — apply the locked color system, themes, typography, and glyph across the codebase, add a rebrand-announcement banner, and rename every user-facing and internal "AstraPath" reference.
+**Goal:** Rebrand the app from "AstraPath AI" to **Kairoo** - apply the locked color system, themes, typography, and glyph across the codebase, add a rebrand-announcement banner, and rename every user-facing and internal "AstraPath" reference.
 
 **Architecture:** Next.js 16 App Router. Theming is CSS-variable based in `app/globals.css` (`:root` + `.dark`, plus a `@theme inline` map) with `next-themes` (class strategy, dark default). Fonts load via `next/font`. We add Kairoo brand tokens alongside the existing neutral tokens, retune the gradient/background accents to the brand palette, swap the font stack, introduce a reusable `Logo` component built from the locked glyph SVG, and mount a dismissible rebrand banner in the root layout.
 
@@ -17,20 +17,22 @@
 ## File Structure
 
 **Create:**
-- `app/fonts/` — local Mona Sans variable font files (woff2) + `index.ts` font bindings
-- `components/Logo.tsx` — Kairoo glyph + wordmark, theme-aware, size-configurable
-- `components/RebrandBanner.tsx` — dismissible "AstraPath AI is now Kairoo" banner
-- `public/brand/kairoo-glyph.svg`, `kairoo-glyph-dark.svg`, `kairoo-mark.svg` — runtime SVGs (copied from `docs/brand/`)
-- `app/icon.svg` — favicon (Next.js file-based metadata icon)
-- `app/apple-icon.svg` — Apple touch icon
+
+- `app/fonts/` - local Mona Sans variable font files (woff2) + `index.ts` font bindings
+- `components/Logo.tsx` - Kairoo glyph + wordmark, theme-aware, size-configurable
+- `components/RebrandBanner.tsx` - dismissible "AstraPath AI is now Kairoo" banner
+- `public/brand/kairoo-glyph.svg`, `kairoo-glyph-dark.svg`, `kairoo-mark.svg` - runtime SVGs (copied from `docs/brand/`)
+- `app/icon.svg` - favicon (Next.js file-based metadata icon)
+- `app/apple-icon.svg` - Apple touch icon
 
 **Modify:**
-- `app/globals.css` — add brand tokens, retune `gradient-text`, body backgrounds, font var
-- `app/layout.tsx` — fonts, metadata (title/description), mount `RebrandBanner`
-- `app/providers.tsx` — `storageKey` rename
-- `components/Navigation.tsx` — use `Logo`
-- `components/Footer.tsx` — use `Logo`, copyright text
-- `package.json` — `name` field
+
+- `app/globals.css` - add brand tokens, retune `gradient-text`, body backgrounds, font var
+- `app/layout.tsx` - fonts, metadata (title/description), mount `RebrandBanner`
+- `app/providers.tsx` - `storageKey` rename
+- `components/Navigation.tsx` - use `Logo`
+- `components/Footer.tsx` - use `Logo`, copyright text
+- `package.json` - `name` field
 - Copy/text files: `app/page.tsx`, `app/business-strategy/page.tsx`, `app/investor-deck/page.tsx`, `app/market-analysis/page.tsx`, `app/technical-architecture/page.tsx`, `components/CompetitiveChart.tsx`, `README.md`, `GEMINI.md`
 
 ---
@@ -38,6 +40,7 @@
 ## Task 1: Add Kairoo brand color tokens to globals.css
 
 **Files:**
+
 - Modify: `app/globals.css` (the `:root` block ~line 312, `.dark` block ~line 353, and `@theme inline` ~line 8)
 
 - [ ] **Step 1: Add brand tokens to `:root`**
@@ -45,19 +48,19 @@
 In `app/globals.css`, inside the `:root { ... }` block, add these lines just before the closing `}` (after `--surface-glow`):
 
 ```css
-  /* Kairoo brand palette */
-  --brand-navy: #0B1F3A;
-  --brand-teal: #0D9488;
-  --brand-teal-bright: #2DD4BF;
-  --brand-amber: #F59E0B;
-  --brand-gold: #CBA34A;
-  --brand-mist: #F8FAFC;
-  /* Semantic (light) */
-  --brand-ink: var(--brand-navy);
-  --brand-primary: var(--brand-teal);
-  --tier-free: var(--brand-amber);
-  --tier-pro: var(--brand-teal);
-  --tier-enterprise: var(--brand-navy);
+/* Kairoo brand palette */
+--brand-navy: #0b1f3a;
+--brand-teal: #0d9488;
+--brand-teal-bright: #2dd4bf;
+--brand-amber: #f59e0b;
+--brand-gold: #cba34a;
+--brand-mist: #f8fafc;
+/* Semantic (light) */
+--brand-ink: var(--brand-navy);
+--brand-primary: var(--brand-teal);
+--tier-free: var(--brand-amber);
+--tier-pro: var(--brand-teal);
+--tier-enterprise: var(--brand-navy);
 ```
 
 - [ ] **Step 2: Add dark overrides to `.dark`**
@@ -65,9 +68,9 @@ In `app/globals.css`, inside the `:root { ... }` block, add these lines just bef
 Inside the `.dark { ... }` block, before its closing `}` (after `--surface-glow`), add:
 
 ```css
-  /* Kairoo brand (dark) */
-  --brand-ink: var(--brand-mist);
-  --brand-primary: var(--brand-teal-bright);
+/* Kairoo brand (dark) */
+--brand-ink: var(--brand-mist);
+--brand-primary: var(--brand-teal-bright);
 ```
 
 - [ ] **Step 3: Expose brand tokens to Tailwind via `@theme inline`**
@@ -75,13 +78,13 @@ Inside the `.dark { ... }` block, before its closing `}` (after `--surface-glow`
 Inside the `@theme inline { ... }` block, before its closing `}` (after `--radius-xl`), add:
 
 ```css
-  --color-brand-navy: var(--brand-navy);
-  --color-brand-teal: var(--brand-teal);
-  --color-brand-teal-bright: var(--brand-teal-bright);
-  --color-brand-amber: var(--brand-amber);
-  --color-brand-gold: var(--brand-gold);
-  --color-brand-primary: var(--brand-primary);
-  --color-brand-ink: var(--brand-ink);
+--color-brand-navy: var(--brand-navy);
+--color-brand-teal: var(--brand-teal);
+--color-brand-teal-bright: var(--brand-teal-bright);
+--color-brand-amber: var(--brand-amber);
+--color-brand-gold: var(--brand-gold);
+--color-brand-primary: var(--brand-primary);
+--color-brand-ink: var(--brand-ink);
 ```
 
 - [ ] **Step 4: Verify build**
@@ -101,6 +104,7 @@ git commit -m "feat(brand): add Kairoo color tokens to theme"
 ## Task 2: Retune gradient + backgrounds to the brand palette
 
 **Files:**
+
 - Modify: `app/globals.css` (`.gradient-text` ~line 105; `.aurora-bg` ~line 50; `body` background ~line 400; `.dark body` ~line 408)
 
 - [ ] **Step 1: Rebrand `.gradient-text`**
@@ -120,13 +124,13 @@ with the brand gradient (navy → teal → amber):
 
 ```css
 .gradient-text {
-  background: linear-gradient(135deg, #0B1F3A, #0D9488, #F59E0B);
+  background: linear-gradient(135deg, #0b1f3a, #0d9488, #f59e0b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .dark .gradient-text {
-  background: linear-gradient(135deg, #2DD4BF, #0D9488, #FBBF24);
+  background: linear-gradient(135deg, #2dd4bf, #0d9488, #fbbf24);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -138,10 +142,18 @@ with the brand gradient (navy → teal → amber):
 Replace the `background-image` inside `.aurora-bg` with brand-tinted glows:
 
 ```css
-  background-image: 
-    radial-gradient(ellipse at 20% 20%, rgba(13, 148, 136, 0.18), transparent 50%),
-    radial-gradient(ellipse at 80% 40%, rgba(245, 158, 11, 0.12), transparent 50%),
-    radial-gradient(ellipse at 40% 80%, rgba(11, 31, 58, 0.18), transparent 50%);
+background-image:
+  radial-gradient(
+    ellipse at 20% 20%,
+    rgba(13, 148, 136, 0.18),
+    transparent 50%
+  ),
+  radial-gradient(
+    ellipse at 80% 40%,
+    rgba(245, 158, 11, 0.12),
+    transparent 50%
+  ),
+  radial-gradient(ellipse at 40% 80%, rgba(11, 31, 58, 0.18), transparent 50%);
 ```
 
 - [ ] **Step 3: Retune light `body` background**
@@ -149,9 +161,10 @@ Replace the `background-image` inside `.aurora-bg` with brand-tinted glows:
 Replace the `body { background: ... }` radial/linear gradient (the multi-line `radial-gradient(...)... linear-gradient(135deg, #fef8ff, #edf5ff);`) with:
 
 ```css
-  background: radial-gradient(circle at 12% 18%, rgba(13, 148, 136, 0.10), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(147, 197, 253, 0.35), transparent 50%),
-    linear-gradient(135deg, #FFFFFF, #F8FAFC);
+background:
+  radial-gradient(circle at 12% 18%, rgba(13, 148, 136, 0.1), transparent 45%),
+  radial-gradient(circle at 80% 0%, rgba(147, 197, 253, 0.35), transparent 50%),
+  linear-gradient(135deg, #ffffff, #f8fafc);
 ```
 
 - [ ] **Step 4: Retune `.dark body` background (navy-derived, not black)**
@@ -159,9 +172,10 @@ Replace the `body { background: ... }` radial/linear gradient (the multi-line `r
 Replace the `.dark body { background: ... }` rule's `background`:
 
 ```css
-  background: radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.22), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(45, 212, 191, 0.14), transparent 40%),
-    linear-gradient(135deg, #071426, #0B1F3A);
+background:
+  radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.22), transparent 45%),
+  radial-gradient(circle at 80% 0%, rgba(45, 212, 191, 0.14), transparent 40%),
+  linear-gradient(135deg, #071426, #0b1f3a);
 ```
 
 - [ ] **Step 5: Verify visually**
@@ -181,6 +195,7 @@ git commit -m "feat(brand): retune gradients and backgrounds to Kairoo palette"
 ## Task 3: Swap the font stack (DM Sans + Space Grotesk)
 
 **Files:**
+
 - Modify: `app/layout.tsx:1-40`, `app/globals.css` (`--font-sans` ~line 11; `body`/`.gradient`-adjacent `font-family` ~lines 46 & 405)
 
 - [ ] **Step 1: Replace the font imports/instances in `layout.tsx`**
@@ -227,14 +242,14 @@ Replace `className={`${inter.variable} antialiased transition-colors duration-50
 In `app/globals.css`, change `--font-sans: var(--font-inter);` (in `@theme inline`) to:
 
 ```css
-  --font-sans: var(--font-dm-sans);
-  --font-display: var(--font-space-grotesk);
+--font-sans: var(--font-dm-sans);
+--font-display: var(--font-space-grotesk);
 ```
 
 Then change BOTH `font-family: 'Inter', sans-serif;` occurrences (the `body` rules at ~line 46 and ~line 405) to:
 
 ```css
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+font-family: var(--font-dm-sans), system-ui, sans-serif;
 ```
 
 - [ ] **Step 4: Add a display-font utility**
@@ -265,6 +280,7 @@ git commit -m "feat(brand): swap font stack to DM Sans + Space Grotesk"
 ## Task 4: Set up Mona Sans (data/enterprise surfaces) as a local font
 
 **Files:**
+
 - Create: `app/fonts/MonaSans.woff2`, `app/fonts/index.ts`
 - Modify: `app/layout.tsx` (apply variable), `app/globals.css` (utility)
 
@@ -338,6 +354,7 @@ git commit -m "feat(brand): add Mona Sans local font for data surfaces"
 ## Task 5: Copy brand SVGs into `public/` and add favicon/app icons
 
 **Files:**
+
 - Create: `public/brand/kairoo-glyph.svg`, `public/brand/kairoo-glyph-dark.svg`, `app/icon.svg`, `app/apple-icon.svg`
 
 - [ ] **Step 1: Copy the runtime SVGs from the committed backups**
@@ -352,7 +369,7 @@ cp docs/brand/kairoo-glyph-dark.svg public/brand/kairoo-glyph-dark.svg
 
 Verify: `ls public/brand/`.
 
-- [ ] **Step 2: Create `app/icon.svg` (favicon — simplified, thick stroke)**
+- [ ] **Step 2: Create `app/icon.svg` (favicon - simplified, thick stroke)**
 
 Create `app/icon.svg`:
 
@@ -371,7 +388,7 @@ Create `app/apple-icon.svg` with identical content to `app/icon.svg` (Next.js se
 
 - [ ] **Step 4: Verify**
 
-Run: `npm run build` then `npm run dev`. Open `http://localhost:1254` — the browser tab should show the navy Kairoo favicon. Open `http://localhost:1254/icon.svg` to confirm it serves.
+Run: `npm run build` then `npm run dev`. Open `http://localhost:1254` - the browser tab should show the navy Kairoo favicon. Open `http://localhost:1254/icon.svg` to confirm it serves.
 
 - [ ] **Step 5: Commit**
 
@@ -385,6 +402,7 @@ git commit -m "feat(brand): add Kairoo favicon, app icon, and runtime glyph SVGs
 ## Task 6: Build the reusable `Logo` component
 
 **Files:**
+
 - Create: `components/Logo.tsx`
 
 - [ ] **Step 1: Create the component**
@@ -405,7 +423,7 @@ type LogoProps = {
 };
 
 /**
- * Kairoo logo — locked "B3" glyph (arc + curved stem + two teal dots).
+ * Kairoo logo - locked "B3" glyph (arc + curved stem + two teal dots).
  * Theme-aware via currentColor for the strokes; dots use the teal brand token.
  * Light: navy stroke + teal dots. Dark: white stroke + bright-teal dots.
  */
@@ -486,6 +504,7 @@ git commit -m "feat(brand): add reusable Kairoo Logo component"
 ## Task 7: Use `Logo` in Navigation and Footer
 
 **Files:**
+
 - Modify: `components/Navigation.tsx:44`, `components/Footer.tsx:9` and `:76`
 
 - [ ] **Step 1: Replace the Navigation brand text with `Logo`**
@@ -496,7 +515,7 @@ In `components/Navigation.tsx`, add at the top with the other imports:
 import Logo from "@/components/Logo";
 ```
 
-Replace the element containing `AstraPath AI` (line ~44) — the existing brand link/text — with:
+Replace the element containing `AstraPath AI` (line ~44) - the existing brand link/text - with:
 
 ```tsx
 <Logo size={32} href="/" />
@@ -521,7 +540,9 @@ Replace:
 with:
 
 ```tsx
-<div className="mb-4"><Logo size={28} href="/" /></div>
+<div className="mb-4">
+  <Logo size={28} href="/" />
+</div>
 ```
 
 - [ ] **Step 3: Update the Footer copyright line**
@@ -529,18 +550,23 @@ with:
 Replace line ~76:
 
 ```tsx
-<p>&copy; 2025 AstraPath AI. All rights reserved. Made with ❤️ for the future of work.</p>
+<p>
+  &copy; 2025 AstraPath AI. All rights reserved. Made with ❤️ for the future of
+  work.
+</p>
 ```
 
 with:
 
 ```tsx
-<p>&copy; 2026 Kairoo. All rights reserved. Made with ❤️ for the future of work.</p>
+<p>
+  &copy; 2026 Kairoo. All rights reserved. Made with ❤️ for the future of work.
+</p>
 ```
 
 - [ ] **Step 4: Verify**
 
-Run: `npx tsc --noEmit && npm run build` (success), then `npm run dev` — nav and footer now show the Kairoo glyph + wordmark in both themes.
+Run: `npx tsc --noEmit && npm run build` (success), then `npm run dev` - nav and footer now show the Kairoo glyph + wordmark in both themes.
 
 - [ ] **Step 5: Commit**
 
@@ -554,6 +580,7 @@ git commit -m "feat(brand): use Kairoo Logo in nav and footer"
 ## Task 8: Build the dismissible rebrand announcement banner
 
 **Files:**
+
 - Create: `components/RebrandBanner.tsx`
 - Modify: `app/layout.tsx` (mount it)
 
@@ -589,7 +616,8 @@ export default function RebrandBanner() {
     <div className="relative z-50 bg-brand-navy text-brand-mist">
       <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-4 py-2 text-sm">
         <span>
-          <strong>AstraPath AI is now Kairoo.</strong> Same mission — the right moment to grow.
+          <strong>AstraPath AI is now Kairoo.</strong> Same mission - the right
+          moment to grow.
         </span>
         <button
           type="button"
@@ -619,12 +647,12 @@ import RebrandBanner from "@/components/RebrandBanner";
 Inside `<Providers>`, render it as the first child (above `AnimatedBackground`):
 
 ```tsx
-        <Providers>
-          <RebrandBanner />
-          <AnimatedBackground />
-          <FloatingThemeToggle />
-          <div className="relative z-10 flex min-h-screen flex-col">{children}</div>
-        </Providers>
+<Providers>
+  <RebrandBanner />
+  <AnimatedBackground />
+  <FloatingThemeToggle />
+  <div className="relative z-10 flex min-h-screen flex-col">{children}</div>
+</Providers>
 ```
 
 - [ ] **Step 3: Verify behavior in the browser**
@@ -644,6 +672,7 @@ git commit -m "feat(brand): add dismissible AstraPath->Kairoo rebrand banner"
 ## Task 9: Rename metadata, package name, and theme storage key
 
 **Files:**
+
 - Modify: `app/layout.tsx:14-15`, `package.json:2`, `app/providers.tsx:12`
 
 - [ ] **Step 1: Update site metadata**
@@ -652,9 +681,9 @@ In `app/layout.tsx`, replace the `metadata` object's title/description:
 
 ```tsx
 export const metadata: Metadata = {
-  title: "Kairoo — The right moment to grow",
+  title: "Kairoo - The right moment to grow",
   description:
-    "Kairoo is AI career development that grows with you — coaching, learning paths, and team analytics for individuals, professionals, and enterprises.",
+    "Kairoo is AI career development that grows with you - coaching, learning paths, and team analytics for individuals, professionals, and enterprises.",
 };
 ```
 
@@ -671,12 +700,12 @@ In `package.json`, change `"name": "astrapath-ai",` to:
 In `app/providers.tsx`, change `storageKey="astrapath-theme"` to:
 
 ```tsx
-      storageKey="kairoo-theme"
+storageKey = "kairoo-theme";
 ```
 
 - [ ] **Step 4: Verify**
 
-Run: `npx tsc --noEmit && npm run build` (success). `npm run dev` → browser tab title reads "Kairoo — The right moment to grow".
+Run: `npx tsc --noEmit && npm run build` (success). `npm run dev` → browser tab title reads "Kairoo - The right moment to grow".
 
 - [ ] **Step 5: Commit**
 
@@ -690,6 +719,7 @@ git commit -m "chore(brand): rename metadata, package name, theme storage key to
 ## Task 10: Replace remaining "AstraPath" copy across pages
 
 **Files:**
+
 - Modify: `app/page.tsx` (lines 70, 118, 328, 336, 347, 358, 597, 661), `app/business-strategy/page.tsx` (81, 217, 226-228), `app/investor-deck/page.tsx` (31, 86, 414, 416), `app/market-analysis/page.tsx` (32, 173), `app/technical-architecture/page.tsx` (194, 909, 931-932), `components/CompetitiveChart.tsx` (37)
 
 > Mechanical copy rename. Do it per file, read the line in context, and replace the brand string. Use the mapping below. Do NOT blind-`sed` the whole repo (it would touch `docs/`, the spec, and this plan).
@@ -697,6 +727,7 @@ git commit -m "chore(brand): rename metadata, package name, theme storage key to
 - [ ] **Step 1: Replace user-facing display strings**
 
 Apply these replacements (string → string), in the listed files:
+
 - `"AstraPath AI"` → `"Kairoo"`
 - `"AstraPath's AI"` → `"Kairoo's AI"`
 - `"AstraPath AI v2.0"` → `"Kairoo v2.0"` (`technical-architecture/page.tsx:194`)
@@ -706,6 +737,7 @@ Apply these replacements (string → string), in the listed files:
 - [ ] **Step 2: Update investor-deck contact emails/handles**
 
 In `app/investor-deck/page.tsx`:
+
 - `investors@astrapath.ai` → `investors@kairoo.com`
 - `linkedin.com/company/astrapath-ai` → `linkedin.com/company/kairoo`
 
@@ -737,11 +769,12 @@ git commit -m "chore(brand): replace AstraPath copy with Kairoo across pages"
 ## Task 11: Update repo docs (README, GEMINI.md)
 
 **Files:**
+
 - Modify: `README.md`, `GEMINI.md`
 
 - [ ] **Step 1: Rename in README.md**
 
-Replace the title and intro references to "AstraPath AI" with "Kairoo". Specifically the H1 `# AstraPath AI - Next.js Application` → `# Kairoo — Next.js Application`, and the body sentence referencing "AstraPath AI" → "Kairoo". Update the `cd "AstraPath AI"` example to `cd kairoo` only if the directory is renamed (leave as-is otherwise; note it's the display name change).
+Replace the title and intro references to "AstraPath AI" with "Kairoo". Specifically the H1 `# AstraPath AI - Next.js Application` → `# Kairoo - Next.js Application`, and the body sentence referencing "AstraPath AI" → "Kairoo". Update the `cd "AstraPath AI"` example to `cd kairoo` only if the directory is renamed (leave as-is otherwise; note it's the display name change).
 
 - [ ] **Step 2: Rename in GEMINI.md**
 
@@ -766,6 +799,7 @@ git commit -m "docs(brand): rename AstraPath to Kairoo in README and GEMINI"
 **Why:** The AI response in `FeatureModal` is rendered with the generic `@tailwindcss/typography` `prose prose-invert …` classes (off-brand, "Medium article" look). Replace it with a brand-styled markdown renderer. Also fixes a leftover old-brand gradient on the generate button.
 
 **Files:**
+
 - Create: `components/RichText.tsx`
 - Modify: `components/FeatureModal.tsx:93` (button gradient) and `:105-110` (prose block)
 
@@ -790,36 +824,61 @@ export default function RichText({ children }: { children: string }) {
         remarkPlugins={[remarkGfm]}
         components={{
           h1: (p: ComponentPropsWithoutRef<"h1">) => (
-            <h1 className="mt-6 mb-3 text-2xl font-extrabold tracking-tight text-brand-ink" {...p} />
+            <h1
+              className="mt-6 mb-3 text-2xl font-extrabold tracking-tight text-brand-ink"
+              {...p}
+            />
           ),
           h2: (p: ComponentPropsWithoutRef<"h2">) => (
-            <h2 className="mt-6 mb-3 text-xl font-bold tracking-tight text-brand-ink" {...p} />
+            <h2
+              className="mt-6 mb-3 text-xl font-bold tracking-tight text-brand-ink"
+              {...p}
+            />
           ),
           h3: (p: ComponentPropsWithoutRef<"h3">) => (
             <h3 className="mt-5 mb-2 text-lg font-bold text-brand-ink" {...p} />
           ),
-          p: (p: ComponentPropsWithoutRef<"p">) => <p className="my-3" {...p} />,
+          p: (p: ComponentPropsWithoutRef<"p">) => (
+            <p className="my-3" {...p} />
+          ),
           a: (p: ComponentPropsWithoutRef<"a">) => (
-            <a className="text-brand-teal underline decoration-brand-teal/40 underline-offset-2 hover:decoration-brand-teal" {...p} />
+            <a
+              className="text-brand-teal underline decoration-brand-teal/40 underline-offset-2 hover:decoration-brand-teal"
+              {...p}
+            />
           ),
           ul: (p: ComponentPropsWithoutRef<"ul">) => (
             <ul className="my-3 ml-5 list-disc marker:text-brand-teal" {...p} />
           ),
           ol: (p: ComponentPropsWithoutRef<"ol">) => (
-            <ol className="my-3 ml-5 list-decimal marker:text-brand-teal" {...p} />
+            <ol
+              className="my-3 ml-5 list-decimal marker:text-brand-teal"
+              {...p}
+            />
           ),
-          li: (p: ComponentPropsWithoutRef<"li">) => <li className="my-1" {...p} />,
+          li: (p: ComponentPropsWithoutRef<"li">) => (
+            <li className="my-1" {...p} />
+          ),
           blockquote: (p: ComponentPropsWithoutRef<"blockquote">) => (
-            <blockquote className="my-4 border-l-2 border-brand-teal pl-4 italic text-muted-foreground" {...p} />
+            <blockquote
+              className="my-4 border-l-2 border-brand-teal pl-4 italic text-muted-foreground"
+              {...p}
+            />
           ),
           strong: (p: ComponentPropsWithoutRef<"strong">) => (
             <strong className="font-semibold text-brand-ink" {...p} />
           ),
           code: (p: ComponentPropsWithoutRef<"code">) => (
-            <code className="rounded bg-brand-teal/10 px-1.5 py-0.5 text-[0.9em] text-brand-teal" {...p} />
+            <code
+              className="rounded bg-brand-teal/10 px-1.5 py-0.5 text-[0.9em] text-brand-teal"
+              {...p}
+            />
           ),
           pre: (p: ComponentPropsWithoutRef<"pre">) => (
-            <pre className="my-4 overflow-x-auto rounded-xl bg-brand-navy p-4 text-brand-mist" {...p} />
+            <pre
+              className="my-4 overflow-x-auto rounded-xl bg-brand-navy p-4 text-brand-mist"
+              {...p}
+            />
           ),
           hr: (p: ComponentPropsWithoutRef<"hr">) => (
             <hr className="my-6 border-brand-teal/20" {...p} />
@@ -844,23 +903,27 @@ import RichText from "@/components/RichText";
 Remove the now-unused `ReactMarkdown` and `remarkGfm` imports **only if** they are no longer referenced elsewhere in the file. Replace the result block (lines ~105–110):
 
 ```tsx
-      {result && (
-        <div className="mt-8 p-6 bg-gray-800/50 rounded-lg border border-white/10 min-h-[150px]">
-          <div className="prose prose-invert max-w-none prose-lg prose-p:my-4 prose-headings:my-6 prose-ul:my-4 prose-li:my-2 prose-blockquote:my-4 prose-strong:text-white">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{result}</ReactMarkdown>
-          </div>
-        </div>
-      )}
+{
+  result && (
+    <div className="mt-8 p-6 bg-gray-800/50 rounded-lg border border-white/10 min-h-[150px]">
+      <div className="prose prose-invert max-w-none prose-lg prose-p:my-4 prose-headings:my-6 prose-ul:my-4 prose-li:my-2 prose-blockquote:my-4 prose-strong:text-white">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{result}</ReactMarkdown>
+      </div>
+    </div>
+  );
+}
 ```
 
 with:
 
 ```tsx
-      {result && (
-        <div className="mt-8 p-6 rounded-lg border border-brand-teal/15 bg-card/60 min-h-[150px]">
-          <RichText>{result}</RichText>
-        </div>
-      )}
+{
+  result && (
+    <div className="mt-8 p-6 rounded-lg border border-brand-teal/15 bg-card/60 min-h-[150px]">
+      <RichText>{result}</RichText>
+    </div>
+  );
+}
 ```
 
 - [ ] **Step 3: Rebrand the leftover gradient button (line ~93)**
@@ -892,11 +955,13 @@ git commit -m "feat(brand): replace generic prose with branded RichText renderer
 **Why:** Batch 1 review found page-specific CSS vars still default to the old purple/pink/cyan (`#7c79c6`, `#ff3d7f`, `#00f5d4`) in `--accent-color`/`--layer-color`/`--node-color`/`--metric-color`/`--tech-color` fallbacks (used by the technical-architecture and analysis pages).
 
 **Files:**
+
 - Modify: `app/globals.css` (various selectors, ~lines 160–322)
 
 - [ ] **Step 1: Replace the legacy hex fallbacks**
 
 Run a scoped replacement in `app/globals.css` only (NOT other files):
+
 - `#00f5d4` → `#2DD4BF` (bright teal)
 - `#7c79c6` → `#0D9488` (teal)
 - `#ff3d7f` → `#F59E0B` (amber)
@@ -943,6 +1008,7 @@ Expected: no matches outside `docs/` (the spec/plan intentionally reference the 
 - [ ] **Step 3: Visual pass in dev**
 
 Run: `npm run dev`. Walk through `/`, `/business-strategy`, `/investor-deck`, `/market-analysis`, `/technical-architecture` in both light and dark:
+
 - Logo (glyph + wordmark) in nav + footer, recolors per theme.
 - Brand gradient headings (navy/teal/amber), deep-navy dark background.
 - Rebrand banner shows, dismisses, and stays dismissed.
@@ -962,7 +1028,7 @@ git commit -m "chore(brand): final Kairoo rebrand verification pass"
 
 - §2 Name + §2.6 banner → Tasks 8, 9, 10 (rename + banner). ✅
 - §3.1 color tokens → Task 1; §3.2 themes / dark = navy → Tasks 1, 2. ✅
-- §3.3 typography (DM Sans / Space Grotesk / Mona Sans / Satoshi standby) → Tasks 3, 4. (Satoshi intentionally not bundled — standby only, per spec.) ✅
+- §3.3 typography (DM Sans / Space Grotesk / Mona Sans / Satoshi standby) → Tasks 3, 4. (Satoshi intentionally not bundled - standby only, per spec.) ✅
 - §3.4 glyph + favicon/app-icon/lockup → Tasks 5, 6, 7. ✅
 - §3.6 tagline → used in metadata (Task 9) and banner (Task 8). ✅
-- **Out of scope here (separate Plan B):** §4 legal pages, and observability/GA (owner-handled). Tier-accent UI usage (Free/Pro/Enterprise badges) lands when those surfaces/pricing are built — tokens are ready (Task 1).
+- **Out of scope here (separate Plan B):** §4 legal pages, and observability/GA (owner-handled). Tier-accent UI usage (Free/Pro/Enterprise badges) lands when those surfaces/pricing are built - tokens are ready (Task 1).

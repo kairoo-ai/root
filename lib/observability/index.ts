@@ -1,6 +1,6 @@
 /**
- * Observability barrel — consent-gated NO-OP analytics seam.
- * Reserved skeleton — no business logic yet.
+ * Observability barrel - consent-gated NO-OP analytics seam.
+ * Reserved skeleton - no business logic yet.
  */
 
 export { track, pageView, identify } from "./analytics";

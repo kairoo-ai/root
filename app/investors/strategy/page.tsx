@@ -23,12 +23,12 @@ import {
 } from "./StrategyClient";
 
 export const metadata: Metadata = {
-  title: `SaaS Strategy & Validation Framework — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`,
+  title: `SaaS Strategy & Validation Framework - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`,
   description:
     `Comprehensive strategic analysis, market validation, and business intelligence for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}: a 94/100 validation score, core problem analysis, value-proposition suite, three ideal customer profiles, MoSCoW feature prioritization, and the implementation roadmap.`,
 };
 
-/* Section heading helper — consistent typographic rhythm across the page. */
+/* Section heading helper - consistent typographic rhythm across the page. */
 function SectionHeading({
   eyebrow,
   title,
@@ -49,12 +49,12 @@ function SectionHeading({
   );
 }
 
-/* Roadmap impact tiles — Bento highlights backing the timeline. */
+/* Roadmap impact tiles - Bento highlights backing the timeline. */
 const ROADMAP_BENTO = [
   {
     title: "MVP in 3 months",
     description:
-      "Ship the Must-Have core — AI roadmaps, career tools, auth, and billing — and validate fit fast.",
+      "Ship the Must-Have core - AI roadmaps, career tools, auth, and billing - and validate fit fast.",
     icon: <IconRenderer name="rocket" />,
     span: "2x1" as const,
   },
@@ -72,7 +72,7 @@ const ROADMAP_BENTO = [
   {
     title: "70%+ cost advantage",
     description:
-      "Replaces $5K–$15K/yr of fragmented spend at $29–$99/mo — a durable wedge.",
+      "Replaces $5K–$15K/yr of fragmented spend at $29–$99/mo - a durable wedge.",
     icon: <IconRenderer name="dollar-sign" />,
     span: "2x1" as const,
   },
@@ -193,7 +193,7 @@ export default function BusinessStrategy() {
             </h3>
             <p className="mx-auto mt-3 max-w-2xl text-body-lg text-muted-foreground">
               Strong urgency, a large market, demonstrated willingness to pay, and high technical
-              feasibility — sequenced into a disciplined, phase-gated roadmap.
+              feasibility - sequenced into a disciplined, phase-gated roadmap.
             </p>
           </CardSpotlight>
         </Reveal>

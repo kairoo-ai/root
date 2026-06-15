@@ -86,7 +86,7 @@ async function fetchBehanceProfile(username: string): Promise<ConnectorResult> {
       skills: ['UI/UX Design', 'Visual Design', 'Figma', 'Adobe Creative Suite', 'Portfolio'],
       resumeText: `Behance portfolio: ${username}`,
     },
-    summary: `Behance profile imported for ${rawName}${occupation ? ` — ${occupation}` : ''}${location ? `, ${location}` : ''}.`,
+    summary: `Behance profile imported for ${rawName}${occupation ? ` - ${occupation}` : ''}${location ? `, ${location}` : ''}.`,
   }
 }
 

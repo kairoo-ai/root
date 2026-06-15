@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const STAR_STEPS = [
-  { label: 'Situation', desc: 'Set the context — what was the scenario or challenge?' },
+  { label: 'Situation', desc: 'Set the context - what was the scenario or challenge?' },
   { label: 'Task', desc: 'What was your specific responsibility or goal?' },
   { label: 'Action', desc: 'What concrete steps did YOU take? Use "I", not "we".' },
   { label: 'Result', desc: 'What measurable outcome occurred? Quantify if possible.' },
@@ -40,7 +40,7 @@ export function STARHints() {
                     {label[0]}
                   </span>
                   <div>
-                    <span className="text-xs font-semibold text-[var(--color-text-primary)]">{label} — </span>
+                    <span className="text-xs font-semibold text-[var(--color-text-primary)]">{label} - </span>
                     <span className="text-xs text-[var(--color-text-secondary)]">{desc}</span>
                   </div>
                 </div>

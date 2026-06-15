@@ -26,7 +26,7 @@ export default function SetupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const title = [targetRole, type.replace('_', ' ')].filter(Boolean).join(' — ')
+  const title = [targetRole, type.replace('_', ' ')].filter(Boolean).join(' - ')
 
   async function handleStart() {
     if (!targetRole.trim()) {

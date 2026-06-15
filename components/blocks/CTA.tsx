@@ -52,8 +52,8 @@ const ctaSurface = cva(
 
 export interface CTAProps
   extends Omit<React.HTMLAttributes<HTMLElement>, "title">,
-    VariantProps<typeof ctaSurface> {
-  /** Primary headline — rendered at text-h2. */
+  VariantProps<typeof ctaSurface> {
+  /** Primary headline - rendered at text-h2. */
   headline: string;
   /** Optional supporting line beneath the headline. */
   body?: string;
@@ -64,7 +64,7 @@ export interface CTAProps
 }
 
 /**
- * CTA — a centered conversion band with a token brand backdrop.
+ * CTA - a centered conversion band with a token brand backdrop.
  *
  * Data-driven: pass `headline`, optional `body`, and `primary` / `secondary`
  * actions. Foreground copy uses `text-primary-foreground` for guaranteed
@@ -84,16 +84,16 @@ export function CTA({
   const reveal = prefersReducedMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.3 },
-        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
-      };
+      initial: { opacity: 0, y: 24 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, amount: 0.3 },
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
+    };
 
   return (
     <Section className={className} {...props}>
       <motion.div className={cn(ctaSurface({ tone }))} {...reveal}>
-        {/* Decorative soft highlight — token-driven, non-essential, hidden from AT. */}
+        {/* Decorative soft highlight - token-driven, non-essential, hidden from AT. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 -top-1/2 -z-10 h-[120%] bg-accent/20 blur-3xl"

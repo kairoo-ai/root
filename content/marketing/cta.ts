@@ -1,5 +1,5 @@
 // Marketing call-to-action blocks.
-// Reserved skeleton — no business logic yet.
+// Reserved skeleton - no business logic yet.
 
 import type { CTA } from "@/types";
 

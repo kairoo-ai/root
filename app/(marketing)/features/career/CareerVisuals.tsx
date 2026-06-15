@@ -42,7 +42,7 @@ export interface CareerHeroProps {
 }
 
 /* ================================================================== */
-/* HERO — Spotlight + anime.js word reveal + 3D tilt showcase card     */
+/* HERO - Spotlight + anime.js word reveal + 3D tilt showcase card     */
 /* ================================================================== */
 export function CareerHero({
   eyebrow,
@@ -84,7 +84,7 @@ export function CareerHero({
 
   return (
     <Section className="relative isolate overflow-hidden">
-      {/* Layered teal + navy spotlights for depth — token-driven fills. */}
+      {/* Layered teal + navy spotlights for depth - token-driven fills. */}
       <Spotlight
         className="-top-40 left-0 md:-top-24 md:left-52"
         fill="var(--primary)"
@@ -165,7 +165,7 @@ export function CareerHero({
             </motion.div>
           </motion.div>
 
-          {/* Inline animated stat band — glass strip. */}
+          {/* Inline animated stat band - glass strip. */}
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={reduce ? undefined : { opacity: 1, y: 0 }}
@@ -265,7 +265,7 @@ export function CareerHero({
 }
 
 /* ================================================================== */
-/* WHY — BentoGrid of benefit cells (icons passed as name strings)     */
+/* WHY - BentoGrid of benefit cells (icons passed as name strings)     */
 /* ================================================================== */
 export interface CareerBentoProps {
   eyebrow?: string;
@@ -303,7 +303,7 @@ export function CareerBento({
 }
 
 /* ================================================================== */
-/* HOW — three-step CardSpotlight strip                                */
+/* HOW - three-step CardSpotlight strip                                */
 /* ================================================================== */
 export interface CareerStepsProps {
   eyebrow?: string;

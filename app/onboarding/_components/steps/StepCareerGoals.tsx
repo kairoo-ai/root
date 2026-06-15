@@ -131,11 +131,10 @@ export function StepCareerGoals({ data, onNext, onBack }: Props) {
                   <button
                     key={s}
                     onClick={() => setTargetRole(s)}
-                    className={`text-[11px] px-2.5 py-1 rounded-lg border font-medium transition-all cursor-pointer ${
-                      targetRole === s
+                    className={`text-[11px] px-2.5 py-1 rounded-lg border font-medium transition-all cursor-pointer ${targetRole === s
                         ? 'bg-teal-500/20 border-teal-500/50 text-teal-400'
                         : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:border-zinc-500'
-                    }`}
+                      }`}
                   >
                     {s}
                   </button>
@@ -153,11 +152,10 @@ export function StepCareerGoals({ data, onNext, onBack }: Props) {
               <button
                 key={t}
                 onClick={() => setTargetTimeline(t)}
-                className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all cursor-pointer ${
-                  targetTimeline === t
+                className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all cursor-pointer ${targetTimeline === t
                     ? 'bg-teal-500/20 border-teal-500/50 text-teal-400'
                     : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:border-zinc-500'
-                }`}
+                  }`}
               >
                 {t}
               </button>
@@ -183,7 +181,7 @@ export function StepCareerGoals({ data, onNext, onBack }: Props) {
         <div>
           <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
             Detailed goal{' '}
-            <span className="text-zinc-500 font-normal">(optional — more context = better AI)</span>
+            <span className="text-zinc-500 font-normal">(optional - more context = better AI)</span>
           </label>
           <textarea
             value={careerGoalLong}

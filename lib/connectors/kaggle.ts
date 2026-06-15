@@ -89,7 +89,7 @@ async function fetchKaggleProfile(username: string): Promise<ConnectorResult> {
   if (tier) summaryParts.push(`tier: ${tier}`)
   if (competitionsCount !== undefined) summaryParts.push(`${competitionsCount} competition(s) entered`)
 
-  const summaryDetail = summaryParts.length > 0 ? ` — ${summaryParts.join(', ')}` : ''
+  const summaryDetail = summaryParts.length > 0 ? ` - ${summaryParts.join(', ')}` : ''
 
   const bioParts: string[] = []
   if (tier) bioParts.push(`${tier}-tier Kaggle competitor`)

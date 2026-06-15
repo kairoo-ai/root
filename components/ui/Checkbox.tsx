@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Checkbox — thin wrapper around HeroUI v3 (@heroui/react v3.1.0).
+ * Checkbox - thin wrapper around HeroUI v3 (@heroui/react v3.1.0).
  *
  * HeroUI's Checkbox is a compound component. The root is callable and also
  * exposes dot-notation sub-parts:

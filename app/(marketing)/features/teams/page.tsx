@@ -13,9 +13,9 @@ import {
 } from "./TeamsVisuals";
 
 export const metadata: Metadata = {
-  title: `Team & Enterprise Analytics — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
+  title: `Team & Enterprise Analytics - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
   description:
-    "Enterprise-grade team analytics for skill tracking, development planning, and performance. Real-time team insights, predictive analytics, and goal alignment — visualized in the Team Skill Matrix.",
+    "Enterprise-grade team analytics for skill tracking, development planning, and performance. Real-time team insights, predictive analytics, and goal alignment - visualized in the Team Skill Matrix.",
 };
 
 /**
@@ -62,7 +62,7 @@ export default function TeamsFeaturePage() {
     <>
       <TeamsHero
         title="Enterprise-Grade Team Analytics"
-        subtitle="Transform your organization with AI-powered team skill tracking, development planning, and performance analytics — built for the way real teams grow."
+        subtitle="Transform your organization with AI-powered team skill tracking, development planning, and performance analytics - built for the way real teams grow."
       />
 
       <AnalyticsPillars items={ANALYTICS_PILLARS} />
@@ -75,7 +75,7 @@ export default function TeamsFeaturePage() {
 
       <CTA
         headline="Bring analytics to your whole team"
-        body={ `Give every leader real-time visibility into skill development, gaps, and goal alignment — powered by the same AI engine behind ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s individual tools.` }
+        body={`Give every leader real-time visibility into skill development, gaps, and goal alignment - powered by the same AI engine behind ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s individual tools.`}
         primary={{ label: "Explore Enterprise", href: "/pricing" }}
         secondary={{ label: "See all features", href: "/features" }}
       />

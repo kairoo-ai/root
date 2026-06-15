@@ -46,7 +46,7 @@ import { CardContainer, CardBody, CardItem } from '@/components/motion/ThreeDCar
 import AuroraBackground from '@/components/motion/AuroraBackground';
 
 /* ---------------------------------------------------------------------------
- * Motion helpers — all respect prefers-reduced-motion.
+ * Motion helpers - all respect prefers-reduced-motion.
  * ------------------------------------------------------------------------- */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -159,35 +159,35 @@ const STORY_BEATS: {
   description: string;
   details: string[];
 }[] = [
-  {
-    title: 'Signal Ingestion Mesh',
-    Icon: SatelliteDish,
-    description:
-      'Streams telemetry from resumes, job boards, HRIS, and user interactions through an event backbone with schema evolution and PII classifiers.',
-    details: ['Kafka + Redpanda backbone', 'Edge sanitization', 'Latency budget < 80ms'],
-  },
-  {
-    title: 'Reasoning Fabric',
-    Icon: Brain,
-    description:
-      'Orchestrates Gemini, GPT-4.1, and in-house models through a policy-aware router that selects optimal context, temperature, and cost envelope per task.',
-    details: ['Declarative prompt registry', 'Safety rails + audit log', 'Memory graph sync every 5 min'],
-  },
-  {
-    title: 'Action Layer',
-    Icon: Workflow,
-    description:
-      'Automates follow-ups, learning plan updates, and executive dashboards with approval checkpoints and human-in-the-loop overrides.',
-    details: ['Service mesh w/ retries', 'Fine-grained RBAC', 'Composable playbooks'],
-  },
-  {
-    title: 'Continuous Intelligence Loop',
-    Icon: Activity,
-    description:
-      'Feedback signals retrain ranking models nightly while anomaly detectors surface drift and bias directly into observability boards.',
-    details: ['Realtime feature store', 'Model drift monitors', 'Explainability snapshots'],
-  },
-];
+    {
+      title: 'Signal Ingestion Mesh',
+      Icon: SatelliteDish,
+      description:
+        'Streams telemetry from resumes, job boards, HRIS, and user interactions through an event backbone with schema evolution and PII classifiers.',
+      details: ['Kafka + Redpanda backbone', 'Edge sanitization', 'Latency budget < 80ms'],
+    },
+    {
+      title: 'Reasoning Fabric',
+      Icon: Brain,
+      description:
+        'Orchestrates Gemini, GPT-4.1, and in-house models through a policy-aware router that selects optimal context, temperature, and cost envelope per task.',
+      details: ['Declarative prompt registry', 'Safety rails + audit log', 'Memory graph sync every 5 min'],
+    },
+    {
+      title: 'Action Layer',
+      Icon: Workflow,
+      description:
+        'Automates follow-ups, learning plan updates, and executive dashboards with approval checkpoints and human-in-the-loop overrides.',
+      details: ['Service mesh w/ retries', 'Fine-grained RBAC', 'Composable playbooks'],
+    },
+    {
+      title: 'Continuous Intelligence Loop',
+      Icon: Activity,
+      description:
+        'Feedback signals retrain ranking models nightly while anomaly detectors surface drift and bias directly into observability boards.',
+      details: ['Realtime feature store', 'Model drift monitors', 'Explainability snapshots'],
+    },
+  ];
 
 const FLOW_STAGES: { title: string; Icon: LucideIcon; bullets: string[] }[] = [
   {
@@ -297,7 +297,7 @@ const TECH_STACKS: { title: string; Icon: LucideIcon; items: { name: string; des
 
 const CACHE_LAYERS: { title: string; Icon: LucideIcon; items: string[] }[] = [
   {
-    title: 'L1 — Browser Cache',
+    title: 'L1 - Browser Cache',
     Icon: Monitor,
     items: [
       'Service Worker caching',
@@ -307,7 +307,7 @@ const CACHE_LAYERS: { title: string; Icon: LucideIcon; items: string[] }[] = [
     ],
   },
   {
-    title: 'L2 — CDN Cache',
+    title: 'L2 - CDN Cache',
     Icon: Globe,
     items: [
       'CloudFlare edge caching',
@@ -317,7 +317,7 @@ const CACHE_LAYERS: { title: string; Icon: LucideIcon; items: string[] }[] = [
     ],
   },
   {
-    title: 'L3 — Redis Cache',
+    title: 'L3 - Redis Cache',
     Icon: Zap,
     items: [
       'Session management',
@@ -329,7 +329,7 @@ const CACHE_LAYERS: { title: string; Icon: LucideIcon; items: string[] }[] = [
 ];
 
 const PERF_TARGETS: { metric: string; target: string; value: number; suffix: string; hint: string }[] = [
-  { metric: 'First Contentful Paint', target: '< 1.2s', value: 1.2, suffix: 's', hint: 'Target ceiling — p75 field budget' },
+  { metric: 'First Contentful Paint', target: '< 1.2s', value: 1.2, suffix: 's', hint: 'Target ceiling - p75 field budget' },
   { metric: 'Largest Contentful Paint', target: '< 2.5s', value: 2.5, suffix: 's', hint: 'Core Web Vitals "good" threshold' },
   { metric: 'Time to Interactive', target: '< 3.8s', value: 3.8, suffix: 's', hint: 'Main thread free for input' },
   { metric: 'API Response Time', target: '< 200ms', value: 200, suffix: 'ms', hint: 'p95 gateway round-trip' },
@@ -394,37 +394,37 @@ const ROADMAP: {
   title: string;
   items: { done: boolean; text: string }[];
 }[] = [
-  {
-    quarter: 'Q1',
-    title: 'Foundation Phase',
-    items: [
-      { done: true, text: 'Core microservices architecture' },
-      { done: true, text: 'Basic AI tool integration' },
-      { done: false, text: 'User authentication & RBAC' },
-      { done: false, text: 'MVP deployment on AWS' },
-    ],
-  },
-  {
-    quarter: 'Q2',
-    title: 'Scaling Phase',
-    items: [
-      { done: false, text: 'Multi-region deployment' },
-      { done: false, text: 'Advanced caching layers' },
-      { done: false, text: 'Real-time analytics pipeline' },
-      { done: false, text: 'Enterprise integration APIs' },
-    ],
-  },
-  {
-    quarter: 'Q3',
-    title: 'Innovation Phase',
-    items: [
-      { done: false, text: 'Custom AI model training' },
-      { done: false, text: 'Edge computing deployment' },
-      { done: false, text: 'Blockchain integration' },
-      { done: false, text: 'VR/AR learning modules' },
-    ],
-  },
-];
+    {
+      quarter: 'Q1',
+      title: 'Foundation Phase',
+      items: [
+        { done: true, text: 'Core microservices architecture' },
+        { done: true, text: 'Basic AI tool integration' },
+        { done: false, text: 'User authentication & RBAC' },
+        { done: false, text: 'MVP deployment on AWS' },
+      ],
+    },
+    {
+      quarter: 'Q2',
+      title: 'Scaling Phase',
+      items: [
+        { done: false, text: 'Multi-region deployment' },
+        { done: false, text: 'Advanced caching layers' },
+        { done: false, text: 'Real-time analytics pipeline' },
+        { done: false, text: 'Enterprise integration APIs' },
+      ],
+    },
+    {
+      quarter: 'Q3',
+      title: 'Innovation Phase',
+      items: [
+        { done: false, text: 'Custom AI model training' },
+        { done: false, text: 'Edge computing deployment' },
+        { done: false, text: 'Blockchain integration' },
+        { done: false, text: 'VR/AR learning modules' },
+      ],
+    },
+  ];
 
 const PRISMA_CODE = `// User Management
 model User {
@@ -536,7 +536,7 @@ resource "aws_eks_cluster" "kairoo" {
 }`;
 
 /* ---------------------------------------------------------------------------
- * Hero — Anime.js elaborate entrance sequence (reduced-motion safe).
+ * Hero - Anime.js elaborate entrance sequence (reduced-motion safe).
  * ------------------------------------------------------------------------- */
 function HeroSequence() {
   const reduce = useReducedMotion();
@@ -575,7 +575,7 @@ function HeroSequence() {
           Enterprise-Grade Architecture · V2 Technical Blueprint
         </p>
         <h1 data-anim className="text-display mt-6 text-balance text-foreground">
-          Technical Architecture —{' '}
+          Technical Architecture -{' '}
           <span className="bg-gradient-to-r from-primary via-accent to-[color-mix(in_oklab,var(--accent)_55%,var(--foreground))] bg-clip-text text-transparent">
             {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} v2.0
           </span>
@@ -641,7 +641,7 @@ export function ArchitectureContent() {
                 <Badge variant="info" size="sm">
                   Blueprint · vision
                 </Badge>{' '}
-                describe systems and scale we are building toward — not all of it is shipped today.
+                describe systems and scale we are building toward - not all of it is shipped today.
                 The figures below are aspirational targets for the orchestration platform.
               </AlertDescription>
             </Alert>
@@ -781,12 +781,12 @@ export function ArchitectureContent() {
         </Grid>
       </Section>
 
-      {/* LAYERED FLOWCHART — animated Bento */}
+      {/* LAYERED FLOWCHART - animated Bento */}
       <Section>
         <SectionHeading
           eyebrow="System decomposition"
           title="Layered flowchart"
-          intro="Four cooperating layers — Experience, Intelligence, Infrastructure, and Trust — each with explicit responsibilities."
+          intro="Four cooperating layers - Experience, Intelligence, Infrastructure, and Trust - each with explicit responsibilities."
           blueprint
         />
         <BentoGrid
@@ -800,7 +800,7 @@ export function ArchitectureContent() {
         />
       </Section>
 
-      {/* SYSTEM OVERVIEW — ThreeDCard tilt request path */}
+      {/* SYSTEM OVERVIEW - ThreeDCard tilt request path */}
       <Section>
         <SectionHeading
           eyebrow="High level"
@@ -872,7 +872,7 @@ export function ArchitectureContent() {
         <SectionHeading
           eyebrow="Toolchain"
           title="Complete technology stack"
-          intro="The full picture across frontend, backend, and AI/ML — the target blueprint stack for the V2 platform."
+          intro="The full picture across frontend, backend, and AI/ML - the target blueprint stack for the V2 platform."
           blueprint
         />
         <Grid cols={3} gap="lg">
@@ -963,7 +963,7 @@ export function ArchitectureContent() {
         <SectionHeading
           eyebrow="Latency strategy"
           title="Multi-layer caching strategy"
-          intro="Three cooperating cache tiers — browser, CDN edge, and Redis — keep responses fast and the origin cool."
+          intro="Three cooperating cache tiers - browser, CDN edge, and Redis - keep responses fast and the origin cool."
           blueprint
         />
         <Grid cols={3} gap="lg">
@@ -987,7 +987,7 @@ export function ArchitectureContent() {
         </Grid>
       </Section>
 
-      {/* PERFORMANCE — StatGrid + monitoring */}
+      {/* PERFORMANCE - StatGrid + monitoring */}
       <Section>
         <SectionHeading
           eyebrow="SLOs"
@@ -1057,7 +1057,7 @@ export function ArchitectureContent() {
         <SectionHeading
           eyebrow="Trust"
           title="Security & compliance framework"
-          intro="Defense in depth across network, application, and data layers — mapped to the compliance standards we are building toward."
+          intro="Defense in depth across network, application, and data layers - mapped to the compliance standards we are building toward."
           blueprint
         />
         <Grid cols={2} gap="lg">
@@ -1171,12 +1171,12 @@ export function ArchitectureContent() {
         </Reveal>
       </Section>
 
-      {/* ROADMAP — timeline */}
+      {/* ROADMAP - timeline */}
       <Section>
         <SectionHeading
           eyebrow="Sequencing"
           title="Technical roadmap & future enhancements"
-          intro="A phased path from foundation to scale to innovation — including custom model training, edge compute, blockchain, and VR/AR learning modules."
+          intro="A phased path from foundation to scale to innovation - including custom model training, edge compute, blockchain, and VR/AR learning modules."
           blueprint
         />
         <div className="relative">

@@ -13,7 +13,7 @@ export function StepWelcome({ userName, onNext }: { userName: string; onNext: ()
         className="text-2xl font-black justify-center mb-2"
       />
       <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto leading-relaxed">
-        Takes 2 minutes. After this, <strong className="text-foreground">all 38 AI tools</strong> will know everything about you — and you'll never have to type your job title or goals again.
+        Takes 2 minutes. After this, <strong className="text-foreground">all 38 AI tools</strong> will know everything about you - and you'll never have to type your job title or goals again.
       </p>
       <div className="grid grid-cols-3 gap-3 mb-7">
         {[

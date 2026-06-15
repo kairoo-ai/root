@@ -11,7 +11,7 @@ import IconRenderer from "@/components/IconRenderer";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* ================================================================== */
-/* PERSONA WORKFLOWS — concrete examples for 3 user types             */
+/* PERSONA WORKFLOWS - concrete examples for 3 user types             */
 /* ================================================================== */
 
 interface WorkflowStep {
@@ -50,7 +50,7 @@ const PERSONAS: Persona[] = [
       { tool: "Dynamic Roadmap", icon: "map", what: "Builds a 3-month job search strategy", output: "Week-by-week plan: skills, projects, applications, networking" },
       { tool: "Resume Section", icon: "file-text", what: "Rewrites each resume section for the target role and company", output: "Tailored resume with impact metrics and keyword alignment" },
       { tool: "Job Matcher", icon: "target", what: "Scores fit for specific job descriptions and identifies gaps", output: "Match %, gaps to close, edits to make before applying" },
-      { tool: "Interview Coach", icon: "mic", what: "Preps for PM-specific rounds — product design, metrics, strategy", output: "STAR answers, follow-up questions, red flags to avoid" },
+      { tool: "Interview Coach", icon: "mic", what: "Preps for PM-specific rounds - product design, metrics, strategy", output: "STAR answers, follow-up questions, red flags to avoid" },
       { tool: "Salary Coach", icon: "trending-up", what: "Provides market range and negotiation script for the offer stage", output: "Comp range, talking points, counter-offer strategy" },
     ],
   },
@@ -69,7 +69,7 @@ const PERSONAS: Persona[] = [
       { tool: "Trends Analyzer", icon: "trending-up", what: "Validates PM demand in the target industry and location", output: "Market outlook, in-demand PM skills, where to apply first" },
       { tool: "AI Path Generation", icon: "book-open", what: "Builds a learning curriculum from marketing background to PM-ready", output: "Sequenced curriculum: courses, books, frameworks, certifications" },
       { tool: "Project Generator", icon: "code", what: "Generates portfolio project ideas that prove PM thinking", output: "3 project specs: user research, product teardown, feature brief" },
-      { tool: "Bio Generator", icon: "user-square", what: "Reframes the marketing story as a PM narrative for LinkedIn and interviews", output: "LinkedIn summary and interview bio — not a marketing background, a PM origin story" },
+      { tool: "Bio Generator", icon: "user-square", what: "Reframes the marketing story as a PM narrative for LinkedIn and interviews", output: "LinkedIn summary and interview bio - not a marketing background, a PM origin story" },
       { tool: "Interview Coach", icon: "mic", what: "Addresses the 'why are you switching?' and 'what's your PM experience?' questions head-on", output: "Transition story, answers to common objections, compensating-experience framing" },
     ],
   },
@@ -88,7 +88,7 @@ const PERSONAS: Persona[] = [
       { tool: "90-Day Planner", icon: "calendar-check", what: "Builds a strategic plan for the next quarter as a manager", output: "Weekly focus areas, team goals, milestones, OKR alignment" },
       { tool: "Review Assistant", icon: "award", what: "Writes structured performance reviews for each direct report", output: "Personalized reviews with impact framing, growth areas, next steps" },
       { tool: "Meeting Prep", icon: "clipboard-list", what: "Generates agendas and key questions for 1:1s, team syncs, and skip-levels", output: "Focused agendas that drive outcomes, not status updates" },
-      { tool: "Stakeholder Mapper", icon: "network", what: "Maps executive stakeholders — what they care about and how to influence them", output: "Stakeholder map with communication strategy per person" },
+      { tool: "Stakeholder Mapper", icon: "network", what: "Maps executive stakeholders - what they care about and how to influence them", output: "Stakeholder map with communication strategy per person" },
       { tool: "Goal Refiner", icon: "flag", what: "Turns the VP Engineering ambition into a concrete 12-month SMART goal with milestones", output: "SMART goal, success metrics, quarterly checkpoints, skill targets" },
     ],
   },
@@ -118,7 +118,7 @@ export function PersonaWorkflows() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
         >
-          Three complete walkthroughs — each one a real sequence of {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} tools chained for a specific goal.
+          Three complete walkthroughs - each one a real sequence of {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} tools chained for a specific goal.
         </motion.p>
       </div>
 
@@ -208,7 +208,7 @@ export function PersonaWorkflows() {
 }
 
 /* ================================================================== */
-/* HOW PERSONALIZATION FLOWS — visual diagram                         */
+/* HOW PERSONALIZATION FLOWS - visual diagram                         */
 /* ================================================================== */
 
 const PROFILE_FIELDS = [
@@ -245,12 +245,12 @@ export function PersonalizationFlow() {
           How personalization actually works
         </motion.h2>
         <p className="max-w-2xl text-muted-foreground">
-          Set your profile once — every tool across the platform uses it automatically. Here's a concrete example.
+          Set your profile once - every tool across the platform uses it automatically. Here's a concrete example.
         </p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        {/* Left — Profile inputs */}
+        {/* Left - Profile inputs */}
         <div className="rounded-2xl border border-border bg-card p-6">
           <div className="mb-4 flex items-center gap-2">
             <User className="h-4 w-4 text-teal-500" />
@@ -267,7 +267,7 @@ export function PersonalizationFlow() {
           </div>
         </div>
 
-        {/* Right — How tools use it */}
+        {/* Right - How tools use it */}
         <div className="rounded-2xl border border-teal-500/20 bg-teal-500/5 p-6">
           <div className="mb-4 flex items-center gap-2">
             <IconRenderer name="zap" size={16} className="text-teal-500" />

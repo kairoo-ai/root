@@ -207,7 +207,7 @@ export function StepBackground({ data, onNext, onBack }: Props) {
                   className="flex items-start justify-between p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50"
                 >
                   <div>
-                    <div className="text-xs font-semibold text-white">{entry.degree}{entry.field ? ` — ${entry.field}` : ''}</div>
+                    <div className="text-xs font-semibold text-white">{entry.degree}{entry.field ? ` - ${entry.field}` : ''}</div>
                     <div className="text-[11px] text-zinc-400 mt-0.5">
                       {entry.institution}{entry.year ? `, ${entry.year}` : ''}
                     </div>
@@ -293,7 +293,7 @@ export function StepBackground({ data, onNext, onBack }: Props) {
         <div>
           <label className="block text-xs font-semibold text-zinc-400 mb-1.5">
             Paste your resume{' '}
-            <span className="font-normal text-zinc-500">(optional but powerful — AI uses this verbatim)</span>
+            <span className="font-normal text-zinc-500">(optional but powerful - AI uses this verbatim)</span>
           </label>
           <textarea
             value={resumeText}

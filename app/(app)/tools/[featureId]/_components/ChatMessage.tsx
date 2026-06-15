@@ -30,7 +30,7 @@ export function ChatMessage({ message, isStreaming, streamingContent, index }: P
       transition={{ duration: 0.25, delay: Math.min(index * 0.04, 0.3) }}
       className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
     >
-      {/* Avatar — assistant only */}
+      {/* Avatar - assistant only */}
       {!isUser && (
         <div className="w-7 h-7 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center shrink-0 mt-1">
           <span className="text-xs">✦</span>
@@ -40,11 +40,10 @@ export function ChatMessage({ message, isStreaming, streamingContent, index }: P
       <div className={`flex flex-col gap-1.5 max-w-[82%] ${isUser ? 'items-end' : 'items-start'}`}>
         {/* Bubble */}
         <div
-          className={`rounded-2xl px-4 py-3 ${
-            isUser
+          className={`rounded-2xl px-4 py-3 ${isUser
               ? 'bg-teal-500/15 border border-teal-500/25 text-foreground'
               : 'bg-card border border-border'
-          }`}
+            }`}
         >
           {isUser ? (
             <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{content}</p>
@@ -62,7 +61,7 @@ export function ChatMessage({ message, isStreaming, streamingContent, index }: P
           )}
         </div>
 
-        {/* Action row — assistant messages only, after streaming */}
+        {/* Action row - assistant messages only, after streaming */}
         {!isUser && !isStreaming && content && (
           <div className="flex gap-1">
             <button
@@ -76,7 +75,7 @@ export function ChatMessage({ message, isStreaming, streamingContent, index }: P
             <button
               title="Save to roadmap"
               className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground border border-transparent hover:border-border rounded-lg px-2 py-1 transition-all cursor-pointer"
-              onClick={() => {/* TODO: integrate with roadmap POST */}}
+              onClick={() => {/* TODO: integrate with roadmap POST */ }}
             >
               <Bookmark className="w-3 h-3" />
               Save
@@ -106,7 +105,7 @@ export function ChatMessage({ message, isStreaming, streamingContent, index }: P
         </p>
       </div>
 
-      {/* Avatar — user only */}
+      {/* Avatar - user only */}
       {isUser && (
         <div className="w-7 h-7 rounded-xl bg-muted/40 border border-border flex items-center justify-center shrink-0 mt-1">
           <span className="text-xs">U</span>

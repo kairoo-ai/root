@@ -5,7 +5,7 @@ import { mergeIntoProfile } from '@/lib/connectors/merge'
 import { getConnector } from '@/lib/connectors/registry'
 import { logActivity } from '@/data/repositories/activityLog.repo'
 
-// Minimal PDF text extractor — works for standard text-based PDFs
+// Minimal PDF text extractor - works for standard text-based PDFs
 function extractPdfText(buffer: Buffer): string {
   const str = buffer.toString('latin1')
   const texts: string[] = []
@@ -25,7 +25,7 @@ function extractPdfText(buffer: Buffer): string {
   return texts.join(' ').replace(/\s+/g, ' ').trim()
 }
 
-// Minimal ZIP reader for LinkedIn exports — extracts CSV files
+// Minimal ZIP reader for LinkedIn exports - extracts CSV files
 async function extractLinkedInZip(buffer: Buffer): Promise<string> {
   // Dynamic import fflate (installed)
   const { unzipSync } = await import('fflate')

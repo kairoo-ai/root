@@ -14,7 +14,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "matters-user",
     quote:
-      "The interview prep tool is genuinely useful — it doesn't just spit out generic answers, it tailors the coaching to the specific role I was going for. Walked into my next round feeling prepared.",
+      "The interview prep tool is genuinely useful - it doesn't just spit out generic answers, it tailors the coaching to the specific role I was going for. Walked into my next round feeling prepared.",
     name: "Priya M.",
     role: "Software Engineer",
     company: "Matters.AI",

@@ -5,7 +5,7 @@ import { Container } from "@/components/layout/Container";
 import { footerNav } from "@/config/navigation";
 
 /**
- * Site footer — token-driven, accessible.
+ * Site footer - token-driven, accessible.
  * Brand column + link columns sourced from `footerNav` (includes legal links),
  * a separator, and a copyright row with the current year.
  */

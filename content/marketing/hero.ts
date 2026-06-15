@@ -1,5 +1,5 @@
 // Marketing hero content.
-// Reserved skeleton — no business logic yet.
+// Reserved skeleton - no business logic yet.
 
 export const hero = {
   eyebrow: "",

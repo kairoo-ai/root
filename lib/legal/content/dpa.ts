@@ -12,6 +12,6 @@ on behalf of a business customer (controller) under GDPR Article 28 and similar 
 - **International transfers:** under appropriate safeguards (e.g., SCCs) where applicable.
 - **Sub-processor obligations, audit rights, and breach notification** will be addressed in the full DPA, available on request.
 
-A signable DPA is **available on request** — contact **${c.contactEmail}**. (Full executable
+A signable DPA is **available on request** - contact **${c.contactEmail}**. (Full executable
 version pending finalization.)
 `;

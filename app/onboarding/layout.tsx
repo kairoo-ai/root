@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: `Get Started — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
+  title: `Get Started - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
   description: 'Set up your career profile to get personalised guidance.',
 }
 

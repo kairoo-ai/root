@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * FAQ — data-driven Q/A block built on our Accordion primitive (HeroUI v3).
+ * FAQ - data-driven Q/A block built on our Accordion primitive (HeroUI v3).
  *
  * Renders a list of {@link FAQItem}s as an accessible, single-open accordion.
  * Optionally wraps itself in a <Section> with a <PageHeader> (eyebrow / title /

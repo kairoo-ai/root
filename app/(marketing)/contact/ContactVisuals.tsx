@@ -38,7 +38,7 @@ import IconRenderer from "@/components/IconRenderer";
 import { ContactForm } from "./ContactForm";
 
 /* ------------------------------------------------------------------ */
-/* Shared reveal helper — reduced-motion safe                          */
+/* Shared reveal helper - reduced-motion safe                          */
 /* ------------------------------------------------------------------ */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -48,15 +48,15 @@ function useReveal() {
     reduce
       ? {}
       : {
-          initial: { opacity: 0, y: 24 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, amount: 0.3 },
-          transition: { duration: 0.6, ease: EASE, delay },
-        };
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.3 },
+        transition: { duration: 0.6, ease: EASE, delay },
+      };
 }
 
 /* ------------------------------------------------------------------ */
-/* Serializable props — icons are passed as NAME strings only          */
+/* Serializable props - icons are passed as NAME strings only          */
 /* ------------------------------------------------------------------ */
 export interface ContactChannel {
   icon: string;
@@ -82,7 +82,7 @@ export interface ContactVisualsProps {
 }
 
 /* ================================================================== */
-/* HERO — striking split: animated accent + Spotlight | the form       */
+/* HERO - striking split: animated accent + Spotlight | the form       */
 /* ================================================================== */
 function ContactHero({
   supportEmail,
@@ -127,14 +127,14 @@ function ContactHero({
 
   return (
     <Section className="relative isolate overflow-hidden pb-0">
-      {/* Local Spotlight flair — the page AuroraBackground lives in the layout. */}
+      {/* Local Spotlight flair - the page AuroraBackground lives in the layout. */}
       <Spotlight
         className="-top-40 left-0 md:-top-24 md:-left-20"
         fill="var(--primary)"
       />
 
       <div className="grid items-stretch gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14">
-        {/* LEFT — animated accent / message side */}
+        {/* LEFT - animated accent / message side */}
         <div className="relative flex flex-col justify-center py-6 lg:py-12">
           <Stack gap={8} align="start">
             <h1
@@ -152,7 +152,7 @@ function ContactHero({
                     className={cn(
                       "mr-[0.25em] inline-block",
                       isHighlight &&
-                        "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
+                      "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
                     )}
                   >
                     {word}
@@ -166,7 +166,7 @@ function ContactHero({
               className="max-w-xl text-pretty text-body-lg text-muted-foreground"
             >
               Whether you&apos;re evaluating {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} for yourself or rolling it
-              out across a team, send a note and we&apos;ll get back to you —
+              out across a team, send a note and we&apos;ll get back to you -
               usually within one business day.
             </motion.p>
 
@@ -224,7 +224,7 @@ function ContactHero({
           </Stack>
         </div>
 
-        {/* RIGHT — the form, lifted on a glowing glass card */}
+        {/* RIGHT - the form, lifted on a glowing glass card */}
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 28 }}
           whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
@@ -232,7 +232,7 @@ function ContactHero({
           transition={{ duration: 0.6, ease: EASE, delay: reduce ? 0 : 0.2 }}
           className="relative isolate flex py-6 lg:py-12"
         >
-          {/* Glow halo behind the form card — token color-mix only. */}
+          {/* Glow halo behind the form card - token color-mix only. */}
           <div
             aria-hidden
             className="pointer-events-none absolute -inset-2 rounded-[2rem] opacity-60 blur-2xl"
@@ -270,7 +270,7 @@ function ContactHero({
 }
 
 /* ================================================================== */
-/* CHANNELS — 3D tilt cards that lift toward the cursor                 */
+/* CHANNELS - 3D tilt cards that lift toward the cursor                 */
 /* ================================================================== */
 function Channels({
   channels,
@@ -295,7 +295,7 @@ function Channels({
           </span>
         </h2>
         <p className="mt-4 text-body-lg text-muted-foreground">
-          The form routes everywhere — but if you already know who you need,
+          The form routes everywhere - but if you already know who you need,
           here&apos;s the fastest path.
         </p>
       </motion.div>
@@ -377,14 +377,14 @@ function Channels({
 }
 
 /* ================================================================== */
-/* WHAT HAPPENS NEXT — BentoGrid timeline of the demo flow             */
+/* WHAT HAPPENS NEXT - BentoGrid timeline of the demo flow             */
 /* ================================================================== */
 function WhatHappensNext() {
   const items: BentoItem[] = [
     {
       title: "We read every message ourselves",
       description:
-        `No bots triaging your note into a void. A real person on the ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} team reads what you send and replies — usually within one business day.`,
+        `No bots triaging your note into a void. A real person on the ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} team reads what you send and replies - usually within one business day.`,
       span: "2x2",
       icon: <IconRenderer name="mail-check" size={20} />,
     },
@@ -408,7 +408,7 @@ function WhatHappensNext() {
     {
       title: "Career toolkit, learning paths & team analytics",
       description:
-        `We'll walk you through the parts of ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} that matter most for your goals and team size — and answer anything in real time.`,
+        `We'll walk you through the parts of ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} that matter most for your goals and team size - and answer anything in real time.`,
       span: "2x1",
       icon: <IconRenderer name="layers" size={20} />,
     },
@@ -418,14 +418,14 @@ function WhatHappensNext() {
     <BentoGrid
       eyebrow="After you reach out"
       heading="What happens next"
-      description={ `No drawn-out sales gauntlet — just a clear, human path from your first message to seeing ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} in action.` }
+      description={`No drawn-out sales gauntlet - just a clear, human path from your first message to seeing ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} in action.`}
       items={items}
     />
   );
 }
 
 /* ================================================================== */
-/* CLOSING CTA — glowing brand band                                    */
+/* CLOSING CTA - glowing brand band                                    */
 /* ================================================================== */
 function GlowingCTA({
   pricingRoute,

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * InteractiveDemos — live, working examples of the HeroUI v3 wrapper primitives
+ * InteractiveDemos - live, working examples of the HeroUI v3 wrapper primitives
  * for the /style reference gallery.
  *
  * Token-only: every component renders on HeroUI's themed defaults (our CSS

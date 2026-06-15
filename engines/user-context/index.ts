@@ -26,7 +26,7 @@ export function buildContextString(
   user: { name?: string | null; email: string } | null,
   profile: UserProfile | null,
 ): string {
-  const lines: string[] = ['## About This User (auto-injected — use this to personalise your response)']
+  const lines: string[] = ['## About This User (auto-injected - use this to personalise your response)']
 
   if (user?.name) lines.push(`- **Name:** ${user.name}`)
 

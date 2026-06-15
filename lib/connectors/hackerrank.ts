@@ -72,7 +72,7 @@ async function fetchHackerRankProfile(username: string): Promise<ConnectorResult
       skills,
       resumeText: `HackerRank profile: ${username}`,
     },
-    summary: `HackerRank profile imported for ${rawName ?? username}${badges.length > 0 ? ` — ${badges.length} badge(s) found` : ''}.`,
+    summary: `HackerRank profile imported for ${rawName ?? username}${badges.length > 0 ? ` - ${badges.length} badge(s) found` : ''}.`,
   }
 }
 

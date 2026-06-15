@@ -13,7 +13,7 @@ export function parseRoadmapOutput(
   targetRole: string,
   totalWeeks: number,
 ): RoadmapPlanJson {
-  // Attempt JSON parse — strip markdown fences first
+  // Attempt JSON parse - strip markdown fences first
   const stripped = rawText.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim()
 
   try {

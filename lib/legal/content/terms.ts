@@ -17,7 +17,7 @@ Paid plans are billed in advance and renew automatically until cancelled; you ca
 anytime, effective at the end of the current billing period. Fees are non-refundable except
 where required by law.
 
-## AI-generated content — no guarantees
+## AI-generated content - no guarantees
 ${c.productName} uses AI to generate career guidance, learning suggestions, and similar
 output. **This output may be inaccurate or incomplete and is not professional, legal,
 financial, or career advice.** You are responsible for how you use it; we do not guarantee

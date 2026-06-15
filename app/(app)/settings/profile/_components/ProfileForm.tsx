@@ -62,11 +62,10 @@ function PillToggle({
     <button
       type="button"
       onClick={() => onToggle(value)}
-      className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
-        current === value
+      className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${current === value
           ? 'bg-teal-500 border-teal-500 text-black'
           : 'bg-background border-border text-muted-foreground hover:border-teal-500/50 hover:text-foreground'
-      }`}
+        }`}
     >
       {label}
     </button>
@@ -205,11 +204,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             </div>
           </div>
           <div>
-            <Label>Career goal — one sentence</Label>
+            <Label>Career goal - one sentence</Label>
             <input className={inputClass} placeholder="e.g. Become a Senior PM at a Series B startup within 12 months" value={form.careerGoalShort} onChange={e => patch({ careerGoalShort: e.target.value })} />
           </div>
           <div>
-            <Label>Career goal — full description (optional)</Label>
+            <Label>Career goal - full description (optional)</Label>
             <textarea className={textareaClass} rows={4} placeholder="Describe your long-term career vision, motivations, and what success looks like for you…" value={form.careerGoalLong} onChange={e => patch({ careerGoalLong: e.target.value })} />
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -245,11 +244,10 @@ export function ProfileForm({ profile }: ProfileFormProps) {
                   key={skill}
                   type="button"
                   onClick={() => toggleSkill(skill)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
-                    form.skills.includes(skill)
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${form.skills.includes(skill)
                       ? 'bg-teal-500 border-teal-500 text-black'
                       : 'bg-background border-border text-muted-foreground hover:border-teal-500/50 hover:text-foreground'
-                  }`}
+                    }`}
                 >
                   {skill}
                 </button>
@@ -315,7 +313,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           <textarea
             className={textareaClass}
             rows={8}
-            placeholder={ `Paste your resume here. ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} uses this to give you more personalised guidance and skill gap analysis.` }
+            placeholder={`Paste your resume here. ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} uses this to give you more personalised guidance and skill gap analysis.`}
             value={form.resumeText}
             onChange={e => patch({ resumeText: e.target.value })}
           />

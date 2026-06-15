@@ -59,7 +59,7 @@ export function ToolPageClient({ feature }: Props) {
           setDisplayMessages(data[0].messages)
         }
       })
-      .catch(() => {})
+      .catch(() => { })
   }, [feature.id])
 
   const sendMessage = useCallback(async (content: string, isFirstMessage = false) => {
@@ -146,10 +146,10 @@ export function ToolPageClient({ feature }: Props) {
         prev.map(t =>
           t.id === threadId
             ? {
-                ...t,
-                messages: [...t.messages, optimisticUserMsg, assistantMsg],
-                updatedAt: new Date(),
-              }
+              ...t,
+              messages: [...t.messages, optimisticUserMsg, assistantMsg],
+              updatedAt: new Date(),
+            }
             : t
         )
       )
@@ -365,7 +365,7 @@ export function ToolPageClient({ feature }: Props) {
           )}
         </AnimatePresence>
 
-        {/* Input bar — only shown in chat mode */}
+        {/* Input bar - only shown in chat mode */}
         {!showInitialForm && (
           <ChatInput
             value={inputValue}

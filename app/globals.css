@@ -4,9 +4,10 @@
 @import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
 
-/* HeroUI v3 reads these variable names — alias them to Kairoo tokens (additive, zero override of our own). */
+/* HeroUI v3 reads these variable names - alias them to Kairoo tokens (additive, zero override of our own). */
 @layer base {
-  :root, .dark {
+  :root,
+  .dark {
     --focus: var(--ring);
     --danger: var(--destructive);
     --danger-foreground: var(--destructive-foreground);
@@ -85,7 +86,7 @@
 
 body {
   /* Re-declare font-family aliases here so var(--font-space-grotesk) etc.
-     resolve correctly — Next.js sets those variables on <body>, not <html>. */
+     resolve correctly - Next.js sets those variables on <body>, not <html>. */
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), var(--font-dm-sans), sans-serif;
   --font-data: var(--font-mona-sans), var(--font-dm-sans), sans-serif;
@@ -102,8 +103,16 @@ body {
   width: 120%;
   height: 100vh;
   background-image:
-    radial-gradient(ellipse at 20% 20%, rgba(13, 148, 136, 0.12), transparent 50%),
-    radial-gradient(ellipse at 80% 40%, rgba(245, 158, 11, 0.08), transparent 50%),
+    radial-gradient(
+      ellipse at 20% 20%,
+      rgba(13, 148, 136, 0.12),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 40%,
+      rgba(245, 158, 11, 0.08),
+      transparent 50%
+    ),
     radial-gradient(ellipse at 40% 80%, rgba(11, 31, 58, 0.18), transparent 50%);
   z-index: 0;
   pointer-events: none;
@@ -111,15 +120,15 @@ body {
 }
 
 @keyframes aurora {
-  0% { 
+  0% {
     transform: translateX(-50%) scale(1) rotate(0deg);
     opacity: 0.8;
   }
-  50% { 
+  50% {
     transform: translateX(-48%) scale(1.1) rotate(90deg);
     opacity: 1;
   }
-  100% { 
+  100% {
     transform: translateX(-52%) scale(0.95) rotate(180deg);
     opacity: 0.9;
   }
@@ -130,7 +139,10 @@ body {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--surface-border);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
   box-shadow: 0 30px 80px rgba(15, 23, 42, 0.08);
 }
 
@@ -148,13 +160,13 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #0B1F3A, #0D9488, #F59E0B);
+  background: linear-gradient(135deg, #0b1f3a, #0d9488, #f59e0b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .dark .gradient-text {
-  background: linear-gradient(135deg, #2DD4BF, #0D9488, #FBBF24);
+  background: linear-gradient(135deg, #2dd4bf, #0d9488, #fbbf24);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -175,10 +187,15 @@ body {
 }
 
 .section-shell::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.25), transparent 45%),
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(13, 148, 136, 0.25),
+      transparent 45%
+    ),
     radial-gradient(circle at 80% 0%, rgba(45, 212, 191, 0.15), transparent 35%);
   opacity: 0.65;
   pointer-events: none;
@@ -205,17 +222,17 @@ body {
 }
 
 .icp-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--accent-color, #0D9488), transparent);
+  background: linear-gradient(90deg, var(--accent-color, #0d9488), transparent);
 }
 
 .validation-score {
-  background: linear-gradient(135deg, #2DD4BF, #0D9488);
+  background: linear-gradient(135deg, #2dd4bf, #0d9488);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -224,7 +241,11 @@ body {
 .market-size-visual {
   position: relative;
   height: 200px;
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(45, 212, 191, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(13, 148, 136, 0.1),
+    rgba(45, 212, 191, 0.1)
+  );
   border-radius: 1rem;
   display: flex;
   align-items: center;
@@ -238,7 +259,7 @@ body {
 }
 
 .competitor-card:hover {
-  border-color: var(--accent-color, #2DD4BF);
+  border-color: var(--accent-color, #2dd4bf);
   transform: scale(1.02);
 }
 
@@ -248,13 +269,13 @@ body {
 }
 
 .metric-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent-color, #2DD4BF), transparent);
+  background: linear-gradient(90deg, var(--accent-color, #2dd4bf), transparent);
 }
 
 .slide-card {
@@ -265,18 +286,18 @@ body {
 }
 
 .timeline-item {
-  border-left: 3px solid var(--accent-color, #2DD4BF);
+  border-left: 3px solid var(--accent-color, #2dd4bf);
   position: relative;
 }
 
 .timeline-item::before {
-  content: '';
+  content: "";
   position: absolute;
   left: -8px;
   top: 1rem;
   width: 13px;
   height: 13px;
-  background: var(--accent-color, #2DD4BF);
+  background: var(--accent-color, #2dd4bf);
   border-radius: 50%;
 }
 
@@ -292,7 +313,7 @@ body {
 
 .diagram-node {
   position: relative;
-  background: var(--node-color, #2DD4BF);
+  background: var(--node-color, #2dd4bf);
   border-radius: 0.5rem;
   padding: 1rem;
   color: white;
@@ -313,13 +334,17 @@ body {
   padding: 2rem;
   border-radius: 1rem;
   border: 2px solid transparent;
-  background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(15, 15, 35, 0.8));
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 46, 0.8),
+    rgba(15, 15, 35, 0.8)
+  );
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .architecture-layer:hover {
-  border-color: var(--layer-color, #2DD4BF);
+  border-color: var(--layer-color, #2dd4bf);
   transform: scale(1.02);
 }
 
@@ -330,7 +355,7 @@ body {
   margin: 0.5rem 0;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
-  border-left: 4px solid var(--tech-color, #2DD4BF);
+  border-left: 4px solid var(--tech-color, #2dd4bf);
   transition: all 0.3s ease;
 }
 
@@ -357,7 +382,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
   margin: 0.5rem 0;
-  border-left: 4px solid var(--metric-color, #2DD4BF);
+  border-left: 4px solid var(--metric-color, #2dd4bf);
 }
 
 :root {
@@ -365,7 +390,11 @@ body {
   --aceternity-glow: var(--primary);
   --aceternity-beam: var(--accent);
   --aceternity-noise-opacity: 0.035;
-  --aceternity-spotlight-color: color-mix(in oklch, var(--primary) 15%, transparent);
+  --aceternity-spotlight-color: color-mix(
+    in oklch,
+    var(--primary) 15%,
+    transparent
+  );
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -390,7 +419,7 @@ body {
   --chart-1: oklch(0.58 0.12 185);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.70 0.14 90);
+  --chart-4: oklch(0.7 0.14 90);
   --chart-5: oklch(0.72 0.16 72);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
@@ -404,7 +433,7 @@ body {
   --surface-shell: rgba(7, 10, 22, 0.93);
   --surface-border: rgba(148, 163, 184, 0.18);
   --surface-border-strong: rgba(148, 163, 184, 0.35);
-  --surface-glow: rgba(13, 148, 136, 0.30);
+  --surface-glow: rgba(13, 148, 136, 0.3);
 }
 
 @layer base {
@@ -416,12 +445,24 @@ body {
   }
 }
 
-/* Auth page aurora — adapts to light/dark via CSS vars */
+/* Auth page aurora - adapts to light/dark via CSS vars */
 .auth-aurora {
   background:
-    radial-gradient(55% 50% at 20% 10%, color-mix(in oklab, var(--primary) 8%, transparent) 0%, transparent 60%),
-    radial-gradient(45% 45% at 85% 15%, color-mix(in oklab, var(--accent) 6%, transparent) 0%, transparent 55%),
-    radial-gradient(60% 60% at 50% 110%, color-mix(in oklab, var(--primary) 5%, transparent) 0%, transparent 60%);
+    radial-gradient(
+      55% 50% at 20% 10%,
+      color-mix(in oklab, var(--primary) 8%, transparent) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      45% 45% at 85% 15%,
+      color-mix(in oklab, var(--accent) 6%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      60% 60% at 50% 110%,
+      color-mix(in oklab, var(--primary) 5%, transparent) 0%,
+      transparent 60%
+    );
 }
 
 html {
@@ -429,11 +470,22 @@ html {
 }
 
 body {
-  background: radial-gradient(circle at 12% 18%, rgba(13, 148, 136, 0.10), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(147, 197, 253, 0.35), transparent 50%),
-    linear-gradient(135deg, #FFFFFF, #F8FAFC);
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(13, 148, 136, 0.1),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(147, 197, 253, 0.35),
+      transparent 50%
+    ),
+    linear-gradient(135deg, #ffffff, #f8fafc);
   min-height: 100vh;
-  transition: background 0.6s ease, color 0.6s ease;
+  transition:
+    background 0.6s ease,
+    color 0.6s ease;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   overflow-x: hidden;
 }
@@ -448,7 +500,9 @@ body {
   right: 1rem;
   transform: translateY(-50%) translateX(3rem);
   z-index: 60;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
   opacity: 0;
   pointer-events: none;
 }
@@ -487,7 +541,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Aceternity Spotlight entrance — token-based, no raw colors.
+/* Aceternity Spotlight entrance - token-based, no raw colors.
    Animates the off-screen ellipse into the hero and settles its opacity. */
 .animate-spotlight {
   animation: spotlight 2s ease 0.75s 1 forwards;
@@ -505,18 +559,32 @@ body {
 }
 
 @keyframes shimmer {
-  100% { transform: translateX(100%); }
+  100% {
+    transform: translateX(100%);
+  }
 }
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 @keyframes scroll {
-  to { transform: translateX(-50%); }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 /* Onboarding theme adaptations for Light Mode */
@@ -538,12 +606,14 @@ html:not(.dark) {
     .text-zinc-500 {
       color: #71717a !important;
     }
-    
+
     /* override background colors */
     .bg-zinc-900\/50 {
       background-color: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(12px) !important;
-      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+      box-shadow:
+        0 20px 25px -5px rgb(0 0 0 / 0.1),
+        0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
     }
     .bg-zinc-900\/50 * {
       /* Keep buttons inside card readable */
@@ -574,17 +644,20 @@ html:not(.dark) {
     .border-zinc-700 {
       border-color: #d4d4d8 !important;
     }
-    
+
     /* inputs and placeholders */
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       color: #18181b !important;
       background-color: #f4f4f5 !important;
       border-color: #d4d4d8 !important;
     }
-    input::placeholder, textarea::placeholder {
+    input::placeholder,
+    textarea::placeholder {
       color: #a1a1aa !important;
     }
-    
+
     /* buttons */
     .border-zinc-700.text-zinc-400 {
       border-color: #d4d4d8 !important;
@@ -596,4 +669,3 @@ html:not(.dark) {
     }
   }
 }
-

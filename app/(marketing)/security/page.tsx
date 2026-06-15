@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*  Data — PUBLIC-SAFE & HONEST.                                              */
+/*  Data - PUBLIC-SAFE & HONEST.                                              */
 /*  Compliance is framed as "compliance-ready / in progress", NOT certified.  */
 /*  Performance figures are stated as TARGETS, not measured guarantees.       */
 /*  Stack references reflect the REAL app (Next.js + engines/ai Gemini).      */
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 /* -------------------------------------------------------------------------- */
 
 // Honest reframing of the architecture badges: nothing is claimed as
-// "certified" — each entry is described as ready / in progress / aligned.
+// "certified" - each entry is described as ready / in progress / aligned.
 const COMPLIANCE: ComplianceVM[] = [
   {
     name: "SOC 2",
@@ -85,13 +85,13 @@ const COMPLIANCE: ComplianceVM[] = [
   },
 ];
 
-// Three defense layers — verbatim controls preserved from the source
+// Three defense layers - verbatim controls preserved from the source
 // architecture page (network / application / data). Laid out as a Bento.
 const LAYERS: LayerVM[] = [
   {
     title: "Network security",
     icon: "network",
-    tag: "Layer 01 — Edge",
+    tag: "Layer 01 - Edge",
     summary:
       "Traffic is filtered, encrypted, and rate-shaped before it ever reaches the app.",
     controls: [
@@ -105,7 +105,7 @@ const LAYERS: LayerVM[] = [
   {
     title: "Application security",
     icon: "app-window",
-    tag: "Layer 02 — Runtime",
+    tag: "Layer 02 - Runtime",
     summary:
       "Every request is authenticated, authorized, and scoped to least privilege.",
     controls: [
@@ -119,7 +119,7 @@ const LAYERS: LayerVM[] = [
   {
     title: "Data security",
     icon: "database",
-    tag: "Layer 03 — Core",
+    tag: "Layer 03 - Core",
     summary: "Your data is encrypted at rest, minimized, and isolated by design.",
     controls: [
       "AES-256 encryption at rest",
@@ -131,7 +131,7 @@ const LAYERS: LayerVM[] = [
   },
 ];
 
-// Dense, tabbed control deep-dive — HeroUI Tabs. Mirrors the three defense
+// Dense, tabbed control deep-dive - HeroUI Tabs. Mirrors the three defense
 // layers with the concrete controls behind each, framed honestly.
 const DEEP_DIVE: DeepDiveTab[] = [
   {
@@ -159,7 +159,7 @@ const DEEP_DIVE: DeepDiveTab[] = [
       { icon: "key-round", title: "OAuth 2.0 + JWT", detail: "Short-lived, scoped tokens issued through a controlled flow." },
       { icon: "user-check", title: "Role-based access control", detail: "Permissions are scoped to the minimum a role requires." },
       { icon: "siren", title: "Abuse protection", detail: "API rate limiting and abuse heuristics on sensitive endpoints." },
-      { icon: "bot", title: "Gated AI gateway", detail: "Model calls route through engines/ai — authenticated and auditable." },
+      { icon: "bot", title: "Gated AI gateway", detail: "Model calls route through engines/ai - authenticated and auditable." },
     ],
   },
   {
@@ -178,7 +178,7 @@ const DEEP_DIVE: DeepDiveTab[] = [
   },
 ];
 
-// Data lifecycle / threat-response timeline — horizontal stepper.
+// Data lifecycle / threat-response timeline - horizontal stepper.
 const LIFECYCLE: LifecycleStep[] = [
   { icon: "lock-keyhole", title: "Encrypted in transit", detail: "TLS 1.3 secures every byte from your device to our edge." },
   { icon: "shield-half", title: "Inspected & authorized", detail: "WAF, auth, and RBAC validate the request before it runs." },
@@ -223,7 +223,7 @@ const PERF_TARGETS: TargetVM[] = [
   { metric: "AI processing time", target: "< 5s", note: "Per AI-assisted action" },
 ];
 
-// Headline metrics for the animated count-up band — derived from the
+// Headline metrics for the animated count-up band - derived from the
 // performance targets and the layered model, stated as targets/figures.
 const PERF_STATS: StatCounterProps[] = [
   { value: 1.2, prefix: "<", suffix: "s", label: "First Contentful Paint target" },
@@ -275,7 +275,7 @@ export default function SecurityPage() {
         titleLead="Security built in,"
         titleHighlight="claims kept"
         titleTail="honest"
-        subtitle={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} protects your career and learning data with a layered security model, a transparent compliance posture, and performance targets we measure ourselves against — no overstated badges, just the practices behind them.` }
+        subtitle={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} protects your career and learning data with a layered security model, a transparent compliance posture, and performance targets we measure ourselves against - no overstated badges, just the practices behind them.`}
         primaryCta={{ label: "Talk to us about security", href: "/contact" }}
         secondaryCta={{ label: "See how it works", href: "/how-it-works" }}
         badges={[
@@ -288,16 +288,16 @@ export default function SecurityPage() {
 
       {/* Performance targets as an animated count-up band. */}
       <SecurityStats
-        heading="Fast is a feature — and a target"
-        subtitle="A secure product still has to feel instant. These are figures we design and monitor against — targets, not guarantees."
+        heading="Fast is a feature - and a target"
+        subtitle="A secure product still has to feel instant. These are figures we design and monitor against - targets, not guarantees."
         stats={PERF_STATS}
-        note="We describe our posture as compliance-ready and in progress rather than overstating certifications — where a framework is fully reflected in how we operate today, we say so; where it's on our roadmap, we say that too."
+        note="We describe our posture as compliance-ready and in progress rather than overstating certifications - where a framework is fully reflected in how we operate today, we say so; where it's on our roadmap, we say that too."
       />
 
       {/* Defense-in-depth layers as an asymmetric Bento of spotlight cards. */}
       <SecurityLayers
         heading="A layered security model"
-        subtitle="Security is enforced at every layer — from the edge of the network, through the application, down to the data itself."
+        subtitle="Security is enforced at every layer - from the edge of the network, through the application, down to the data itself."
         layers={LAYERS}
       />
 
@@ -311,7 +311,7 @@ export default function SecurityPage() {
       {/* Data lifecycle / threat-response timeline. */}
       <SecurityLifecycle
         heading="What happens to a request, end to end"
-        subtitle="From the moment data leaves your device to the moment we respond to an anomaly — every stage is accounted for."
+        subtitle="From the moment data leaves your device to the moment we respond to an anomaly - every stage is accounted for."
         steps={LIFECYCLE}
       />
 
@@ -325,7 +325,7 @@ export default function SecurityPage() {
       {/* Compliance posture cards + procurement callout. */}
       <SecurityCompliance
         heading="Where we stand on the frameworks"
-        subtitle={ `Each framework below shows what it covers and exactly where ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} sits today — stated plainly.` }
+        subtitle={`Each framework below shows what it covers and exactly where ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} sits today - stated plainly.`}
         items={COMPLIANCE}
         callout={{
           body:
@@ -344,7 +344,7 @@ export default function SecurityPage() {
 
       <SecurityFAQ
         heading="Security questions, answered straight"
-        subtitle="No hedging, no overstated badges — here's exactly where we stand."
+        subtitle="No hedging, no overstated badges - here's exactly where we stand."
         items={FAQ_ITEMS}
       />
 

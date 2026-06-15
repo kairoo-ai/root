@@ -62,7 +62,7 @@ function LogoItem({ item }: { item: LogoMarqueeItem }) {
 }
 
 /**
- * LogoMarquee — a horizontally auto-scrolling row of brand logos.
+ * LogoMarquee - a horizontally auto-scrolling row of brand logos.
  *
  * The list is duplicated so the row loops seamlessly. The animation is driven
  * by a Motion value advanced each frame, then wrapped at the measured width of
@@ -70,7 +70,7 @@ function LogoItem({ item }: { item: LogoMarqueeItem }) {
  * count or content width. Pauses on hover/focus.
  *
  * Under `prefers-reduced-motion` the row renders static (single, non-animated
- * track) with no transforms — satisfying the reduced-motion contract.
+ * track) with no transforms - satisfying the reduced-motion contract.
  */
 export function LogoMarquee({
   items,
@@ -94,7 +94,7 @@ export function LogoMarquee({
         className={cn(
           "w-full overflow-hidden",
           fade &&
-            "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
+          "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
           className,
         )}
         {...props}
@@ -148,7 +148,7 @@ function MarqueeTrack({
   const [paused, setPaused] = useState(false);
 
   // Measure one track (the first, non-duplicated copy) so the wrap distance
-  // matches exactly — including the trailing gap between the two copies.
+  // matches exactly - including the trailing gap between the two copies.
   useEffect(() => {
     const node = trackRef.current;
     if (!node) return;
@@ -186,11 +186,11 @@ function MarqueeTrack({
 
   const hoverHandlers = pauseOnHover
     ? {
-        onMouseEnter: () => setPaused(true),
-        onMouseLeave: () => setPaused(false),
-        onFocusCapture: () => setPaused(true),
-        onBlurCapture: () => setPaused(false),
-      }
+      onMouseEnter: () => setPaused(true),
+      onMouseLeave: () => setPaused(false),
+      onFocusCapture: () => setPaused(true),
+      onBlurCapture: () => setPaused(false),
+    }
     : {};
 
   return (
@@ -198,7 +198,7 @@ function MarqueeTrack({
       className={cn(
         "w-full overflow-hidden",
         fade &&
-          "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
+        "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
         className,
       )}
       {...hoverHandlers}

@@ -30,7 +30,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'learning-paste',
         extracted,
-        summary: 'Certificates imported — AI extraction unavailable, raw text stored',
+        summary: 'Certificates imported - AI extraction unavailable, raw text stored',
         error: result.error.message,
       }
     }
@@ -45,7 +45,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'learning-paste',
         extracted,
-        summary: 'Certificates imported — could not parse AI response, raw text stored',
+        summary: 'Certificates imported - could not parse AI response, raw text stored',
       }
     }
 
@@ -62,14 +62,14 @@ async function run(input: string): Promise<ConnectorResult> {
       success: true,
       source: 'learning-paste',
       extracted,
-      summary: `Certificates imported — ${certCount} certification${certCount === 1 ? '' : 's'} extracted`,
+      summary: `Certificates imported - ${certCount} certification${certCount === 1 ? '' : 's'} extracted`,
     }
   } catch (err) {
     return {
       success: true,
       source: 'learning-paste',
       extracted,
-      summary: 'Certificates imported — AI extraction failed, raw text stored',
+      summary: 'Certificates imported - AI extraction failed, raw text stored',
       error: err instanceof Error ? err.message : String(err),
     }
   }

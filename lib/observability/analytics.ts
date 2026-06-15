@@ -1,6 +1,6 @@
 /**
  * Consent-gated NO-OP analytics seam.
- * Reserved skeleton — no-op implementation, no business logic yet.
+ * Reserved skeleton - no-op implementation, no business logic yet.
  */
 
 import { getConsent } from "./consent";

@@ -16,7 +16,7 @@ export default function LegalLayout({ title, body }: { title: string; body: stri
       </p>
       {legal.draft && (
         <div className="mt-6 rounded-lg border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-warning-800 dark:text-warning-300">
-          <strong>DRAFT — pending legal review.</strong> This document is provided for
+          <strong>DRAFT - pending legal review.</strong> This document is provided for
           transparency and is not yet finalized or legal advice.
         </div>
       )}

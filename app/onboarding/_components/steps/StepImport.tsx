@@ -117,7 +117,7 @@ export function StepImport({ onNext, onBack }: Props) {
       <div className="mb-5">
         <h2 className="text-lg font-black text-white">Import your career history</h2>
         <p className="text-xs text-zinc-400 mt-0.5">
-          Skip filling things manually — import from any platform to auto-fill the next steps.
+          Skip filling things manually - import from any platform to auto-fill the next steps.
         </p>
       </div>
 
@@ -140,22 +140,20 @@ export function StepImport({ onNext, onBack }: Props) {
           return (
             <div
               key={card.id}
-              className={`rounded-xl border transition-all ${
-                isImported
+              className={`rounded-xl border transition-all ${isImported
                   ? 'border-teal-500/50 bg-teal-500/5'
                   : isExpanded
-                  ? 'border-zinc-600 bg-zinc-800/80'
-                  : 'border-zinc-700/50 bg-zinc-800/50'
-              }`}
+                    ? 'border-zinc-600 bg-zinc-800/80'
+                    : 'border-zinc-700/50 bg-zinc-800/50'
+                }`}
             >
               <button
                 onClick={() => toggleExpand(card.id)}
                 className="w-full flex items-center justify-between p-3.5 text-left cursor-pointer"
               >
                 <div className="flex items-center gap-2.5">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                    isImported ? 'bg-teal-500/20' : 'bg-zinc-700/50'
-                  }`}>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isImported ? 'bg-teal-500/20' : 'bg-zinc-700/50'
+                    }`}>
                     {isImported ? (
                       <Check className="w-4 h-4 text-teal-400" />
                     ) : (
@@ -239,7 +237,7 @@ export function StepImport({ onNext, onBack }: Props) {
           Continue
         </button>
       </div>
-      <p className="text-[11px] text-zinc-500 text-center mt-2">Import is optional — you can fill details manually in the next steps.</p>
+      <p className="text-[11px] text-zinc-500 text-center mt-2">Import is optional - you can fill details manually in the next steps.</p>
     </div>
   )
 }

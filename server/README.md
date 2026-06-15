@@ -4,4 +4,4 @@ Request-scoped server glue: request context, auth/session, guards, rate limiting
 
 Server-only by convention; do NOT import the `server-only` package until installed.
 
-Reserved skeleton — no business logic yet.
+Reserved skeleton - no business logic yet.

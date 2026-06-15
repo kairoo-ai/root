@@ -8,13 +8,13 @@ import type { GenerationRequest, GenerationResult } from "./types";
 const TIMEOUT_MS = 30_000;
 const RETRIES = 1;
 
-// Round-robin counter per tier — spreads load evenly across free-tier providers
+// Round-robin counter per tier - spreads load evenly across free-tier providers
 // so no single provider absorbs all traffic. Skipped when AI_PROVIDER_PRIORITY
 // is set, so explicit operator ordering is always respected.
 const rrCounter: Record<string, number> = {};
 function rotate<T>(arr: T[], tier: string): T[] {
   if (arr.length <= 1) return arr;
-  // If the user pinned an explicit priority, don't rotate — respect their order.
+  // If the user pinned an explicit priority, don't rotate - respect their order.
   if (process.env.AI_PROVIDER_PRIORITY) return arr;
   const n = (rrCounter[tier] = (rrCounter[tier] ?? 0) + 1);
   const start = n % arr.length;
@@ -105,7 +105,7 @@ export async function* generateStream(req: GenerationRequest): AsyncIterable<str
   throw new UpstreamError(`All providers failed: ${String(lastErr)}`, "ai_upstream_error", 502);
 }
 
-/** Wrap an async iterable with a hard timeout — throws if no chunk arrives within `ms`. */
+/** Wrap an async iterable with a hard timeout - throws if no chunk arrives within `ms`. */
 async function* withTimeoutStream(source: AsyncIterable<string>, ms: number): AsyncIterable<string> {
   const iter = source[Symbol.asyncIterator]();
   while (true) {

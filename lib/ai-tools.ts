@@ -2,8 +2,8 @@
 //
 // The tool registry now lives in `@/engines/ai/features/registry` (the canonical
 // home per docs/ARCHITECTURE.md). This module re-exports it under the original
-// names so existing UI consumers — app/(marketing)/page.tsx and
-// components/FeatureModal.tsx — keep working unchanged.
+// names so existing UI consumers - app/(marketing)/page.tsx and
+// components/FeatureModal.tsx - keep working unchanged.
 //
 // It imports the PURE feature registry directly (not the engines/ai barrel), so
 // nothing secret/server-only is pulled into client bundles.

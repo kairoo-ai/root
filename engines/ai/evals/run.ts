@@ -59,7 +59,7 @@ async function main() {
     if (r.outcome === "PASS") pass++;
     else if (r.outcome === "FAIL") fail++;
     else skip++;
-    console.log(`[${r.outcome}] ${c.name} — ${r.detail}`);
+    console.log(`[${r.outcome}] ${c.name} - ${r.detail}`);
   }
 
   console.log(

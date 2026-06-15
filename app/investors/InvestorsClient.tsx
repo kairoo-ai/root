@@ -59,7 +59,7 @@ const itemVariants: Variants = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* Hero — Spotlight + anime.js entrance sequence                              */
+/* Hero - Spotlight + anime.js entrance sequence                              */
 /* -------------------------------------------------------------------------- */
 
 export interface HeroStat {
@@ -258,7 +258,7 @@ function RibbonStat({
 }
 
 /* -------------------------------------------------------------------------- */
-/* Navigation cards — CardSpotlight + ThreeDCard tilt                          */
+/* Navigation cards - CardSpotlight + ThreeDCard tilt                          */
 /* -------------------------------------------------------------------------- */
 
 export interface NavCard {
@@ -330,7 +330,7 @@ export function NavCards({ items }: { items: NavCard[] }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* The Ask — ThreeDCard tilt feature                                          */
+/* The Ask - ThreeDCard tilt feature                                          */
 /* -------------------------------------------------------------------------- */
 
 export function AskCard({
@@ -435,7 +435,7 @@ export function AskCard({
 }
 
 /* -------------------------------------------------------------------------- */
-/* Why now — BentoGrid-style highlights                                       */
+/* Why now - BentoGrid-style highlights                                       */
 /* -------------------------------------------------------------------------- */
 
 export function WhyNowBento({
@@ -488,13 +488,13 @@ export function MetricsBand({ items }: { items: StatCounterProps[] }) {
   return (
     <Reveal>
       <GlowingEffect>
-      <Card variant="glass" className="overflow-hidden p-2">
-        <StatGrid
-          items={items}
-          cols={4}
-          className="gap-px [&>div]:items-center [&>div]:rounded-xl [&>div]:bg-card/40 [&>div]:p-6 [&>div]:text-center [&_.text-data]:text-h2"
-        />
-      </Card>
+        <Card variant="glass" className="overflow-hidden p-2">
+          <StatGrid
+            items={items}
+            cols={4}
+            className="gap-px [&>div]:items-center [&>div]:rounded-xl [&>div]:bg-card/40 [&>div]:p-6 [&>div]:text-center [&_.text-data]:text-h2"
+          />
+        </Card>
       </GlowingEffect>
     </Reveal>
   );

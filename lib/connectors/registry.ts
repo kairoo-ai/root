@@ -1,7 +1,7 @@
 import type { Connector } from './types'
 
 // Connectors are imported dynamically to avoid bundling server-only code on the client.
-// The registry holds metadata only — actual connector instances are loaded server-side.
+// The registry holds metadata only - actual connector instances are loaded server-side.
 
 import { connector as github } from './github'
 import { connector as gitlab } from './gitlab'
@@ -23,7 +23,7 @@ import { connector as resumePdf } from './resume-pdf'
 import { connector as learningPaste } from './learning-paste'
 
 export const connectors: Connector[] = [
-  // Resume — always first
+  // Resume - always first
   resumePdf,
   linkedinPaste,
   linkedinZip,
@@ -52,7 +52,7 @@ export function getConnector(id: string): Connector | undefined {
   return connectors.find(c => c.id === id)
 }
 
-// Client-safe metadata only — no run() function
+// Client-safe metadata only - no run() function
 export type ConnectorInfo = Omit<Connector, 'run'>
 
 export const connectorList: ConnectorInfo[] = connectors.map(({ run: _run, ...meta }) => meta)

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Switch — thin wrapper around HeroUI v3's real Switch.
+ * Switch - thin wrapper around HeroUI v3's real Switch.
  *
  * Source of truth: https://heroui.com/docs/react/components/switch
  * Verified against installed @heroui/react v3.1.0
@@ -19,7 +19,7 @@
  * It also exports each part as a flat named primitive. We re-export BOTH styles
  * so callers can pick whichever reads best:
  *
- *   // simplest — Root renders its own control/thumb when given no children
+ *   // simplest - Root renders its own control/thumb when given no children
  *   import { Switch } from "@/components/ui/Switch";
  *   <Switch defaultSelected aria-label="Enable notifications" />
  *
@@ -46,7 +46,7 @@
  *   Switch.Icon    === SwitchIcon      (optional icon inside the thumb)
  *   Switch.Content === SwitchContent   (label / description slot)
  *
- * Key props (v3 — these come from react-aria-components' Switch + SwitchVariants):
+ * Key props (v3 - these come from react-aria-components' Switch + SwitchVariants):
  *   - size: "sm" | "md" | "lg"                      → on Switch (the only style variant)
  *   - isSelected / defaultSelected                  → on Switch (controlled vs uncontrolled)
  *   - onChange: (isSelected: boolean) => void       → on Switch
@@ -66,7 +66,7 @@
  */
 
 export {
-  // Compound default — `Switch` is callable AND has .Root/.Control/.Thumb/.Icon/.Content.
+  // Compound default - `Switch` is callable AND has .Root/.Control/.Thumb/.Icon/.Content.
   Switch,
 
   // Flat named primitives (same components, attached on the compound above).

@@ -49,7 +49,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'linkedin-paste',
         extracted,
-        summary: 'LinkedIn profile imported — AI extraction unavailable, raw text stored',
+        summary: 'LinkedIn profile imported - AI extraction unavailable, raw text stored',
         error: result.error.message,
       }
     }
@@ -64,7 +64,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'linkedin-paste',
         extracted,
-        summary: 'LinkedIn profile imported — could not parse AI response, raw text stored',
+        summary: 'LinkedIn profile imported - could not parse AI response, raw text stored',
       }
     }
 
@@ -95,14 +95,14 @@ async function run(input: string): Promise<ConnectorResult> {
       success: true,
       source: 'linkedin-paste',
       extracted,
-      summary: `LinkedIn profile imported — extracted ${fieldCount} fields`,
+      summary: `LinkedIn profile imported - extracted ${fieldCount} fields`,
     }
   } catch (err) {
     return {
       success: true,
       source: 'linkedin-paste',
       extracted,
-      summary: 'LinkedIn profile imported — AI extraction failed, raw text stored',
+      summary: 'LinkedIn profile imported - AI extraction failed, raw text stored',
       error: err instanceof Error ? err.message : String(err),
     }
   }

@@ -1,6 +1,6 @@
 /**
  * Consent gating for analytics/observability.
- * Reserved skeleton — no business logic yet.
+ * Reserved skeleton - no business logic yet.
  */
 
 export type ConsentState = { granted: boolean };

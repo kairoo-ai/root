@@ -33,7 +33,7 @@ const DEFAULT_ITEMS: Feature[] = [
     id: "build",
     icon: "code",
     title: "Build with intent",
-    description: "Ship work that compounds — every milestone is scoped, measurable, and tied to outcomes.",
+    description: "Ship work that compounds - every milestone is scoped, measurable, and tied to outcomes.",
   },
   {
     id: "grow",

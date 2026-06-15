@@ -11,7 +11,7 @@ type LogoProps = {
 };
 
 /**
- * Kairoo logo — locked "B3" glyph (arc + curved stem + two teal dots).
+ * Kairoo logo - locked "B3" glyph (arc + curved stem + two teal dots).
  * Theme-aware: strokes use currentColor (text-brand-ink), dots use the teal brand token.
  */
 export default function Logo({
@@ -59,7 +59,7 @@ export default function Logo({
   );
 
   return href ? (
-    <Link href={href} aria-label={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} home` }>
+    <Link href={href} aria-label={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} home`}>
       {glyph}
     </Link>
   ) : (

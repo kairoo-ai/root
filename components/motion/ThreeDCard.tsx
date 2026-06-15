@@ -11,7 +11,7 @@ import React, {
 } from "react";
 
 /**
- * Aceternity 3D Card — a perspective container whose children lift and tilt toward
+ * Aceternity 3D Card - a perspective container whose children lift and tilt toward
  * the cursor on hover. The primitives are colorless by design (layout + transform
  * only), so they inherit whatever token surfaces (`bg-card`, `text-foreground`,
  * `border-border`, …) you compose inside `CardBody` / `CardItem`.

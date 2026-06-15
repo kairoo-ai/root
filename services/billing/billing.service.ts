@@ -1,7 +1,7 @@
 /**
- * Billing — plan + subscription state (Stripe-shaped, no SDK wired yet).
+ * Billing - plan + subscription state (Stripe-shaped, no SDK wired yet).
  *
- * Reserved skeleton — typed stubs only. No network/DB calls at module scope.
+ * Reserved skeleton - typed stubs only. No network/DB calls at module scope.
  */
 
 import type { TierKey } from "@/types/tiers";

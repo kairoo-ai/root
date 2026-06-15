@@ -30,7 +30,7 @@ import IconRenderer from "@/components/IconRenderer";
 import type { Feature, Testimonial } from "@/types";
 
 /* ------------------------------------------------------------------ */
-/* Shared reveal helper — reduced-motion safe                          */
+/* Shared reveal helper - reduced-motion safe                          */
 /* ------------------------------------------------------------------ */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -40,11 +40,11 @@ function useReveal() {
     reduce
       ? {}
       : {
-          initial: { opacity: 0, y: 24 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, amount: 0.3 },
-          transition: { duration: 0.6, ease: EASE, delay },
-        };
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.3 },
+        transition: { duration: 0.6, ease: EASE, delay },
+      };
 }
 
 /* Shared section-heading block with eyebrow + gradient-able title */
@@ -88,7 +88,7 @@ function SectionHeading({
 }
 
 /* ================================================================== */
-/* HERO — Spotlight + Anime.js animated headline + gradient highlight  */
+/* HERO - Spotlight + Anime.js animated headline + gradient highlight  */
 /* ================================================================== */
 export function HomeHero() {
   const reduce = useReducedMotion();
@@ -159,126 +159,126 @@ export function HomeHero() {
       )}
 
       <SpotlightNew size={700}>
-      <Stack
-        gap={8}
-        align="center"
-        className="relative mx-auto max-w-4xl py-14 text-center sm:py-20"
-      >
-        <h1
-          ref={headlineRef}
-          className="text-display text-balance text-foreground"
+        <Stack
+          gap={8}
+          align="center"
+          className="relative mx-auto max-w-4xl py-14 text-center sm:py-20"
         >
-          {line1.map((w) => (
-            <span
-              key={w}
-              data-anim-word
-              className="mr-[0.25em] inline-block will-change-transform"
-            >
-              {w}
-            </span>
-          ))}
-          <span className="block">
-            <span
-              data-anim-word
-              className="inline-block bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent will-change-transform"
-            >
-              Command Center
-            </span>
-          </span>
-        </h1>
-
-        <motion.p
-          {...reveal(0.16)}
-          className="max-w-2xl text-pretty text-body-lg text-muted-foreground"
-        >
-          Stop wasting time on scattered career resources. {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} merges
-          advanced career development tools with intelligent learning systems
-          and strategic business insights — from personalized AI roadmaps to
-          enterprise team analytics, everything you need to accelerate
-          professional growth in one place.
-        </motion.p>
-
-        <motion.div
-          {...reveal(0.24)}
-          className="flex flex-col items-center gap-3 sm:flex-row"
-        >
-          <motion.div
-            whileHover={reduce ? undefined : { scale: 1.04 }}
-            whileTap={reduce ? undefined : { scale: 0.97 }}
+          <h1
+            ref={headlineRef}
+            className="text-display text-balance text-foreground"
           >
-            <Button asChild size="lg" className="group gap-2">
-              <Link href="/sign-up">
-                Launch your journey
-                <IconRenderer
-                  name="arrow-right"
-                  size={18}
-                  className="transition-transform duration-200 group-hover:translate-x-1"
-                />
-              </Link>
-            </Button>
-          </motion.div>
-          <motion.div
-            whileHover={reduce ? undefined : { scale: 1.04 }}
-            whileTap={reduce ? undefined : { scale: 0.97 }}
-          >
-            <Button asChild size="lg" variant="outline" className="gap-2">
-              <Link href="/how-it-works">
-                <IconRenderer name="play" size={16} />
-                See how it works
-              </Link>
-            </Button>
-          </motion.div>
-        </motion.div>
-
-        {/* Real, defensible social proof */}
-        <motion.div
-          {...reveal(0.32)}
-          className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6"
-        >
-          <div className="flex -space-x-2" aria-hidden>
-            {["SC", "MR", "AP", "+"].map((initials) => (
+            {line1.map((w) => (
               <span
-                key={initials}
-                className="inline-flex size-8 items-center justify-center rounded-full border-2 border-background bg-accent-subtle text-caption font-bold text-accent"
+                key={w}
+                data-anim-word
+                className="mr-[0.25em] inline-block will-change-transform"
               >
-                {initials}
+                {w}
               </span>
             ))}
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="flex text-accent" aria-hidden>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <IconRenderer key={i} name="star" size={16} />
-              ))}
+            <span className="block">
+              <span
+                data-anim-word
+                className="inline-block bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent will-change-transform"
+              >
+                Command Center
+              </span>
             </span>
-            <span className="text-body-sm text-muted-foreground">
-              Loved by early users — join the growing community
-            </span>
-          </div>
-        </motion.div>
+          </h1>
 
-        {/* Quick top-line proof bar — adds hero density */}
-        <motion.div
-          {...reveal(0.4)}
-          className="mt-2 w-full max-w-2xl rounded-2xl border border-border/60 bg-card/60 p-4 backdrop-blur-glass"
-        >
-          <StatGrid
-            cols={3}
-            items={[
-              { value: 38, suffix: "+", label: "AI tools" },
-              { value: 5, suffix: " teams", label: "Early adopters" },
-              { value: 100, suffix: "%", label: "Free to start" },
-            ]}
-          />
-        </motion.div>
-      </Stack>
+          <motion.p
+            {...reveal(0.16)}
+            className="max-w-2xl text-pretty text-body-lg text-muted-foreground"
+          >
+            Stop wasting time on scattered career resources. {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} merges
+            advanced career development tools with intelligent learning systems
+            and strategic business insights - from personalized AI roadmaps to
+            enterprise team analytics, everything you need to accelerate
+            professional growth in one place.
+          </motion.p>
+
+          <motion.div
+            {...reveal(0.24)}
+            className="flex flex-col items-center gap-3 sm:flex-row"
+          >
+            <motion.div
+              whileHover={reduce ? undefined : { scale: 1.04 }}
+              whileTap={reduce ? undefined : { scale: 0.97 }}
+            >
+              <Button asChild size="lg" className="group gap-2">
+                <Link href="/sign-up">
+                  Launch your journey
+                  <IconRenderer
+                    name="arrow-right"
+                    size={18}
+                    className="transition-transform duration-200 group-hover:translate-x-1"
+                  />
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={reduce ? undefined : { scale: 1.04 }}
+              whileTap={reduce ? undefined : { scale: 0.97 }}
+            >
+              <Button asChild size="lg" variant="outline" className="gap-2">
+                <Link href="/how-it-works">
+                  <IconRenderer name="play" size={16} />
+                  See how it works
+                </Link>
+              </Button>
+            </motion.div>
+          </motion.div>
+
+          {/* Real, defensible social proof */}
+          <motion.div
+            {...reveal(0.32)}
+            className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6"
+          >
+            <div className="flex -space-x-2" aria-hidden>
+              {["SC", "MR", "AP", "+"].map((initials) => (
+                <span
+                  key={initials}
+                  className="inline-flex size-8 items-center justify-center rounded-full border-2 border-background bg-accent-subtle text-caption font-bold text-accent"
+                >
+                  {initials}
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="flex text-accent" aria-hidden>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <IconRenderer key={i} name="star" size={16} />
+                ))}
+              </span>
+              <span className="text-body-sm text-muted-foreground">
+                Loved by early users - join the growing community
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Quick top-line proof bar - adds hero density */}
+          <motion.div
+            {...reveal(0.4)}
+            className="mt-2 w-full max-w-2xl rounded-2xl border border-border/60 bg-card/60 p-4 backdrop-blur-glass"
+          >
+            <StatGrid
+              cols={3}
+              items={[
+                { value: 38, suffix: "+", label: "AI tools" },
+                { value: 5, suffix: " teams", label: "Early adopters" },
+                { value: 100, suffix: "%", label: "Free to start" },
+              ]}
+            />
+          </motion.div>
+        </Stack>
       </SpotlightNew>
     </Section>
   );
 }
 
 /* ================================================================== */
-/* THREE PILLARS — asymmetric bento of CardSpotlight cells              */
+/* THREE PILLARS - asymmetric bento of CardSpotlight cells              */
 /* ================================================================== */
 type Pillar = {
   icon: string;
@@ -348,95 +348,95 @@ export function HomePillars() {
 
   return (
     <GridDotBackground variant="dots" className="relative">
-    <Section className="relative">
-      <SectionHeading
-        title="Everything you need to plan, learn, and"
-        highlight="lead"
-        description="Every tool is powered by advanced AI, providing personalized, contextual, and intelligent assistance for your unique needs."
-      />
+      <Section className="relative">
+        <SectionHeading
+          title="Everything you need to plan, learn, and"
+          highlight="lead"
+          description="Every tool is powered by advanced AI, providing personalized, contextual, and intelligent assistance for your unique needs."
+        />
 
-      {/* Asymmetric bento: first pillar is the hero cell */}
-      <div className="grid grid-cols-1 gap-4 lg:auto-rows-[minmax(11rem,1fr)] lg:grid-cols-6">
-        {PILLARS.map((pillar, i) => (
-          <motion.div
-            key={pillar.title}
-            {...reveal(i * 0.08)}
-            className={cn("h-full", pillar.span)}
-          >
-            <CardSpotlight className="group/p flex h-full flex-col gap-5 rounded-2xl p-8">
-              <div className="flex items-start justify-between gap-4">
-                <span
-                  aria-hidden
-                  className="inline-flex size-12 items-center justify-center rounded-xl bg-accent-subtle text-accent transition-transform duration-300 group-hover/p:rotate-3 group-hover/p:scale-110"
+        {/* Asymmetric bento: first pillar is the hero cell */}
+        <div className="grid grid-cols-1 gap-4 lg:auto-rows-[minmax(11rem,1fr)] lg:grid-cols-6">
+          {PILLARS.map((pillar, i) => (
+            <motion.div
+              key={pillar.title}
+              {...reveal(i * 0.08)}
+              className={cn("h-full", pillar.span)}
+            >
+              <CardSpotlight className="group/p flex h-full flex-col gap-5 rounded-2xl p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <span
+                    aria-hidden
+                    className="inline-flex size-12 items-center justify-center rounded-xl bg-accent-subtle text-accent transition-transform duration-300 group-hover/p:rotate-3 group-hover/p:scale-110"
+                  >
+                    <IconRenderer name={pillar.icon} size={26} />
+                  </span>
+                  <Badge variant="info" size="sm" className="gap-1">
+                    <IconRenderer name="zap" size={12} />
+                    AI-native
+                  </Badge>
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="text-h4 text-foreground">{pillar.title}</h3>
+                  <p className="text-body-sm text-muted-foreground">
+                    {pillar.description}
+                  </p>
+                </div>
+
+                <ul
+                  className={cn(
+                    "grid gap-2 text-body-sm text-muted-foreground",
+                    i === 0 && "sm:grid-cols-2",
+                  )}
                 >
-                  <IconRenderer name={pillar.icon} size={26} />
-                </span>
-                <Badge variant="info" size="sm" className="gap-1">
-                  <IconRenderer name="zap" size={12} />
-                  AI-native
-                </Badge>
-              </div>
+                  {pillar.bullets.map((b) => (
+                    <li key={b} className="flex items-center gap-2">
+                      <IconRenderer
+                        name="check-circle"
+                        size={16}
+                        className="shrink-0 text-accent"
+                      />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
 
-              <div className="space-y-2">
-                <h3 className="text-h4 text-foreground">{pillar.title}</h3>
-                <p className="text-body-sm text-muted-foreground">
-                  {pillar.description}
-                </p>
-              </div>
-
-              <ul
-                className={cn(
-                  "grid gap-2 text-body-sm text-muted-foreground",
-                  i === 0 && "sm:grid-cols-2",
-                )}
-              >
-                {pillar.bullets.map((b) => (
-                  <li key={b} className="flex items-center gap-2">
-                    <IconRenderer
-                      name="check-circle"
-                      size={16}
-                      className="shrink-0 text-accent"
-                    />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-auto flex items-center justify-between gap-4 border-t border-border/60 pt-4">
-                <StatGrid
-                  cols={1}
-                  items={[
-                    {
-                      value: pillar.metric.value,
-                      suffix: pillar.metric.suffix,
-                      prefix: pillar.metric.prefix,
-                      label: pillar.metric.label,
-                    },
-                  ]}
-                />
-                <Link
-                  href={pillar.href}
-                  className="group/cta inline-flex items-center gap-1 whitespace-nowrap text-body-sm font-semibold text-primary hover:underline"
-                >
-                  {pillar.cta}
-                  <IconRenderer
-                    name="arrow-right"
-                    size={16}
-                    className="transition-transform duration-200 group-hover/cta:translate-x-1"
+                <div className="mt-auto flex items-center justify-between gap-4 border-t border-border/60 pt-4">
+                  <StatGrid
+                    cols={1}
+                    items={[
+                      {
+                        value: pillar.metric.value,
+                        suffix: pillar.metric.suffix,
+                        prefix: pillar.metric.prefix,
+                        label: pillar.metric.label,
+                      },
+                    ]}
                   />
-                </Link>
-              </div>
-            </CardSpotlight>
-          </motion.div>
-        ))}
-      </div>
-    </Section>
+                  <Link
+                    href={pillar.href}
+                    className="group/cta inline-flex items-center gap-1 whitespace-nowrap text-body-sm font-semibold text-primary hover:underline"
+                  >
+                    {pillar.cta}
+                    <IconRenderer
+                      name="arrow-right"
+                      size={16}
+                      className="transition-transform duration-200 group-hover/cta:translate-x-1"
+                    />
+                  </Link>
+                </div>
+              </CardSpotlight>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
     </GridDotBackground>
   );
 }
 
 /* ================================================================== */
-/* FEATURED TOOLS — ThreeDCard flagship + CardSpotlight feature grid    */
+/* FEATURED TOOLS - ThreeDCard flagship + CardSpotlight feature grid    */
 /* ================================================================== */
 const FEATURED_TOOLS: Feature[] = [
   {
@@ -524,7 +524,7 @@ export function HomeFeaturedTools() {
                   translateZ={40}
                   className="max-w-md text-body text-muted-foreground"
                 >
-                  Turn an ambiguous goal into a clear, sequenced career route —
+                  Turn an ambiguous goal into a clear, sequenced career route -
                   AI maps the milestones, skills, and resources, then adapts as
                   you progress.
                 </CardItem>
@@ -632,7 +632,7 @@ export function HomeFeaturedTools() {
 }
 
 /* ================================================================== */
-/* HOW IT FITS — HeroUI Tabs interactive showcase (adds density)        */
+/* HOW IT FITS - HeroUI Tabs interactive showcase (adds density)        */
 /* ================================================================== */
 const WORKFLOW_TABS: {
   id: string;
@@ -642,43 +642,43 @@ const WORKFLOW_TABS: {
   body: string;
   points: string[];
 }[] = [
-  {
-    id: "plan",
-    label: "Plan",
-    icon: "compass",
-    headline: "Chart the route before you run",
-    body: `Set a goal and let ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} sequence the milestones, skills, and resources into a roadmap you can actually follow.`,
-    points: [
-      "Goal-to-roadmap in seconds",
-      "Skill-gap detection",
-      "Milestone tracking",
-    ],
-  },
-  {
-    id: "learn",
-    label: "Learn",
-    icon: "graduation-cap",
-    headline: "Master skills, not just watch videos",
-    body: "AI-curated curricula pull the best of the web and adapt to your pace with project-based checkpoints.",
-    points: [
-      "Personalized curricula",
-      "AI tutor on demand",
-      "Project-based proof",
-    ],
-  },
-  {
-    id: "lead",
-    label: "Lead",
-    icon: "bar-chart-3",
-    headline: "Turn insight into a strategy",
-    body: "Market research, persona development, and growth forecasting give teams the intelligence to lead with confidence.",
-    points: [
-      "Market research tools",
-      "GTM strategy planning",
-      "Enterprise analytics",
-    ],
-  },
-];
+    {
+      id: "plan",
+      label: "Plan",
+      icon: "compass",
+      headline: "Chart the route before you run",
+      body: `Set a goal and let ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} sequence the milestones, skills, and resources into a roadmap you can actually follow.`,
+      points: [
+        "Goal-to-roadmap in seconds",
+        "Skill-gap detection",
+        "Milestone tracking",
+      ],
+    },
+    {
+      id: "learn",
+      label: "Learn",
+      icon: "graduation-cap",
+      headline: "Master skills, not just watch videos",
+      body: "AI-curated curricula pull the best of the web and adapt to your pace with project-based checkpoints.",
+      points: [
+        "Personalized curricula",
+        "AI tutor on demand",
+        "Project-based proof",
+      ],
+    },
+    {
+      id: "lead",
+      label: "Lead",
+      icon: "bar-chart-3",
+      headline: "Turn insight into a strategy",
+      body: "Market research, persona development, and growth forecasting give teams the intelligence to lead with confidence.",
+      points: [
+        "Market research tools",
+        "GTM strategy planning",
+        "Enterprise analytics",
+      ],
+    },
+  ];
 
 export function HomeWorkflow() {
   const reveal = useReveal();
@@ -688,13 +688,13 @@ export function HomeWorkflow() {
       <SectionHeading
         title="One continuous flow from goal to"
         highlight="growth"
-        description="Plan, learn, and lead inside a single system — switch contexts without losing momentum."
+        description="Plan, learn, and lead inside a single system - switch contexts without losing momentum."
       />
 
       <motion.div {...reveal(0.1)}>
         <Card variant="glass" className="overflow-hidden p-6 sm:p-8">
           <Tabs defaultSelectedKey="plan" variant="primary">
-            <Tabs.List aria-label={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} workflow stages` } className="mb-8">
+            <Tabs.List aria-label={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} workflow stages`} className="mb-8">
               {WORKFLOW_TABS.map((t) => (
                 <Tabs.Tab key={t.id} id={t.id}>
                   <span className="inline-flex items-center gap-2">
@@ -753,7 +753,7 @@ export function HomeWorkflow() {
 }
 
 /* ================================================================== */
-/* SOCIAL PROOF — testimonials + glowing animated impact metrics        */
+/* SOCIAL PROOF - testimonials + glowing animated impact metrics        */
 /* ================================================================== */
 const TESTIMONIALS: Testimonial[] = [
   {
@@ -795,7 +795,7 @@ const IMPACT_STATS = [
   { value: 95, suffix: "%", label: "User satisfaction rate", icon: "star" },
 ];
 
-const logoItems = ['Explorin', 'Go2x', 'Matters.AI', 'Quantacus', 'Shivalik College of Engineering', 'Growing team — join us'];
+const logoItems = ['Explorin', 'Go2x', 'Matters.AI', 'Quantacus', 'Shivalik College of Engineering', 'Growing team - join us'];
 
 export function HomeSocialProof() {
   const reveal = useReveal();
@@ -805,7 +805,7 @@ export function HomeSocialProof() {
       <Marquee3D items={logoItems} className="my-8 opacity-60" />
       <TestimonialGrid
         withSection={false}
-        heading={ `Careers transformed with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}` }
+        heading={`Careers transformed with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`}
         description="See how professionals and organizations are accelerating their growth."
         items={TESTIMONIALS}
         variant="glass"
@@ -874,7 +874,7 @@ export function HomeSocialProof() {
 }
 
 /* ================================================================== */
-/* PRICING TEASER — glass tiers w/ hover lift + Tooltip                 */
+/* PRICING TEASER - glass tiers w/ hover lift + Tooltip                 */
 /* ================================================================== */
 type TeaserTier = {
   tier: "free" | "pro" | "enterprise";
@@ -1041,39 +1041,39 @@ export function HomePricingTeaser() {
 }
 
 /* ================================================================== */
-/* CLOSING CTA — bold glowing band                                      */
+/* CLOSING CTA - bold glowing band                                      */
 /* ================================================================== */
 export function HomeClosingCTA() {
   const reduce = useReducedMotion();
   return (
     <BackgroundRipple className="relative overflow-hidden">
-    <Section className="relative isolate overflow-hidden">
-      <Spotlight
-        className="-top-20 left-1/2 -translate-x-1/2"
-        fill="var(--accent)"
-      />
-      {!reduce && (
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute left-1/2 top-0 -z-1 size-96 -translate-x-1/2 rounded-full blur-3xl"
-          style={{
-            background:
-              "radial-gradient(circle, color-mix(in oklab, var(--primary) 26%, transparent), transparent 70%)",
-          }}
-          animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      <Section className="relative isolate overflow-hidden">
+        <Spotlight
+          className="-top-20 left-1/2 -translate-x-1/2"
+          fill="var(--accent)"
         />
-      )}
-      <div className="relative z-10">
-        <CTA
-          tone="gradient"
-          headline="Ready to transform your professional journey?"
-          body={ `Join thousands of professionals and organizations already accelerating their growth with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}. 14-day free trial, set up in under 5 minutes, with 24/7 AI plus human support.` }
-          primary={{ label: "Start free trial", href: "/sign-up" }}
-          secondary={{ label: "Schedule a demo", href: "/contact" }}
-        />
-      </div>
-    </Section>
+        {!reduce && (
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-0 -z-1 size-96 -translate-x-1/2 rounded-full blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, color-mix(in oklab, var(--primary) 26%, transparent), transparent 70%)",
+            }}
+            animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+        )}
+        <div className="relative z-10">
+          <CTA
+            tone="gradient"
+            headline="Ready to transform your professional journey?"
+            body={`Join thousands of professionals and organizations already accelerating their growth with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}. 14-day free trial, set up in under 5 minutes, with 24/7 AI plus human support.`}
+            primary={{ label: "Start free trial", href: "/sign-up" }}
+            secondary={{ label: "Schedule a demo", href: "/contact" }}
+          />
+        </div>
+      </Section>
     </BackgroundRipple>
   );
 }

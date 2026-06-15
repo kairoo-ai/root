@@ -12,7 +12,7 @@ import type { FeatureDef } from "@/engines/ai/features/registry";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* ================================================================== */
-/* WORKFLOW SECTION — concrete tool chains for real goals              */
+/* WORKFLOW SECTION - concrete tool chains for real goals              */
 /* ================================================================== */
 
 interface WorkflowStep {
@@ -30,19 +30,19 @@ interface Workflow {
 }
 
 const COLOR_MAP: Record<string, string> = {
-  teal:   "bg-teal-500/10 border-teal-500/30 text-teal-400",
+  teal: "bg-teal-500/10 border-teal-500/30 text-teal-400",
   indigo: "bg-indigo-500/10 border-indigo-500/30 text-indigo-400",
   violet: "bg-violet-500/10 border-violet-500/30 text-violet-400",
 };
 
 const CONNECTOR_COLOR: Record<string, string> = {
-  teal:   "bg-teal-500/40",
+  teal: "bg-teal-500/40",
   indigo: "bg-indigo-500/40",
   violet: "bg-violet-500/40",
 };
 
 const STEP_DOT: Record<string, string> = {
-  teal:   "bg-teal-500",
+  teal: "bg-teal-500",
   indigo: "bg-indigo-500",
   violet: "bg-violet-500",
 };
@@ -71,7 +71,7 @@ export function WorkflowSection({ workflows }: { workflows: Workflow[] }) {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.5, delay: 0.08, ease: EASE }}
         >
-          Each tool is useful alone — but the real power is how they chain together for your specific goal. Here are three complete workflows.
+          Each tool is useful alone - but the real power is how they chain together for your specific goal. Here are three complete workflows.
         </motion.p>
       </div>
 
@@ -156,7 +156,7 @@ const PERSONALIZATION_POINTS = [
   {
     icon: User,
     title: "Your profile, always in context",
-    body: `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} reads your current role, target role, years of experience, skills, and location from your profile — so every tool starts with your actual situation, not a blank slate.`,
+    body: `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} reads your current role, target role, years of experience, skills, and location from your profile - so every tool starts with your actual situation, not a blank slate.`,
   },
   {
     icon: Target,
@@ -166,7 +166,7 @@ const PERSONALIZATION_POINTS = [
   {
     icon: Brain,
     title: "Role and industry awareness",
-    body: "Each tool knows whether you're a software engineer in Bangalore or a marketing manager in Mumbai — outputs are specific to your domain, not generic advice that fits nobody perfectly.",
+    body: "Each tool knows whether you're a software engineer in Bangalore or a marketing manager in Mumbai - outputs are specific to your domain, not generic advice that fits nobody perfectly.",
   },
   {
     icon: Zap,
@@ -187,7 +187,7 @@ export function PersonalizationSection() {
           <div>
             <h2 className="text-2xl font-black text-foreground">Built around you, not everyone</h2>
             <p className="mt-1.5 text-muted-foreground max-w-2xl">
-              Generic AI gives the same answer to everyone. {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} personalizes every output to your role, goals, background, and context — collected once during onboarding, used everywhere.
+              Generic AI gives the same answer to everyone. {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} personalizes every output to your role, goals, background, and context - collected once during onboarding, used everywhere.
             </p>
           </div>
         </div>
@@ -232,7 +232,7 @@ export function PersonalizationSection() {
 }
 
 /* ================================================================== */
-/* FULL TOOL CATALOG — searchable grid of all tools                    */
+/* FULL TOOL CATALOG - searchable grid of all tools                    */
 /* ================================================================== */
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -263,7 +263,7 @@ export function FullToolCatalog({ tools }: { tools: FeatureDef[] }) {
     <Section>
       <div className="mb-8">
         <h2 className="mb-2 text-2xl font-black text-foreground">The complete catalog</h2>
-        <p className="text-muted-foreground">Every tool — search, filter, and find what you need.</p>
+        <p className="text-muted-foreground">Every tool - search, filter, and find what you need.</p>
       </div>
 
       {/* Controls */}

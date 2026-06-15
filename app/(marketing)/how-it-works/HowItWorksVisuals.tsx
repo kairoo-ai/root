@@ -1,11 +1,11 @@
 "use client";
 
 /* -------------------------------------------------------------------------- */
-/*  How It Works — client visuals                                              */
+/*  How It Works - client visuals                                              */
 /*                                                                             */
 /*  All interactive / animated sections live here so page.tsx can stay a       */
 /*  pure server component with `export const metadata`. Data crosses the RSC   */
-/*  boundary as plain serializable values only (strings, numbers, arrays) —    */
+/*  boundary as plain serializable values only (strings, numbers, arrays) -    */
 /*  icons are passed as NAME strings and rendered via <IconRenderer>, never as */
 /*  lucide component references (that previously broke prerender with          */
 /*  "Refs cannot be passed to Client Components").                             */
@@ -69,7 +69,7 @@ const itemVariants: Variants = {
 };
 
 /* =========================================================================== */
-/*  HERO — Spotlight + anime.js headline sequence                              */
+/*  HERO - Spotlight + anime.js headline sequence                              */
 /* =========================================================================== */
 
 export function HowItWorksHero({
@@ -133,7 +133,7 @@ export function HowItWorksHero({
           ].join(", "),
         }}
       />
-      {/* Fine dotted grid for depth — fades into the background. */}
+      {/* Fine dotted grid for depth - fades into the background. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35] [mask-image:radial-gradient(60%_50%_at_50%_30%,black,transparent)]"
@@ -213,7 +213,7 @@ export function HowItWorksHero({
 }
 
 /* =========================================================================== */
-/*  STATS — animated count-up band                                             */
+/*  STATS - animated count-up band                                             */
 /* =========================================================================== */
 
 export function HowItWorksStats({ stats }: { stats: StatCounterProps[] }) {
@@ -245,7 +245,7 @@ export function HowItWorksStats({ stats }: { stats: StatCounterProps[] }) {
 }
 
 /* =========================================================================== */
-/*  STEPS — Sense -> Think -> Act stepped timeline with connecting visuals     */
+/*  STEPS - Sense -> Think -> Act stepped timeline with connecting visuals     */
 /* =========================================================================== */
 
 export function StepsTimeline({
@@ -265,78 +265,78 @@ export function StepsTimeline({
   return (
     <Section aria-labelledby="steps-heading">
       <TracingBeam>
-      <Stack gap={12}>
-        <motion.header
-          initial={reduce ? false : { opacity: 0, y: 20 }}
-          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.5, ease: EASE }}
-          className="flex flex-col"
-        >
-          <h2 id="steps-heading" className="text-h1">
-            {heading}
-          </h2>
-          <p className="mt-4 max-w-2xl text-body-lg text-muted-foreground">{subtitle}</p>
-        </motion.header>
-
-        <div className="relative">
-          {/* Connecting spine — animated teal->amber gradient line behind the cards. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-0 right-0 top-[3.25rem] hidden h-px lg:block"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 60%, transparent) 18%, color-mix(in oklab, var(--accent) 70%, transparent) 50%, color-mix(in oklab, var(--warning) 55%, transparent) 82%, transparent)",
-            }}
-          />
-
-          <motion.ol
-            variants={containerVariants}
-            initial={reduce ? false : "hidden"}
-            whileInView={reduce ? undefined : "show"}
-            viewport={{ once: true, amount: 0.2 }}
-            className={cn(
-              "grid grid-cols-1 gap-6 sm:grid-cols-2",
-              steps.length <= 3 ? "lg:grid-cols-3" : "lg:grid-cols-4",
-            )}
+        <Stack gap={12}>
+          <motion.header
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="flex flex-col"
           >
-            {steps.map((step, i) => (
-              <motion.li
-                key={step.id}
-                variants={itemVariants}
-                className="relative flex"
-              >
-                {/* Node marker on the spine. */}
-                <span
-                  aria-hidden
-                  className="absolute left-1/2 top-[3.25rem] z-10 hidden size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent ring-4 ring-[color-mix(in_oklab,var(--accent)_25%,transparent)] lg:block"
-                />
+            <h2 id="steps-heading" className="text-h1">
+              {heading}
+            </h2>
+            <p className="mt-4 max-w-2xl text-body-lg text-muted-foreground">{subtitle}</p>
+          </motion.header>
 
-                <CardSpotlight className="flex h-full w-full flex-col gap-5 rounded-xl border-border bg-card p-7">
-                  <div className="flex items-center justify-between">
-                    <motion.span
-                      aria-hidden
-                      whileHover={reduce ? undefined : { rotate: -6, scale: 1.08 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                      className="inline-flex size-12 items-center justify-center rounded-xl text-accent"
-                      style={{
-                        background:
-                          "color-mix(in oklab, var(--accent) 14%, transparent)",
-                        boxShadow:
-                          "0 0 0 1px color-mix(in oklab, var(--accent) 28%, transparent)",
-                      }}
-                    >
-                      <IconRenderer name={step.icon} size={24} />
-                    </motion.span>
-                    <span
-                      className="text-data tabular-nums"
-                      style={{ color: "color-mix(in oklab, var(--accent) 45%, var(--muted-foreground))" }}
-                    >
-                      {step.index}
-                    </span>
-                  </div>
+          <div className="relative">
+            {/* Connecting spine - animated teal->amber gradient line behind the cards. */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-0 right-0 top-[3.25rem] hidden h-px lg:block"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 60%, transparent) 18%, color-mix(in oklab, var(--accent) 70%, transparent) 50%, color-mix(in oklab, var(--warning) 55%, transparent) 82%, transparent)",
+              }}
+            />
 
-                  {/* <Stack gap={2}>
+            <motion.ol
+              variants={containerVariants}
+              initial={reduce ? false : "hidden"}
+              whileInView={reduce ? undefined : "show"}
+              viewport={{ once: true, amount: 0.2 }}
+              className={cn(
+                "grid grid-cols-1 gap-6 sm:grid-cols-2",
+                steps.length <= 3 ? "lg:grid-cols-3" : "lg:grid-cols-4",
+              )}
+            >
+              {steps.map((step, i) => (
+                <motion.li
+                  key={step.id}
+                  variants={itemVariants}
+                  className="relative flex"
+                >
+                  {/* Node marker on the spine. */}
+                  <span
+                    aria-hidden
+                    className="absolute left-1/2 top-[3.25rem] z-10 hidden size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent ring-4 ring-[color-mix(in_oklab,var(--accent)_25%,transparent)] lg:block"
+                  />
+
+                  <CardSpotlight className="flex h-full w-full flex-col gap-5 rounded-xl border-border bg-card p-7">
+                    <div className="flex items-center justify-between">
+                      <motion.span
+                        aria-hidden
+                        whileHover={reduce ? undefined : { rotate: -6, scale: 1.08 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                        className="inline-flex size-12 items-center justify-center rounded-xl text-accent"
+                        style={{
+                          background:
+                            "color-mix(in oklab, var(--accent) 14%, transparent)",
+                          boxShadow:
+                            "0 0 0 1px color-mix(in oklab, var(--accent) 28%, transparent)",
+                        }}
+                      >
+                        <IconRenderer name={step.icon} size={24} />
+                      </motion.span>
+                      <span
+                        className="text-data tabular-nums"
+                        style={{ color: "color-mix(in oklab, var(--accent) 45%, var(--muted-foreground))" }}
+                      >
+                        {step.index}
+                      </span>
+                    </div>
+
+                    {/* <Stack gap={2}>
                     <Badge variant="info" size="sm" className="w-fit">
                       {step.tagline}
                     </Badge>
@@ -344,43 +344,43 @@ export function StepsTimeline({
                     <p className="text-body-sm text-muted-foreground">{step.description}</p>
                   </Stack> */}
 
-                  <ul className="mt-auto flex flex-col gap-2 border-t border-border pt-4">
-                    {step.points.map((point) => (
-                      <li
-                        key={point}
-                        className="flex items-start gap-2 text-body-sm text-foreground"
+                    <ul className="mt-auto flex flex-col gap-2 border-t border-border pt-4">
+                      {step.points.map((point) => (
+                        <li
+                          key={point}
+                          className="flex items-start gap-2 text-body-sm text-foreground"
+                        >
+                          <span className="mt-0.5 shrink-0 text-accent">
+                            <IconRenderer name="arrow-right" size={16} />
+                          </span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Mobile connector arrow between stacked cards. */}
+                    {i < steps.length - 1 && (
+                      <span
+                        aria-hidden
+                        className="absolute -bottom-5 left-1/2 z-10 -translate-x-1/2 text-accent lg:hidden"
                       >
-                        <span className="mt-0.5 shrink-0 text-accent">
-                          <IconRenderer name="arrow-right" size={16} />
-                        </span>
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
+                        <IconRenderer name="arrow-right" size={18} className="rotate-90" />
+                      </span>
+                    )}
+                  </CardSpotlight>
+                </motion.li>
+              ))}
+            </motion.ol>
+          </div>
 
-                  {/* Mobile connector arrow between stacked cards. */}
-                  {i < steps.length - 1 && (
-                    <span
-                      aria-hidden
-                      className="absolute -bottom-5 left-1/2 z-10 -translate-x-1/2 text-accent lg:hidden"
-                    >
-                      <IconRenderer name="arrow-right" size={18} className="rotate-90" />
-                    </span>
-                  )}
-                </CardSpotlight>
-              </motion.li>
-            ))}
-          </motion.ol>
-        </div>
-
-      </Stack>
+        </Stack>
       </TracingBeam>
     </Section>
   );
 }
 
 /* =========================================================================== */
-/*  STACK FACTS — ThreeDCard tilt trio + linked blueprint CTA                  */
+/*  STACK FACTS - ThreeDCard tilt trio + linked blueprint CTA                  */
 /* =========================================================================== */
 
 export function StackShowcase({
@@ -473,44 +473,44 @@ export function StackShowcase({
           transition={{ duration: 0.55, ease: EASE }}
         >
           <BackgroundRipple className="py-0 rounded-xl">
-          <Card
-            variant="elevated"
-            className="relative flex flex-col gap-5 overflow-hidden p-7 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(110deg, color-mix(in oklab, var(--primary) 8%, transparent), transparent 55%, color-mix(in oklab, var(--accent) 10%, transparent))",
-              }}
-            />
-            <div className="relative flex items-start gap-4">
-              <span
+            <Card
+              variant="elevated"
+              className="relative flex flex-col gap-5 overflow-hidden p-7 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div
                 aria-hidden
-                className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-accent"
-                style={{ background: "color-mix(in oklab, var(--accent) 14%, transparent)" }}
-              >
-                <IconRenderer name="sparkles" size={20} />
-              </span>
-              <Stack gap={1}>
-                <h3 className="text-h5 text-foreground">{blueprint.heading}</h3>
-                <p className="text-body-sm text-muted-foreground">{blueprint.body}</p>
-              </Stack>
-            </div>
-            <Tooltip delay={0}>
-              <Button asChild variant="outline" className="relative shrink-0">
-                <Link href={blueprint.cta.href}>
-                  {blueprint.cta.label}
-                  <IconRenderer name="arrow-right" size={16} />
-                </Link>
-              </Button>
-              <Tooltip.Content showArrow placement="top">
-                <Tooltip.Arrow />
-                Ingestion, reasoning fabric, scaling & roadmap
-              </Tooltip.Content>
-            </Tooltip>
-          </Card>
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(110deg, color-mix(in oklab, var(--primary) 8%, transparent), transparent 55%, color-mix(in oklab, var(--accent) 10%, transparent))",
+                }}
+              />
+              <div className="relative flex items-start gap-4">
+                <span
+                  aria-hidden
+                  className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-accent"
+                  style={{ background: "color-mix(in oklab, var(--accent) 14%, transparent)" }}
+                >
+                  <IconRenderer name="sparkles" size={20} />
+                </span>
+                <Stack gap={1}>
+                  <h3 className="text-h5 text-foreground">{blueprint.heading}</h3>
+                  <p className="text-body-sm text-muted-foreground">{blueprint.body}</p>
+                </Stack>
+              </div>
+              <Tooltip delay={0}>
+                <Button asChild variant="outline" className="relative shrink-0">
+                  <Link href={blueprint.cta.href}>
+                    {blueprint.cta.label}
+                    <IconRenderer name="arrow-right" size={16} />
+                  </Link>
+                </Button>
+                <Tooltip.Content showArrow placement="top">
+                  <Tooltip.Arrow />
+                  Ingestion, reasoning fabric, scaling & roadmap
+                </Tooltip.Content>
+              </Tooltip>
+            </Card>
           </BackgroundRipple>
         </motion.div>
       </Stack>

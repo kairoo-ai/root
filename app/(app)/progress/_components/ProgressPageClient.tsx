@@ -11,7 +11,7 @@ interface Props {
   stats: DerivedStats | null
 }
 
-// Fixed palette for top-5 feature bars — avoids inline styles
+// Fixed palette for top-5 feature bars - avoids inline styles
 const FEATURE_COLORS = [
   { bar: 'bg-teal-400', text: 'text-teal-400' },
   { bar: 'bg-indigo-400', text: 'text-indigo-400' },

@@ -32,9 +32,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} — The right moment to grow`,
+  title: `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - The right moment to grow`,
   description:
-    `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is AI career development that grows with you — coaching, learning paths, and team analytics for individuals, professionals, and enterprises.`,
+    `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is AI career development that grows with you - coaching, learning paths, and team analytics for individuals, professionals, and enterprises.`,
 };
 
 export default function RootLayout({

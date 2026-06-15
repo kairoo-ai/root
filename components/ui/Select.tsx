@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Select — thin wrapper around HeroUI v3's real Select (a single/multi-select
+ * Select - thin wrapper around HeroUI v3's real Select (a single/multi-select
  * listbox in a popover), plus the ListBox family it composes with.
  *
  * Source of truth: https://heroui.com/docs/react/components/select
@@ -21,7 +21,7 @@
  *
  * We re-export BOTH styles so callers can pick whichever reads best:
  *
- *   // compound (recommended) — Label comes from "@/components/ui/Label"
+ *   // compound (recommended) - Label comes from "@/components/ui/Label"
  *   import { Select, ListBox } from "@/components/ui/Select";
  *   import { Label } from "@/components/ui/Label";
  *
@@ -55,7 +55,7 @@
  *   - id (key) + textValue (REQUIRED)                        → on ListBox.Item
  *   - placement                                              → on Select.Popover
  *
- * NOTE: `Label` is intentionally NOT re-exported here — the app already ships a
+ * NOTE: `Label` is intentionally NOT re-exported here - the app already ships a
  * dedicated `@/components/ui/Label`. Import it from there to avoid a duplicate
  * symbol in the components/ui barrel.
  *
@@ -64,7 +64,7 @@
  */
 
 export {
-  // Compound defaults — each is callable AND has its sub-parts attached.
+  // Compound defaults - each is callable AND has its sub-parts attached.
   Select, // .Root .Trigger .Value .Indicator .Popover
   ListBox, // .Root .Item .ItemIndicator .Section
   ListBoxItem, // .Root .Indicator

@@ -1,6 +1,6 @@
 /**
  * Application error hierarchy.
- * Reserved skeleton — typed error classes only, no business logic yet.
+ * Reserved skeleton - typed error classes only, no business logic yet.
  */
 
 export class AppError extends Error {

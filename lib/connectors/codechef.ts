@@ -68,7 +68,7 @@ async function fetchCodeChefProfile(username: string): Promise<ConnectorResult> 
   if (maxRating !== undefined) ratingParts.push(`max rating ${maxRating}`)
   if (stars !== undefined) ratingParts.push(`${stars}-star`)
 
-  const summaryDetail = ratingParts.length > 0 ? ` — ${ratingParts.join(', ')}` : ''
+  const summaryDetail = ratingParts.length > 0 ? ` - ${ratingParts.join(', ')}` : ''
 
   const bio = ratingParts.length > 0
     ? `CodeChef competitive programmer${stars !== undefined ? `, ${stars}-star coder` : ''}${currentRating !== undefined ? `, rating ${currentRating}` : ''}.`

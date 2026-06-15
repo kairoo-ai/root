@@ -108,7 +108,7 @@ export function AssessPageClient({ prefillCurrentRole, prefillTargetRole, prefil
           ]}
           className="text-2xl font-bold justify-center"
         />
-        <p className="text-sm text-muted-foreground mt-2 text-center">Rate your current skills and define your target role — AI will map the gap.</p>
+        <p className="text-sm text-muted-foreground mt-2 text-center">Rate your current skills and define your target role - AI will map the gap.</p>
       </LampEffect>
 
       <div className="space-y-6">
@@ -162,11 +162,10 @@ export function AssessPageClient({ prefillCurrentRole, prefillTargetRole, prefil
                       <button
                         key={s}
                         onClick={() => added ? removeSkill(s) : addSkill(s, cat.category)}
-                        className={`text-[11px] font-medium border rounded-full px-2.5 py-0.5 cursor-pointer transition-all ${
-                          added
+                        className={`text-[11px] font-medium border rounded-full px-2.5 py-0.5 cursor-pointer transition-all ${added
                             ? 'bg-teal-500/15 border-teal-500/30 text-teal-400'
                             : 'bg-background border-border text-muted-foreground hover:border-teal-500/30 hover:text-foreground'
-                        }`}
+                          }`}
                       >
                         {added ? '✓ ' : '+ '}{s}
                       </button>
@@ -219,11 +218,10 @@ export function AssessPageClient({ prefillCurrentRole, prefillTargetRole, prefil
         <button
           onClick={handleSubmit}
           disabled={!canSubmit || loading}
-          className={`w-full flex items-center justify-center gap-2 text-sm font-semibold py-3 rounded-xl transition-all cursor-pointer ${
-            canSubmit && !loading
+          className={`w-full flex items-center justify-center gap-2 text-sm font-semibold py-3 rounded-xl transition-all cursor-pointer ${canSubmit && !loading
               ? 'bg-teal-500 text-black hover:bg-teal-400'
               : 'bg-teal-500/20 text-teal-400/50 cursor-not-allowed'
-          }`}
+            }`}
         >
           <Zap className="w-4 h-4" />
           {loading ? 'Analysing with AI…' : 'Analyse My Skill Gap'}

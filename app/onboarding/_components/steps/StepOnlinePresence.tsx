@@ -30,7 +30,7 @@ export function StepOnlinePresence({ data, onChange, onNext, onBack }: Props) {
     <div className="p-7">
       <div className="mb-5">
         <h2 className="text-lg font-black text-foreground">Your online presence</h2>
-        <p className="text-xs text-muted-foreground mt-0.5">All optional — links let {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} give more specific, context-aware advice.</p>
+        <p className="text-xs text-muted-foreground mt-0.5">All optional - links let {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} give more specific, context-aware advice.</p>
       </div>
 
       <div className="space-y-3">

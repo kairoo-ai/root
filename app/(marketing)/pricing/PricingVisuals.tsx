@@ -32,7 +32,7 @@ import { FAQ } from "@/components/blocks/FAQ";
 import IconRenderer from "@/components/IconRenderer";
 
 /* ------------------------------------------------------------------ */
-/* Shared reveal helper — reduced-motion safe                          */
+/* Shared reveal helper - reduced-motion safe                          */
 /* ------------------------------------------------------------------ */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -42,15 +42,15 @@ function useReveal() {
     reduce
       ? {}
       : {
-          initial: { opacity: 0, y: 24 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, amount: 0.3 },
-          transition: { duration: 0.6, ease: EASE, delay },
-        };
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.3 },
+        transition: { duration: 0.6, ease: EASE, delay },
+      };
 }
 
 /* ------------------------------------------------------------------ */
-/* Props — all data is serializable (icons passed as NAME strings)     */
+/* Props - all data is serializable (icons passed as NAME strings)     */
 /* ------------------------------------------------------------------ */
 export interface PricingObjection {
   icon: string;
@@ -87,7 +87,7 @@ const tierMeta: Record<
 };
 
 /* ================================================================== */
-/* HERO — Spotlight + anime.js word reveal + animated trust stats      */
+/* HERO - Spotlight + anime.js word reveal + animated trust stats      */
 /* ================================================================== */
 function PricingHero() {
   const reduce = useReducedMotion();
@@ -128,7 +128,7 @@ function PricingHero() {
 
   return (
     <Section className="relative isolate overflow-hidden pb-0">
-      {/* Local Spotlight flair — the page AuroraBackground lives in the layout. */}
+      {/* Local Spotlight flair - the page AuroraBackground lives in the layout. */}
       <Spotlight className="-top-40 left-0 md:-top-24 md:left-52" fill="var(--primary)" />
 
       <Stack gap={8} align="center" className="mx-auto max-w-4xl py-10 text-center sm:py-16">
@@ -147,7 +147,7 @@ function PricingHero() {
                   className={cn(
                     "mr-[0.25em] inline-block",
                     isHighlight &&
-                      "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
+                    "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
                   )}
                 >
                   {word}
@@ -177,7 +177,7 @@ function PricingHero() {
           </Button>
         </motion.div>
 
-        {/* Animated trust stats — every metric counts up on view. */}
+        {/* Animated trust stats - every metric counts up on view. */}
         <motion.div {...reveal(0.86)} className="w-full pt-4">
           <StatGrid
             cols={3}
@@ -196,7 +196,7 @@ function PricingHero() {
 }
 
 /* ================================================================== */
-/* PRICING CARDS — premium glass, popular tier glows (CardSpotlight)   */
+/* PRICING CARDS - premium glass, popular tier glows (CardSpotlight)   */
 /* ================================================================== */
 function AnimatedPrice({ price }: { price: Tier["priceMonthly"] }) {
   if (price === "custom") {
@@ -323,7 +323,7 @@ function PricingPlans({ tiers }: { tiers: Tier[] }) {
               {isPopular ? (
                 <GlowingEffect className="relative h-full rounded-2xl" color="var(--primary)">
                   <div className="relative h-full">
-                    {/* Glow halo behind the popular tier — token color-mix only. */}
+                    {/* Glow halo behind the popular tier - token color-mix only. */}
                     <div
                       aria-hidden
                       className="pointer-events-none absolute -inset-1 rounded-[1.4rem] opacity-70 blur-xl"
@@ -360,7 +360,7 @@ function PricingPlans({ tiers }: { tiers: Tier[] }) {
 }
 
 /* ================================================================== */
-/* OBJECTIONS — 3D tilt cards that lift toward the cursor              */
+/* OBJECTIONS - 3D tilt cards that lift toward the cursor              */
 /* ================================================================== */
 function Objections({
   objections,
@@ -423,7 +423,7 @@ function Objections({
         ))}
       </Grid>
 
-      {/* Trust line — compliance framed honestly as "compliance-ready" */}
+      {/* Trust line - compliance framed honestly as "compliance-ready" */}
       <motion.div {...reveal(0.1)} className="mx-auto mt-12 max-w-3xl">
         <Alert
           variant="info"
@@ -452,14 +452,14 @@ function Objections({
 }
 
 /* ================================================================== */
-/* WHAT EVERY PLAN INCLUDES — BentoGrid showcase                       */
+/* WHAT EVERY PLAN INCLUDES - BentoGrid showcase                       */
 /* ================================================================== */
 function IncludedBento() {
   const items: BentoItem[] = [
     {
       title: "Your AI career copilot, on every plan",
       description:
-        `From the free Explorer tier up, ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} maps an actionable path from your goals — no plan locks you out of the core experience.`,
+        `From the free Explorer tier up, ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} maps an actionable path from your goals - no plan locks you out of the core experience.`,
       span: "2x2",
       icon: <IconRenderer name="compass" size={20} />,
     },
@@ -499,7 +499,7 @@ function IncludedBento() {
 }
 
 /* ================================================================== */
-/* CLOSING CTA — glowing brand band                                    */
+/* CLOSING CTA - glowing brand band                                    */
 /* ================================================================== */
 function GlowingCTA() {
   const reduce = useReducedMotion();
@@ -507,61 +507,61 @@ function GlowingCTA() {
   return (
     <Section>
       <BackgroundRipple className="py-0">
-      <motion.div
-        initial={reduce ? false : { opacity: 0, y: 24 }}
-        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.6, ease: EASE }}
-        className="relative isolate"
-      >
-        {/* Glow halo behind the band */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -inset-2 rounded-[2rem] opacity-60 blur-2xl"
-          style={{
-            background:
-              "linear-gradient(120deg, color-mix(in oklab, var(--primary) 50%, transparent), color-mix(in oklab, var(--accent) 45%, transparent))",
-          }}
-        />
-        <div className="relative overflow-hidden rounded-3xl bg-primary bg-linear-to-br from-primary to-accent px-6 py-16 text-center shadow-elevation-4 sm:px-12 sm:py-20">
-          {/* soft accent highlight */}
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="relative isolate"
+        >
+          {/* Glow halo behind the band */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 -top-1/2 -z-10 h-[120%] bg-accent/20 blur-3xl"
+            className="pointer-events-none absolute -inset-2 rounded-[2rem] opacity-60 blur-2xl"
+            style={{
+              background:
+                "linear-gradient(120deg, color-mix(in oklab, var(--primary) 50%, transparent), color-mix(in oklab, var(--accent) 45%, transparent))",
+            }}
           />
-
-          <div className="mx-auto flex max-w-2xl flex-col items-center gap-6">
-            <span
+          <div className="relative overflow-hidden rounded-3xl bg-primary bg-linear-to-br from-primary to-accent px-6 py-16 text-center shadow-elevation-4 sm:px-12 sm:py-20">
+            {/* soft accent highlight */}
+            <div
               aria-hidden
-              className="inline-flex size-14 items-center justify-center rounded-2xl bg-primary-foreground/15 text-primary-foreground backdrop-blur-sm"
-            >
-              <IconRenderer name="rocket" size={26} />
-            </span>
-            <h2 className="text-balance text-h2 text-primary-foreground">
-              Start free. Upgrade when it pays off.
-            </h2>
-            <p className="text-pretty text-body-lg text-primary-foreground/80">
-              Spin up your AI career copilot in minutes — no credit card, no risk. See where
-              {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} can take you.
-            </p>
-            <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Link
-                href="/sign-up"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-primary-foreground px-6 text-base font-semibold text-primary transition-colors hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2"
+              className="pointer-events-none absolute inset-x-0 -top-1/2 -z-10 h-[120%] bg-accent/20 blur-3xl"
+            />
+
+            <div className="mx-auto flex max-w-2xl flex-col items-center gap-6">
+              <span
+                aria-hidden
+                className="inline-flex size-14 items-center justify-center rounded-2xl bg-primary-foreground/15 text-primary-foreground backdrop-blur-sm"
               >
-                Get started free
-                <IconRenderer name="arrow-right" size={18} />
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary-foreground/40 bg-transparent px-6 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2"
-              >
-                Talk to sales
-              </Link>
+                <IconRenderer name="rocket" size={26} />
+              </span>
+              <h2 className="text-balance text-h2 text-primary-foreground">
+                Start free. Upgrade when it pays off.
+              </h2>
+              <p className="text-pretty text-body-lg text-primary-foreground/80">
+                Spin up your AI career copilot in minutes - no credit card, no risk. See where
+                {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} can take you.
+              </p>
+              <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                <Link
+                  href="/sign-up"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-primary-foreground px-6 text-base font-semibold text-primary transition-colors hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2"
+                >
+                  Get started free
+                  <IconRenderer name="arrow-right" size={18} />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-primary-foreground/40 bg-transparent px-6 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2"
+                >
+                  Talk to sales
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
       </BackgroundRipple>
 
       {/* Reassurance footer line */}

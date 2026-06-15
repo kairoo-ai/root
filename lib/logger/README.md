@@ -2,4 +2,4 @@
 
 `Logger` interface and a no-op `logger` instance.
 
-Reserved skeleton — no business logic yet.
+Reserved skeleton - no business logic yet.

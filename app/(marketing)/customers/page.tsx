@@ -13,18 +13,18 @@ import {
 } from "./CustomersVisuals";
 
 export const metadata: Metadata = {
-  title: `Customers — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
+  title: `Customers - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
   description:
     `See how professionals and organizations transform their careers with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}: real success stories and the measurable impact on skill acquisition, salary, and team productivity.`,
 };
 
 /**
- * Impact metrics — existing marketing claims preserved from the original
+ * Impact metrics - existing marketing claims preserved from the original
  * homepage (CONTENT-MAP §A "Impact metrics"). StatCounter takes a numeric
  * `value` with optional `prefix`/`suffix`, so each headline figure is split
  * accordingly (e.g. "$50K+" -> prefix "$", value 50, suffix "K+"). An `icon`
  * NAME string is passed across the server→client boundary (rendered via
- * IconRenderer) — never a lucide component reference.
+ * IconRenderer) - never a lucide component reference.
  */
 const impactMetrics = [
   {
@@ -54,7 +54,7 @@ const impactMetrics = [
   },
 ];
 
-/** Trusted-by wordmarks — real early-access teams using Kairoo. */
+/** Trusted-by wordmarks - real early-access teams using Kairoo. */
 const logos = [
   { name: "Explorin" },
   { name: "Go2x" },
@@ -63,19 +63,19 @@ const logos = [
   { name: "Shivalik College of Engineering" },
 ];
 
-/** Why customers win — outcome highlights for the BentoGrid. */
+/** Why customers win - outcome highlights for the BentoGrid. */
 const outcomeHighlights = [
   {
     title: "Personalized learning paths",
     description:
-      "AI maps the shortest route from where you are to where you want to be — no generic curriculum, no wasted hours.",
+      "AI maps the shortest route from where you are to where you want to be - no generic curriculum, no wasted hours.",
     icon: "route",
     span: "2x2" as const,
   },
   {
     title: "AI coaching on demand",
     description:
-      "Interview prep, salary negotiation, and growth strategy — guidance the moment you need it.",
+      "Interview prep, salary negotiation, and growth strategy - guidance the moment you need it.",
     icon: "message-circle",
     span: "2x1" as const,
   },
@@ -92,7 +92,7 @@ const outcomeHighlights = [
   {
     title: "Built for momentum",
     description:
-      `Promotions, career switches, and enterprise productivity gains — outcomes customers report after going all-in with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}.`,
+      `Promotions, career switches, and enterprise productivity gains - outcomes customers report after going all-in with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}.`,
     icon: "rocket",
     span: "2x1" as const,
   },
@@ -104,7 +104,7 @@ export default function CustomersPage() {
       <CustomersHero
         titleLead="Trusted by professionals and teams who are"
         titleHighlight="leveling up"
-        subtitle={ `See how individuals and organizations are transforming their careers and skill development with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} — from career switches and promotions to enterprise-wide productivity gains.` }
+        subtitle={`See how individuals and organizations are transforming their careers and skill development with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - from career switches and promotions to enterprise-wide productivity gains.`}
       />
 
       <CustomersLogoMarquee
@@ -114,19 +114,19 @@ export default function CustomersPage() {
 
       <CustomersTestimonials
         heading="Success stories from across the industry"
-        description={ `Real outcomes from professionals who used ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s AI-powered learning paths, coaching, and analytics to move their careers forward.` }
+        description={`Real outcomes from professionals who used ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s AI-powered learning paths, coaching, and analytics to move their careers forward.`}
         items={testimonials}
       />
 
       <CustomersImpact
         heading="Measurable impact across industries"
-        description="The outcomes our customers report — faster upskilling, stronger compensation, quicker transitions, and high satisfaction."
+        description="The outcomes our customers report - faster upskilling, stronger compensation, quicker transitions, and high satisfaction."
         metrics={impactMetrics}
       />
 
       <CustomersBento
         heading="The system behind every success story"
-        description="The same engine — personalized paths, AI coaching, and analytics — powers every outcome above."
+        description="The same engine - personalized paths, AI coaching, and analytics - powers every outcome above."
         items={outcomeHighlights}
         disclaimer={
           <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">

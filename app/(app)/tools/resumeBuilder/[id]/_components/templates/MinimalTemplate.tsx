@@ -34,7 +34,7 @@ export default function MinimalTemplate({ sections }: Props) {
             <div key={e.id} className="mb-3">
               <div className="flex justify-between items-baseline">
                 <span className="font-semibold text-[14px]">{e.role}</span>
-                <span className="text-[11px] text-[#777]">{e.startDate}{e.startDate ? ' — ' : ''}{e.isCurrent ? 'Present' : e.endDate}</span>
+                <span className="text-[11px] text-[#777]">{e.startDate}{e.startDate ? ' - ' : ''}{e.isCurrent ? 'Present' : e.endDate}</span>
               </div>
               <div className="text-[12px] text-[#555]">{e.company}{e.location ? ` · ${e.location}` : ''}</div>
               <ul className="mt-1 ml-4 list-disc text-[12.5px] text-[#333] space-y-0.5">
@@ -52,7 +52,7 @@ export default function MinimalTemplate({ sections }: Props) {
             <div key={e.id} className="mb-2">
               <div className="flex justify-between items-baseline">
                 <span className="font-semibold text-[13px]">{e.institution}</span>
-                <span className="text-[11px] text-[#777]">{e.startDate}{e.startDate ? ' — ' : ''}{e.endDate}</span>
+                <span className="text-[11px] text-[#777]">{e.startDate}{e.startDate ? ' - ' : ''}{e.endDate}</span>
               </div>
               <div className="text-[12px] text-[#555]">{e.degree}{e.field ? `, ${e.field}` : ''}{e.gpa ? ` · GPA ${e.gpa}` : ''}</div>
             </div>

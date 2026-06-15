@@ -37,15 +37,14 @@ export default function RebrandBanner({ forceHide = false }: RebrandBannerProps)
     <div
       role="region"
       aria-label="Site announcement"
-      className={`relative z-50 bg-brand-navy/50 text-brand-mist transition-all duration-500 ease-in-out fade-in-translate-full fade-out-translate-full origin-top overflow-hidden ${
-        show
+      className={`relative z-50 bg-brand-navy/50 text-brand-mist transition-all duration-500 ease-in-out fade-in-translate-full fade-out-translate-full origin-top overflow-hidden ${show
           ? "opacity-100 max-h-16 translate-y-0"
           : "opacity-0 max-h-0 -translate-y-full pointer-events-none"
-      }`}
+        }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-4 py-2 text-sm">
         <span>
-          <strong>AstraPath AI is now {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}.</strong> Same mission — the right moment to grow.
+          <strong>AstraPath AI is now {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}.</strong> Same mission - the right moment to grow.
         </span>
         <button
           type="button"

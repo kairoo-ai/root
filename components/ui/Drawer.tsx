@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Drawer — thin wrapper around HeroUI v3's real Drawer (a side/edge sheet).
+ * Drawer - thin wrapper around HeroUI v3's real Drawer (a side/edge sheet).
  *
  * Source of truth: https://heroui.com/docs/react/components/drawer
  * Verified against installed @heroui/react v3.1.0 (dist/components/drawer).
@@ -44,7 +44,7 @@
  */
 
 export {
-  // Compound default — `Drawer` is callable AND has .Root/.Trigger/.Content/etc.
+  // Compound default - `Drawer` is callable AND has .Root/.Trigger/.Content/etc.
   Drawer,
 
   // Flat named primitives (same components, attached on the compound above).

@@ -1,6 +1,6 @@
 /**
  * Structured logger seam.
- * Reserved skeleton — no-op implementation, no business logic yet.
+ * Reserved skeleton - no-op implementation, no business logic yet.
  */
 
 export interface Logger {

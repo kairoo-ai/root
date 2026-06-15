@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Tooltip — thin wrapper over HeroUI v3 (@heroui/react) Tooltip.
+ * Tooltip - thin wrapper over HeroUI v3 (@heroui/react) Tooltip.
  *
  * Verified against @heroui/react@3.1.0
  *   node_modules/@heroui/react/dist/components/tooltip/index.d.ts

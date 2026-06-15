@@ -36,7 +36,7 @@ export interface ConnectorResult {
   success: boolean
   source: string
   extracted: ExtractedProfile
-  /** Human-readable summary of what was imported — shown in the UI */
+  /** Human-readable summary of what was imported - shown in the UI */
   summary: string
   error?: string
 }

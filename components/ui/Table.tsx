@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Table — thin wrapper around HeroUI v3's real Table.
+ * Table - thin wrapper around HeroUI v3's real Table.
  *
  * Source of truth: https://heroui.com/docs/react/components/table
  * Verified against installed @heroui/react v3.1.0
@@ -17,7 +17,7 @@
  * It also exports each part as a flat named primitive. We re-export BOTH styles
  * so callers can pick whichever reads best.
  *
- * IMPORTANT v3 SHAPE — read this before using:
+ * IMPORTANT v3 SHAPE - read this before using:
  *   In v3 the outer `Table` is only the visual shell. The actual React Aria
  *   collection table (the element that owns selection + sorting state) is
  *   `Table.Content`. So the canonical structure is:
@@ -82,7 +82,7 @@
  */
 
 export {
-  // Compound default — `Table` is callable AND has .Content/.Header/.Body/etc.
+  // Compound default - `Table` is callable AND has .Content/.Header/.Body/etc.
   Table,
 
   // Flat named primitives (same components, attached on the compound above).

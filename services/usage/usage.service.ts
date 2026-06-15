@@ -1,7 +1,7 @@
 /**
- * Usage metering + cost accounting — the source of truth for the AI cost-cap.
+ * Usage metering + cost accounting - the source of truth for the AI cost-cap.
  *
- * Reserved skeleton — typed stubs only. No network/DB calls at module scope.
+ * Reserved skeleton - typed stubs only. No network/DB calls at module scope.
  */
 
 import { QuotaExceededError } from "@/lib/errors";

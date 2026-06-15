@@ -1,6 +1,6 @@
 /**
  * Observability logger re-export seam.
- * Reserved skeleton — no business logic yet.
+ * Reserved skeleton - no business logic yet.
  */
 
 export type { Logger } from "../logger";

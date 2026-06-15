@@ -37,7 +37,7 @@ import {
 } from "@/components/aceternity";
 
 /* ------------------------------------------------------------------ *
- * Serializable data shapes — every value crossing the server→client   *
+ * Serializable data shapes - every value crossing the server→client   *
  * boundary is a primitive or icon NAME string (never a component ref). *
  * ------------------------------------------------------------------ */
 
@@ -96,7 +96,7 @@ const cardReveal: Variants = {
 };
 
 /* ------------------------------------------------------------------ *
- * HERO — Spotlight + Anime.js sequenced headline                      *
+ * HERO - Spotlight + Anime.js sequenced headline                      *
  * ------------------------------------------------------------------ */
 
 export function FeaturesHero({
@@ -155,7 +155,7 @@ export function FeaturesHero({
           ].join(", "),
         }}
       />
-      {/* Subtle dotted grid for depth — token border color, low opacity. */}
+      {/* Subtle dotted grid for depth - token border color, low opacity. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35] mask-[radial-gradient(60%_50%_at_50%_0%,black,transparent)]"
@@ -243,7 +243,7 @@ function HeroCta({
 }
 
 /* ------------------------------------------------------------------ *
- * PILLARS — Bento layout of CardSpotlight cells, lead pillar is a 3D  *
+ * PILLARS - Bento layout of CardSpotlight cells, lead pillar is a 3D  *
  * tilt card. Scroll-reveal + stagger.                                 *
  * ------------------------------------------------------------------ */
 
@@ -254,33 +254,33 @@ export function PillarBento({ pillars }: { pillars: PillarData[] }) {
   return (
     <Section className="pt-2">
       <FollowingPointer label="Explore">
-      <GlowingEffect>
-      <motion.div
-        variants={reduce ? undefined : staggerParent}
-        initial={reduce ? false : "hidden"}
-        whileInView={reduce ? undefined : "show"}
-        viewport={{ once: true, amount: 0.2 }}
-        className="grid auto-rows-[minmax(13rem,1fr)] grid-cols-1 gap-5 lg:grid-cols-3"
-      >
-        {/* Lead pillar — spans 2 cols / 2 rows with a 3D tilt surface. */}
-        <motion.div
-          variants={reduce ? undefined : cardReveal}
-          className={lead.span}
-        >
-          <LeadPillarCard pillar={lead} />
-        </motion.div>
-
-        {rest.map((pillar) => (
+        <GlowingEffect>
           <motion.div
-            key={pillar.id}
-            variants={reduce ? undefined : cardReveal}
-            className={pillar.span}
+            variants={reduce ? undefined : staggerParent}
+            initial={reduce ? false : "hidden"}
+            whileInView={reduce ? undefined : "show"}
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid auto-rows-[minmax(13rem,1fr)] grid-cols-1 gap-5 lg:grid-cols-3"
           >
-            <PillarCell pillar={pillar} />
+            {/* Lead pillar - spans 2 cols / 2 rows with a 3D tilt surface. */}
+            <motion.div
+              variants={reduce ? undefined : cardReveal}
+              className={lead.span}
+            >
+              <LeadPillarCard pillar={lead} />
+            </motion.div>
+
+            {rest.map((pillar) => (
+              <motion.div
+                key={pillar.id}
+                variants={reduce ? undefined : cardReveal}
+                className={pillar.span}
+              >
+                <PillarCell pillar={pillar} />
+              </motion.div>
+            ))}
           </motion.div>
-        ))}
-      </motion.div>
-      </GlowingEffect>
+        </GlowingEffect>
       </FollowingPointer>
     </Section>
   );
@@ -333,7 +333,7 @@ function LeadPillarCard({ pillar }: { pillar: PillarData }) {
         variant="glass"
         className="group relative flex h-full flex-col gap-6 overflow-hidden p-8 shadow-elevation-2"
       >
-        {/* Brand gradient wash — token color-mix only. */}
+        {/* Brand gradient wash - token color-mix only. */}
         <span
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-70"
@@ -376,7 +376,7 @@ function LeadPillarCard({ pillar }: { pillar: PillarData }) {
   return (
     <Link
       href={pillar.href}
-      aria-label={`${pillar.title} — ${pillar.meta}`}
+      aria-label={`${pillar.title} - ${pillar.meta}`}
       className="block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       {reduce ? (
@@ -401,7 +401,7 @@ function PillarCell({ pillar }: { pillar: PillarData }) {
   return (
     <Link
       href={pillar.href}
-      aria-label={`${pillar.title} — ${pillar.meta}`}
+      aria-label={`${pillar.title} - ${pillar.meta}`}
       className="group block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <CardSpotlight className="h-full border-0 bg-transparent p-0">
@@ -443,7 +443,7 @@ function PillarCell({ pillar }: { pillar: PillarData }) {
 }
 
 /* ------------------------------------------------------------------ *
- * STATS — animated counters on a glass band                          *
+ * STATS - animated counters on a glass band                          *
  * ------------------------------------------------------------------ */
 
 export function FeatureStats({ stats }: { stats: StatData[] }) {
@@ -487,7 +487,7 @@ export function FeatureStats({ stats }: { stats: StatData[] }) {
 }
 
 /* ------------------------------------------------------------------ *
- * BENEFITS — Tabs over the 3 pillars, each panel a mini bento of      *
+ * BENEFITS - Tabs over the 3 pillars, each panel a mini bento of      *
  * CardSpotlight benefit cells. Adds depth + HeroUI interactivity.     *
  * ------------------------------------------------------------------ */
 
@@ -577,7 +577,7 @@ export function BenefitTabs({
 }
 
 /* ------------------------------------------------------------------ *
- * CLOSING CTA — gradient glass band with motion buttons              *
+ * CLOSING CTA - gradient glass band with motion buttons              *
  * ------------------------------------------------------------------ */
 
 export function FeaturesCta({
@@ -597,44 +597,44 @@ export function FeaturesCta({
         viewport={{ once: true, amount: 0.4 }}
       >
         <NoiseBackground>
-        <Card
-          variant="glass"
-          className="relative isolate overflow-hidden p-10 text-center shadow-elevation-4 sm:p-14"
-        >
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10"
-            style={{
-              background:
-                "radial-gradient(70% 120% at 50% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%), radial-gradient(60% 100% at 50% 100%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 60%)",
-            }}
-          />
-          <Stack gap={5} align="center" className="mx-auto max-w-2xl">
+          <Card
+            variant="glass"
+            className="relative isolate overflow-hidden p-10 text-center shadow-elevation-4 sm:p-14"
+          >
             <span
               aria-hidden
-              className="inline-flex size-12 items-center justify-center rounded-xl bg-accent-subtle text-accent shadow-elevation-1"
-            >
-              <IconRenderer name="layers" size={24} />
-            </span>
-            <h2 className="text-h2 text-balance text-foreground">
-              <span className="bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                {headline}
+              className="pointer-events-none absolute inset-0 -z-10"
+              style={{
+                background:
+                  "radial-gradient(70% 120% at 50% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%), radial-gradient(60% 100% at 50% 100%, color-mix(in oklab, var(--primary) 16%, transparent), transparent 60%)",
+              }}
+            />
+            <Stack gap={5} align="center" className="mx-auto max-w-2xl">
+              <span
+                aria-hidden
+                className="inline-flex size-12 items-center justify-center rounded-xl bg-accent-subtle text-accent shadow-elevation-1"
+              >
+                <IconRenderer name="layers" size={24} />
               </span>
-            </h2>
-            <p className="text-body-lg text-pretty text-muted-foreground">
-              {body}
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <HeroCta href="/features/career" variant="primary">
-                Browse career tools
-                <IconRenderer name="arrow-right" size={16} />
-              </HeroCta>
-              <HeroCta href="/pricing" variant="ghost">
-                See pricing
-              </HeroCta>
-            </div>
-          </Stack>
-        </Card>
+              <h2 className="text-h2 text-balance text-foreground">
+                <span className="bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  {headline}
+                </span>
+              </h2>
+              <p className="text-body-lg text-pretty text-muted-foreground">
+                {body}
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <HeroCta href="/features/career" variant="primary">
+                  Browse career tools
+                  <IconRenderer name="arrow-right" size={16} />
+                </HeroCta>
+                <HeroCta href="/pricing" variant="ghost">
+                  See pricing
+                </HeroCta>
+              </div>
+            </Stack>
+          </Card>
         </NoiseBackground>
       </motion.div>
     </Section>

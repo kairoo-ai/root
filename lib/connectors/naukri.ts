@@ -106,8 +106,8 @@ export const connector: Connector = {
       },
       summary:
         extractedParts.length > 0
-          ? `Naukri profile imported — extracted ${extractedParts.join(', ')} from pasted text.`
-          : 'Naukri profile imported — raw text stored. No structured data could be extracted automatically.',
+          ? `Naukri profile imported - extracted ${extractedParts.join(', ')} from pasted text.`
+          : 'Naukri profile imported - raw text stored. No structured data could be extracted automatically.',
     }
   },
 }

@@ -1,14 +1,14 @@
 "use client";
 
 /**
- * DropdownMenu — thin wrapper over HeroUI v3 (@heroui/react).
+ * DropdownMenu - thin wrapper over HeroUI v3 (@heroui/react).
  *
  * In HeroUI v3 the "menu that drops down from a trigger" pattern is the
  * `Dropdown` compound component (trigger + popover + menu, built on
  * react-aria-components). It is fully accessible (focus management, typeahead,
  * dismiss-on-outside, ARIA wiring, keyboard selection) and already themed via
  * our CSS-variable tokens in app/globals.css. We re-export the REAL v3 exports
- * under our naming rather than reimplementing anything — this file is token-only
+ * under our naming rather than reimplementing anything - this file is token-only
  * and hardcodes no colors.
  *
  * We expose it under both names:
@@ -37,13 +37,13 @@
  * Flat sub-parts are also exported (DropdownMenuTrigger, DropdownMenuItem, ...)
  * for those who prefer flat imports over dot-notation.
  *
- * NOTE: If you need a *standalone* menu (no trigger/popover — e.g. inside your
+ * NOTE: If you need a *standalone* menu (no trigger/popover - e.g. inside your
  * own surface), use the re-exported `Menu` primitive and its parts below
  * (Menu.Item / Menu.Section / Menu.ItemIndicator).
  */
 
 import {
-  // Dropdown (trigger + popover + menu) — our DropdownMenu maps to this.
+  // Dropdown (trigger + popover + menu) - our DropdownMenu maps to this.
   Dropdown as HeroDropdown,
   DropdownRoot,
   DropdownTrigger,
@@ -87,7 +87,7 @@ import type {
 } from "@heroui/react";
 
 /**
- * DropdownMenu — primary compound component (our app name for v3 `Dropdown`).
+ * DropdownMenu - primary compound component (our app name for v3 `Dropdown`).
  * Exposes .Root / .Trigger / .Popover / .Menu / .Section / .Item /
  * .ItemIndicator / .SubmenuTrigger / .SubmenuIndicator.
  */

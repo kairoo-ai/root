@@ -1,4 +1,4 @@
-// Kairoo color primitives — OKLCH ramps. Source of truth (do not hardcode colors elsewhere).
+// Kairoo color primitives - OKLCH ramps. Source of truth (do not hardcode colors elsewhere).
 // Values are oklch() strings consumed verbatim by CSS (Tailwind v4) and JS (Chart.js/Motion).
 
 export type Ramp = Record<

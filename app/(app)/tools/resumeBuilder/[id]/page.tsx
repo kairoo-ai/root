@@ -118,11 +118,10 @@ export default function ResumeEditorPage() {
 
           <button
             onClick={() => setShowAts(!showAts)}
-            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors ${
-              showAts
+            className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors ${showAts
                 ? 'border-violet-500/50 bg-violet-600/20 text-violet-300'
                 : 'border-white/10 text-white/50 hover:text-white/80'
-            }`}
+              }`}
           >
             <Target className="w-3.5 h-3.5" />
             ATS Score{resume.atsScore !== null ? ` · ${resume.atsScore}%` : ''}
@@ -132,29 +131,27 @@ export default function ResumeEditorPage() {
 
       {/* Main layout */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Editor — 60% */}
+        {/* Editor - 60% */}
         <div className="w-[60%] h-full overflow-y-auto border-r border-white/10 flex flex-col">
           {/* Tab toggle */}
           <div className="flex items-center gap-1 px-5 pt-4 pb-3 shrink-0 border-b border-white/5">
             <button
               type="button"
               onClick={() => setLeftTab('resume')}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                leftTab === 'resume'
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${leftTab === 'resume'
                   ? 'bg-white/10 text-white'
                   : 'text-white/40 hover:text-white/70'
-              }`}
+                }`}
             >
               Resume
             </button>
             <button
               type="button"
               onClick={() => setLeftTab('cover-letter')}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
-                leftTab === 'cover-letter'
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${leftTab === 'cover-letter'
                   ? 'bg-white/10 text-white'
                   : 'text-white/40 hover:text-white/70'
-              }`}
+                }`}
             >
               Cover Letter
             </button>
@@ -175,7 +172,7 @@ export default function ResumeEditorPage() {
           </div>
         </div>
 
-        {/* Preview — 40% */}
+        {/* Preview - 40% */}
         <div className="flex-1 h-full overflow-hidden p-5">
           <ResumePreview
             sections={sections}
@@ -184,7 +181,7 @@ export default function ResumeEditorPage() {
           />
         </div>
 
-        {/* ATS Sidebar — slides in */}
+        {/* ATS Sidebar - slides in */}
         {showAts && (
           <motion.div
             initial={{ x: 300, opacity: 0 }}

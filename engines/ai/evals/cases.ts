@@ -1,4 +1,4 @@
-// Eval cases for the Kairoo AI engine — exercises the gateway, base prompt,
+// Eval cases for the Kairoo AI engine - exercises the gateway, base prompt,
 // and guardrails without any UI or auth layer. Run via `npm run evals`.
 // All feature ids are verified against engines/ai/features/registry.ts.
 

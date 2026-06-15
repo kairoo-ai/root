@@ -1,4 +1,4 @@
-// Prompt registry — id -> prompt builder.
+// Prompt registry - id -> prompt builder.
 //
 // Derived from the single source of truth in `../features/registry` so a feature's
 // inputs and its prompt can never drift apart. Only `ready` features are included;

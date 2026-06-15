@@ -20,7 +20,7 @@ export interface AuroraBackgroundProps
  *
  * A fixed, pointer-events-none, behind-everything layer of large blurred
  * radial-gradient "aurora" blobs. Colors are derived entirely from design
- * tokens via `color-mix(in oklab, ...)` — no raw hex/rgb/hsl.
+ * tokens via `color-mix(in oklab, ...)` - no raw hex/rgb/hsl.
  *
  * Blobs slowly drift + scale with CSS @keyframes (scoped via a <style> tag).
  * Under `prefers-reduced-motion: reduce` the animations are disabled and the
@@ -36,7 +36,7 @@ function AuroraBackground({
   ...props
 }: AuroraBackgroundProps) {
   // Per-intensity tuning: blob opacity, blur radius, and gradient mix strength.
-  // Deliberately faint — this is an AMBIENT depth layer, not a colored show.
+  // Deliberately faint - this is an AMBIENT depth layer, not a colored show.
   // Brand stays clean deep-navy with only a hint of teal.
   const tuning = {
     subtle: { opacity: 0.1, blur: 55, primaryMix: 6, accentMix: 6 },

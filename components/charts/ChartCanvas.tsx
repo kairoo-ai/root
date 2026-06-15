@@ -31,7 +31,7 @@ export interface ChartCanvasProps<
 > {
   type: TType;
   data: ChartData<TType, TData, TLabel>;
-  /** Caller options — deep-merged over the theme defaults (caller wins). */
+  /** Caller options - deep-merged over the theme defaults (caller wins). */
   options?: ChartOptions<TType>;
   /** Accessible text alternative rendered when the canvas can't be shown. */
   fallbackContent?: React.ReactNode;
@@ -63,13 +63,13 @@ function buildThemeDefaults<TType extends ChartType>(type: TType): ChartOptions<
     animation: reduce ? (false as const) : undefined,
     scales: isRadial
       ? {
-          // Radar / polar charts use the radial `r` scale.
-          r: { ...axisCommon },
-        }
+        // Radar / polar charts use the radial `r` scale.
+        r: { ...axisCommon },
+      }
       : {
-          x: { ...axisCommon },
-          y: { ...axisCommon },
-        },
+        x: { ...axisCommon },
+        y: { ...axisCommon },
+      },
     plugins: {
       legend: { labels: { color: c.text } },
       tooltip: {

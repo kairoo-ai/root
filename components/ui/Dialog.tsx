@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Dialog — thin wrapper over HeroUI v3 `Modal` (compound component).
+ * Dialog - thin wrapper over HeroUI v3 `Modal` (compound component).
  *
  * This is a re-export layer so the app imports dialogs from
  * "@/components/ui/Dialog" under our naming, while the real behavior,

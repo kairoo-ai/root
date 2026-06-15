@@ -40,7 +40,7 @@ import CompetitiveChart from "@/components/CompetitiveChart";
 import GrowthChart from "@/components/GrowthChart";
 
 /* ------------------------------------------------------------------ */
-/* Shared gradients (token-only via color-mix) — teal → navy washes.   */
+/* Shared gradients (token-only via color-mix) - teal → navy washes.   */
 /* ------------------------------------------------------------------ */
 
 const tealNavyWash =
@@ -49,7 +49,7 @@ const tealNavyBorder =
   "linear-gradient(135deg, color-mix(in oklab, var(--primary) 45%, transparent), color-mix(in oklab, var(--accent) 45%, transparent))";
 
 /* ------------------------------------------------------------------ */
-/* Scroll reveal — single source, reduced-motion aware.                */
+/* Scroll reveal - single source, reduced-motion aware.                */
 /* ------------------------------------------------------------------ */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -138,7 +138,7 @@ export function RevealItem({
 }
 
 /* ------------------------------------------------------------------ */
-/* HERO — Spotlight + anime.js entrance sequence + headline stats.     */
+/* HERO - Spotlight + anime.js entrance sequence + headline stats.     */
 /* ------------------------------------------------------------------ */
 
 const heroStats = [
@@ -257,7 +257,7 @@ export function MarketHero({
           </div>
         </div>
 
-        {/* Headline stat band — glass, animated counters */}
+        {/* Headline stat band - glass, animated counters */}
         <div
           data-hero-seq={reduce ? undefined : true}
           className="mt-14 rounded-2xl border border-border/60 bg-card/60 p-1 backdrop-blur-[var(--blur-glass)]"
@@ -276,7 +276,7 @@ export function MarketHero({
 }
 
 /* ------------------------------------------------------------------ */
-/* Section heading — eyebrow + title + subtitle, gradient eyebrow.     */
+/* Section heading - eyebrow + title + subtitle, gradient eyebrow.     */
 /* ------------------------------------------------------------------ */
 
 export function SectionHeading({
@@ -316,7 +316,7 @@ export function SectionHeading({
 }
 
 /* ------------------------------------------------------------------ */
-/* Market sizing — 3D headline card + animated sub-segment counters.   */
+/* Market sizing - 3D headline card + animated sub-segment counters.   */
 /* ------------------------------------------------------------------ */
 
 const subSegments = [
@@ -447,7 +447,7 @@ export function TamPanel() {
                     {t.value}
                   </span>
                 </div>
-                {/* funnel bar — teal→navy fill, token only */}
+                {/* funnel bar - teal→navy fill, token only */}
                 <div className="h-2.5 overflow-hidden rounded-full bg-muted-surface">
                   <motion.div
                     className="h-full rounded-full"
@@ -488,7 +488,7 @@ export function TamPanel() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Competitive intelligence — three categories, ThreeDCard advantage.  */
+/* Competitive intelligence - three categories, ThreeDCard advantage.  */
 /* ------------------------------------------------------------------ */
 
 type CompetitorCard = {
@@ -659,7 +659,7 @@ export function CompetitorCards() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Chart cards — glass panels, gradient frame.                         */
+/* Chart cards - glass panels, gradient frame.                         */
 /* ------------------------------------------------------------------ */
 
 function GlassChartFrame({ children }: { children: ReactNode }) {
@@ -751,7 +751,7 @@ export function TrajectoryChartCard() {
 }
 
 /* ------------------------------------------------------------------ */
-/* GTM — Bento grid of demand engines + formats/tactics.               */
+/* GTM - Bento grid of demand engines + formats/tactics.               */
 /* ------------------------------------------------------------------ */
 
 const channels = [
@@ -893,7 +893,7 @@ export function FormatsAndTacticsPanel() {
 }
 
 /* ------------------------------------------------------------------ */
-/* First-90-days monthly milestone cards — animated metric counters.   */
+/* First-90-days monthly milestone cards - animated metric counters.   */
 /* ------------------------------------------------------------------ */
 
 type MonthMetric = {
@@ -911,38 +911,38 @@ const months: {
   popular?: boolean;
   metrics: MonthMetric[];
 }[] = [
-  {
-    month: "Month 1",
-    title: "Foundation & Launch",
-    metrics: [
-      { key: "users", label: "New Users", value: 1250 },
-      { key: "paid", label: "Paid Conversions", value: 125 },
-      { key: "mrr", label: "MRR", value: 3625, prefix: "$", highlight: true },
-      { key: "cac", label: "CAC", value: 28, prefix: "$" },
-    ],
-  },
-  {
-    month: "Month 2",
-    title: "Optimization & Scale",
-    popular: true,
-    metrics: [
-      { key: "users", label: "New Users", value: 2800 },
-      { key: "paid", label: "Paid Conversions", value: 336 },
-      { key: "mrr", label: "MRR", value: 9744, prefix: "$", highlight: true },
-      { key: "cac", label: "CAC", value: 24, prefix: "$" },
-    ],
-  },
-  {
-    month: "Month 3",
-    title: "Growth & Retention",
-    metrics: [
-      { key: "users", label: "New Users", value: 4200 },
-      { key: "paid", label: "Paid Conversions", value: 588 },
-      { key: "mrr", label: "MRR", value: 17052, prefix: "$", highlight: true },
-      { key: "cac", label: "CAC", value: 21, prefix: "$" },
-    ],
-  },
-];
+    {
+      month: "Month 1",
+      title: "Foundation & Launch",
+      metrics: [
+        { key: "users", label: "New Users", value: 1250 },
+        { key: "paid", label: "Paid Conversions", value: 125 },
+        { key: "mrr", label: "MRR", value: 3625, prefix: "$", highlight: true },
+        { key: "cac", label: "CAC", value: 28, prefix: "$" },
+      ],
+    },
+    {
+      month: "Month 2",
+      title: "Optimization & Scale",
+      popular: true,
+      metrics: [
+        { key: "users", label: "New Users", value: 2800 },
+        { key: "paid", label: "Paid Conversions", value: 336 },
+        { key: "mrr", label: "MRR", value: 9744, prefix: "$", highlight: true },
+        { key: "cac", label: "CAC", value: 24, prefix: "$" },
+      ],
+    },
+    {
+      month: "Month 3",
+      title: "Growth & Retention",
+      metrics: [
+        { key: "users", label: "New Users", value: 4200 },
+        { key: "paid", label: "Paid Conversions", value: 588 },
+        { key: "mrr", label: "MRR", value: 17052, prefix: "$", highlight: true },
+        { key: "cac", label: "CAC", value: 21, prefix: "$" },
+      ],
+    },
+  ];
 
 export function MonthCards() {
   return (
@@ -997,7 +997,7 @@ export function MonthCards() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Competitive pricing comparison — token-themed Table + tooltips.     */
+/* Competitive pricing comparison - token-themed Table + tooltips.     */
 /* The render-prop on TableBody must live in client scope.             */
 /* ------------------------------------------------------------------ */
 
@@ -1123,7 +1123,7 @@ export function CompetitivePricingTable() {
 const ninetyDayRows = [
   {
     id: "m1",
-    month: "Month 1 — Foundation & Launch",
+    month: "Month 1 - Foundation & Launch",
     users: "1,250",
     paid: "125",
     mrr: "$3,625",
@@ -1131,7 +1131,7 @@ const ninetyDayRows = [
   },
   {
     id: "m2",
-    month: "Month 2 — Optimization & Scale",
+    month: "Month 2 - Optimization & Scale",
     users: "2,800",
     paid: "336",
     mrr: "$9,744",
@@ -1139,7 +1139,7 @@ const ninetyDayRows = [
   },
   {
     id: "m3",
-    month: "Month 3 — Growth & Retention",
+    month: "Month 3 - Growth & Retention",
     users: "4,200",
     paid: "588",
     mrr: "$17,052",

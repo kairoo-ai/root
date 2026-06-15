@@ -1,4 +1,4 @@
-// Generation entrypoint for the AI engine — pure capability, no user/auth/db.
+// Generation entrypoint for the AI engine - pure capability, no user/auth/db.
 // Server-only by convention (transitively reads the API key via ./client).
 
 import { getFeature } from "./features/registry";
@@ -9,7 +9,7 @@ import { generate as gatewayGenerate } from "./gateway";
 import { ValidationError } from "@/lib/errors";
 
 export const COMING_SOON_MESSAGE =
-  "This feature isn't built yet — it needs user accounts and saved data the app doesn't have today. It's marked \"Coming soon\" rather than faked.";
+  "This feature isn't built yet - it needs user accounts and saved data the app doesn't have today. It's marked \"Coming soon\" rather than faked.";
 
 export async function generate(featureId: string, inputs: Record<string, string>): Promise<string> {
   const feature = getFeature(featureId);

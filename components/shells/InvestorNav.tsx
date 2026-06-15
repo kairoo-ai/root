@@ -22,7 +22,7 @@ import { Container } from '@/components/layout/Container';
 import { investorNav, type NavItem } from '@/config/navigation';
 
 /**
- * InvestorNav — a separate, quieter top nav for the gated `/investors` section.
+ * InvestorNav - a separate, quieter top nav for the gated `/investors` section.
  *
  * Deliberately calmer than the public nav: always solid-ish (bg-card/80 +
  * backdrop-blur), no scroll-triggered state changes. Token-only, reduced-motion

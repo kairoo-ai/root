@@ -10,7 +10,7 @@ import React, { MouseEvent as ReactMouseEvent, useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Aceternity Card Spotlight — a bordered surface that reveals a soft accent glow
+ * Aceternity Card Spotlight - a bordered surface that reveals a soft accent glow
  * tracking the cursor. Fully token-skinned: surface uses `bg-card`/`border-border`,
  * and the spotlight glow is composed from the brand accent + primary tokens via
  * `color-mix`. The original WebGL `canvas-reveal-effect` dependency was removed in

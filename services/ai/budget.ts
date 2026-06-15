@@ -1,4 +1,4 @@
-// Coarse daily budget guard for free-tier protection. In-memory (resets on restart / not multi-instance) — fine for now; swap for KV later.
+// Coarse daily budget guard for free-tier protection. In-memory (resets on restart / not multi-instance) - fine for now; swap for KV later.
 const DAY_MS = 24 * 60 * 60_000;
 const MAX_REQ_PER_DAY = Number(process.env.AI_DAILY_REQUEST_CAP ?? 5000);
 const MAX_TOKENS_PER_DAY = Number(process.env.AI_DAILY_TOKEN_CAP ?? 2_000_000);

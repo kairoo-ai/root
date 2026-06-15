@@ -1,7 +1,7 @@
 /**
- * Entitlements — feature gates derived from a user's plan.
+ * Entitlements - feature gates derived from a user's plan.
  *
- * Reserved skeleton — typed stubs only. No network/DB calls at module scope.
+ * Reserved skeleton - typed stubs only. No network/DB calls at module scope.
  */
 
 import { EntitlementError } from "@/lib/errors";

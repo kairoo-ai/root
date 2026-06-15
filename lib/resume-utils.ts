@@ -182,7 +182,7 @@ export function computeAtsScore(
   }
 }
 
-// Legacy wrapper — keeps old call-sites working
+// Legacy wrapper - keeps old call-sites working
 export function computeAtsScoreLegacy(
   sections: ResumeSections,
   jobDescription: string

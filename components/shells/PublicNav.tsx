@@ -38,7 +38,7 @@ function useIsActive() {
 }
 
 /**
- * PublicNav — fixed marketing top nav.
+ * PublicNav - fixed marketing top nav.
  * Transparent at the top of the page; gains a blurred card surface + bottom
  * border once the user scrolls past 50px. Desktop shows the primary links and
  * CTA cluster; mobile collapses links + CTAs into a keyboard-accessible Drawer.

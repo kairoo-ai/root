@@ -27,7 +27,7 @@ export function CanvasText({ text, className, fontSize = 72, color }: CanvasText
     canvas.height = h * dpr
     ctx.scale(dpr, dpr)
 
-    // Resolve color — fallback to white for oklch values canvas can't paint
+    // Resolve color - fallback to white for oklch values canvas can't paint
     const resolvedColor = color ?? '#ffffff'
     ctx.clearRect(0, 0, w, h)
     ctx.font = `bold ${fontSize}px sans-serif`

@@ -80,7 +80,7 @@ const connector: Connector = {
         location: user.location || undefined,
         portfolioUrl: user.website_url || undefined,
         linkedinUrl: user.linkedin ? `https://linkedin.com/in/${user.linkedin}` : undefined,
-        resumeText: `GitLab: ${username} — ${user.projects_count ?? projects.length} projects`,
+        resumeText: `GitLab: ${username} - ${user.projects_count ?? projects.length} projects`,
       }
 
       const summary = `GitLab: ${user.projects_count ?? projects.length} projects`

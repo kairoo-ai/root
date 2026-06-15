@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship Kairoo's baseline legal pages — Privacy Policy, Terms of Service, Cookie Policy (+ consent banner), Acceptable Use, AI Disclosure — plus enterprise stubs (DPA, Sub-processors, Security), all config-driven and marked DRAFT pending legal review, with footer links.
+**Goal:** Ship Kairoo's baseline legal pages - Privacy Policy, Terms of Service, Cookie Policy (+ consent banner), Acceptable Use, AI Disclosure - plus enterprise stubs (DPA, Sub-processors, Security), all config-driven and marked DRAFT pending legal review, with footer links.
 
 **Architecture:** A single `lib/legal/config.ts` holds the legally-significant variables (entity, jurisdiction, contacts, effective date, sub-processors). Each policy's text lives as a markdown-returning function in `lib/legal/content/*.ts` that interpolates the config. A shared `components/legal/LegalLayout.tsx` renders title + last-updated + a DRAFT banner + the body via the existing branded `RichText` component. Thin route files under `app/<slug>/page.tsx` wire each. A consent-ready `CookieConsent` banner is added (so GA can drop in later). Footer gets a legal-links section.
 
@@ -10,9 +10,9 @@
 
 **Source of truth for scope:** `docs/superpowers/specs/2026-06-13-rebrand-and-legal-design.md` §4.
 
-**ENVIRONMENT:** `node`/`npm`/`npx` NOT on default shell PATH — prefix every command with `export PATH="/opt/homebrew/bin:$PATH"`. Verify with `npx tsc --noEmit` and `npm run build`. **Never run `npm run dev`.** Branch: `latest`.
+**ENVIRONMENT:** `node`/`npm`/`npx` NOT on default shell PATH - prefix every command with `export PATH="/opt/homebrew/bin:$PATH"`. Verify with `npx tsc --noEmit` and `npm run build`. **Never run `npm run dev`.** Branch: `latest`.
 
-**⚠️ LEGAL CAVEAT (carry into every page):** This is AI-drafted boilerplate, not legal advice. Pages render a visible "DRAFT — pending legal review" banner until the owner clears it (`config.draft = false`) after a lawyer reviews and the §4.3 open decisions are filled.
+**⚠️ LEGAL CAVEAT (carry into every page):** This is AI-drafted boilerplate, not legal advice. Pages render a visible "DRAFT - pending legal review" banner until the owner clears it (`config.draft = false`) after a lawyer reviews and the §4.3 open decisions are filled.
 
 **Testing note:** No unit-test runner. Verify per task with `tsc --noEmit` + `npm run build` + `npm run lint:colors` (legal files must be token-only) + route-list checks. Commit after each task.
 
@@ -21,17 +21,19 @@
 ## File Structure
 
 **Create:**
-- `lib/legal/config.ts` — entity, jurisdiction, contacts, dates, sub-processors, `draft` flag
-- `lib/legal/content/privacy.ts`, `terms.ts`, `cookies.ts`, `acceptableUse.ts`, `aiDisclosure.ts`, `dpa.ts`, `subProcessors.ts`, `security.ts` — each exports `(c: LegalConfig) => string` (markdown)
-- `components/legal/LegalLayout.tsx` — shared page chrome (title, updated date, DRAFT banner, RichText body)
-- `components/CookieConsent.tsx` — dismissible, consent-ready banner
+
+- `lib/legal/config.ts` - entity, jurisdiction, contacts, dates, sub-processors, `draft` flag
+- `lib/legal/content/privacy.ts`, `terms.ts`, `cookies.ts`, `acceptableUse.ts`, `aiDisclosure.ts`, `dpa.ts`, `subProcessors.ts`, `security.ts` - each exports `(c: LegalConfig) => string` (markdown)
+- `components/legal/LegalLayout.tsx` - shared page chrome (title, updated date, DRAFT banner, RichText body)
+- `components/CookieConsent.tsx` - dismissible, consent-ready banner
 - `app/privacy/page.tsx`, `app/terms/page.tsx`, `app/cookies/page.tsx`, `app/acceptable-use/page.tsx`, `app/ai-disclosure/page.tsx`, `app/dpa/page.tsx`, `app/sub-processors/page.tsx`, `app/security/page.tsx`
 
 **Modify:**
-- `components/Footer.tsx` — legal links section
-- `app/layout.tsx` — mount `<CookieConsent />`
-- `app/sitemap.ts` (create if absent) — include legal routes
-- `scripts/check-no-raw-colors.mjs` — no change expected (legal files are token-only)
+
+- `components/Footer.tsx` - legal links section
+- `app/layout.tsx` - mount `<CookieConsent />`
+- `app/sitemap.ts` (create if absent) - include legal routes
+- `scripts/check-no-raw-colors.mjs` - no change expected (legal files are token-only)
 
 ---
 
@@ -48,28 +50,36 @@ export type SubProcessor = { name: string; purpose: string; region: string };
 
 export type LegalConfig = {
   productName: string;
-  legalEntity: string;        // TODO: confirm the registered entity that owns Kairoo
-  jurisdiction: string;       // TODO: confirm governing-law country/state
-  effectiveDate: string;      // ISO date shown as "Last updated"
-  contactEmail: string;       // general/privacy contact
-  dpoEmail: string;           // data requests
+  legalEntity: string; // TODO: confirm the registered entity that owns Kairoo
+  jurisdiction: string; // TODO: confirm governing-law country/state
+  effectiveDate: string; // ISO date shown as "Last updated"
+  contactEmail: string; // general/privacy contact
+  dpoEmail: string; // data requests
   websiteUrl: string;
-  draft: boolean;             // true => show DRAFT banner sitewide on legal pages
+  draft: boolean; // true => show DRAFT banner sitewide on legal pages
   subProcessors: SubProcessor[];
 };
 
 export const legal: LegalConfig = {
   productName: "Kairoo",
   legalEntity: "Kairoo (operated by Matters AI)", // TODO confirm registered entity
-  jurisdiction: "India",                            // TODO confirm governing law
+  jurisdiction: "India", // TODO confirm governing law
   effectiveDate: "2026-06-14",
-  contactEmail: "privacy@kairoo.com",               // TODO confirm
-  dpoEmail: "privacy@kairoo.com",                   // TODO confirm
-  websiteUrl: "https://kairoo.com",                 // TODO confirm domain
+  contactEmail: "privacy@kairoo.com", // TODO confirm
+  dpoEmail: "privacy@kairoo.com", // TODO confirm
+  websiteUrl: "https://kairoo.com", // TODO confirm domain
   draft: true,
   subProcessors: [
-    { name: "Google (Gemini API)", purpose: "AI generation of career guidance from user input", region: "USA / Global" },
-    { name: "Vercel", purpose: "Application hosting & delivery", region: "USA / Global" },
+    {
+      name: "Google (Gemini API)",
+      purpose: "AI generation of career guidance from user input",
+      region: "USA / Global",
+    },
+    {
+      name: "Vercel",
+      purpose: "Application hosting & delivery",
+      region: "USA / Global",
+    },
   ],
 };
 ```
@@ -97,11 +107,20 @@ import { legal } from "@/lib/legal/config";
 
 function formatDate(iso: string) {
   return new Date(iso + "T00:00:00Z").toLocaleDateString("en-US", {
-    year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
   });
 }
 
-export default function LegalLayout({ title, body }: { title: string; body: string }) {
+export default function LegalLayout({
+  title,
+  body,
+}: {
+  title: string;
+  body: string;
+}) {
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       <h1 className="text-h1 text-foreground">{title}</h1>
@@ -110,8 +129,8 @@ export default function LegalLayout({ title, body }: { title: string; body: stri
       </p>
       {legal.draft && (
         <div className="mt-6 rounded-lg border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-warning">
-          <strong>DRAFT — pending legal review.</strong> This document is provided for
-          transparency and is not yet finalized or legal advice.
+          <strong>DRAFT - pending legal review.</strong> This document is
+          provided for transparency and is not yet finalized or legal advice.
         </div>
       )}
       <div className="mt-8">
@@ -208,7 +227,7 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { privacy } from "@/lib/legal/content/privacy";
 
-export const metadata: Metadata = { title: "Privacy Policy — Kairoo" };
+export const metadata: Metadata = { title: "Privacy Policy - Kairoo" };
 
 export default function PrivacyPage() {
   return <LegalLayout title="Privacy Policy" body={privacy(legal)} />;
@@ -254,7 +273,7 @@ Paid plans are billed in advance and renew automatically until cancelled; you ca
 anytime, effective at the end of the current billing period. Fees are non-refundable except
 where required by law.
 
-## AI-generated content — no guarantees
+## AI-generated content - no guarantees
 ${c.productName} uses AI to generate career guidance, learning suggestions, and similar
 output. **This output may be inaccurate or incomplete and is not professional, legal,
 financial, or career advice.** You are responsible for how you use it; we do not guarantee
@@ -291,7 +310,7 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { terms } from "@/lib/legal/content/terms";
 
-export const metadata: Metadata = { title: "Terms of Service — Kairoo" };
+export const metadata: Metadata = { title: "Terms of Service - Kairoo" };
 
 export default function TermsPage() {
   return <LegalLayout title="Terms of Service" body={terms(legal)} />;
@@ -351,7 +370,7 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { cookies } from "@/lib/legal/content/cookies";
 
-export const metadata: Metadata = { title: "Cookie Policy — Kairoo" };
+export const metadata: Metadata = { title: "Cookie Policy - Kairoo" };
 
 export default function CookiesPage() {
   return <LegalLayout title="Cookie Policy" body={cookies(legal)} />;
@@ -436,10 +455,12 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { acceptableUse } from "@/lib/legal/content/acceptableUse";
 
-export const metadata: Metadata = { title: "Acceptable Use Policy — Kairoo" };
+export const metadata: Metadata = { title: "Acceptable Use Policy - Kairoo" };
 
 export default function AcceptableUsePage() {
-  return <LegalLayout title="Acceptable Use Policy" body={acceptableUse(legal)} />;
+  return (
+    <LegalLayout title="Acceptable Use Policy" body={acceptableUse(legal)} />
+  );
 }
 ```
 
@@ -451,7 +472,7 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { aiDisclosure } from "@/lib/legal/content/aiDisclosure";
 
-export const metadata: Metadata = { title: "AI Disclosure — Kairoo" };
+export const metadata: Metadata = { title: "AI Disclosure - Kairoo" };
 
 export default function AiDisclosurePage() {
   return <LegalLayout title="AI Disclosure" body={aiDisclosure(legal)} />;
@@ -492,7 +513,7 @@ on behalf of a business customer (controller) under GDPR Article 28 and similar 
 - **International transfers:** under appropriate safeguards (e.g., SCCs) where applicable.
 - **Sub-processor obligations, audit rights, and breach notification** are included in the full DPA.
 
-A signable DPA is **available on request** — contact **${c.contactEmail}**. (Full executable
+A signable DPA is **available on request** - contact **${c.contactEmail}**. (Full executable
 version pending finalization.)
 `;
 ```
@@ -549,7 +570,9 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { dpa } from "@/lib/legal/content/dpa";
 
-export const metadata: Metadata = { title: "Data Processing Agreement — Kairoo" };
+export const metadata: Metadata = {
+  title: "Data Processing Agreement - Kairoo",
+};
 
 export default function DpaPage() {
   return <LegalLayout title="Data Processing Agreement" body={dpa(legal)} />;
@@ -564,7 +587,7 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { subProcessors } from "@/lib/legal/content/subProcessors";
 
-export const metadata: Metadata = { title: "Sub-processors — Kairoo" };
+export const metadata: Metadata = { title: "Sub-processors - Kairoo" };
 
 export default function SubProcessorsPage() {
   return <LegalLayout title="Sub-processors" body={subProcessors(legal)} />;
@@ -579,7 +602,7 @@ import LegalLayout from "@/components/legal/LegalLayout";
 import { legal } from "@/lib/legal/config";
 import { security } from "@/lib/legal/content/security";
 
-export const metadata: Metadata = { title: "Security — Kairoo" };
+export const metadata: Metadata = { title: "Security - Kairoo" };
 
 export default function SecurityPage() {
   return <LegalLayout title="Security" body={security(legal)} />;
@@ -592,7 +615,7 @@ Run: `export PATH="/opt/homebrew/bin:$PATH" && npx tsc --noEmit && npm run build
 
 ```bash
 git add lib/legal/content/dpa.ts lib/legal/content/subProcessors.ts lib/legal/content/security.ts app/dpa/page.tsx app/sub-processors/page.tsx app/security/page.tsx
-git commit -m "feat(legal): enterprise stubs — DPA, Sub-processors, Security"
+git commit -m "feat(legal): enterprise stubs - DPA, Sub-processors, Security"
 ```
 
 ---
@@ -636,12 +659,26 @@ export default function CookieConsent() {
     <div className="fixed inset-x-0 bottom-0 z-[var(--z-banner)] border-t border-border bg-card/95 backdrop-blur-[18px]">
       <div className="mx-auto flex max-w-5xl flex-col gap-3 px-6 py-4 text-sm text-foreground sm:flex-row sm:items-center sm:justify-between">
         <p className="text-muted-foreground">
-          We use strictly-necessary cookies, and optional analytics cookies only with your
-          consent. See our <a href="/cookies" className="text-primary underline">Cookie Policy</a>.
+          We use strictly-necessary cookies, and optional analytics cookies only
+          with your consent. See our{" "}
+          <a href="/cookies" className="text-primary underline">
+            Cookie Policy
+          </a>
+          .
         </p>
         <div className="flex gap-2">
-          <button onClick={() => choose("rejected")} className="rounded-lg border border-border px-3 py-1.5 hover:bg-accent">Reject</button>
-          <button onClick={() => choose("accepted")} className="rounded-lg bg-primary px-3 py-1.5 font-semibold text-primary-foreground hover:bg-teal-700">Accept</button>
+          <button
+            onClick={() => choose("rejected")}
+            className="rounded-lg border border-border px-3 py-1.5 hover:bg-accent"
+          >
+            Reject
+          </button>
+          <button
+            onClick={() => choose("accepted")}
+            className="rounded-lg bg-primary px-3 py-1.5 font-semibold text-primary-foreground hover:bg-teal-700"
+          >
+            Accept
+          </button>
         </div>
       </div>
     </div>
@@ -682,8 +719,21 @@ import { legal } from "@/lib/legal/config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = legal.websiteUrl.replace(/\/$/, "");
-  const routes = ["", "/privacy", "/terms", "/cookies", "/acceptable-use", "/ai-disclosure", "/dpa", "/sub-processors", "/security"];
-  return routes.map((r) => ({ url: `${base}${r}`, lastModified: new Date(legal.effectiveDate + "T00:00:00Z") }));
+  const routes = [
+    "",
+    "/privacy",
+    "/terms",
+    "/cookies",
+    "/acceptable-use",
+    "/ai-disclosure",
+    "/dpa",
+    "/sub-processors",
+    "/security",
+  ];
+  return routes.map((r) => ({
+    url: `${base}${r}`,
+    lastModified: new Date(legal.effectiveDate + "T00:00:00Z"),
+  }));
 }
 ```
 

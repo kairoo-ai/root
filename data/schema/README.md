@@ -2,4 +2,4 @@
 
 Database schema/table definitions.
 
-Reserved skeleton — no business logic yet.
+Reserved skeleton - no business logic yet.

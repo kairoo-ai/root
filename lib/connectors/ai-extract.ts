@@ -2,7 +2,7 @@ import type { ExtractedProfile } from './types'
 import { generate as gatewayGenerate } from '@/engines/ai/gateway'
 
 const EXTRACT_SYSTEM = `You are extracting structured career profile data from text a user has provided.
-Extract every field you can find. Return ONLY valid JSON — no markdown, no explanation, just the JSON object.
+Extract every field you can find. Return ONLY valid JSON - no markdown, no explanation, just the JSON object.
 Schema:
 {
   "currentRole": "string or null",

@@ -30,9 +30,9 @@ const readVar = (name: string, fallback: string): string => {
     .getPropertyValue(name)
     .trim();
   if (!raw) return fallback;
-  // Already a full color function (oklch(...), etc.) — use as-is.
+  // Already a full color function (oklch(...), etc.) - use as-is.
   if (raw.includes("(")) return raw;
-  // Bare components from our token pipeline — wrap into oklch().
+  // Bare components from our token pipeline - wrap into oklch().
   return `oklch(${raw})`;
 };
 
@@ -58,7 +58,7 @@ export interface ChartColors {
  * so the CSS-var reads reflect the currently-applied theme.
  */
 export function getChartColors(): ChartColors {
-  // Brand series — straight from the OKLCH ramps (design-system source of truth).
+  // Brand series - straight from the OKLCH ramps (design-system source of truth).
   const series = [
     ramps.teal[500],
     ramps.navy[600],
@@ -69,7 +69,7 @@ export function getChartColors(): ChartColors {
   ];
   const seriesFill = series.map((c) => withAlpha(c, 0.18));
 
-  // Chrome — read from theme tokens at call time, with ramp-based fallbacks.
+  // Chrome - read from theme tokens at call time, with ramp-based fallbacks.
   const text = readVar("--foreground", ramps.navy[900]);
   const mutedText = readVar("--muted-foreground", ramps.neutral[500]);
   const card = readVar("--card", ramps.neutral[50]);

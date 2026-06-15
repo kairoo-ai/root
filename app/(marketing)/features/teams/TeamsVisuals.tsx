@@ -36,15 +36,15 @@ function useReveal() {
     reduce
       ? {}
       : {
-          initial: { opacity: 0, y: 24 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, amount: 0.3 },
-          transition: {
-            duration: 0.6,
-            ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
-            delay,
-          },
-        };
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.3 },
+        transition: {
+          duration: 0.6,
+          ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+          delay,
+        },
+      };
 }
 
 /* ================================================================== */
@@ -61,7 +61,7 @@ export function TeamsHero({ eyebrow, title, subtitle }: TeamsHeroProps) {
   const reveal = useReveal();
   const headlineRef = useRef<HTMLHeadingElement>(null);
 
-  // Anime.js elaborate headline sequence — word-by-word rise + blur clear.
+  // Anime.js elaborate headline sequence - word-by-word rise + blur clear.
   useEffect(() => {
     if (reduce || !headlineRef.current) return;
     const words = headlineRef.current.querySelectorAll<HTMLElement>(
@@ -174,7 +174,7 @@ export function TeamsHero({ eyebrow, title, subtitle }: TeamsHeroProps) {
 }
 
 /* ================================================================== */
-/* ANALYTICS PILLARS — ThreeDCard tilt + CardSpotlight glow            */
+/* ANALYTICS PILLARS - ThreeDCard tilt + CardSpotlight glow            */
 /* ================================================================== */
 export interface PillarCard {
   id: string;
@@ -239,7 +239,7 @@ export function AnalyticsPillars({ items }: { items: PillarCard[] }) {
 }
 
 /* ================================================================== */
-/* SKILL MATRIX — radar chart in a glass / 3D panel                    */
+/* SKILL MATRIX - radar chart in a glass / 3D panel                    */
 /* ================================================================== */
 export interface SkillMatrixProps {
   bullets: { icon: string; text: string }[];
@@ -266,8 +266,8 @@ export function SkillMatrix({ bullets }: SkillMatrixProps) {
             <p className="text-body-lg text-muted-foreground">
               See team strengths at a glance. The Skill Matrix maps your
               team&apos;s average proficiency against an industry benchmark
-              across six dimensions — AI/ML, leadership, technical skills,
-              communication, strategy, and innovation — so you can target
+              across six dimensions - AI/ML, leadership, technical skills,
+              communication, strategy, and innovation - so you can target
               development where it moves the needle.
             </p>
             <ul className="mt-2 flex flex-col gap-3 text-body-sm text-muted-foreground">
@@ -345,14 +345,14 @@ export function SkillMatrix({ bullets }: SkillMatrixProps) {
 }
 
 /* ================================================================== */
-/* CAPABILITIES — BentoGrid                                            */
+/* CAPABILITIES - BentoGrid                                            */
 /* ================================================================== */
 const CAPABILITY_ITEMS: BentoItem[] = [
   {
     id: "live-telemetry",
     title: "Live skill telemetry",
     description:
-      "Every assessment, course, and milestone streams onto one organizational surface — watch proficiency move in real time, no exports, no lag.",
+      "Every assessment, course, and milestone streams onto one organizational surface - watch proficiency move in real time, no exports, no lag.",
     icon: <IconRenderer name="activity" />,
     span: "2x2",
   },
@@ -391,14 +391,14 @@ export function CapabilitiesBento() {
     <BentoGrid
       eyebrow="Capabilities"
       heading="Everything a leader needs to grow a team"
-      description="A composable analytics surface built for the way real teams develop — visible, predictive, and tied to outcomes."
+      description="A composable analytics surface built for the way real teams develop - visible, predictive, and tied to outcomes."
       items={CAPABILITY_ITEMS}
     />
   );
 }
 
 /* ================================================================== */
-/* STAT BAND — animated counters                                       */
+/* STAT BAND - animated counters                                       */
 /* ================================================================== */
 export function TeamsStatBand() {
   const reveal = useReveal();

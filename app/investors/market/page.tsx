@@ -20,9 +20,9 @@ import {
 } from "./MarketViz";
 
 export const metadata: Metadata = {
-  title: `Market Analysis & Go-to-Market — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`,
+  title: `Market Analysis & Go-to-Market - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`,
   description:
-    `Market research, competitive intelligence, and go-to-market strategy for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s entry into the \$366B global EdTech market — TAM/SAM/SOM, competitive matrix, GTM channels, and a 90-day growth plan.`,
+    `Market research, competitive intelligence, and go-to-market strategy for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s entry into the \$366B global EdTech market - TAM/SAM/SOM, competitive matrix, GTM channels, and a 90-day growth plan.`,
 };
 
 /* ------------------------------------------------------------------ */
@@ -47,7 +47,7 @@ export default function MarketAnalysisPage() {
           <SectionHeading
             eyebrow="Opportunity"
             title="Market Size & Opportunity Analysis"
-            subtitle={ `A \$366B market growing at 16.3% CAGR — concentrated in the segments ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is built to serve.` }
+            subtitle={`A \$366B market growing at 16.3% CAGR - concentrated in the segments ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is built to serve.`}
           />
           <Grid cols={2} gap="lg" className="items-start">
             <MarketSizePanel />
@@ -109,7 +109,7 @@ export default function MarketAnalysisPage() {
           <SectionHeading
             eyebrow="Execution"
             title="First 90 Days Growth Targets"
-            subtitle="Month-over-month milestones from launch to $17K MRR — and a 12-week trajectory toward 8,250 users."
+            subtitle="Month-over-month milestones from launch to $17K MRR - and a 12-week trajectory toward 8,250 users."
           />
           <MonthCards />
           <Grid cols={2} gap="lg" className="items-stretch">
@@ -125,7 +125,7 @@ export default function MarketAnalysisPage() {
 
       <CTA
         tone="gradient"
-        headline={ `The market is timed for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}` }
+        headline={`The market is timed for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`}
         body="$366B in motion, a 16.3% CAGR, and a competitive set wide open for an integrated, AI-native platform."
         primary={{ label: "Review the investor deck", href: "/investors/deck" }}
         secondary={{ label: "Read the strategy", href: "/investors/strategy" }}

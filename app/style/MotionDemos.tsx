@@ -12,7 +12,7 @@ export function MotionDemos() {
   return (
     <>
       <p className="text-body text-muted-foreground">
-        New component states, plus Aceternity motion primitives — all token-only.
+        New component states, plus Aceternity motion primitives - all token-only.
       </p>
 
       <div className="space-y-3">
@@ -26,7 +26,7 @@ export function MotionDemos() {
       </div>
 
       <div className="space-y-3">
-        <h3 className="text-h5 text-muted-foreground">Button — new states</h3>
+        <h3 className="text-h5 text-muted-foreground">Button - new states</h3>
         <div className="flex flex-wrap items-center gap-3">
           <Button asChild>
             <a href="#">As link (asChild)</a>
@@ -39,7 +39,7 @@ export function MotionDemos() {
       </div>
 
       <div className="space-y-3">
-        <h3 className="text-h5 text-muted-foreground">Card — interactive &amp; glass</h3>
+        <h3 className="text-h5 text-muted-foreground">Card - interactive &amp; glass</h3>
         <div className="grid grid-cols-2 gap-4">
           <Card variant="interactive" className="p-4">
             <div className="text-foreground">Interactive</div>
@@ -53,7 +53,7 @@ export function MotionDemos() {
       </div>
 
       <div className="space-y-3">
-        <h3 className="text-h5 text-muted-foreground">Input — sizes</h3>
+        <h3 className="text-h5 text-muted-foreground">Input - sizes</h3>
         <div className="grid max-w-md gap-3">
           <Input size="sm" placeholder="Small" />
           <Input size="md" placeholder="Medium (default)" />
@@ -62,7 +62,7 @@ export function MotionDemos() {
       </div>
 
       <div className="space-y-3">
-        <h3 className="text-h5 text-muted-foreground">Badge — sizes</h3>
+        <h3 className="text-h5 text-muted-foreground">Badge - sizes</h3>
         <div className="flex flex-wrap items-center gap-3">
           <Badge size="sm" variant="info">Small</Badge>
           <Badge size="md" variant="info">Medium</Badge>

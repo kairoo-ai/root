@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Accordion — thin wrapper over HeroUI v3 (@heroui/react, v3.1.0).
+ * Accordion - thin wrapper over HeroUI v3 (@heroui/react, v3.1.0).
  *
  * Re-exports the REAL v3 compound component verbatim. HeroUI's `Accordion` is a
  * callable root with attached sub-parts (`.Item`, `.Heading`, `.Trigger`,
@@ -36,7 +36,7 @@
 
 import { Accordion as HeroAccordion } from "@heroui/react";
 
-// Flat named sub-parts (real v3 exports) — convenient for direct imports.
+// Flat named sub-parts (real v3 exports) - convenient for direct imports.
 export {
   AccordionRoot,
   AccordionItem,
@@ -61,7 +61,7 @@ export type {
 
 /**
  * The compound Accordion, re-exported under our naming. Use `Accordion.Item`,
- * `Accordion.Trigger`, etc. Identical to the v3 component — no logic added.
+ * `Accordion.Trigger`, etc. Identical to the v3 component - no logic added.
  */
 export const Accordion = HeroAccordion;
 

@@ -26,7 +26,7 @@ export default async function InterviewPrepHub() {
         {[
           { label: 'Sessions', value: stats.totalSessions, icon: '🗂️' },
           { label: 'Completed', value: stats.completedSessions, icon: '✅' },
-          { label: 'Avg Score', value: stats.avgScore !== null ? `${stats.avgScore}/100` : '—', icon: '📈' },
+          { label: 'Avg Score', value: stats.avgScore !== null ? `${stats.avgScore}/100` : '-', icon: '📈' },
         ].map(({ label, value, icon }) => (
           <div
             key={label}
@@ -85,11 +85,10 @@ export default async function InterviewPrepHub() {
                     <span className="text-sm font-bold text-teal-400">{s.overallScore}</span>
                   )}
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                      s.status === 'completed'
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${s.status === 'completed'
                         ? 'bg-emerald-500/10 text-emerald-400'
                         : 'bg-amber-500/10 text-amber-400'
-                    }`}
+                      }`}
                   >
                     {s.status === 'completed' ? 'Done' : 'In progress'}
                   </span>

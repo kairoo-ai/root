@@ -73,11 +73,10 @@ export function SkillGapDashboardClient({ assessments, active: initialActive, le
                 key={id}
                 type="button"
                 onClick={() => setView(id)}
-                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                  view === id
+                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${view === id
                     ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground'
-                }`}
+                  }`}
               >
                 <Icon className="w-3.5 h-3.5" />
                 {label}
@@ -121,94 +120,94 @@ export function SkillGapDashboardClient({ assessments, active: initialActive, le
       {/* Dashboard view */}
       {view === 'dashboard' && <>
 
-      {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-3">
-        {[
-          { icon: Target, label: 'Critical Gaps', value: criticalGaps.length, color: 'text-red-400' },
-          { icon: RefreshCw, label: 'Total Gaps', value: active.gaps.length, color: 'text-amber-400' },
-          { icon: Clock, label: 'Est. Weeks', value: totalWeeks > 0 ? `${totalWeeks}w` : '—', color: 'text-teal-400' },
-        ].map((stat, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.06 }}
-            className="rounded-2xl border border-border bg-card p-4 flex items-center gap-3"
-          >
-            <div className="w-9 h-9 rounded-xl bg-muted/30 flex items-center justify-center">
-              <stat.icon className={`w-4 h-4 ${stat.color}`} />
-            </div>
-            <div>
-              <p className="text-[11px] text-muted-foreground">{stat.label}</p>
-              <p className="text-xl font-extrabold text-foreground">{stat.value}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Radar + Matrix */}
-      <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-5 items-start">
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h2 className="text-sm font-bold text-foreground mb-4">Skills Radar</h2>
-          <SkillRadarChart
-            currentSkills={active.currentSkills}
-            targetSkills={active.targetSkills}
-            size={280}
-          />
+        {/* Stats bar */}
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { icon: Target, label: 'Critical Gaps', value: criticalGaps.length, color: 'text-red-400' },
+            { icon: RefreshCw, label: 'Total Gaps', value: active.gaps.length, color: 'text-amber-400' },
+            { icon: Clock, label: 'Est. Weeks', value: totalWeeks > 0 ? `${totalWeeks}w` : '-', color: 'text-teal-400' },
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06 }}
+              className="rounded-2xl border border-border bg-card p-4 flex items-center gap-3"
+            >
+              <div className="w-9 h-9 rounded-xl bg-muted/30 flex items-center justify-center">
+                <stat.icon className={`w-4 h-4 ${stat.color}`} />
+              </div>
+              <div>
+                <p className="text-[11px] text-muted-foreground">{stat.label}</p>
+                <p className="text-xl font-extrabold text-foreground">{stat.value}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h2 className="text-sm font-bold text-foreground mb-4">Priority Matrix</h2>
-          <PriorityMatrix gaps={active.gaps} />
+
+        {/* Radar + Matrix */}
+        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-5 items-start">
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <h2 className="text-sm font-bold text-foreground mb-4">Skills Radar</h2>
+            <SkillRadarChart
+              currentSkills={active.currentSkills}
+              targetSkills={active.targetSkills}
+              size={280}
+            />
+          </div>
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <h2 className="text-sm font-bold text-foreground mb-4">Priority Matrix</h2>
+            <PriorityMatrix gaps={active.gaps} />
+          </div>
         </div>
-      </div>
 
-      {/* Salary Impact */}
-      <SalaryImpactCard gaps={active.gaps} />
+        {/* Salary Impact */}
+        <SalaryImpactCard gaps={active.gaps} />
 
-      {/* Gap cards */}
-      {active.gaps.length > 0 && (
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-bold text-foreground">All Skill Gaps</h2>
-            {active.learningPlan.length === 0 && (
-              <button
-                type="button"
-                onClick={generatePlan}
-                disabled={generatingPlan}
-                className="flex items-center gap-1.5 text-xs font-semibold text-teal-400 hover:text-teal-300 border border-teal-500/20 hover:border-teal-500/40 bg-teal-500/[0.08] rounded-xl px-3 py-1.5 cursor-pointer transition-all disabled:opacity-50"
-              >
-                <Zap className="w-3.5 h-3.5" />
-                {generatingPlan ? 'Generating…' : 'Generate Learning Plan'}
-              </button>
+        {/* Gap cards */}
+        {active.gaps.length > 0 && (
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-sm font-bold text-foreground">All Skill Gaps</h2>
+              {active.learningPlan.length === 0 && (
+                <button
+                  type="button"
+                  onClick={generatePlan}
+                  disabled={generatingPlan}
+                  className="flex items-center gap-1.5 text-xs font-semibold text-teal-400 hover:text-teal-300 border border-teal-500/20 hover:border-teal-500/40 bg-teal-500/[0.08] rounded-xl px-3 py-1.5 cursor-pointer transition-all disabled:opacity-50"
+                >
+                  <Zap className="w-3.5 h-3.5" />
+                  {generatingPlan ? 'Generating…' : 'Generate Learning Plan'}
+                </button>
+              )}
+            </div>
+            {planError && (
+              <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2 mb-4">
+                {planError}
+              </div>
             )}
-          </div>
-          {planError && (
-            <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2 mb-4">
-              {planError}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {active.gaps.map((gap, i) => (
+                <SkillGapCard
+                  key={gap.skill}
+                  gap={gap}
+                  plan={active.learningPlan.find(p => p.skill === gap.skill)}
+                  index={i}
+                  learningStyle={learningStyle}
+                  assessmentId={active.id}
+                />
+              ))}
             </div>
-          )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {active.gaps.map((gap, i) => (
-              <SkillGapCard
-                key={gap.skill}
-                gap={gap}
-                plan={active.learningPlan.find(p => p.skill === gap.skill)}
-                index={i}
-                learningStyle={learningStyle}
-                assessmentId={active.id}
-              />
-            ))}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Learning timeline */}
-      {active.learningPlan.length > 0 && (
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h2 className="text-sm font-bold text-foreground mb-4">Learning Plan Timeline</h2>
-          <LearningPlanTimeline plan={active.learningPlan} />
-        </div>
-      )}
+        {/* Learning timeline */}
+        {active.learningPlan.length > 0 && (
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <h2 className="text-sm font-bold text-foreground mb-4">Learning Plan Timeline</h2>
+            <LearningPlanTimeline plan={active.learningPlan} />
+          </div>
+        )}
 
       </> /* end dashboard view */}
     </div>

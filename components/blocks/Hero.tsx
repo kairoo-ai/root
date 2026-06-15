@@ -19,9 +19,9 @@ export type HeroProps = {
   title: ReactNode;
   /** Supporting copy below the headline. */
   subtitle?: ReactNode;
-  /** Primary action — rendered as a filled (primary) link button. */
+  /** Primary action - rendered as a filled (primary) link button. */
   primaryCta?: HeroCta;
-  /** Secondary action — rendered as an outline link button. */
+  /** Secondary action - rendered as an outline link button. */
   secondaryCta?: HeroCta;
   /** Content alignment. */
   align?: "center" | "left";
@@ -42,7 +42,7 @@ const ctaPrimary = "bg-primary text-primary-foreground hover:bg-teal-700";
 
 const ctaOutline = "border border-border bg-transparent text-foreground hover:bg-accent-subtle";
 
-// Reveal tokens — single source for the staggered entrance.
+// Reveal tokens - single source for the staggered entrance.
 const EASE = [0.22, 1, 0.36, 1] as const;
 const hidden = { opacity: 0, y: 24 };
 const shown = { opacity: 1, y: 0 };
@@ -75,17 +75,17 @@ export function Hero({
     reduceMotion
       ? {}
       : {
-          initial: hidden,
-          whileInView: shown,
-          viewport: { once: true, amount: 0.3 },
-          transition: { duration: 0.6, ease: EASE, delay: index * 0.08 },
-        };
+        initial: hidden,
+        whileInView: shown,
+        viewport: { once: true, amount: 0.3 },
+        transition: { duration: 0.6, ease: EASE, delay: index * 0.08 },
+      };
 
   return (
     <Section
       className={cn("relative isolate overflow-hidden", className)}
     >
-      {/* Token-driven aurora backdrop. Uses CSS vars + color-mix only — no raw color values. */}
+      {/* Token-driven aurora backdrop. Uses CSS vars + color-mix only - no raw color values. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"

@@ -7,7 +7,7 @@ export default function ExecutiveTemplate({ sections }: Props) {
 
   return (
     <div className="p-10 font-[Georgia,serif] text-[13px] leading-[1.6] text-[#1a1a1a]">
-      {/* Header — centered */}
+      {/* Header - centered */}
       <div className="text-center mb-6 pb-5 border-b-2 border-[#1a1a1a]">
         <h1 className="text-[28px] font-bold tracking-wide uppercase">{contact.name || 'Your Name'}</h1>
         <div className="mt-2 flex flex-wrap justify-center gap-x-4 text-[11px] text-[#555]">

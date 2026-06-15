@@ -19,7 +19,7 @@ import {
 } from "./InvestorsClient";
 
 export const metadata: Metadata = {
-  title: `Investors — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
+  title: `Investors - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
   description:
     `Everything you need to understand ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} as an investment opportunity: a \$2.5M Series A into a \$366B market. Business strategy, market analysis, the full investor deck, and technical architecture.`,
 };
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
 /* Content (preserved + enriched)                                     */
 /* ------------------------------------------------------------------ */
 
-/** Navigation hub — the four original sections, with icons + meta. */
+/** Navigation hub - the four original sections, with icons + meta. */
 const sections: NavCard[] = [
   {
     href: "/investors/strategy",
     title: "Business Strategy",
     description:
-      "Vision, business model, go-to-market, and the path to scale — anchored by a 94/100 validation score.",
+      "Vision, business model, go-to-market, and the path to scale - anchored by a 94/100 validation score.",
     icon: "compass",
     meta: "Validated",
     span: "wide",
@@ -66,7 +66,7 @@ const sections: NavCard[] = [
   },
 ];
 
-/** Hero ribbon — headline metrics with animated count-up. */
+/** Hero ribbon - headline metrics with animated count-up. */
 const heroRibbon: HeroStat[] = [
   { value: 2.5, prefix: "$", suffix: "M", label: "Series A raise" },
   { value: 142, prefix: "$", suffix: "B", label: "Serviceable TAM" },
@@ -89,7 +89,7 @@ const metrics: HeroStat[] = [
   { value: 24, suffix: " mo", label: "Runway to Series B" },
 ];
 
-/** The ask — round terms. */
+/** The ask - round terms. */
 const terms = [
   { icon: "dollar-sign", label: "Raise", value: "$2.5M" },
   { icon: "crown", label: "Equity", value: "15–20%" },
@@ -105,7 +105,7 @@ const useOfFunds = [
   { icon: "shield-half", label: "Operations & Runway", value: 10, icon2: "" },
 ].map(({ icon, label, value }) => ({ icon, label, value }));
 
-/** Why now — investment thesis highlights. */
+/** Why now - investment thesis highlights. */
 const whyNow = [
   {
     title: "A $366B market compounding at 16.3%",
@@ -143,11 +143,11 @@ export default function InvestorsPage() {
   return (
     <>
       <InvestorsHero
-        eyebrow="Series A — now raising"
+        eyebrow="Series A - now raising"
         headline="Invest in the"
         highlight="future of career growth"
-        tail={ `with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}.` }
-        subhead={ `Everything you need to understand ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} as an investment opportunity — a \$2.5M raise into a \$366B market, validated and ready to scale.` }
+        tail={`with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}.`}
+        subhead={`Everything you need to understand ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} as an investment opportunity - a \$2.5M raise into a \$366B market, validated and ready to scale.`}
         pills={heroPills}
         primaryCta={{ href: "/investors/deck", label: "View the deck" }}
         secondaryCta={{ href: "/investors/strategy", label: "Read the strategy" }}
@@ -155,88 +155,88 @@ export default function InvestorsPage() {
       />
 
       <InvestorsTracingWrap>
-      {/* Navigation hub */}
-      <Section className="pt-4">
-        <Reveal>
-          <div className="mb-10 max-w-2xl">
-            <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
-              <IconRenderer name="folder-kanban" size={13} className="text-accent" />
-              The data room
-            </Badge>
-            <h2 className="mt-4 text-balance text-h2 text-foreground">
-              Explore the full picture
-            </h2>
-            <p className="mt-3 text-pretty text-body-lg text-muted-foreground">
-              Four lenses on the same opportunity. Start anywhere — every path
-              leads to the deck.
-            </p>
-          </div>
-        </Reveal>
-        <NavCards items={sections} />
-      </Section>
+        {/* Navigation hub */}
+        <Section className="pt-4">
+          <Reveal>
+            <div className="mb-10 max-w-2xl">
+              <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
+                <IconRenderer name="folder-kanban" size={13} className="text-accent" />
+                The data room
+              </Badge>
+              <h2 className="mt-4 text-balance text-h2 text-foreground">
+                Explore the full picture
+              </h2>
+              <p className="mt-3 text-pretty text-body-lg text-muted-foreground">
+                Four lenses on the same opportunity. Start anywhere - every path
+                leads to the deck.
+              </p>
+            </div>
+          </Reveal>
+          <NavCards items={sections} />
+        </Section>
 
-      {/* Headline metrics band */}
-      <Section className="pt-0">
-        <Reveal>
-          <div className="mb-8 max-w-2xl">
-            <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
-              <IconRenderer name="bar-chart-3" size={13} className="text-accent" />
-              By the numbers
-            </Badge>
-            <h2 className="mt-4 text-balance text-h2 text-foreground">
-              The opportunity, quantified
-            </h2>
-          </div>
-        </Reveal>
-        <MetricsBand items={metrics} />
-      </Section>
+        {/* Headline metrics band */}
+        <Section className="pt-0">
+          <Reveal>
+            <div className="mb-8 max-w-2xl">
+              <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
+                <IconRenderer name="bar-chart-3" size={13} className="text-accent" />
+                By the numbers
+              </Badge>
+              <h2 className="mt-4 text-balance text-h2 text-foreground">
+                The opportunity, quantified
+              </h2>
+            </div>
+          </Reveal>
+          <MetricsBand items={metrics} />
+        </Section>
 
-      {/* The ask */}
-      <Section className="pt-0">
-        <Reveal>
-          <div className="mb-8 max-w-2xl">
-            <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
-              <IconRenderer name="dollar-sign" size={13} className="text-accent" />
-              The ask
-            </Badge>
-            <h2 className="mt-4 text-balance text-h2 text-foreground">
-              $2.5M to reach the next milestone
-            </h2>
-            <p className="mt-3 text-pretty text-body-lg text-muted-foreground">
-              A focused round with a clear plan for every dollar.
-            </p>
-          </div>
-        </Reveal>
-        <AskCard terms={terms} useOfFunds={useOfFunds} />
-      </Section>
+        {/* The ask */}
+        <Section className="pt-0">
+          <Reveal>
+            <div className="mb-8 max-w-2xl">
+              <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
+                <IconRenderer name="dollar-sign" size={13} className="text-accent" />
+                The ask
+              </Badge>
+              <h2 className="mt-4 text-balance text-h2 text-foreground">
+                $2.5M to reach the next milestone
+              </h2>
+              <p className="mt-3 text-pretty text-body-lg text-muted-foreground">
+                A focused round with a clear plan for every dollar.
+              </p>
+            </div>
+          </Reveal>
+          <AskCard terms={terms} useOfFunds={useOfFunds} />
+        </Section>
 
-      {/* Why now */}
-      <Section className="pt-0">
-        <Reveal>
-          <div className="mb-10 max-w-2xl">
-            <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
-              <IconRenderer name="zap" size={13} className="text-accent" />
-              Why now
-            </Badge>
-            <h2 className="mt-4 text-balance text-h2 text-foreground">
-              The thesis in five points
-            </h2>
-          </div>
-        </Reveal>
-        <WhyNowBento items={whyNow} />
-      </Section>
+        {/* Why now */}
+        <Section className="pt-0">
+          <Reveal>
+            <div className="mb-10 max-w-2xl">
+              <Badge variant="neutral" className="gap-2 border border-border/70 bg-card/60 text-overline">
+                <IconRenderer name="zap" size={13} className="text-accent" />
+                Why now
+              </Badge>
+              <h2 className="mt-4 text-balance text-h2 text-foreground">
+                The thesis in five points
+              </h2>
+            </div>
+          </Reveal>
+          <WhyNowBento items={whyNow} />
+        </Section>
 
-      {/* Closing CTA */}
-      <Section className="pt-0">
-        <Container>
-          <ClosingCta
-            href="/investors/deck"
-            label="View the investor deck"
-            secondaryHref="/investors/strategy"
-            secondaryLabel="Request a walkthrough"
-          />
-        </Container>
-      </Section>
+        {/* Closing CTA */}
+        <Section className="pt-0">
+          <Container>
+            <ClosingCta
+              href="/investors/deck"
+              label="View the investor deck"
+              secondaryHref="/investors/strategy"
+              secondaryLabel="Request a walkthrough"
+            />
+          </Container>
+        </Section>
       </InvestorsTracingWrap>
     </>
   );

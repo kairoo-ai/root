@@ -32,7 +32,7 @@ function decimalsOf(value: number): number {
 }
 
 /**
- * StatCounter — an accessible, in-view animated number.
+ * StatCounter - an accessible, in-view animated number.
  *
  * On first scroll into view the figure counts from 0 to `value` using
  * anime.js v4. When the user prefers reduced motion the final value is
@@ -116,7 +116,7 @@ export interface StatGridProps extends Omit<GridProps, "children"> {
 }
 
 /**
- * StatGrid — lays out a set of StatCounters in a responsive Grid.
+ * StatGrid - lays out a set of StatCounters in a responsive Grid.
  * Defaults to a 4-up layout; pass `cols`/`gap` to override.
  */
 export function StatGrid({ items, cols = 4, gap, className, ...props }: StatGridProps) {

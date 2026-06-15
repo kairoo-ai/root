@@ -1,4 +1,5 @@
-# Interview Prep Suite — Implementation Plan
+# Interview Prep Suite - Implementation Plan
+
 **Date:** 2026-06-15  
 **Branch:** latest  
 **Estimated tasks:** 38
@@ -10,138 +11,156 @@
 Replace the current single-shot `interviewCoach` feature (one form → one AI response) with a full stateful Interview Prep Suite:  
 Hub → Setup → Live Session (streamed Q&A) → Results → Question Bank.
 
-The suite lives at `app/(app)/tools/interviewPrep/` as a dedicated sub-app. It does NOT replace the generic `[featureId]` route — both coexist.
+The suite lives at `app/(app)/tools/interviewPrep/` as a dedicated sub-app. It does NOT replace the generic `[featureId]` route - both coexist.
 
 ---
 
-## Task 0 — Types file (do this first, everything imports from it)
+## Task 0 - Types file (do this first, everything imports from it)
 
 **File:** `types/interview.ts`
 
 ```typescript
-export type InterviewType = 'behavioral' | 'technical' | 'system_design' | 'case_study'
-export type Difficulty = 'easy' | 'medium' | 'hard'
-export type SessionStatus = 'in_progress' | 'completed'
-export type QuestionType = 'behavioral' | 'technical' | 'situational'
+export type InterviewType =
+  | "behavioral"
+  | "technical"
+  | "system_design"
+  | "case_study";
+export type Difficulty = "easy" | "medium" | "hard";
+export type SessionStatus = "in_progress" | "completed";
+export type QuestionType = "behavioral" | "technical" | "situational";
 
 export interface InterviewSession {
-  id: string
-  userId: string
-  title: string
-  type: InterviewType
-  targetRole: string
-  targetCompany: string | null
-  difficulty: Difficulty
-  questionCount: number
-  status: SessionStatus
-  overallScore: number | null
-  strengths: string[]
-  improvements: string[]
-  createdAt: Date
-  updatedAt: Date
+  id: string;
+  userId: string;
+  title: string;
+  type: InterviewType;
+  targetRole: string;
+  targetCompany: string | null;
+  difficulty: Difficulty;
+  questionCount: number;
+  status: SessionStatus;
+  overallScore: number | null;
+  strengths: string[];
+  improvements: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface InterviewExchange {
-  id: string
-  sessionId: string
-  questionText: string
-  questionType: QuestionType
-  userAnswer: string | null
-  aiFeedback: string | null
-  starScore: number | null
-  keywords: string[]
-  keywordsUsed: string[]
-  duration: number | null  // seconds
-  order: number
-  createdAt: Date
+  id: string;
+  sessionId: string;
+  questionText: string;
+  questionType: QuestionType;
+  userAnswer: string | null;
+  aiFeedback: string | null;
+  starScore: number | null;
+  keywords: string[];
+  keywordsUsed: string[];
+  duration: number | null; // seconds
+  order: number;
+  createdAt: Date;
 }
 
 export interface SessionWithExchanges extends InterviewSession {
-  exchanges: InterviewExchange[]
+  exchanges: InterviewExchange[];
 }
 
 // API request/response shapes
 export interface CreateSessionRequest {
-  title: string
-  type: InterviewType
-  targetRole: string
-  targetCompany?: string
-  difficulty: Difficulty
-  questionCount: 5 | 10 | 15
+  title: string;
+  type: InterviewType;
+  targetRole: string;
+  targetCompany?: string;
+  difficulty: Difficulty;
+  questionCount: 5 | 10 | 15;
 }
 
 export interface SubmitAnswerRequest {
-  exchangeId: string
-  answer: string
-  duration: number
+  exchangeId: string;
+  answer: string;
+  duration: number;
 }
 
 export interface FeedbackResult {
-  score: number
-  whatWasGood: string
-  whatWasMissing: string
-  exampleImprovement: string
-  keywordsUsed: string[]
+  score: number;
+  whatWasGood: string;
+  whatWasMissing: string;
+  exampleImprovement: string;
+  keywordsUsed: string[];
 }
 
 export interface SessionAssessment {
-  overallScore: number
-  strengths: string[]
-  improvements: string[]
-  topActions: string[]
+  overallScore: number;
+  strengths: string[];
+  improvements: string[];
+  topActions: string[];
 }
 ```
 
 ---
 
-## Task 1 — DB schema additions
+## Task 1 - DB schema additions
 
-**File:** `data/schema/index.ts` — append these two tables after `goals`.
+**File:** `data/schema/index.ts` - append these two tables after `goals`.
 
 ```typescript
-export const interviewSessions = pgTable('interview_sessions', {
-  id: text('id').primaryKey(),
-  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-  title: text('title').notNull(),
-  type: text('type', { enum: ['behavioral', 'technical', 'system_design', 'case_study'] }).notNull(),
-  targetRole: text('target_role').notNull(),
-  targetCompany: text('target_company'),
-  difficulty: text('difficulty', { enum: ['easy', 'medium', 'hard'] }).notNull().default('medium'),
-  questionCount: integer('question_count').notNull().default(5),
-  status: text('status', { enum: ['in_progress', 'completed'] }).notNull().default('in_progress'),
-  overallScore: integer('overall_score'),
-  strengths: jsonb('strengths').$type<string[]>().default([]),
-  improvements: jsonb('improvements').$type<string[]>().default([]),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-})
+export const interviewSessions = pgTable("interview_sessions", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  type: text("type", {
+    enum: ["behavioral", "technical", "system_design", "case_study"],
+  }).notNull(),
+  targetRole: text("target_role").notNull(),
+  targetCompany: text("target_company"),
+  difficulty: text("difficulty", { enum: ["easy", "medium", "hard"] })
+    .notNull()
+    .default("medium"),
+  questionCount: integer("question_count").notNull().default(5),
+  status: text("status", { enum: ["in_progress", "completed"] })
+    .notNull()
+    .default("in_progress"),
+  overallScore: integer("overall_score"),
+  strengths: jsonb("strengths").$type<string[]>().default([]),
+  improvements: jsonb("improvements").$type<string[]>().default([]),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
 
-export const interviewExchanges = pgTable('interview_exchanges', {
-  id: text('id').primaryKey(),
-  sessionId: text('session_id').notNull().references(() => interviewSessions.id, { onDelete: 'cascade' }),
-  questionText: text('question_text').notNull(),
-  questionType: text('question_type', { enum: ['behavioral', 'technical', 'situational'] }).notNull(),
-  userAnswer: text('user_answer'),
-  aiFeedback: text('ai_feedback'),
-  starScore: integer('star_score'),
-  keywords: jsonb('keywords').$type<string[]>().default([]),
-  keywordsUsed: jsonb('keywords_used').$type<string[]>().default([]),
-  duration: integer('duration'),
-  order: integer('order').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-})
+export const interviewExchanges = pgTable("interview_exchanges", {
+  id: text("id").primaryKey(),
+  sessionId: text("session_id")
+    .notNull()
+    .references(() => interviewSessions.id, { onDelete: "cascade" }),
+  questionText: text("question_text").notNull(),
+  questionType: text("question_type", {
+    enum: ["behavioral", "technical", "situational"],
+  }).notNull(),
+  userAnswer: text("user_answer"),
+  aiFeedback: text("ai_feedback"),
+  starScore: integer("star_score"),
+  keywords: jsonb("keywords").$type<string[]>().default([]),
+  keywordsUsed: jsonb("keywords_used").$type<string[]>().default([]),
+  duration: integer("duration"),
+  order: integer("order").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
 ```
 
 Also add exports at bottom of schema file:
+
 ```typescript
-// already exported by being declared — no additional export needed if using named exports
+// already exported by being declared - no additional export needed if using named exports
 ```
 
 ---
 
-## Task 2 — Drizzle migration
+## Task 2 - Drizzle migration
 
 Run after schema changes:
+
 ```bash
 npx drizzle-kit generate
 npx drizzle-kit migrate
@@ -151,22 +170,22 @@ The migration generates two `CREATE TABLE` statements. No changes to existing ta
 
 ---
 
-## Task 3 — Interview repository
+## Task 3 - Interview repository
 
 **File:** `data/repositories/interview.repo.ts`
 
 ```typescript
-import { db } from '@/data/client'
-import { interviewSessions, interviewExchanges } from '@/data/schema'
-import { eq, desc, and } from 'drizzle-orm'
-import { nanoid } from 'nanoid'
+import { db } from "@/data/client";
+import { interviewSessions, interviewExchanges } from "@/data/schema";
+import { eq, desc, and } from "drizzle-orm";
+import { nanoid } from "nanoid";
 import type {
   InterviewSession,
   InterviewExchange,
   SessionWithExchanges,
   CreateSessionRequest,
   SessionAssessment,
-} from '@/types/interview'
+} from "@/types/interview";
 
 // ── Sessions ──────────────────────────────────────────────────────────────────
 
@@ -185,14 +204,14 @@ export async function createSession(
       targetCompany: data.targetCompany ?? null,
       difficulty: data.difficulty,
       questionCount: data.questionCount,
-      status: 'in_progress',
+      status: "in_progress",
       strengths: [],
       improvements: [],
       createdAt: new Date(),
       updatedAt: new Date(),
     })
-    .returning()
-  return session as InterviewSession
+    .returning();
+  return session as InterviewSession;
 }
 
 export async function getUserSessions(
@@ -204,7 +223,7 @@ export async function getUserSessions(
     .from(interviewSessions)
     .where(eq(interviewSessions.userId, userId))
     .orderBy(desc(interviewSessions.createdAt))
-    .limit(limit) as Promise<InterviewSession[]>
+    .limit(limit) as Promise<InterviewSession[]>;
 }
 
 export async function getSessionById(
@@ -214,23 +233,25 @@ export async function getSessionById(
   const [session] = await db
     .select()
     .from(interviewSessions)
-    .where(and(eq(interviewSessions.id, id), eq(interviewSessions.userId, userId)))
-    .limit(1)
-  return (session as InterviewSession) ?? null
+    .where(
+      and(eq(interviewSessions.id, id), eq(interviewSessions.userId, userId)),
+    )
+    .limit(1);
+  return (session as InterviewSession) ?? null;
 }
 
 export async function getSessionWithExchanges(
   id: string,
   userId: string,
 ): Promise<SessionWithExchanges | null> {
-  const session = await getSessionById(id, userId)
-  if (!session) return null
+  const session = await getSessionById(id, userId);
+  if (!session) return null;
   const exchanges = await db
     .select()
     .from(interviewExchanges)
     .where(eq(interviewExchanges.sessionId, id))
-    .orderBy(interviewExchanges.order)
-  return { ...session, exchanges: exchanges as InterviewExchange[] }
+    .orderBy(interviewExchanges.order);
+  return { ...session, exchanges: exchanges as InterviewExchange[] };
 }
 
 export async function completeSession(
@@ -241,13 +262,15 @@ export async function completeSession(
   await db
     .update(interviewSessions)
     .set({
-      status: 'completed',
+      status: "completed",
       overallScore: assessment.overallScore,
       strengths: assessment.strengths,
       improvements: assessment.improvements,
       updatedAt: new Date(),
     })
-    .where(and(eq(interviewSessions.id, id), eq(interviewSessions.userId, userId)))
+    .where(
+      and(eq(interviewSessions.id, id), eq(interviewSessions.userId, userId)),
+    );
 }
 
 // ── Exchanges ─────────────────────────────────────────────────────────────────
@@ -255,7 +278,7 @@ export async function completeSession(
 export async function createExchange(
   sessionId: string,
   questionText: string,
-  questionType: InterviewExchange['questionType'],
+  questionType: InterviewExchange["questionType"],
   order: number,
   keywords: string[],
 ): Promise<InterviewExchange> {
@@ -271,8 +294,8 @@ export async function createExchange(
       order,
       createdAt: new Date(),
     })
-    .returning()
-  return exchange as InterviewExchange
+    .returning();
+  return exchange as InterviewExchange;
 }
 
 export async function updateExchangeWithFeedback(
@@ -286,49 +309,61 @@ export async function updateExchangeWithFeedback(
   await db
     .update(interviewExchanges)
     .set({ userAnswer: answer, aiFeedback, starScore, keywordsUsed, duration })
-    .where(eq(interviewExchanges.id, id))
+    .where(eq(interviewExchanges.id, id));
 }
 
-export async function getExchangeById(id: string): Promise<InterviewExchange | null> {
+export async function getExchangeById(
+  id: string,
+): Promise<InterviewExchange | null> {
   const [exchange] = await db
     .select()
     .from(interviewExchanges)
     .where(eq(interviewExchanges.id, id))
-    .limit(1)
-  return (exchange as InterviewExchange) ?? null
+    .limit(1);
+  return (exchange as InterviewExchange) ?? null;
 }
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
 
 export interface InterviewStats {
-  totalSessions: number
-  avgScore: number | null
-  completedSessions: number
+  totalSessions: number;
+  avgScore: number | null;
+  completedSessions: number;
 }
 
-export async function getInterviewStats(userId: string): Promise<InterviewStats> {
-  const sessions = await getUserSessions(userId, 100)
-  const completed = sessions.filter((s) => s.status === 'completed')
-  const scores = completed.map((s) => s.overallScore).filter((s): s is number => s !== null)
-  const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null
+export async function getInterviewStats(
+  userId: string,
+): Promise<InterviewStats> {
+  const sessions = await getUserSessions(userId, 100);
+  const completed = sessions.filter((s) => s.status === "completed");
+  const scores = completed
+    .map((s) => s.overallScore)
+    .filter((s): s is number => s !== null);
+  const avgScore = scores.length
+    ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+    : null;
   return {
     totalSessions: sessions.length,
     completedSessions: completed.length,
     avgScore,
-  }
+  };
 }
 ```
 
 ---
 
-## Task 4 — AI prompt helpers
+## Task 4 - AI prompt helpers
 
 **File:** `engines/ai/prompts/interview.ts`
 
-These are pure functions — no network calls. Used by the API routes to build structured prompts.
+These are pure functions - no network calls. Used by the API routes to build structured prompts.
 
 ```typescript
-import type { InterviewType, Difficulty, InterviewExchange } from '@/types/interview'
+import type {
+  InterviewType,
+  Difficulty,
+  InterviewExchange,
+} from "@/types/interview";
 
 export function buildFirstQuestionPrompt(
   type: InterviewType,
@@ -336,30 +371,34 @@ export function buildFirstQuestionPrompt(
   targetCompany: string | null,
   difficulty: Difficulty,
 ): string {
-  const companyLine = targetCompany ? ` at ${targetCompany}` : ''
+  const companyLine = targetCompany ? ` at ${targetCompany}` : "";
   const difficultyMap: Record<Difficulty, string> = {
-    easy: 'entry-level, straightforward',
-    medium: 'mid-level, moderately challenging',
-    hard: 'senior-level, complex and probing',
-  }
+    easy: "entry-level, straightforward",
+    medium: "mid-level, moderately challenging",
+    hard: "senior-level, complex and probing",
+  };
   const typeInstructions: Record<InterviewType, string> = {
-    behavioral: 'Ask a behavioral question using the STAR method framework (Situation, Task, Action, Result).',
-    technical: 'Ask a technical question relevant to the role. Be specific about a concrete problem or concept.',
-    system_design: 'Ask a system design question. Start with a high-level prompt that leaves room for the candidate to clarify requirements.',
-    case_study: 'Present a realistic business case or product scenario relevant to the role.',
-  }
-  return `You are an expert ${type.replace('_', ' ')} interviewer for a ${difficultyMap[difficulty]} ${targetRole} role${companyLine}.
+    behavioral:
+      "Ask a behavioral question using the STAR method framework (Situation, Task, Action, Result).",
+    technical:
+      "Ask a technical question relevant to the role. Be specific about a concrete problem or concept.",
+    system_design:
+      "Ask a system design question. Start with a high-level prompt that leaves room for the candidate to clarify requirements.",
+    case_study:
+      "Present a realistic business case or product scenario relevant to the role.",
+  };
+  return `You are an expert ${type.replace("_", " ")} interviewer for a ${difficultyMap[difficulty]} ${targetRole} role${companyLine}.
 
 ${typeInstructions[type]}
 
-Return ONLY valid JSON in this exact shape — no markdown, no extra text:
+Return ONLY valid JSON in this exact shape - no markdown, no extra text:
 {
   "questionText": "...",
   "questionType": "behavioral" | "technical" | "situational",
   "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
 }
 
-The keywords array must contain 4-6 concepts or terms the ideal answer should include.`
+The keywords array must contain 4-6 concepts or terms the ideal answer should include.`;
 }
 
 export function buildNextQuestionPrompt(
@@ -367,16 +406,22 @@ export function buildNextQuestionPrompt(
   targetRole: string,
   targetCompany: string | null,
   difficulty: Difficulty,
-  previousExchanges: Pick<InterviewExchange, 'questionText' | 'userAnswer' | 'starScore'>[],
+  previousExchanges: Pick<
+    InterviewExchange,
+    "questionText" | "userAnswer" | "starScore"
+  >[],
   questionNumber: number,
   totalQuestions: number,
 ): string {
-  const companyLine = targetCompany ? ` at ${targetCompany}` : ''
+  const companyLine = targetCompany ? ` at ${targetCompany}` : "";
   const history = previousExchanges
-    .map((e, i) => `Q${i + 1}: ${e.questionText}\nA${i + 1}: ${e.userAnswer ?? '(no answer)'}\nScore: ${e.starScore ?? 'N/A'}/100`)
-    .join('\n\n')
+    .map(
+      (e, i) =>
+        `Q${i + 1}: ${e.questionText}\nA${i + 1}: ${e.userAnswer ?? "(no answer)"}\nScore: ${e.starScore ?? "N/A"}/100`,
+    )
+    .join("\n\n");
 
-  return `You are conducting a ${type.replace('_', ' ')} interview for a ${targetRole} role${companyLine}.
+  return `You are conducting a ${type.replace("_", " ")} interview for a ${targetRole} role${companyLine}.
 
 Previous exchanges:
 ${history}
@@ -391,7 +436,7 @@ Return ONLY valid JSON:
   "questionText": "...",
   "questionType": "behavioral" | "technical" | "situational",
   "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
-}`
+}`;
 }
 
 export function buildFeedbackPrompt(
@@ -404,7 +449,7 @@ export function buildFeedbackPrompt(
   return `You are an expert interview coach evaluating a ${targetRole} candidate.
 
 Question: ${questionText}
-Expected keywords/concepts: ${keywords.join(', ')}
+Expected keywords/concepts: ${keywords.join(", ")}
 
 Candidate's answer:
 ${userAnswer}
@@ -420,16 +465,21 @@ Evaluate this answer and return ONLY valid JSON:
 
 Scoring guide: 0-40 = poor structure/content, 41-60 = adequate, 61-80 = good, 81-100 = excellent.
 For behavioral questions, score heavily on STAR structure.
-For technical questions, score on correctness and depth.`
+For technical questions, score on correctness and depth.`;
 }
 
 export function buildSessionAssessmentPrompt(
-  exchanges: Pick<InterviewExchange, 'questionText' | 'userAnswer' | 'starScore' | 'aiFeedback'>[],
+  exchanges: Pick<
+    InterviewExchange,
+    "questionText" | "userAnswer" | "starScore" | "aiFeedback"
+  >[],
   targetRole: string,
 ): string {
   const summary = exchanges
-    .map((e, i) => `Q${i + 1} (score ${e.starScore ?? 'N/A'}): ${e.questionText}`)
-    .join('\n')
+    .map(
+      (e, i) => `Q${i + 1} (score ${e.starScore ?? "N/A"}): ${e.questionText}`,
+    )
+    .join("\n");
 
   return `You are summarizing a complete mock interview for a ${targetRole} candidate.
 
@@ -442,59 +492,87 @@ Generate an overall assessment. Return ONLY valid JSON:
   "strengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
   "improvements": ["<area to improve 1>", "<area to improve 2>", "<area to improve 3>"],
   "topActions": ["<specific action 1>", "<specific action 2>", "<specific action 3>"]
-}`
+}`;
 }
 ```
 
 ---
 
-## Task 5 — API routes
+## Task 5 - API routes
 
-### 5a. `POST /api/interview/sessions` — create session + first question
+### 5a. `POST /api/interview/sessions` - create session + first question
 
 **File:** `app/api/interview/sessions/route.ts`
 
 ```typescript
-import { auth } from '@clerk/nextjs/server'
-import { NextRequest, NextResponse } from 'next/server'
-import { createSession, createExchange } from '@/data/repositories/interview.repo'
-import { generate } from '@/engines/ai/gateway'
-import { compose } from '@/engines/ai/prompts/compose'
-import { buildFirstQuestionPrompt } from '@/engines/ai/prompts/interview'
-import { rateLimit } from '@/services/ai'
-import type { CreateSessionRequest } from '@/types/interview'
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
+import {
+  createSession,
+  createExchange,
+} from "@/data/repositories/interview.repo";
+import { generate } from "@/engines/ai/gateway";
+import { compose } from "@/engines/ai/prompts/compose";
+import { buildFirstQuestionPrompt } from "@/engines/ai/prompts/interview";
+import { rateLimit } from "@/services/ai";
+import type { CreateSessionRequest } from "@/types/interview";
 
 export async function POST(req: NextRequest) {
-  const { userId } = await auth()
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId } = await auth();
+  if (!userId)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const rl = rateLimit(userId)
-  if (!rl.ok) return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+  const rl = rateLimit(userId);
+  if (!rl.ok)
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 
-  const body: CreateSessionRequest = await req.json()
-  const { title, type, targetRole, targetCompany, difficulty, questionCount } = body
+  const body: CreateSessionRequest = await req.json();
+  const { title, type, targetRole, targetCompany, difficulty, questionCount } =
+    body;
 
   if (!title || !type || !targetRole || !difficulty || !questionCount) {
-    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    return NextResponse.json(
+      { error: "Missing required fields" },
+      { status: 400 },
+    );
   }
 
   // Create the session row
-  const session = await createSession(userId, body)
+  const session = await createSession(userId, body);
 
   // Generate the first question immediately
-  const prompt = buildFirstQuestionPrompt(type, targetRole, targetCompany ?? null, difficulty)
-  const messages = compose({ userPrompt: prompt })
-  const result = await generate({ messages, tier: 'fast', maxOutputTokens: 512 })
+  const prompt = buildFirstQuestionPrompt(
+    type,
+    targetRole,
+    targetCompany ?? null,
+    difficulty,
+  );
+  const messages = compose({ userPrompt: prompt });
+  const result = await generate({
+    messages,
+    tier: "fast",
+    maxOutputTokens: 512,
+  });
 
   if (!result.ok) {
-    return NextResponse.json({ error: 'Failed to generate first question' }, { status: 502 })
+    return NextResponse.json(
+      { error: "Failed to generate first question" },
+      { status: 502 },
+    );
   }
 
-  let parsed: { questionText: string; questionType: 'behavioral' | 'technical' | 'situational'; keywords: string[] }
+  let parsed: {
+    questionText: string;
+    questionType: "behavioral" | "technical" | "situational";
+    keywords: string[];
+  };
   try {
-    parsed = JSON.parse(result.value.text ?? '{}')
+    parsed = JSON.parse(result.value.text ?? "{}");
   } catch {
-    return NextResponse.json({ error: 'AI returned malformed question' }, { status: 502 })
+    return NextResponse.json(
+      { error: "AI returned malformed question" },
+      { status: 502 },
+    );
   }
 
   const exchange = await createExchange(
@@ -503,88 +581,104 @@ export async function POST(req: NextRequest) {
     parsed.questionType,
     1,
     parsed.keywords ?? [],
-  )
+  );
 
-  return NextResponse.json({ session, firstExchange: exchange }, { status: 201 })
+  return NextResponse.json(
+    { session, firstExchange: exchange },
+    { status: 201 },
+  );
 }
 
 export async function GET(req: NextRequest) {
-  const { userId } = await auth()
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId } = await auth();
+  if (!userId)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { getUserSessions, getInterviewStats } = await import('@/data/repositories/interview.repo')
-  const [sessions, stats] = await Promise.all([getUserSessions(userId), getInterviewStats(userId)])
-  return NextResponse.json({ sessions, stats })
+  const { getUserSessions, getInterviewStats } =
+    await import("@/data/repositories/interview.repo");
+  const [sessions, stats] = await Promise.all([
+    getUserSessions(userId),
+    getInterviewStats(userId),
+  ]);
+  return NextResponse.json({ sessions, stats });
 }
 ```
 
-### 5b. `GET /api/interview/sessions/[id]` — get session with exchanges
+### 5b. `GET /api/interview/sessions/[id]` - get session with exchanges
 
 **File:** `app/api/interview/sessions/[id]/route.ts`
 
 ```typescript
-import { auth } from '@clerk/nextjs/server'
-import { NextRequest, NextResponse } from 'next/server'
-import { getSessionWithExchanges } from '@/data/repositories/interview.repo'
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getSessionWithExchanges } from "@/data/repositories/interview.repo";
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { userId } = await auth()
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId } = await auth();
+  if (!userId)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await params
-  const session = await getSessionWithExchanges(id, userId)
-  if (!session) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  const { id } = await params;
+  const session = await getSessionWithExchanges(id, userId);
+  if (!session)
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  return NextResponse.json({ session })
+  return NextResponse.json({ session });
 }
 ```
 
-### 5c. `POST /api/interview/sessions/[id]/answer` — submit answer, stream feedback
+### 5c. `POST /api/interview/sessions/[id]/answer` - submit answer, stream feedback
 
 **File:** `app/api/interview/sessions/[id]/answer/route.ts`
 
 ```typescript
-import { auth } from '@clerk/nextjs/server'
-import { NextRequest, NextResponse } from 'next/server'
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   getExchangeById,
   getSessionById,
   updateExchangeWithFeedback,
-} from '@/data/repositories/interview.repo'
-import { generateStream } from '@/engines/ai/gateway'
-import { compose } from '@/engines/ai/prompts/compose'
-import { buildFeedbackPrompt } from '@/engines/ai/prompts/interview'
-import { sanitizeOutput } from '@/engines/ai/guardrails/output'
-import { rateLimit } from '@/services/ai'
-import type { SubmitAnswerRequest } from '@/types/interview'
+} from "@/data/repositories/interview.repo";
+import { generateStream } from "@/engines/ai/gateway";
+import { compose } from "@/engines/ai/prompts/compose";
+import { buildFeedbackPrompt } from "@/engines/ai/prompts/interview";
+import { sanitizeOutput } from "@/engines/ai/guardrails/output";
+import { rateLimit } from "@/services/ai";
+import type { SubmitAnswerRequest } from "@/types/interview";
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { userId } = await auth()
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId } = await auth();
+  if (!userId)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const rl = rateLimit(userId)
-  if (!rl.ok) return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+  const rl = rateLimit(userId);
+  if (!rl.ok)
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 
-  const { id: sessionId } = await params
-  const session = await getSessionById(sessionId, userId)
-  if (!session) return NextResponse.json({ error: 'Session not found' }, { status: 404 })
+  const { id: sessionId } = await params;
+  const session = await getSessionById(sessionId, userId);
+  if (!session)
+    return NextResponse.json({ error: "Session not found" }, { status: 404 });
 
-  const body: SubmitAnswerRequest = await req.json()
-  const { exchangeId, answer, duration } = body
+  const body: SubmitAnswerRequest = await req.json();
+  const { exchangeId, answer, duration } = body;
 
   if (!exchangeId || !answer) {
-    return NextResponse.json({ error: 'Missing exchangeId or answer' }, { status: 400 })
+    return NextResponse.json(
+      { error: "Missing exchangeId or answer" },
+      { status: 400 },
+    );
   }
 
-  const exchange = await getExchangeById(exchangeId)
+  const exchange = await getExchangeById(exchangeId);
   if (!exchange || exchange.sessionId !== sessionId) {
-    return NextResponse.json({ error: 'Exchange not found' }, { status: 404 })
+    return NextResponse.json({ error: "Exchange not found" }, { status: 404 });
   }
 
   const prompt = buildFeedbackPrompt(
@@ -593,28 +687,32 @@ export async function POST(
     answer,
     exchange.keywords,
     session.targetRole,
-  )
-  const messages = compose({ userPrompt: prompt })
-  const tokenStream = generateStream({ messages, tier: 'fast', maxOutputTokens: 800 })
+  );
+  const messages = compose({ userPrompt: prompt });
+  const tokenStream = generateStream({
+    messages,
+    tier: "fast",
+    maxOutputTokens: 800,
+  });
 
-  const encoder = new TextEncoder()
-  let fullText = ''
+  const encoder = new TextEncoder();
+  let fullText = "";
 
   const readable = new ReadableStream({
     async start(controller) {
       try {
         for await (const chunk of tokenStream) {
-          const clean = sanitizeOutput(chunk)
+          const clean = sanitizeOutput(chunk);
           if (clean) {
-            controller.enqueue(encoder.encode(clean))
-            fullText += clean
+            controller.enqueue(encoder.encode(clean));
+            fullText += clean;
           }
         }
-        controller.close()
+        controller.close();
 
         // Parse and persist feedback after stream ends
         try {
-          const parsed = JSON.parse(fullText)
+          const parsed = JSON.parse(fullText);
           await updateExchangeWithFeedback(
             exchangeId,
             answer,
@@ -622,65 +720,76 @@ export async function POST(
             parsed.score ?? 0,
             parsed.keywordsUsed ?? [],
             duration,
-          )
+          );
         } catch {
           // Non-fatal: stream already sent to client
         }
       } catch (err) {
-        controller.error(err)
+        controller.error(err);
       }
     },
-  })
+  });
 
   return new Response(readable, {
     headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Transfer-Encoding': 'chunked',
-      'Cache-Control': 'no-store',
+      "Content-Type": "text/plain; charset=utf-8",
+      "Transfer-Encoding": "chunked",
+      "Cache-Control": "no-store",
     },
-  })
+  });
 }
 ```
 
-### 5d. `POST /api/interview/sessions/[id]/next-question` — generate next question
+### 5d. `POST /api/interview/sessions/[id]/next-question` - generate next question
 
 **File:** `app/api/interview/sessions/[id]/next-question/route.ts`
 
 ```typescript
-import { auth } from '@clerk/nextjs/server'
-import { NextRequest, NextResponse } from 'next/server'
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   getSessionWithExchanges,
   createExchange,
-} from '@/data/repositories/interview.repo'
-import { generate } from '@/engines/ai/gateway'
-import { compose } from '@/engines/ai/prompts/compose'
-import { buildNextQuestionPrompt } from '@/engines/ai/prompts/interview'
-import { rateLimit } from '@/services/ai'
+} from "@/data/repositories/interview.repo";
+import { generate } from "@/engines/ai/gateway";
+import { compose } from "@/engines/ai/prompts/compose";
+import { buildNextQuestionPrompt } from "@/engines/ai/prompts/interview";
+import { rateLimit } from "@/services/ai";
 
 export async function POST(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { userId } = await auth()
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId } = await auth();
+  if (!userId)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const rl = rateLimit(userId)
-  if (!rl.ok) return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+  const rl = rateLimit(userId);
+  if (!rl.ok)
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 
-  const { id: sessionId } = await params
-  const session = await getSessionWithExchanges(sessionId, userId)
-  if (!session) return NextResponse.json({ error: 'Session not found' }, { status: 404 })
+  const { id: sessionId } = await params;
+  const session = await getSessionWithExchanges(sessionId, userId);
+  if (!session)
+    return NextResponse.json({ error: "Session not found" }, { status: 404 });
 
-  if (session.status === 'completed') {
-    return NextResponse.json({ error: 'Session already completed' }, { status: 400 })
+  if (session.status === "completed") {
+    return NextResponse.json(
+      { error: "Session already completed" },
+      { status: 400 },
+    );
   }
 
-  const answeredExchanges = session.exchanges.filter((e) => e.userAnswer !== null)
-  const nextOrder = session.exchanges.length + 1
+  const answeredExchanges = session.exchanges.filter(
+    (e) => e.userAnswer !== null,
+  );
+  const nextOrder = session.exchanges.length + 1;
 
   if (nextOrder > session.questionCount) {
-    return NextResponse.json({ error: 'All questions exhausted' }, { status: 400 })
+    return NextResponse.json(
+      { error: "All questions exhausted" },
+      { status: 400 },
+    );
   }
 
   const prompt = buildNextQuestionPrompt(
@@ -695,18 +804,33 @@ export async function POST(
     })),
     nextOrder,
     session.questionCount,
-  )
+  );
 
-  const messages = compose({ userPrompt: prompt })
-  const result = await generate({ messages, tier: 'fast', maxOutputTokens: 512 })
+  const messages = compose({ userPrompt: prompt });
+  const result = await generate({
+    messages,
+    tier: "fast",
+    maxOutputTokens: 512,
+  });
 
-  if (!result.ok) return NextResponse.json({ error: 'Failed to generate question' }, { status: 502 })
+  if (!result.ok)
+    return NextResponse.json(
+      { error: "Failed to generate question" },
+      { status: 502 },
+    );
 
-  let parsed: { questionText: string; questionType: 'behavioral' | 'technical' | 'situational'; keywords: string[] }
+  let parsed: {
+    questionText: string;
+    questionType: "behavioral" | "technical" | "situational";
+    keywords: string[];
+  };
   try {
-    parsed = JSON.parse(result.value.text ?? '{}')
+    parsed = JSON.parse(result.value.text ?? "{}");
   } catch {
-    return NextResponse.json({ error: 'AI returned malformed question' }, { status: 502 })
+    return NextResponse.json(
+      { error: "AI returned malformed question" },
+      { status: 502 },
+    );
   }
 
   const exchange = await createExchange(
@@ -715,41 +839,43 @@ export async function POST(
     parsed.questionType,
     nextOrder,
     parsed.keywords ?? [],
-  )
+  );
 
-  return NextResponse.json({ exchange })
+  return NextResponse.json({ exchange });
 }
 ```
 
-### 5e. `POST /api/interview/sessions/[id]/complete` — finalize session
+### 5e. `POST /api/interview/sessions/[id]/complete` - finalize session
 
 **File:** `app/api/interview/sessions/[id]/complete/route.ts`
 
 ```typescript
-import { auth } from '@clerk/nextjs/server'
-import { NextRequest, NextResponse } from 'next/server'
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   getSessionWithExchanges,
   completeSession,
-} from '@/data/repositories/interview.repo'
-import { generate } from '@/engines/ai/gateway'
-import { compose } from '@/engines/ai/prompts/compose'
-import { buildSessionAssessmentPrompt } from '@/engines/ai/prompts/interview'
-import { logActivity } from '@/data/repositories/activityLog.repo'
+} from "@/data/repositories/interview.repo";
+import { generate } from "@/engines/ai/gateway";
+import { compose } from "@/engines/ai/prompts/compose";
+import { buildSessionAssessmentPrompt } from "@/engines/ai/prompts/interview";
+import { logActivity } from "@/data/repositories/activityLog.repo";
 
 export async function POST(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { userId } = await auth()
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const { userId } = await auth();
+  if (!userId)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id: sessionId } = await params
-  const session = await getSessionWithExchanges(sessionId, userId)
-  if (!session) return NextResponse.json({ error: 'Session not found' }, { status: 404 })
+  const { id: sessionId } = await params;
+  const session = await getSessionWithExchanges(sessionId, userId);
+  if (!session)
+    return NextResponse.json({ error: "Session not found" }, { status: 404 });
 
-  if (session.status === 'completed') {
-    return NextResponse.json({ session })
+  if (session.status === "completed") {
+    return NextResponse.json({ session });
   }
 
   const prompt = buildSessionAssessmentPrompt(
@@ -760,83 +886,259 @@ export async function POST(
       aiFeedback: e.aiFeedback,
     })),
     session.targetRole,
-  )
+  );
 
-  const messages = compose({ userPrompt: prompt })
-  const result = await generate({ messages, tier: 'fast', maxOutputTokens: 512 })
+  const messages = compose({ userPrompt: prompt });
+  const result = await generate({
+    messages,
+    tier: "fast",
+    maxOutputTokens: 512,
+  });
 
-  let assessment = { overallScore: 0, strengths: [] as string[], improvements: [] as string[], topActions: [] as string[] }
+  let assessment = {
+    overallScore: 0,
+    strengths: [] as string[],
+    improvements: [] as string[],
+    topActions: [] as string[],
+  };
   if (result.ok) {
     try {
-      assessment = JSON.parse(result.value.text ?? '{}')
+      assessment = JSON.parse(result.value.text ?? "{}");
     } catch {
       // use defaults
     }
   }
 
-  await completeSession(sessionId, userId, assessment)
-  await logActivity(userId, 'interview_completed', `Completed: ${session.title}`, 'interviewPrep', {
-    sessionId,
-    score: assessment.overallScore,
-  })
+  await completeSession(sessionId, userId, assessment);
+  await logActivity(
+    userId,
+    "interview_completed",
+    `Completed: ${session.title}`,
+    "interviewPrep",
+    {
+      sessionId,
+      score: assessment.overallScore,
+    },
+  );
 
-  return NextResponse.json({ assessment })
+  return NextResponse.json({ assessment });
 }
 ```
 
 ---
 
-## Task 6 — Static question bank data
+## Task 6 - Static question bank data
 
 **File:** `data/content/interviewQuestions.ts`
 
 ```typescript
 export interface BankQuestion {
-  id: string
-  text: string
-  type: 'behavioral' | 'technical' | 'situational'
-  difficulty: 'easy' | 'medium' | 'hard'
-  category: string  // 'leadership' | 'problem-solving' | 'communication' | 'technical-cs' | 'product' | 'data' | 'system-design'
-  roles: string[]   // e.g. ['Software Engineer', 'Product Manager'] — empty means all
+  id: string;
+  text: string;
+  type: "behavioral" | "technical" | "situational";
+  difficulty: "easy" | "medium" | "hard";
+  category: string; // 'leadership' | 'problem-solving' | 'communication' | 'technical-cs' | 'product' | 'data' | 'system-design'
+  roles: string[]; // e.g. ['Software Engineer', 'Product Manager'] - empty means all
 }
 
 export const bankQuestions: BankQuestion[] = [
-  // Behavioral — Leadership
-  { id: 'b1', text: 'Tell me about a time you led a team through a difficult situation.', type: 'behavioral', difficulty: 'medium', category: 'leadership', roles: [] },
-  { id: 'b2', text: 'Describe a time you had to influence someone without direct authority.', type: 'behavioral', difficulty: 'medium', category: 'leadership', roles: [] },
-  { id: 'b3', text: 'Give an example of when you set a goal and how you achieved it.', type: 'behavioral', difficulty: 'easy', category: 'leadership', roles: [] },
-  // Behavioral — Problem Solving
-  { id: 'b4', text: 'Tell me about the most complex problem you have ever solved.', type: 'behavioral', difficulty: 'hard', category: 'problem-solving', roles: [] },
-  { id: 'b5', text: 'Describe a time when you had to make a decision with incomplete information.', type: 'behavioral', difficulty: 'medium', category: 'problem-solving', roles: [] },
-  { id: 'b6', text: 'Tell me about a time you failed. What did you learn?', type: 'behavioral', difficulty: 'easy', category: 'problem-solving', roles: [] },
-  // Behavioral — Communication
-  { id: 'b7', text: 'Describe a time you had to deliver difficult feedback.', type: 'behavioral', difficulty: 'medium', category: 'communication', roles: [] },
-  { id: 'b8', text: 'Tell me about a conflict with a colleague and how you resolved it.', type: 'behavioral', difficulty: 'medium', category: 'communication', roles: [] },
-  { id: 'b9', text: 'Give an example of a time you had to explain a complex topic to a non-technical audience.', type: 'behavioral', difficulty: 'easy', category: 'communication', roles: [] },
-  // Technical — SWE
-  { id: 't1', text: 'Explain the difference between a process and a thread.', type: 'technical', difficulty: 'easy', category: 'technical-cs', roles: ['Software Engineer', 'Backend Engineer'] },
-  { id: 't2', text: 'What are the tradeoffs between SQL and NoSQL databases?', type: 'technical', difficulty: 'medium', category: 'technical-cs', roles: ['Software Engineer', 'Backend Engineer', 'Data Engineer'] },
-  { id: 't3', text: 'How does garbage collection work in your primary language?', type: 'technical', difficulty: 'medium', category: 'technical-cs', roles: ['Software Engineer'] },
-  { id: 't4', text: 'Explain eventual consistency and when you would accept it.', type: 'technical', difficulty: 'hard', category: 'technical-cs', roles: ['Software Engineer', 'Backend Engineer'] },
-  { id: 't5', text: 'What is the difference between optimistic and pessimistic locking?', type: 'technical', difficulty: 'hard', category: 'technical-cs', roles: ['Software Engineer', 'Backend Engineer'] },
+  // Behavioral - Leadership
+  {
+    id: "b1",
+    text: "Tell me about a time you led a team through a difficult situation.",
+    type: "behavioral",
+    difficulty: "medium",
+    category: "leadership",
+    roles: [],
+  },
+  {
+    id: "b2",
+    text: "Describe a time you had to influence someone without direct authority.",
+    type: "behavioral",
+    difficulty: "medium",
+    category: "leadership",
+    roles: [],
+  },
+  {
+    id: "b3",
+    text: "Give an example of when you set a goal and how you achieved it.",
+    type: "behavioral",
+    difficulty: "easy",
+    category: "leadership",
+    roles: [],
+  },
+  // Behavioral - Problem Solving
+  {
+    id: "b4",
+    text: "Tell me about the most complex problem you have ever solved.",
+    type: "behavioral",
+    difficulty: "hard",
+    category: "problem-solving",
+    roles: [],
+  },
+  {
+    id: "b5",
+    text: "Describe a time when you had to make a decision with incomplete information.",
+    type: "behavioral",
+    difficulty: "medium",
+    category: "problem-solving",
+    roles: [],
+  },
+  {
+    id: "b6",
+    text: "Tell me about a time you failed. What did you learn?",
+    type: "behavioral",
+    difficulty: "easy",
+    category: "problem-solving",
+    roles: [],
+  },
+  // Behavioral - Communication
+  {
+    id: "b7",
+    text: "Describe a time you had to deliver difficult feedback.",
+    type: "behavioral",
+    difficulty: "medium",
+    category: "communication",
+    roles: [],
+  },
+  {
+    id: "b8",
+    text: "Tell me about a conflict with a colleague and how you resolved it.",
+    type: "behavioral",
+    difficulty: "medium",
+    category: "communication",
+    roles: [],
+  },
+  {
+    id: "b9",
+    text: "Give an example of a time you had to explain a complex topic to a non-technical audience.",
+    type: "behavioral",
+    difficulty: "easy",
+    category: "communication",
+    roles: [],
+  },
+  // Technical - SWE
+  {
+    id: "t1",
+    text: "Explain the difference between a process and a thread.",
+    type: "technical",
+    difficulty: "easy",
+    category: "technical-cs",
+    roles: ["Software Engineer", "Backend Engineer"],
+  },
+  {
+    id: "t2",
+    text: "What are the tradeoffs between SQL and NoSQL databases?",
+    type: "technical",
+    difficulty: "medium",
+    category: "technical-cs",
+    roles: ["Software Engineer", "Backend Engineer", "Data Engineer"],
+  },
+  {
+    id: "t3",
+    text: "How does garbage collection work in your primary language?",
+    type: "technical",
+    difficulty: "medium",
+    category: "technical-cs",
+    roles: ["Software Engineer"],
+  },
+  {
+    id: "t4",
+    text: "Explain eventual consistency and when you would accept it.",
+    type: "technical",
+    difficulty: "hard",
+    category: "technical-cs",
+    roles: ["Software Engineer", "Backend Engineer"],
+  },
+  {
+    id: "t5",
+    text: "What is the difference between optimistic and pessimistic locking?",
+    type: "technical",
+    difficulty: "hard",
+    category: "technical-cs",
+    roles: ["Software Engineer", "Backend Engineer"],
+  },
   // System Design
-  { id: 's1', text: 'Design a URL shortener like bit.ly.', type: 'technical', difficulty: 'medium', category: 'system-design', roles: ['Software Engineer', 'Backend Engineer'] },
-  { id: 's2', text: 'Design a notification system for a social media platform.', type: 'technical', difficulty: 'hard', category: 'system-design', roles: ['Software Engineer', 'Backend Engineer'] },
-  { id: 's3', text: 'How would you design a rate limiter?', type: 'technical', difficulty: 'hard', category: 'system-design', roles: ['Software Engineer', 'Backend Engineer'] },
+  {
+    id: "s1",
+    text: "Design a URL shortener like bit.ly.",
+    type: "technical",
+    difficulty: "medium",
+    category: "system-design",
+    roles: ["Software Engineer", "Backend Engineer"],
+  },
+  {
+    id: "s2",
+    text: "Design a notification system for a social media platform.",
+    type: "technical",
+    difficulty: "hard",
+    category: "system-design",
+    roles: ["Software Engineer", "Backend Engineer"],
+  },
+  {
+    id: "s3",
+    text: "How would you design a rate limiter?",
+    type: "technical",
+    difficulty: "hard",
+    category: "system-design",
+    roles: ["Software Engineer", "Backend Engineer"],
+  },
   // Product
-  { id: 'p1', text: 'How would you improve our onboarding flow?', type: 'situational', difficulty: 'medium', category: 'product', roles: ['Product Manager', 'Product Designer'] },
-  { id: 'p2', text: 'A key metric dropped 20% overnight. Walk me through your investigation.', type: 'situational', difficulty: 'hard', category: 'product', roles: ['Product Manager', 'Data Analyst'] },
-  { id: 'p3', text: 'How do you prioritize features when every stakeholder says theirs is most important?', type: 'situational', difficulty: 'medium', category: 'product', roles: ['Product Manager'] },
+  {
+    id: "p1",
+    text: "How would you improve our onboarding flow?",
+    type: "situational",
+    difficulty: "medium",
+    category: "product",
+    roles: ["Product Manager", "Product Designer"],
+  },
+  {
+    id: "p2",
+    text: "A key metric dropped 20% overnight. Walk me through your investigation.",
+    type: "situational",
+    difficulty: "hard",
+    category: "product",
+    roles: ["Product Manager", "Data Analyst"],
+  },
+  {
+    id: "p3",
+    text: "How do you prioritize features when every stakeholder says theirs is most important?",
+    type: "situational",
+    difficulty: "medium",
+    category: "product",
+    roles: ["Product Manager"],
+  },
   // Data
-  { id: 'd1', text: 'What is the difference between supervised and unsupervised learning?', type: 'technical', difficulty: 'easy', category: 'data', roles: ['Data Scientist', 'ML Engineer'] },
-  { id: 'd2', text: 'Explain how you would handle class imbalance in a classification problem.', type: 'technical', difficulty: 'medium', category: 'data', roles: ['Data Scientist', 'ML Engineer'] },
-  { id: 'd3', text: 'Walk me through how you would design an A/B test.', type: 'technical', difficulty: 'medium', category: 'data', roles: ['Data Scientist', 'Data Analyst', 'Product Manager'] },
-]
+  {
+    id: "d1",
+    text: "What is the difference between supervised and unsupervised learning?",
+    type: "technical",
+    difficulty: "easy",
+    category: "data",
+    roles: ["Data Scientist", "ML Engineer"],
+  },
+  {
+    id: "d2",
+    text: "Explain how you would handle class imbalance in a classification problem.",
+    type: "technical",
+    difficulty: "medium",
+    category: "data",
+    roles: ["Data Scientist", "ML Engineer"],
+  },
+  {
+    id: "d3",
+    text: "Walk me through how you would design an A/B test.",
+    type: "technical",
+    difficulty: "medium",
+    category: "data",
+    roles: ["Data Scientist", "Data Analyst", "Product Manager"],
+  },
+];
 ```
 
 ---
 
-## Task 7 — Shared components (build in this order)
+## Task 7 - Shared components (build in this order)
 
 All go in `app/(app)/tools/interviewPrep/_components/`.
 
@@ -1073,7 +1375,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const STAR_STEPS = [
-  { label: 'Situation', desc: 'Set the context — what was the scenario or challenge?' },
+  { label: 'Situation', desc: 'Set the context - what was the scenario or challenge?' },
   { label: 'Task', desc: 'What was your specific responsibility or goal?' },
   { label: 'Action', desc: 'What concrete steps did YOU take? Use "I", not "we".' },
   { label: 'Result', desc: 'What measurable outcome occurred? Quantify if possible.' },
@@ -1109,7 +1411,7 @@ export function STARHints() {
                     {label[0]}
                   </span>
                   <div>
-                    <span className="text-xs font-semibold text-[var(--color-text-primary)]">{label} — </span>
+                    <span className="text-xs font-semibold text-[var(--color-text-primary)]">{label} - </span>
                     <span className="text-xs text-[var(--color-text-secondary)]">{desc}</span>
                   </div>
                 </div>
@@ -1183,7 +1485,7 @@ export function FeedbackPanel({
         setParsed(result)
         onFeedbackComplete(result)
       } catch {
-        // malformed — show raw
+        // malformed - show raw
       }
       setLoading(false)
     }
@@ -1416,7 +1718,7 @@ export function QuestionBankCard({ question }: QuestionBankCardProps) {
 
 ---
 
-## Task 8 — Page: Hub
+## Task 8 - Page: Hub
 
 **File:** `app/(app)/tools/interviewPrep/page.tsx`
 
@@ -1456,7 +1758,7 @@ export default async function InterviewPrepHub() {
         {[
           { label: 'Sessions', value: stats.totalSessions },
           { label: 'Completed', value: stats.completedSessions },
-          { label: 'Avg Score', value: stats.avgScore !== null ? `${stats.avgScore}/100` : '—' },
+          { label: 'Avg Score', value: stats.avgScore !== null ? `${stats.avgScore}/100` : '-' },
         ].map(({ label, value }) => (
           <div
             key={label}
@@ -1482,7 +1784,7 @@ export default async function InterviewPrepHub() {
         </Link>
       )}
 
-      {/* Mode selector — navigates to setup with type pre-selected */}
+      {/* Mode selector - navigates to setup with type pre-selected */}
       <div>
         <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-secondary)]">Start New Session</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -1544,7 +1846,7 @@ export default async function InterviewPrepHub() {
 
 ---
 
-## Task 9 — Page: Setup
+## Task 9 - Page: Setup
 
 **File:** `app/(app)/tools/interviewPrep/setup/page.tsx`
 
@@ -1577,7 +1879,7 @@ export default function SetupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const title = [targetRole, type.replace('_', ' ')].filter(Boolean).join(' — ')
+  const title = [targetRole, type.replace('_', ' ')].filter(Boolean).join(' - ')
 
   async function handleStart() {
     if (!targetRole.trim()) {
@@ -1717,7 +2019,7 @@ export default function SetupPage() {
 
 ---
 
-## Task 10 — Page: Live Session
+## Task 10 - Page: Live Session
 
 **File:** `app/(app)/tools/interviewPrep/session/[id]/page.tsx`
 
@@ -1885,7 +2187,7 @@ export function SessionClient({ session: initialSession }: SessionClientProps) {
 
 ---
 
-## Task 11 — Page: Results
+## Task 11 - Page: Results
 
 **File:** `app/(app)/tools/interviewPrep/session/[id]/results/page.tsx`
 
@@ -1985,7 +2287,7 @@ export default async function ResultsPage({
 
 ---
 
-## Task 12 — Page: Question Bank
+## Task 12 - Page: Question Bank
 
 **File:** `app/(app)/tools/interviewPrep/questions/page.tsx`
 
@@ -2080,19 +2382,19 @@ function FilterChip({
 
 ---
 
-## Task 13 — Wire into nav / feature registry
+## Task 13 - Wire into nav / feature registry
 
 The hub page lives at `/tools/interviewPrep` (not under `[featureId]`). Two places to update:
 
-### 13a. Feature registry — mark `interviewCoach` as redirecting
+### 13a. Feature registry - mark `interviewCoach` as redirecting
 
 In `engines/ai/features/registry.ts`, find the `interviewCoach` feature entry and update its description to note the new dedicated page, OR leave it as-is and add a redirect in `app/(app)/tools/[featureId]/page.tsx`:
 
 ```typescript
 // In app/(app)/tools/[featureId]/page.tsx (or the server component that renders it)
 // Add at the top of the component:
-if (params.featureId === 'interviewCoach') {
-  redirect('/tools/interviewPrep')
+if (params.featureId === "interviewCoach") {
+  redirect("/tools/interviewPrep");
 }
 ```
 
@@ -2102,49 +2404,51 @@ Wherever the tools list is rendered (check `app/(app)/_components/` or `componen
 
 ---
 
-## Task 14 — TypeScript check
+## Task 14 - TypeScript check
 
 After all files are written:
+
 ```bash
 npx tsc --noEmit
 ```
 
 Common fixes to anticipate:
-- `params` in Next.js App Router is now `Promise<{...}>` — all route handlers above already use `await params`
-- `jsonb` columns return `unknown` from Drizzle unless `.$type<T>()` is applied — already applied in schema
+
+- `params` in Next.js App Router is now `Promise<{...}>` - all route handlers above already use `await params`
+- `jsonb` columns return `unknown` from Drizzle unless `.$type<T>()` is applied - already applied in schema
 - `interviewSessions` and `interviewExchanges` must be exported from `data/schema/index.ts` and imported in the repo
 
 ---
 
 ## Execution Order
 
-| # | Task | File(s) | Depends on |
-|---|------|---------|-----------|
-| 0 | Types | `types/interview.ts` | — |
-| 1 | Schema | `data/schema/index.ts` | 0 |
-| 2 | Migration | `npx drizzle-kit generate && migrate` | 1 |
-| 3 | Repository | `data/repositories/interview.repo.ts` | 0, 1 |
-| 4 | AI prompts | `engines/ai/prompts/interview.ts` | 0 |
-| 5a | API: POST /sessions | `app/api/interview/sessions/route.ts` | 3, 4 |
-| 5b | API: GET /sessions/[id] | `app/api/interview/sessions/[id]/route.ts` | 3 |
-| 5c | API: answer | `…/answer/route.ts` | 3, 4 |
-| 5d | API: next-question | `…/next-question/route.ts` | 3, 4 |
-| 5e | API: complete | `…/complete/route.ts` | 3, 4 |
-| 6 | Question bank data | `data/content/interviewQuestions.ts` | 0 |
-| 7a | ProgressBar | component | — |
-| 7b | SessionModeCard | component | 0 |
-| 7c | QuestionDisplay | component | — |
-| 7d | AnswerInput | component | — |
-| 7e | STARHints | component | — |
-| 7f | FeedbackPanel | component | 0 |
-| 7g | SessionScoreCard | component | 0 |
-| 7h | QuestionBankCard | component | 6 |
-| 8 | Hub page | `interviewPrep/page.tsx` | 3, 7b |
-| 9 | Setup page | `interviewPrep/setup/page.tsx` | 7b, 5a |
-| 10 | Live session page | `session/[id]/page.tsx` + `_SessionClient.tsx` | 7c–7f, 5c, 5d |
-| 11 | Results page | `session/[id]/results/page.tsx` | 7g, 3 |
-| 12 | Question bank page | `questions/page.tsx` | 7h, 6 |
-| 13 | Nav wiring | `[featureId]/page.tsx` + nav config | 8 |
-| 14 | `tsc --noEmit` | — | all |
+| #   | Task                    | File(s)                                        | Depends on    |
+| --- | ----------------------- | ---------------------------------------------- | ------------- |
+| 0   | Types                   | `types/interview.ts`                           | -             |
+| 1   | Schema                  | `data/schema/index.ts`                         | 0             |
+| 2   | Migration               | `npx drizzle-kit generate && migrate`          | 1             |
+| 3   | Repository              | `data/repositories/interview.repo.ts`          | 0, 1          |
+| 4   | AI prompts              | `engines/ai/prompts/interview.ts`              | 0             |
+| 5a  | API: POST /sessions     | `app/api/interview/sessions/route.ts`          | 3, 4          |
+| 5b  | API: GET /sessions/[id] | `app/api/interview/sessions/[id]/route.ts`     | 3             |
+| 5c  | API: answer             | `…/answer/route.ts`                            | 3, 4          |
+| 5d  | API: next-question      | `…/next-question/route.ts`                     | 3, 4          |
+| 5e  | API: complete           | `…/complete/route.ts`                          | 3, 4          |
+| 6   | Question bank data      | `data/content/interviewQuestions.ts`           | 0             |
+| 7a  | ProgressBar             | component                                      | -             |
+| 7b  | SessionModeCard         | component                                      | 0             |
+| 7c  | QuestionDisplay         | component                                      | -             |
+| 7d  | AnswerInput             | component                                      | -             |
+| 7e  | STARHints               | component                                      | -             |
+| 7f  | FeedbackPanel           | component                                      | 0             |
+| 7g  | SessionScoreCard        | component                                      | 0             |
+| 7h  | QuestionBankCard        | component                                      | 6             |
+| 8   | Hub page                | `interviewPrep/page.tsx`                       | 3, 7b         |
+| 9   | Setup page              | `interviewPrep/setup/page.tsx`                 | 7b, 5a        |
+| 10  | Live session page       | `session/[id]/page.tsx` + `_SessionClient.tsx` | 7c–7f, 5c, 5d |
+| 11  | Results page            | `session/[id]/results/page.tsx`                | 7g, 3         |
+| 12  | Question bank page      | `questions/page.tsx`                           | 7h, 6         |
+| 13  | Nav wiring              | `[featureId]/page.tsx` + nav config            | 8             |
+| 14  | `tsc --noEmit`          | -                                              | all           |
 
 **Total tasks: 28 discrete implementation steps** (grouped as 38 files total).

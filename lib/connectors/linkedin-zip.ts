@@ -41,7 +41,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'linkedin-zip',
         extracted,
-        summary: 'LinkedIn data export imported — AI extraction unavailable, raw text stored',
+        summary: 'LinkedIn data export imported - AI extraction unavailable, raw text stored',
         error: result.error.message,
       }
     }
@@ -56,7 +56,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'linkedin-zip',
         extracted,
-        summary: 'LinkedIn data export imported — could not parse AI response, raw text stored',
+        summary: 'LinkedIn data export imported - could not parse AI response, raw text stored',
       }
     }
 
@@ -92,7 +92,7 @@ async function run(input: string): Promise<ConnectorResult> {
       success: true,
       source: 'linkedin-zip',
       extracted,
-      summary: 'LinkedIn data export imported — AI extraction failed, raw text stored',
+      summary: 'LinkedIn data export imported - AI extraction failed, raw text stored',
       error: err instanceof Error ? err.message : String(err),
     }
   }

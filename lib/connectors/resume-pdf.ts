@@ -41,7 +41,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'resume-pdf',
         extracted,
-        summary: 'Resume imported — AI extraction unavailable, raw text stored',
+        summary: 'Resume imported - AI extraction unavailable, raw text stored',
         error: result.error.message,
       }
     }
@@ -56,7 +56,7 @@ async function run(input: string): Promise<ConnectorResult> {
         success: true,
         source: 'resume-pdf',
         extracted,
-        summary: 'Resume imported — could not parse AI response, raw text stored',
+        summary: 'Resume imported - could not parse AI response, raw text stored',
       }
     }
 
@@ -92,7 +92,7 @@ async function run(input: string): Promise<ConnectorResult> {
       success: true,
       source: 'resume-pdf',
       extracted,
-      summary: 'Resume imported — AI extraction failed, raw text stored',
+      summary: 'Resume imported - AI extraction failed, raw text stored',
       error: err instanceof Error ? err.message : String(err),
     }
   }
@@ -107,7 +107,7 @@ export const connector: Connector = {
   inputType: 'pdf',
   inputLabel: 'Upload your resume (PDF)',
   inputPlaceholder:
-    'Upload a PDF of your resume — we will extract all career information automatically',
+    'Upload a PDF of your resume - we will extract all career information automatically',
   isAutoFetch: false,
   run,
 }

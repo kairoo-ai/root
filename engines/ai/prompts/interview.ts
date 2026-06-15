@@ -22,7 +22,7 @@ export function buildFirstQuestionPrompt(
 
 ${typeInstructions[type]}
 
-Return ONLY valid JSON in this exact shape — no markdown, no extra text:
+Return ONLY valid JSON in this exact shape - no markdown, no extra text:
 {
   "questionText": "...",
   "questionType": "behavioral" | "technical" | "situational",

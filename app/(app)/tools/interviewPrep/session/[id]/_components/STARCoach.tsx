@@ -28,10 +28,10 @@ function detectSTAR(text: string): Record<keyof typeof STAR_KEYWORDS, boolean> {
 }
 
 const STAR_LABELS: Record<string, { label: string; tip: string; color: string }> = {
-  situation: { label: 'Situation', tip: 'Set the scene — when, where, what was happening?', color: 'bg-blue-500' },
+  situation: { label: 'Situation', tip: 'Set the scene - when, where, what was happening?', color: 'bg-blue-500' },
   task: { label: 'Task', tip: 'What was your specific responsibility?', color: 'bg-violet-500' },
   action: { label: 'Action', tip: 'What exactly did YOU do? Use "I", not "we".', color: 'bg-amber-500' },
-  result: { label: 'Result', tip: 'Quantify the outcome — numbers, %, time saved.', color: 'bg-emerald-500' },
+  result: { label: 'Result', tip: 'Quantify the outcome - numbers, %, time saved.', color: 'bg-emerald-500' },
 }
 
 export function STARCoach({ answer, className }: STARCoachProps) {

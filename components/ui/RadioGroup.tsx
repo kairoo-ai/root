@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * RadioGroup — thin wrapper around HeroUI v3's RadioGroup + Radio.
+ * RadioGroup - thin wrapper around HeroUI v3's RadioGroup + Radio.
  *
  * Re-exports the REAL v3 exports under our naming so the app can import from
  * "@/components/ui/RadioGroup". Token-only (no hardcoded colors); HeroUI is
@@ -39,7 +39,7 @@ export type {
 } from '@heroui/react';
 
 /**
- * RadioGroup — the container. Compound: `RadioGroup.Root`.
+ * RadioGroup - the container. Compound: `RadioGroup.Root`.
  * Key props: value, defaultValue, onChange (value: string) => void, name,
  * orientation ('horizontal' | 'vertical'), isDisabled, isRequired, isReadOnly,
  * isInvalid, variant ('primary' | 'secondary').
@@ -47,7 +47,7 @@ export type {
 export const RadioGroup = HeroRadioGroup;
 
 /**
- * Radio — an individual option. Compound: `Radio.Root`, `Radio.Control`,
+ * Radio - an individual option. Compound: `Radio.Root`, `Radio.Control`,
  * `Radio.Indicator`, `Radio.Content`. Key props: value, isDisabled, name.
  */
 export const Radio = HeroRadio;

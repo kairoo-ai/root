@@ -1,4 +1,4 @@
-# Non-LLM Compute Platform — Design Spec
+# Non-LLM Compute Platform - Design Spec
 
 - **Date:** 2026-06-15
 - **Project:** Kairoo (formerly AstraPath AI)
@@ -13,22 +13,22 @@
 An architecture audit (2026-06-15) established that Kairoo is, today, an **AI-heavy
 monolith** where ~90% of the "intelligence" is LLM prompts. There is:
 
-- **No product/web analytics** — only a NO-OP seam in `lib/observability/`.
-- **No data engineering** — no ETL, no scheduled rollups, no materialized views.
+- **No product/web analytics** - only a NO-OP seam in `lib/observability/`.
+- **No data engineering** - no ETL, no scheduled rollups, no materialized views.
   Migrations are pure `CREATE TABLE`; "analytics" (e.g.
   `data/repositories/interview.repo.ts`, `stats.repo.ts`) is `SELECT *` + JS loops
   recomputed live per request.
-- **No non-LLM compute engine** — `engines/career` and `engines/learning` are empty
+- **No non-LLM compute engine** - `engines/career` and `engines/learning` are empty
   stubs; the only real engine is `engines/ai` (LLM gateway).
-- **No durable services** — `services/ai/rateLimit.ts` and `services/ai/budget.ts`
+- **No durable services** - `services/ai/rateLimit.ts` and `services/ai/budget.ts`
   hold state in **in-memory Maps** that reset per serverless instance, so quotas are
   not actually enforced in production. **This is a live correctness bug.**
-- **No embeddings / vector search / matching** — `engines/ai/retrieval` is a `noop`.
+- **No embeddings / vector search / matching** - `engines/ai/retrieval` is a `noop`.
 - **No Python, no microservices, no background jobs, no caching/search.**
 
 The goal is to add **real, deterministic, non-LLM engineering substance**: durable
 services, a data-engineering analytics layer, an embeddings/matching engine, retrieval,
-and a deterministic parsing engine — all at **$0 cost with no payment method**.
+and a deterministic parsing engine - all at **$0 cost with no payment method**.
 
 ### Hard constraints
 
@@ -57,7 +57,7 @@ and a deterministic parsing engine — all at **$0 cost with no payment method**
 
 ### Non-Goals (for Wave 1)
 
-- The matching engine, analytics rollup engine, retrieval wiring, and resume parser —
+- The matching engine, analytics rollup engine, retrieval wiring, and resume parser -
   these are **later waves** (see §4). Wave 1 only builds the foundation they need.
 - Replacing the LLM features. The LLM gateway (`engines/ai`) stays as-is.
 - Migrating Next.js hosting. Where the Next app is deployed is out of scope.
@@ -109,36 +109,37 @@ and a deterministic parsing engine — all at **$0 cost with no payment method**
 
 ### Subsystem decomposition & wave sequencing
 
-| # | Subsystem | Depends on | Wave |
-|---|-----------|------------|------|
-| 1 | Durable services (Postgres rate-limit + budget) | nothing | **1** |
-| 2 | Python compute service + HTTP seam | runtime decision | **1** |
-| 3 | Embedding substrate (pgvector + pipeline) | #2 | **1** |
-| 4 | Data-engineering analytics layer (events + rollups) | jobs (#2 scheduler) | 2 |
-| 5 | Skill/job matching engine (datasets + similarity scoring) | embeddings (#3) | 3 |
-| 6 | Search/retrieval (wire the noop retriever) | embeddings (#3) | 3 |
-| 7 | Deterministic resume/profile parser | benefits from #5 | 4 |
+| #   | Subsystem                                                 | Depends on          | Wave  |
+| --- | --------------------------------------------------------- | ------------------- | ----- |
+| 1   | Durable services (Postgres rate-limit + budget)           | nothing             | **1** |
+| 2   | Python compute service + HTTP seam                        | runtime decision    | **1** |
+| 3   | Embedding substrate (pgvector + pipeline)                 | #2                  | **1** |
+| 4   | Data-engineering analytics layer (events + rollups)       | jobs (#2 scheduler) | 2     |
+| 5   | Skill/job matching engine (datasets + similarity scoring) | embeddings (#3)     | 3     |
+| 6   | Search/retrieval (wire the noop retriever)                | embeddings (#3)     | 3     |
+| 7   | Deterministic resume/profile parser                       | benefits from #5    | 4     |
 
 Each wave is its own spec → plan → implement cycle. **This document specifies Wave 1
 in full** and only sketches Waves 2–4 (§9) so the foundation is built to support them.
 
 ---
 
-## 4. Wave 1 — Detailed Design
+## 4. Wave 1 - Detailed Design
 
 Five units, each independently understandable and testable. Build order is roughly 1a →
 1d → 1b → 1e → 1c, but 1a is fully independent and ships first.
 
-### Unit 1a — Durable rate-limit + token budget (Next.js + Postgres)
+### Unit 1a - Durable rate-limit + token budget (Next.js + Postgres)
 
 **What it does:** Replaces the in-memory `Map` state in `services/ai/rateLimit.ts` and
 `services/ai/budget.ts` with Postgres-backed counters so limits hold across serverless
 instances. Fixes the live bug.
 
 **Current code being replaced:**
-- `services/ai/rateLimit.ts` — sliding window, `const hits = new Map<string, number[]>()`,
+
+- `services/ai/rateLimit.ts` - sliding window, `const hits = new Map<string, number[]>()`,
   20 req / 5 min, exports `rateLimit(id)`.
-- `services/ai/budget.ts` — daily caps in module-level `let` vars, exports
+- `services/ai/budget.ts` - daily caps in module-level `let` vars, exports
   `checkBudget(estTokens, now?)` and `estimateTokens(inputs, expectedOutput?)`.
 
 **Data model (new Drizzle tables):**
@@ -158,7 +159,8 @@ usage_budgets
   PRIMARY KEY (key, day)
 ```
 
-**Algorithm — fixed-window counter (atomic):**
+**Algorithm - fixed-window counter (atomic):**
+
 - Rate limit: on each call, `INSERT ... ON CONFLICT (key) DO UPDATE` that resets
   `count` + `window_start` when `now - window_start >= WINDOW_MS`, else increments
   `count`. Reject when `count > MAX_REQ`. The whole read-modify-write is a single
@@ -168,8 +170,9 @@ usage_budgets
   `token_estimate`; reject when either cap is exceeded.
 
 **Interface (preserved so callers don't change):**
-- `rateLimit(id: string): Promise<{ ok: boolean; retryAfter?: number }>` — now async.
-- `checkBudget(estTokens: number): Promise<{ ok: boolean; reason?: string }>` — now async.
+
+- `rateLimit(id: string): Promise<{ ok: boolean; retryAfter?: number }>` - now async.
+- `checkBudget(estTokens: number): Promise<{ ok: boolean; reason?: string }>` - now async.
 - `estimateTokens(...)` unchanged (pure function).
 - Caps stay env-driven: `AI_DAILY_REQUEST_CAP`, `AI_DAILY_TOKEN_CAP`, plus new
   `AI_RATE_WINDOW_MS` / `AI_RATE_MAX_REQ` (defaults preserve current 5min/20).
@@ -178,10 +181,10 @@ usage_budgets
 (they are in async handlers already, e.g. `app/api/ai/route.ts`). A grep sweep enumerates
 them during implementation.
 
-**Note:** This unit has **zero dependency on the Python service** — it ships first and
+**Note:** This unit has **zero dependency on the Python service** - it ships first and
 delivers value immediately.
 
-### Unit 1b — Python FastAPI compute service (HuggingFace Docker Space)
+### Unit 1b - Python FastAPI compute service (HuggingFace Docker Space)
 
 **What it does:** The compute service skeleton with health + embedding endpoints,
 deployed as a Docker Space.
@@ -212,13 +215,14 @@ compute/
 ```
 
 **Endpoints:**
+
 - `GET /health` → `{ "status": "ok", "model_loaded": true }`. No auth (used by pinger).
 - `POST /v1/embed` (auth) → request `{ "texts": string[], "normalize": bool=true }`,
   response `{ "model": str, "dim": 384, "vectors": number[][] }`. Batches internally.
 
 **Model:** `BAAI/bge-small-en-v1.5` (384-dim). Loaded once at startup (FastAPI lifespan)
 and held warm in RAM. Fallback `sentence-transformers/all-MiniLM-L6-v2` (also 384-dim)
-if RAM-constrained — both keep the `vector(384)` schema valid.
+if RAM-constrained - both keep the `vector(384)` schema valid.
 
 **Auth:** `auth.py` dependency compares `Authorization: Bearer <token>` against
 `COMPUTE_SHARED_SECRET` using constant-time comparison; missing/wrong → 401. Applied to
@@ -231,19 +235,21 @@ optionally `MODEL_NAME`, `ALLOWED_ORIGIN`.
 new **Docker** Space → push `compute/` (git or upload) → set Space secrets → Space
 builds image and exposes `https://<user>-<space>.hf.space`.
 
-### Unit 1c — Next.js → compute client
+### Unit 1c - Next.js → compute client
 
 **What it does:** The single, typed gateway from Next.js to the compute service.
 
 **File:** `services/compute/client.ts` (+ `services/compute/schemas.ts` for Zod).
 
 **Interface:**
+
 ```ts
 embed(texts: string[]): Promise<number[][]>   // POST /v1/embed
 computeHealth(): Promise<boolean>             // GET /health
 ```
 
 **Behavior:**
+
 - Reads `COMPUTE_SERVICE_URL` + `COMPUTE_SHARED_SECRET` from env (server-only).
 - Sets the `Authorization: Bearer` header.
 - Timeout (default 15s) via `AbortController`; one retry on network/5xx with backoff.
@@ -251,13 +257,15 @@ computeHealth(): Promise<boolean>             // GET /health
 - Gated by a new `computeEnabled` flag (§ config). When disabled or on failure, callers
   decide fallback; the client never silently returns wrong data.
 
-### Unit 1d — pgvector foundation (Drizzle migration)
+### Unit 1d - pgvector foundation (Drizzle migration)
 
 **What it does:** Enables `pgvector` and creates the shared embedding substrate.
 
 **Migration contents:**
+
 - `CREATE EXTENSION IF NOT EXISTS vector;`
 - New table:
+
 ```
 embeddings
   entity_type  text        -- 'skill' | 'resource' | 'profile' | ...
@@ -268,17 +276,19 @@ embeddings
   updated_at   timestamptz default now()
   PRIMARY KEY (entity_type, entity_id)
 ```
+
 - HNSW index: `CREATE INDEX ... ON embeddings USING hnsw (embedding vector_cosine_ops);`
 
 **Drizzle note:** `pgvector` types may need a custom Drizzle type or a hand-written SQL
 migration appended to `data/migrations/`. The migration is generated/added so
 `drizzle-kit` and the Python reader agree on the column. Schema stays Drizzle-owned.
 
-### Unit 1e — Embedding pipeline (Python job + keep-warm pinger)
+### Unit 1e - Embedding pipeline (Python job + keep-warm pinger)
 
 **What it does:** Populates and maintains the `embeddings` table; keeps the Space warm.
 
 **Backfill/refresh job (`compute/app/jobs/scheduler.py`):**
+
 - An `APScheduler` interval job (e.g. every 30 min) that:
   1. Selects source rows needing embeddings (e.g. skills from `lib/data/static`,
      learning resources, user profile summaries) whose `content_hash` differs from the
@@ -297,12 +307,12 @@ stays warm.
 
 ## 5. Configuration changes
 
-- **`config/flags.ts`** — add `computeEnabled: false` (flip on once the Space is live).
-- **`config/env.ts`** — extend with `computeServiceUrl`, `computeSharedSecret`
+- **`config/flags.ts`** - add `computeEnabled: false` (flip on once the Space is live).
+- **`config/env.ts`** - extend with `computeServiceUrl`, `computeSharedSecret`
   (server-only). Keep the existing minimal pattern; Zod validation optional.
-- **`.env.example` / `.env.local` / `.env.prod`** — add `COMPUTE_SERVICE_URL`,
+- **`.env.example` / `.env.local` / `.env.prod`** - add `COMPUTE_SERVICE_URL`,
   `COMPUTE_SHARED_SECRET`, `AI_RATE_WINDOW_MS`, `AI_RATE_MAX_REQ` (names only in example).
-- **HF Space secrets** — `COMPUTE_SHARED_SECRET`, `DATABASE_URL`, `MODEL_NAME`,
+- **HF Space secrets** - `COMPUTE_SHARED_SECRET`, `DATABASE_URL`, `MODEL_NAME`,
   `ALLOWED_ORIGIN`.
 
 ---
@@ -310,12 +320,14 @@ stays warm.
 ## 6. Testing Strategy
 
 **Python (pytest):**
-- `test_health` — returns ok + model_loaded.
-- `test_auth` — 401 without/with wrong bearer; 200 with correct.
-- `test_embed` — returns 384-dim vectors; determinism (same input → same output);
+
+- `test_health` - returns ok + model_loaded.
+- `test_auth` - 401 without/with wrong bearer; 200 with correct.
+- `test_embed` - returns 384-dim vectors; determinism (same input → same output);
   batch length matches input length; normalized vectors have ~unit norm.
 
 **Next.js (unit):**
+
 - Rate-limit SQL: simulate concurrent hits against a test DB (or transaction harness);
   assert the cap holds and `retryAfter` is sane; window rolls over correctly.
 - Budget: caps enforced; rolls daily.
@@ -329,15 +341,15 @@ nearest-neighbour query returns the row. Confirms the full Next ↔ Python ↔ p
 
 ## 7. Risks & Mitigations
 
-| Risk | Mitigation |
-|------|------------|
-| HF Space sleeps (cold start ~10–30s) | Keep-warm GitHub Action pings `/health` every ~10 min. |
-| Public Space URL abuse | Mandatory fail-closed Bearer auth + CORS lock + rate budget. |
-| Two services, one DB → schema drift | Drizzle is sole schema owner; Python is row-only. |
-| `pgvector` not enabled on Neon free tier | Verify during 1d; Neon supports `pgvector`. If blocked, fall back to a TS cosine over a `jsonb` array (slower) — flagged, not silent. |
-| Compute service down breaks UX | `computeEnabled` flag + client wrapper + caller fallback (LLM path / empty). |
-| `torch` image size / HF build limits | Use CPU-only torch wheel; bge-small is small; pin slim base image. |
-| Rate-limit SQL races | Single atomic `INSERT ... ON CONFLICT DO UPDATE`, no read-then-write. |
+| Risk                                     | Mitigation                                                                                                                            |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| HF Space sleeps (cold start ~10–30s)     | Keep-warm GitHub Action pings `/health` every ~10 min.                                                                                |
+| Public Space URL abuse                   | Mandatory fail-closed Bearer auth + CORS lock + rate budget.                                                                          |
+| Two services, one DB → schema drift      | Drizzle is sole schema owner; Python is row-only.                                                                                     |
+| `pgvector` not enabled on Neon free tier | Verify during 1d; Neon supports `pgvector`. If blocked, fall back to a TS cosine over a `jsonb` array (slower) - flagged, not silent. |
+| Compute service down breaks UX           | `computeEnabled` flag + client wrapper + caller fallback (LLM path / empty).                                                          |
+| `torch` image size / HF build limits     | Use CPU-only torch wheel; bge-small is small; pin slim base image.                                                                    |
+| Rate-limit SQL races                     | Single atomic `INSERT ... ON CONFLICT DO UPDATE`, no read-then-write.                                                                 |
 
 ---
 
@@ -356,28 +368,28 @@ nearest-neighbour query returns the row. Confirms the full Next ↔ Python ↔ p
 
 ---
 
-## 9. Later Waves (sketch — not specified here)
+## 9. Later Waves (sketch - not specified here)
 
-- **Wave 2 — Data-engineering analytics:** an `events` table + `APScheduler` rollup jobs
+- **Wave 2 - Data-engineering analytics:** an `events` table + `APScheduler` rollup jobs
   writing daily/weekly aggregate tables (or Postgres materialized views refreshed on a
   schedule), replacing the per-request `reduce` loops in `interview.repo.ts` /
   `stats.repo.ts`. Optionally `duckdb`/`pandas` in Python for heavier aggregation.
-- **Wave 3 — Matching engine + retrieval:** ingest open occupation/skill datasets
-  (ESCO / O*NET), embed them, and compute **deterministic** skill-gap/match scores via
+- **Wave 3 - Matching engine + retrieval:** ingest open occupation/skill datasets
+  (ESCO / O\*NET), embed them, and compute **deterministic** skill-gap/match scores via
   pgvector cosine + rule-based weighting (`/v1/match`). Wire `engines/ai/retrieval` from
   `noop` to a pgvector-backed retriever.
-- **Wave 4 — Deterministic parser:** `/v1/parse/resume` using `pdfplumber` + `spaCy`
+- **Wave 4 - Deterministic parser:** `/v1/parse/resume` using `pdfplumber` + `spaCy`
   NER to replace LLM JSON extraction with a fast, testable, free parser.
 
 ---
 
 ## 10. Decisions Log
 
-- **Runtime:** Next.js monolith + Python FastAPI microservice (polyglot). *User chose
-  both monolith add-ons and Python; reconciled to "Python service absorbs the add-ons at $0".*
-- **Compute host:** HuggingFace Spaces (free CPU, no card). *Oracle ruled out — requires
-  card verification.*
+- **Runtime:** Next.js monolith + Python FastAPI microservice (polyglot). _User chose
+  both monolith add-ons and Python; reconciled to "Python service absorbs the add-ons at $0"._
+- **Compute host:** HuggingFace Spaces (free CPU, no card). _Oracle ruled out - requires
+  card verification._
 - **Embedding model:** `bge-small-en-v1.5` (384-dim), fallback `all-MiniLM-L6-v2`.
 - **Rate-limit algorithm:** fixed-window Postgres counter (sliding window deferred).
 - **Schema ownership:** Drizzle-only; Python row-level access only.
-- **Budget:** $0, no card — all choices validated against this.
+- **Budget:** $0, no card - all choices validated against this.

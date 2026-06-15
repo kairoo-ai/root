@@ -63,19 +63,19 @@ jobs:
           git fetch origin main latest --quiet || true
 
           if ! git show-ref --verify --quiet refs/remotes/origin/latest; then
-            echo "No 'latest' branch on origin yet — nothing to do."
+            echo "No 'latest' branch on origin yet - nothing to do."
             exit 0
           fi
 
           AHEAD=$(git rev-list --count origin/main..origin/latest)
           if [ "$AHEAD" -eq 0 ]; then
-            echo "latest has no commits ahead of main — nothing to do."
+            echo "latest has no commits ahead of main - nothing to do."
             exit 0
           fi
 
           EXISTING=$(gh pr list --base main --head latest --state open --json number --jq 'length')
           if [ "$EXISTING" -gt 0 ]; then
-            echo "An open latest→main PR already exists — skipping."
+            echo "An open latest→main PR already exists - skipping."
             exit 0
           fi
 

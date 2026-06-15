@@ -15,7 +15,7 @@ import IconRenderer from "@/components/IconRenderer";
 /**
  * A single career tool, projected from the AI feature registry. Kept to the
  * minimal display shape so this component never depends on prompt-builder
- * internals — only what the catalog card needs to render. `theme` is a
+ * internals - only what the catalog card needs to render. `theme` is a
  * coarse grouping derived server-side, used purely for the filter Tabs.
  */
 export interface CareerToolCard {
@@ -84,7 +84,7 @@ export function CareerToolGrid({
         </p>
       </header>
 
-      {/* Theme filter — HeroUI v3 Tabs, token-themed. */}
+      {/* Theme filter - HeroUI v3 Tabs, token-themed. */}
       <div className="mb-10 flex justify-center">
         <Tabs
           aria-label="Filter career tools by theme"
@@ -122,10 +122,10 @@ export function CareerToolGrid({
             transition={
               animate
                 ? {
-                    duration: 0.45,
-                    ease: EASE,
-                    delay: Math.min(index * 0.035, 0.4),
-                  }
+                  duration: 0.45,
+                  ease: EASE,
+                  delay: Math.min(index * 0.035, 0.4),
+                }
                 : undefined
             }
             whileHover={animate ? { y: -4 } : undefined}
@@ -182,7 +182,7 @@ export function CareerToolGrid({
 }
 
 /**
- * StatBand — a compact animated metric row reused below the catalog. Each
+ * StatBand - a compact animated metric row reused below the catalog. Each
  * figure counts up on scroll into view via StatCounter (anime.js).
  */
 export function CareerStatBand({

@@ -1,13 +1,13 @@
 'use client';
 
 /**
- * Combobox — thin wrapper over HeroUI v3 `ComboBox`.
+ * Combobox - thin wrapper over HeroUI v3 `ComboBox`.
  *
  * A type-to-filter combobox: a text Input with a filterable Popover ListBox.
  * Re-exports the REAL v3 exports (verified against @heroui/react@3.1.0) under our
  * naming, so the app imports everything from "@/components/ui/Combobox".
  *
- * NOTE: In HeroUI v3, v2's `Autocomplete` was NOT collapsed into `ComboBox` —
+ * NOTE: In HeroUI v3, v2's `Autocomplete` was NOT collapsed into `ComboBox` -
  * both components coexist. `ComboBox` (this file) is the text-input + filter
  * variant (built on react-aria-components `ComboBox`); `Autocomplete` is the
  * Select-based variant. We wrap `ComboBox` as requested.
@@ -87,7 +87,7 @@ export const ComboboxContext = ComboBoxContext;
 /* Style recipe (token-driven), if a consumer needs the slots directly. */
 export const comboboxVariants = comboBoxVariants;
 
-/* Companion parts a Combobox is composed with — re-exported for single-import ergonomics. */
+/* Companion parts a Combobox is composed with - re-exported for single-import ergonomics. */
 export { ListBox, Input, Label };
 
 /* Types */

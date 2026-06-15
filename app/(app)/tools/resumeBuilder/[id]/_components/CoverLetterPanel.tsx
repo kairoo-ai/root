@@ -109,7 +109,7 @@ export function CoverLetterPanel({ resumeId, className }: CoverLetterPanelProps)
         ))}
       </div>
 
-      {/* Generate button — only shown before first generation */}
+      {/* Generate button - only shown before first generation */}
       {!content && !loading && (
         <StatefulButton onClick={generate} className="w-full">
           Generate Cover Letter

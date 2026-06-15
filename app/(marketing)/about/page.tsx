@@ -16,13 +16,13 @@ import {
 } from "./AboutVisuals";
 
 export const metadata: Metadata = {
-  title: `About ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} — The right moment to grow`,
+  title: `About ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - The right moment to grow`,
   description:
-    `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} turns chaotic career development into strategic growth — combining AI-powered learning paths, a complete career toolkit, and business intelligence in one integrated platform.`,
+    `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} turns chaotic career development into strategic growth - combining AI-powered learning paths, a complete career toolkit, and business intelligence in one integrated platform.`,
 };
 
 /**
- * What makes Kairoo different — the three real product pillars, framed as
+ * What makes Kairoo different - the three real product pillars, framed as
  * positioning (not fabricated metrics). Sourced from CONTENT-MAP §A Platform
  * Overview / §C primary value proposition (public-safe parts).
  *
@@ -37,7 +37,7 @@ const PILLARS: PillarData[] = [
     tag: "The core",
     title: "A complete career toolkit",
     description:
-      "Dynamic roadmaps, an interview coach, salary-negotiation prep, performance-review help, and a deep catalogue of AI-powered tools — so every stage of your career has a clear next step.",
+      "Dynamic roadmaps, an interview coach, salary-negotiation prep, performance-review help, and a deep catalogue of AI-powered tools - so every stage of your career has a clear next step.",
   },
   {
     id: "learning",
@@ -64,12 +64,12 @@ const PILLARS: PillarData[] = [
     tag: "One platform",
     title: "One integrated platform",
     description:
-      "Career tools, learning, and intelligence share a single surface — no scattered tabs, no lost context. Growth becomes a strategy, not a scramble.",
+      "Career tools, learning, and intelligence share a single surface - no scattered tabs, no lost context. Growth becomes a strategy, not a scramble.",
   },
 ];
 
 /**
- * Company values — rendered through the animated ValueGrid (string icon names
+ * Company values - rendered through the animated ValueGrid (string icon names
  * resolved by IconRenderer). These are principles, not claims.
  */
 const VALUES: ValueData[] = [
@@ -78,7 +78,7 @@ const VALUES: ValueData[] = [
     icon: "compass",
     title: "Timing over hustle",
     description:
-      "Growth isn't only about effort — it's about acting at the right moment. We help people recognize and seize that moment with confidence.",
+      "Growth isn't only about effort - it's about acting at the right moment. We help people recognize and seize that moment with confidence.",
   },
   {
     id: "outcomes",
@@ -99,7 +99,7 @@ const VALUES: ValueData[] = [
     icon: "shield-check",
     title: "Built to be trusted",
     description:
-      "We design with privacy and accountability in mind, and frame our compliance honestly — building toward the standards our users and their teams rely on.",
+      "We design with privacy and accountability in mind, and frame our compliance honestly - building toward the standards our users and their teams rely on.",
   },
   {
     id: "people",
@@ -118,7 +118,7 @@ const VALUES: ValueData[] = [
 ];
 
 /**
- * Milestone stats — positioning facts about the platform's shape (three
+ * Milestone stats - positioning facts about the platform's shape (three
  * connected pillars, one unified surface), not fabricated traction metrics.
  */
 const STATS: StatData[] = [
@@ -137,7 +137,7 @@ const TEAM: TeamData[] = [
   {
     icon: "sparkles",
     title: "AI & engineering",
-    body: "Building the AI engine behind every roadmap, tutor, and tool — reliable, fast, and useful.",
+    body: "Building the AI engine behind every roadmap, tutor, and tool - reliable, fast, and useful.",
   },
   {
     icon: "heart-pulse",
@@ -147,8 +147,8 @@ const TEAM: TeamData[] = [
 ];
 
 const MISSION_PARAGRAPHS = [
-  "Careers used to follow a straight line. Today, the skills that define a role can shift in just a few years, and the resources meant to help — courses, coaches, communities, tools — are scattered across a dozen tabs. The result is a lot of effort spent on the wrong things at the wrong time.",
-  `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} exists to fix that. We bring AI-powered learning paths, a full career toolkit, and business intelligence together in one place, so people and the teams they belong to can stop guessing and start moving with intent. Instead of asking “what should I learn next?” and hoping, you get a clear, personalized route from where you are to where you want to be — and the tools to walk it.`,
+  "Careers used to follow a straight line. Today, the skills that define a role can shift in just a few years, and the resources meant to help - courses, coaches, communities, tools - are scattered across a dozen tabs. The result is a lot of effort spent on the wrong things at the wrong time.",
+  `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} exists to fix that. We bring AI-powered learning paths, a full career toolkit, and business intelligence together in one place, so people and the teams they belong to can stop guessing and start moving with intent. Instead of asking “what should I learn next?” and hoping, you get a clear, personalized route from where you are to where you want to be - and the tools to walk it.`,
   "The name says it plainly: there is a right moment to grow. Our job is to help you find it, and then to make the next step obvious.",
 ];
 
@@ -159,7 +159,7 @@ export default function AboutPage() {
         titleLead="The right"
         titleHighlight="moment"
         titleTail="to grow"
-        subtitle={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} turns chaotic career development into strategic growth — combining AI-powered learning paths, a complete career toolkit, and business intelligence in one integrated platform that helps professionals and teams accelerate skill acquisition and reach measurable outcomes.` }
+        subtitle={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} turns chaotic career development into strategic growth - combining AI-powered learning paths, a complete career toolkit, and business intelligence in one integrated platform that helps professionals and teams accelerate skill acquisition and reach measurable outcomes.`}
         primaryCta={{ label: "Explore the platform", href: "/features" }}
         secondaryCta={{ label: "See pricing", href: "/sign-up" }}
       />
@@ -171,13 +171,13 @@ export default function AboutPage() {
 
       <PillarBento
         heading="Three capabilities, one platform"
-        description="The product is organized around three connected pillars. Each is useful on its own — together they turn growth into a continuous, guided loop."
+        description="The product is organized around three connected pillars. Each is useful on its own - together they turn growth into a continuous, guided loop."
         pillars={PILLARS}
       />
 
       <MilestoneStats
         heading="How the platform adds up"
-        description="Not vanity metrics — the structural facts that make growth feel guided instead of chaotic."
+        description="Not vanity metrics - the structural facts that make growth feel guided instead of chaotic."
         stats={STATS}
       />
 
@@ -188,20 +188,20 @@ export default function AboutPage() {
 
       <ValueGrid
         heading="What we value"
-        description="The principles that shape every decision we make — from the roadmap we build to the way we talk about it."
+        description="The principles that shape every decision we make - from the roadmap we build to the way we talk about it."
         values={VALUES}
       />
 
       <TeamSection
         heading="Builders, learners, and career-changers"
-        description={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is built by a small, focused team that has lived the problem we’re solving — navigating career pivots, skill gaps, and the overwhelm of doing it alone. Detailed team profiles are on the way.` }
+        description={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} is built by a small, focused team that has lived the problem we’re solving - navigating career pivots, skill gaps, and the overwhelm of doing it alone. Detailed team profiles are on the way.`}
         members={TEAM}
-        note={ `We keep our story honest. As ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} grows, we’ll introduce the people behind it here — with real names, roles, and the work they’ve shipped.` }
+        note={`We keep our story honest. As ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} grows, we’ll introduce the people behind it here - with real names, roles, and the work they’ve shipped.`}
       />
 
       <AboutCta
         headline="There's a right moment to grow. Make it now."
-        body={ `Start with a personalized roadmap, or talk to us about rolling ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} out across your team.` }
+        body={`Start with a personalized roadmap, or talk to us about rolling ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} out across your team.`}
         primary={{ label: "Get started", href: "/sign-up" }}
         secondary={{ label: "Talk to us", href: "/contact" }}
       />

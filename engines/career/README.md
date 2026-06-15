@@ -2,4 +2,4 @@
 
 Career domain engine: pathways, roles, and progression logic.
 
-Reserved skeleton — no business logic yet.
+Reserved skeleton - no business logic yet.

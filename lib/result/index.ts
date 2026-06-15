@@ -1,6 +1,6 @@
 /**
  * Result type for explicit success/error handling.
- * Reserved skeleton — typed helpers only, no business logic yet.
+ * Reserved skeleton - typed helpers only, no business logic yet.
  */
 
 import { AppError } from "../errors";

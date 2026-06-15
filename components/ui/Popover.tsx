@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Popover — thin wrapper over HeroUI v3 (@heroui/react).
+ * Popover - thin wrapper over HeroUI v3 (@heroui/react).
  *
  * HeroUI v3 ships Popover as a compound component built on react-aria-components,
  * so it is fully accessible (focus management, dismiss-on-outside, ARIA wiring)

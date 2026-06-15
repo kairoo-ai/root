@@ -12,9 +12,9 @@ import {
 import { FullToolCatalog, WorkflowSection, PersonalizationSection } from "./FeaturesExtended";
 
 export const metadata = {
-  title: `Features — 38 AI tools for your career | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
+  title: `Features - 38 AI tools for your career | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
   description:
-    `Every tool ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} ships: career roadmaps, interview coaching, salary negotiation, learning paths, and 30+ more — all personalized to your role, goals, and background.`,
+    `Every tool ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} ships: career roadmaps, interview coaching, salary negotiation, learning paths, and 30+ more - all personalized to your role, goals, and background.`,
 };
 
 const totalFeatures = featureRegistry.length;
@@ -29,7 +29,7 @@ const pillars: PillarData[] = [
     title: "Career Development Suite",
     short: "Career",
     description:
-      "Turn ambiguous goals into sequenced plans and execute with AI co-pilots for every high-stakes career moment — roadmaps, interviews, salary negotiations, performance reviews, and 20+ more tools.",
+      "Turn ambiguous goals into sequenced plans and execute with AI co-pilots for every high-stakes career moment - roadmaps, interviews, salary negotiations, performance reviews, and 20+ more tools.",
     href: "/features/career",
     icon: "briefcase",
     span: "lg:col-span-2 lg:row-span-2",
@@ -46,7 +46,7 @@ const pillars: PillarData[] = [
     title: "Intelligent Learning Paths",
     short: "Learning",
     description:
-      "Personalized curricula that adapt as you grow — AI-curated paths, an always-on tutor, project-based practice, and progress tracking that keeps momentum honest.",
+      "Personalized curricula that adapt as you grow - AI-curated paths, an always-on tutor, project-based practice, and progress tracking that keeps momentum honest.",
     href: "/features/learning",
     icon: "graduation-cap",
     span: "lg:col-span-1 lg:row-span-1",
@@ -63,7 +63,7 @@ const pillars: PillarData[] = [
     title: "Strategic Business Intelligence",
     short: "Teams",
     description:
-      "Bring the same intelligence to teams — skill gap analytics, goal alignment, predictive insights, and a Team Skill Matrix so leaders can see capability at a glance.",
+      "Bring the same intelligence to teams - skill gap analytics, goal alignment, predictive insights, and a Team Skill Matrix so leaders can see capability at a glance.",
     href: "/features/teams",
     icon: "bar-chart-3",
     span: "lg:col-span-1 lg:row-span-1",
@@ -90,30 +90,30 @@ const benefitTabs: BenefitTab[] = [
     label: "Career",
     items: [
       { icon: "map", title: "Dynamic Roadmaps", description: `Turn a vague goal into a week-by-week plan. ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} sequences milestones, skills, and resources based on your current role and target.` },
-      { icon: "mic", title: "Interview Coach", description: "Practice with an AI co-pilot that gives structured, role-specific feedback — STAR answers, follow-up questions, and red flags." },
+      { icon: "mic", title: "Interview Coach", description: "Practice with an AI co-pilot that gives structured, role-specific feedback - STAR answers, follow-up questions, and red flags." },
       { icon: "trending-up", title: "Salary Coach", description: "Walk into compensation conversations prepared. Get market ranges, negotiation scripts, and talking points tailored to your role and location." },
-      { icon: "compass", title: "Career Simulator", description: "Model a pivot from your current role to a target role — gap analysis, required skills, estimated timeline, and first steps." },
+      { icon: "compass", title: "Career Simulator", description: "Model a pivot from your current role to a target role - gap analysis, required skills, estimated timeline, and first steps." },
       { icon: "target", title: "Job Matcher", description: "Paste a job description and your resume. Get a match score, gaps to close, and tailored edits to maximize relevance for that specific role." },
-      { icon: "award", title: "Review Assistant", description: "Draft powerful self-reviews, peer reviews, or manager reviews backed by real impact framing — not filler." },
+      { icon: "award", title: "Review Assistant", description: "Draft powerful self-reviews, peer reviews, or manager reviews backed by real impact framing - not filler." },
       { icon: "user-square", title: "Bio Generator", description: "Create LinkedIn summaries, Twitter bios, or conference intros tuned to your platform and the impression you want to leave." },
-      { icon: "calendar-check", title: "90-Day Planner", description: "Strategic onboarding plan for a new role — what to learn, who to meet, what to ship, and how to build trust fast." },
+      { icon: "calendar-check", title: "90-Day Planner", description: "Strategic onboarding plan for a new role - what to learn, who to meet, what to ship, and how to build trust fast." },
       { icon: "flag", title: "Goal Refiner", description: "Transform vague ambitions into SMART goals with clear metrics, timelines, and action plans." },
-      { icon: "users", title: "Skill Scenarios", description: "Practice workplace conversations — asking for a raise, pushing back on scope, navigating conflict — with role-play coaching." },
+      { icon: "users", title: "Skill Scenarios", description: "Practice workplace conversations - asking for a raise, pushing back on scope, navigating conflict - with role-play coaching." },
     ],
   },
   {
     id: "productivity",
     label: "Productivity",
     items: [
-      { icon: "file-text", title: "Document Suite", description: "Generate cover letters, proposals, project briefs, status reports, and business memos — structured for your audience in seconds." },
-      { icon: "mail-plus", title: "Email Assistant", description: "Draft professional emails for any situation — follow-ups, tough conversations, introductions — at the right tone." },
+      { icon: "file-text", title: "Document Suite", description: "Generate cover letters, proposals, project briefs, status reports, and business memos - structured for your audience in seconds." },
+      { icon: "mail-plus", title: "Email Assistant", description: "Draft professional emails for any situation - follow-ups, tough conversations, introductions - at the right tone." },
       { icon: "clipboard-list", title: "Meeting Prep", description: "Walk into any meeting with a structured agenda, key questions, and clarity on what you're trying to achieve." },
-      { icon: "pen-square", title: "Post Writer", description: "Write thought leadership posts for LinkedIn, Twitter/X, or your blog — with your angle and voice, not a generic template." },
+      { icon: "pen-square", title: "Post Writer", description: "Write thought leadership posts for LinkedIn, Twitter/X, or your blog - with your angle and voice, not a generic template." },
       { icon: "lightbulb", title: "Idea Validator", description: "Run a SWOT analysis on any business or product idea before you invest time building it." },
-      { icon: "file-text", title: "Contract Reviewer", description: "Understand key clauses, risks, and negotiating points in contracts — plain English, no legalese." },
-      { icon: "clipboard-list", title: "Retro Helper", description: "Generate structured retrospectives for sprints, projects, or quarters — what shipped, what broke, what to change." },
-      { icon: "dollar-sign", title: "Budget Proposer", description: "Build a business case for any training or investment — ROI framing, cost justification, approval-ready language." },
-      { icon: "message-circle", title: "Pitch Refiner", description: "Sharpen your pitch for any audience — investors, hiring managers, clients — clear structure and persuasive framing." },
+      { icon: "file-text", title: "Contract Reviewer", description: "Understand key clauses, risks, and negotiating points in contracts - plain English, no legalese." },
+      { icon: "clipboard-list", title: "Retro Helper", description: "Generate structured retrospectives for sprints, projects, or quarters - what shipped, what broke, what to change." },
+      { icon: "dollar-sign", title: "Budget Proposer", description: "Build a business case for any training or investment - ROI framing, cost justification, approval-ready language." },
+      { icon: "message-circle", title: "Pitch Refiner", description: "Sharpen your pitch for any audience - investors, hiring managers, clients - clear structure and persuasive framing." },
       { icon: "brain", title: "Decision Copilot", description: "Work through high-stakes decisions with structured pros/cons, second-order effects, and a recommended path." },
     ],
   },
@@ -121,31 +121,31 @@ const benefitTabs: BenefitTab[] = [
     id: "learning",
     label: "Learning",
     items: [
-      { icon: "book-open", title: "AI Path Generation", description: "Generate a personalized curriculum from any skill goal — sequenced into achievable, trackable steps with named resources." },
+      { icon: "book-open", title: "AI Path Generation", description: "Generate a personalized curriculum from any skill goal - sequenced into achievable, trackable steps with named resources." },
       { icon: "bot", title: "AI Tutor", description: "Ask anything, at any level. An always-on tutor that knows your path and meets you where you are." },
-      { icon: "folder-kanban", title: "Project Learning", description: "Get portfolio-ready project ideas matched to your stack and learning stage — learn by building, not just watching." },
-      { icon: "trending-up", title: "Trends Analyzer", description: "Stay ahead in your industry — emerging skills, tool shifts, and role evolution you need to plan around." },
-      { icon: "code", title: "Project Generator", description: "Given your skills and level, generate specific project specs — not just ideas, but what to build and why it signals growth." },
-      { icon: "dollar-sign", title: "Side Hustle Strategist", description: "Given your skills and available hours, get a realistic side income plan — platforms, positioning, and first steps." },
+      { icon: "folder-kanban", title: "Project Learning", description: "Get portfolio-ready project ideas matched to your stack and learning stage - learn by building, not just watching." },
+      { icon: "trending-up", title: "Trends Analyzer", description: "Stay ahead in your industry - emerging skills, tool shifts, and role evolution you need to plan around." },
+      { icon: "code", title: "Project Generator", description: "Given your skills and level, generate specific project specs - not just ideas, but what to build and why it signals growth." },
+      { icon: "dollar-sign", title: "Side Hustle Strategist", description: "Given your skills and available hours, get a realistic side income plan - platforms, positioning, and first steps." },
     ],
   },
   {
     id: "workplace",
     label: "Workplace",
     items: [
-      { icon: "network", title: "Networking Strategist", description: "Build a targeted networking plan for your goal and industry — who to reach, how to reach them, and what to say." },
+      { icon: "network", title: "Networking Strategist", description: "Build a targeted networking plan for your goal and industry - who to reach, how to reach them, and what to say." },
       { icon: "heart", title: "Burnout Coach", description: "Diagnose signs of burnout and get a practical recovery and boundary-setting plan before it escalates." },
-      { icon: "activity", title: "Health Check", description: "Periodic career health audit — are you growing, stagnating, or drifting? Get an honest read and a corrective plan." },
-      { icon: "mic", title: "Speaking Coach", description: "Prepare for any presentation — talking points, structure, opener, closer, and handling nerves." },
-      { icon: "alert-triangle", title: "Conflict Mediator", description: "Navigate workplace conflict with structured frameworks — understand both sides, de-escalate, and find common ground." },
-      { icon: "users", title: "Stakeholder Mapper", description: "Map who has influence over your project — priorities, concerns, and how to communicate with each stakeholder type." },
-      { icon: "book", title: "Jargon Buster", description: "Demystify industry jargon, acronyms, and domain terminology — with context for how it's actually used in practice." },
+      { icon: "activity", title: "Health Check", description: "Periodic career health audit - are you growing, stagnating, or drifting? Get an honest read and a corrective plan." },
+      { icon: "mic", title: "Speaking Coach", description: "Prepare for any presentation - talking points, structure, opener, closer, and handling nerves." },
+      { icon: "alert-triangle", title: "Conflict Mediator", description: "Navigate workplace conflict with structured frameworks - understand both sides, de-escalate, and find common ground." },
+      { icon: "users", title: "Stakeholder Mapper", description: "Map who has influence over your project - priorities, concerns, and how to communicate with each stakeholder type." },
+      { icon: "book", title: "Jargon Buster", description: "Demystify industry jargon, acronyms, and domain terminology - with context for how it's actually used in practice." },
       { icon: "layout-panel-left", title: "Mockup Feedback", description: "Describe your design or product mockup and get structured UX, clarity, and user-flow feedback." },
     ],
   },
 ];
 
-// Real workflows — sequences of tools for specific goals
+// Real workflows - sequences of tools for specific goals
 export const WORKFLOWS = [
   {
     id: "job-search",
@@ -198,23 +198,23 @@ export default function FeaturesHubPage() {
         titleLead="38 AI tools."
         titleHighlight="One platform."
         titleTail="Built around you."
-        subtitle={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} unifies career development, learning, and productivity into one AI command center — and every tool is personalized to your role, goals, and background from the moment you start.` }
+        subtitle={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} unifies career development, learning, and productivity into one AI command center - and every tool is personalized to your role, goals, and background from the moment you start.`}
       />
 
       <PillarBento pillars={pillars} />
 
       <FeatureStats stats={stats} />
 
-      {/* Real workflows — concrete tool chains for real goals */}
+      {/* Real workflows - concrete tool chains for real goals */}
       <WorkflowSection workflows={WORKFLOWS} />
 
       {/* Personalization messaging */}
       <PersonalizationSection />
 
-      {/* Full tool tabs — all 38 tools across 4 categories */}
+      {/* Full tool tabs - all 38 tools across 4 categories */}
       <BenefitTabs
         heading="Every tool, every category"
-        description="38 AI tools shipping today across career, productivity, learning, and workplace. Each one is purpose-built — not a generic chat."
+        description="38 AI tools shipping today across career, productivity, learning, and workplace. Each one is purpose-built - not a generic chat."
         tabs={benefitTabs}
       />
 
@@ -223,7 +223,7 @@ export default function FeaturesHubPage() {
 
       <FeaturesCta
         headline="Your goals deserve better than generic AI"
-        body={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} knows your role, your target, your background. Every tool starts where you are.` }
+        body={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} knows your role, your target, your background. Every tool starts where you are.`}
       />
     </>
   );

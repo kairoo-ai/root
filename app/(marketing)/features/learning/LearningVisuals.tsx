@@ -51,7 +51,7 @@ interface LearningVisualsProps {
 }
 
 /* ------------------------------------------------------------------ */
-/* Shared reveal helper — reduced-motion safe                          */
+/* Shared reveal helper - reduced-motion safe                          */
 /* ------------------------------------------------------------------ */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -61,15 +61,15 @@ function useReveal() {
     reduce
       ? {}
       : {
-          initial: { opacity: 0, y: 24 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, amount: 0.3 },
-          transition: { duration: 0.6, ease: EASE, delay },
-        };
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.3 },
+        transition: { duration: 0.6, ease: EASE, delay },
+      };
 }
 
 /* ================================================================== */
-/* HERO — Spotlight + anime.js staggered headline + StatGrid          */
+/* HERO - Spotlight + anime.js staggered headline + StatGrid          */
 /* ================================================================== */
 const HERO_STATS = [
   { value: 3, suffix: " tools", label: "Live learning engines" },
@@ -142,7 +142,7 @@ function LearningHero() {
                 "inline-block",
                 reduce ? "" : "will-change-transform",
                 highlightIdx.has(i) &&
-                  "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
+                "bg-linear-to-r from-primary to-accent bg-clip-text text-transparent",
               )}
             >
               {word}
@@ -156,7 +156,7 @@ function LearningHero() {
           className="max-w-2xl text-pretty text-body-lg text-muted-foreground"
         >
           Tell {process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} what you want to master and the AI builds the curriculum,
-          tutors you through it, and turns theory into portfolio-ready projects —
+          tutors you through it, and turns theory into portfolio-ready projects -
           scaled to your timeline and level.
         </motion.p>
 
@@ -183,7 +183,7 @@ function LearningHero() {
 }
 
 /* ================================================================== */
-/* AVAILABLE NOW — ThreeDCard tilt + CardSpotlight glow per tool       */
+/* AVAILABLE NOW - ThreeDCard tilt + CardSpotlight glow per tool       */
 /* ================================================================== */
 function AvailableNow({ ready }: { ready: ToolCard[] }) {
   const reveal = useReveal();
@@ -195,7 +195,7 @@ function AvailableNow({ ready }: { ready: ToolCard[] }) {
           Three AI learning tools you can use today
         </h2>
         <p className="text-body-lg text-pretty text-muted-foreground">
-          Each one generates a tailored, actionable plan from a couple of inputs —
+          Each one generates a tailored, actionable plan from a couple of inputs -
           no setup, no fluff, ready the moment you are.
         </p>
       </Stack>
@@ -247,14 +247,14 @@ function AvailableNow({ ready }: { ready: ToolCard[] }) {
 }
 
 /* ================================================================== */
-/* HOW IT WORKS — BentoGrid of the learning loop                       */
+/* HOW IT WORKS - BentoGrid of the learning loop                       */
 /* ================================================================== */
 const BENTO_ITEMS: BentoItem[] = [
   {
     id: "curriculum",
     title: "A curriculum built around your goal",
     description:
-      `Name a skill and a timeline — ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} sequences a week-by-week path from the best-known resources, scaled to where you are now.`,
+      `Name a skill and a timeline - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} sequences a week-by-week path from the best-known resources, scaled to where you are now.`,
     icon: <IconRenderer name="route" size={22} />,
     span: "2x2",
   },
@@ -262,7 +262,7 @@ const BENTO_ITEMS: BentoItem[] = [
     id: "tutor",
     title: "A tutor that never sleeps",
     description:
-      "Stuck on a concept? Get a clear, level-appropriate explanation with an example and a self-check — 24/7.",
+      "Stuck on a concept? Get a clear, level-appropriate explanation with an example and a self-check - 24/7.",
     icon: <IconRenderer name="message-circle" size={22} />,
     span: "2x1",
   },
@@ -281,7 +281,7 @@ const BENTO_ITEMS: BentoItem[] = [
   },
   {
     id: "level",
-    title: "Pitched to your level — beginner to advanced",
+    title: "Pitched to your level - beginner to advanced",
     description:
       "The same engine scales ambition up or down so the path never feels too shallow or too steep.",
     icon: <IconRenderer name="layers" size={22} />,
@@ -293,8 +293,8 @@ function HowItWorks() {
   return (
     <BentoGrid
       eyebrow="The learning loop"
-      heading="Plan, learn, build — on one adaptive surface"
-      description={ `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} closes the gap between a goal and the work that gets you there: a sequenced path, an always-on tutor, and projects that turn knowledge into proof.` }
+      heading="Plan, learn, build - on one adaptive surface"
+      description={`${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} closes the gap between a goal and the work that gets you there: a sequenced path, an always-on tutor, and projects that turn knowledge into proof.`}
       items={BENTO_ITEMS}
       className="pt-0"
     />
@@ -302,7 +302,7 @@ function HowItWorks() {
 }
 
 /* ================================================================== */
-/* ROADMAP — CardSpotlight glass cards + animated coming-soon badge    */
+/* ROADMAP - CardSpotlight glass cards + animated coming-soon badge    */
 /* ================================================================== */
 function Roadmap({ comingSoon }: { comingSoon: ComingSoonCard[] }) {
   const reveal = useReveal();
@@ -363,7 +363,7 @@ function Roadmap({ comingSoon }: { comingSoon: ComingSoonCard[] }) {
 }
 
 /* ================================================================== */
-/* FAQ — HeroUI Accordion for interactivity                            */
+/* FAQ - HeroUI Accordion for interactivity                            */
 /* ================================================================== */
 const FAQS = [
   {
@@ -374,12 +374,12 @@ const FAQS = [
   {
     id: "level",
     q: "Does it adapt to my experience level?",
-    a: "Yes. Every learning tool scales scope and depth to your stated level — from complete beginner to advanced — so the path never feels too shallow or too steep.",
+    a: "Yes. Every learning tool scales scope and depth to your stated level - from complete beginner to advanced - so the path never feels too shallow or too steep.",
   },
   {
     id: "tutor",
     q: "Can I ask questions while I learn?",
-    a: "The AI Tutor answers any question with a clear explanation, a worked example, and a suggested follow-up — available whenever you need it.",
+    a: "The AI Tutor answers any question with a clear explanation, a worked example, and a suggested follow-up - available whenever you need it.",
   },
   {
     id: "projects",
@@ -425,7 +425,7 @@ function LearningFAQ() {
 }
 
 /* ================================================================== */
-/* PUBLIC — full elevated stack                                        */
+/* PUBLIC - full elevated stack                                        */
 /* ================================================================== */
 export function LearningVisuals({ ready, comingSoon }: LearningVisualsProps) {
   return (

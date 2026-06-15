@@ -35,7 +35,7 @@ export interface RoadmapPlanJson {
   generatedAt: string    // ISO date string
 }
 
-/** Type guard — distinguishes new phase-based planJson from legacy steps[] shape */
+/** Type guard - distinguishes new phase-based planJson from legacy steps[] shape */
 export function isPhasedPlan(plan: unknown): plan is RoadmapPlanJson {
   return (
     typeof plan === 'object' &&

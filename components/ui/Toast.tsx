@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Toast — thin wrapper over HeroUI v3 (@heroui/react) Toast.
+ * Toast - thin wrapper over HeroUI v3 (@heroui/react) Toast.
  *
  * Verified against @heroui/react@3.1.0
  *   node_modules/@heroui/react/dist/components/toast/index.d.ts
@@ -10,9 +10,9 @@
  *
  * HeroUI's toast is an IMPERATIVE system: you call the `toast(...)` function to
  * enqueue a toast, and a provider renders the toast region. There is NO hook
- * (no `useToast`) — `toast` is a plain function with variant methods attached.
+ * (no `useToast`) - `toast` is a plain function with variant methods attached.
  *
- * ── Provider (mount ONCE, at the app root — NOT mounted here) ────────────────
+ * ── Provider (mount ONCE, at the app root - NOT mounted here) ────────────────
  *   This wrapper intentionally does NOT mount the provider globally. Add it to
  *   your root layout/provider tree exactly once, e.g.:
  *
@@ -101,7 +101,7 @@ export type {
 
 // `ToastActionButtonProps` is not re-exported as a standalone type by the v3
 // barrel; surface it via the compound namespace type instead. (Indexed access
-// off the type-side `Toast` import — `Toast.ActionProps` dotted syntax fails
+// off the type-side `Toast` import - `Toast.ActionProps` dotted syntax fails
 // because our local `Toast` const is value-only.)
 export type ToastActionButtonProps = HeroToastType['ActionProps'];
 

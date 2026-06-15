@@ -54,7 +54,7 @@ export async function POST(
   const writer = writable.getWriter()
   const reader = aiRes.body.getReader()
 
-  // Pump in background — collect full text, then persist
+  // Pump in background - collect full text, then persist
   ;(async () => {
     try {
       while (true) {

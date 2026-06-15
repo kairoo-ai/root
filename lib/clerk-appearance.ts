@@ -2,7 +2,7 @@
 type Appearance = any;
 
 /**
- * Shared Clerk appearance — uses our CSS custom properties so it
+ * Shared Clerk appearance - uses our CSS custom properties so it
  * automatically adapts to light/dark mode via next-themes class toggle.
  *
  * Applied at the ClerkProvider level (root layout) so every Clerk-rendered
