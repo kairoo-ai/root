@@ -502,9 +502,30 @@ Return markdown with: a **stakeholder map** categorizing each by **influence vs.
       { id: 'skill', label: 'Skill to master', type: 'text', placeholder: 'e.g. machine learning', required: true },
       { id: 'timeline', label: 'Timeline', type: 'select', placeholder: 'How long do you have', options: ['3 months', '6 months', '1 year', '2 years'] },
     ],
-    buildUserPrompt: (i) => `You are a curriculum designer.
-${line('Skill', i.skill)}${line('Timeline', i.timeline || '6 months')}
-Return a learning path in markdown with: a **week-by-week (or month-by-month) curriculum** scaled to the timeline, **recommended resource types** (courses, books, docs — name well-known ones where you can), a **hands-on project per phase**, and **checkpoints to measure progress**.`,
+    buildUserPrompt: (i) => `You are a curriculum designer creating a structured career learning path.
+${line('Skill / Goal', i.skill)}${line('Timeline', i.timeline || '6 months')}${line('Focus areas', i.focusAreas || '')}
+
+Return ONLY a valid JSON object (no markdown, no prose outside the JSON) in this exact shape:
+{
+  "phases": [
+    {
+      "title": "Phase name",
+      "steps": [
+        {
+          "title": "Step title",
+          "description": "2-3 sentence description of what to do and why",
+          "duration": "X weeks",
+          "resources": [
+            { "title": "Resource name", "url": "https://...", "type": "course|article|video|book" }
+          ],
+          "xpReward": 50
+        }
+      ]
+    }
+  ]
+}
+
+Create 3–5 phases with 3–6 steps each. Scale scope to the timeline. Name well-known resources with real URLs.`,
   },
   {
     id: 'aiTutor', name: 'AI Tutor Chatbot', icon: 'message-circle', color: 'green-400',
