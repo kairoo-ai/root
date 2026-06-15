@@ -3,12 +3,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Save, CheckCircle2, Target, ArrowLeft } from 'lucide-react'
+import { Save, CheckCircle2, Target, ArrowLeft, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import type { ResumeRow, ResumeSections, ResumeTemplateId } from '@/types/resume'
 import ResumeEditorPanel from './_components/ResumeEditorPanel'
 import ResumePreview from './_components/ResumePreview'
 import ATSSidebar from './_components/ATSSidebar'
+import { TailorModal } from './_components/TailorModal'
 
 type SaveState = 'idle' | 'saving' | 'saved'
 
@@ -19,6 +20,7 @@ export default function ResumeEditorPage() {
   const [templateId, setTemplateId] = useState<ResumeTemplateId>('minimal')
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [showAts, setShowAts] = useState(false)
+  const [tailorOpen, setTailorOpen] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Load
@@ -104,6 +106,14 @@ export default function ResumeEditorPage() {
           )}
 
           <button
+            onClick={() => setTailorOpen(true)}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-white/10 text-white/50 hover:text-white/80 transition-colors"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            Tailor to Job
+          </button>
+
+          <button
             onClick={() => setShowAts(!showAts)}
             className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-colors ${
               showAts
@@ -159,6 +169,15 @@ export default function ResumeEditorPage() {
           </motion.div>
         )}
       </div>
+
+      <TailorModal
+        resumeId={id}
+        isOpen={tailorOpen}
+        onClose={() => setTailorOpen(false)}
+        onTailored={(tailoredSections) => {
+          setSections(tailoredSections)
+        }}
+      />
     </div>
   )
 }
