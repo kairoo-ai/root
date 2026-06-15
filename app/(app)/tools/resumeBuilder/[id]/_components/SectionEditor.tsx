@@ -148,6 +148,9 @@ export default function SectionEditor({ sectionKey, sections, onChange, targetRo
                 patchEntry(entry.id, { bullets: newBullets })
               }}
               isStreaming={isStreaming}
+              role={entry.role}
+              company={entry.company}
+              jobDescription={jobDescription}
             />
             <button
               onClick={() => removeEntry(entry.id)}
@@ -263,6 +266,9 @@ export default function SectionEditor({ sectionKey, sections, onChange, targetRo
                 patchEntry(entry.id, { bullets: newBullets })
               }}
               isStreaming={isStreaming}
+              role={targetRole}
+              company={entry.name}
+              jobDescription={jobDescription}
             />
             <button onClick={() => removeEntry(entry.id)} className="self-end flex items-center gap-1 text-xs text-red-400/70 hover:text-red-400 transition-colors">
               <Trash2 className="w-3 h-3" /> Remove

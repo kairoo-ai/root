@@ -197,6 +197,7 @@ export default function ResumeEditorPage() {
               resumeId={id}
               initialScore={resume.atsScore}
               jobDescription={resume.jobDescription ?? ''}
+              sections={sections}
               onScoreUpdate={(score) =>
                 setResume((prev) => (prev ? { ...prev, atsScore: score } : prev))
               }
