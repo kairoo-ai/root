@@ -2,10 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getUserSessions, getInterviewStats } from '@/data/repositories/interview.repo'
-import { SessionModeCard } from './_components/SessionModeCard'
-import type { InterviewType } from '@/types/interview'
-
-const MODES: InterviewType[] = ['behavioral', 'technical', 'system_design', 'case_study']
+import { HubClientSection } from './_components/HubClientSection'
 
 export default async function InterviewPrepHub() {
   const { userId } = await auth()
@@ -20,13 +17,8 @@ export default async function InterviewPrepHub() {
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Interview Prep</h1>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          Practice mock interviews with AI-powered feedback and scoring.
-        </p>
-      </div>
+      {/* Interactive hero + company selector + mode grid */}
+      <HubClientSection />
 
       {/* Stats bar */}
       <div className="grid grid-cols-3 gap-4">
@@ -58,21 +50,6 @@ export default async function InterviewPrepHub() {
           <span className="text-[var(--color-primary)]">→</span>
         </Link>
       )}
-
-      {/* Mode selector — navigates to setup with type pre-selected */}
-      <div>
-        <h2 className="mb-3 text-sm font-semibold text-[var(--color-text-secondary)]">Start New Session</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {MODES.map((type) => (
-            <Link key={type} href={`/tools/interviewPrep/setup?type=${type}`}>
-              {/* SessionModeCard is a client component; wrap in a div to allow Link navigation */}
-              <div className="cursor-pointer">
-                <SessionModeCard type={type} selected={false} onClick={() => {}} />
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
 
       {/* Recent sessions */}
       {sessions.length > 0 && (

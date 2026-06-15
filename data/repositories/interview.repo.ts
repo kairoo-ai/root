@@ -25,6 +25,7 @@ export async function createSession(
       type: data.type,
       targetRole: data.targetRole,
       targetCompany: data.targetCompany ?? null,
+      personaId: data.personaId ?? null,
       difficulty: data.difficulty,
       questionCount: data.questionCount,
       status: 'in_progress',

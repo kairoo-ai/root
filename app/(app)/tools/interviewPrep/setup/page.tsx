@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { SessionModeCard } from '../_components/SessionModeCard'
+import { PersonaSelector } from '../_components/PersonaSelector'
 import type { InterviewType, Difficulty, CreateSessionRequest } from '@/types/interview'
 
 const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
@@ -16,7 +17,8 @@ export default function SetupPage() {
     (searchParams.get('type') as InterviewType) ?? 'behavioral',
   )
   const [targetRole, setTargetRole] = useState(searchParams.get('role') ?? '')
-  const [targetCompany, setTargetCompany] = useState('')
+  const [targetCompany, setTargetCompany] = useState(searchParams.get('company') ?? '')
+  const [personaId, setPersonaId] = useState('supportive')
   const [difficulty, setDifficulty] = useState<Difficulty>(
     (searchParams.get('prefillDifficulty') as Difficulty) ?? 'medium',
   )
@@ -39,6 +41,7 @@ export default function SetupPage() {
       type,
       targetRole: targetRole.trim(),
       targetCompany: targetCompany.trim() || undefined,
+      personaId: personaId || undefined,
       difficulty,
       questionCount,
     }
@@ -100,6 +103,9 @@ export default function SetupPage() {
           className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-1)] px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:border-[var(--color-primary)] focus:outline-none"
         />
       </div>
+
+      {/* Persona */}
+      <PersonaSelector value={personaId} onChange={setPersonaId} />
 
       {/* Difficulty */}
       <fieldset className="flex flex-col gap-2">

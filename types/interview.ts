@@ -10,6 +10,7 @@ export interface InterviewSession {
   type: InterviewType
   targetRole: string
   targetCompany: string | null
+  personaId: string | null
   difficulty: Difficulty
   questionCount: number
   status: SessionStatus
@@ -45,6 +46,7 @@ export interface CreateSessionRequest {
   type: InterviewType
   targetRole: string
   targetCompany?: string
+  personaId?: string
   difficulty: Difficulty
   questionCount: 5 | 10 | 15
 }

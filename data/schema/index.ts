@@ -105,6 +105,7 @@ export const interviewSessions = pgTable('interview_sessions', {
   type: text('type', { enum: ['behavioral', 'technical', 'system_design', 'case_study'] }).notNull(),
   targetRole: text('target_role').notNull(),
   targetCompany: text('target_company'),
+  personaId: text('persona_id'),
   difficulty: text('difficulty', { enum: ['easy', 'medium', 'hard'] }).notNull().default('medium'),
   questionCount: integer('question_count').notNull().default(5),
   status: text('status', { enum: ['in_progress', 'completed'] }).notNull().default('in_progress'),
