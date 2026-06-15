@@ -64,13 +64,13 @@ export function StatsGrid({ stats, usedCredits }: StatsGridProps) {
           transition={{ duration: 0.35, delay: i * 0.06, ease: 'easeOut' }}
         >
           <GlowingEffect>
-            <CardSpotlight className="rounded-xl border border-border bg-card p-4 hover:border-teal-500/25 transition-colors cursor-default">
+            <CardSpotlight className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 hover:bg-white/8 hover:border-white/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98] will-change-transform">
               <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center mb-3', stat.bg)}>
                 <stat.icon className={cn('w-4 h-4', stat.color)} />
               </div>
-              <div className="text-2xl font-extrabold text-foreground tracking-tight leading-none mb-0.5">{stat.value}</div>
-              <div className="text-[11px] text-muted-foreground">{stat.label}</div>
-              <div className="text-[11px] text-muted-foreground mt-1">{stat.sub}</div>
+              <div className="text-2xl font-extrabold text-white tracking-tight leading-none mb-0.5">{stat.value}</div>
+              <div className="text-[11px] text-white/60">{stat.label}</div>
+              <div className="text-[11px] text-white/40 mt-1">{stat.sub}</div>
               <div className={cn('inline-flex items-center text-[10px] font-semibold mt-2 px-1.5 py-0.5 rounded-full', stat.positive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400')}>
                 {stat.delta}
               </div>

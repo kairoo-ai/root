@@ -1,11 +1,25 @@
-import { auth } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { getProfile } from '@/data/repositories/profiles.repo'
+import { findUserById, upsertUserByClerkId } from '@/data/repositories/users.repo'
 import { OnboardingWizard } from './_components/OnboardingWizard'
 
 export default async function OnboardingPage() {
   const { userId } = await auth()
   if (!userId) redirect('/sign-in')
+
+  // Ensure user exists in the database users table
+  let dbUser = await findUserById(userId).catch(() => null)
+  if (!dbUser) {
+    const clerkUser = await currentUser()
+    if (clerkUser) {
+      dbUser = await upsertUserByClerkId(userId, {
+        email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
+        name: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || null,
+        avatarUrl: clerkUser.imageUrl || null,
+      })
+    }
+  }
 
   const profile = await getProfile(userId).catch(() => null)
   if (profile?.onboardingCompleted) redirect('/dashboard')

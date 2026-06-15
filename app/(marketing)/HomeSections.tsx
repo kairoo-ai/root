@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/Button";
 import { Tabs } from "@/components/ui/Tabs";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Spotlight } from "@/components/motion/Spotlight";
-import { GeminiEffect, SpotlightNew, GridDotBackground, BackgroundRipple, Marquee3D } from "@/components/aceternity";
+import { SpotlightNew, GridDotBackground, BackgroundRipple, Marquee3D } from "@/components/aceternity";
 import {
   CardContainer,
   CardBody,
@@ -121,7 +121,6 @@ export function HomeHero() {
   const line1 = ["Your", "AI-Powered", "Career", "&", "Learning"];
 
   return (
-    <GeminiEffect>
     <Section className="relative isolate overflow-hidden">
       {/* Layered token-driven spotlights for depth */}
       <Spotlight
@@ -253,7 +252,7 @@ export function HomeHero() {
               ))}
             </span>
             <span className="text-body-sm text-muted-foreground">
-              4.9/5 from 1,000+ professionals already using Kairoo
+              Loved by early users — join the growing community
             </span>
           </div>
         </motion.div>
@@ -266,16 +265,15 @@ export function HomeHero() {
           <StatGrid
             cols={3}
             items={[
-              { value: 32, suffix: "+", label: "AI tools" },
-              { value: 1000, suffix: "+", label: "Professionals" },
-              { value: 4.9, suffix: "/5", label: "Rating" },
+              { value: 38, suffix: "+", label: "AI tools" },
+              { value: 5, suffix: " teams", label: "Early adopters" },
+              { value: 100, suffix: "%", label: "Free to start" },
             ]}
           />
         </motion.div>
       </Stack>
       </SpotlightNew>
     </Section>
-    </GeminiEffect>
   );
 }
 
@@ -797,7 +795,7 @@ const IMPACT_STATS = [
   { value: 95, suffix: "%", label: "User satisfaction rate", icon: "star" },
 ];
 
-const logoItems = ['Google', 'Meta', 'Amazon', 'Microsoft', 'Stripe', 'Vercel', 'OpenAI', 'Anthropic', 'Linear'];
+const logoItems = ['Explorin', 'Go2x', 'Matters.AI', 'Quantacus', 'Shivalik College of Engineering', 'Growing team — join us'];
 
 export function HomeSocialProof() {
   const reveal = useReveal();

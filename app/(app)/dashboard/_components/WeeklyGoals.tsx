@@ -40,9 +40,9 @@ export function WeeklyGoals({ goals: initialGoals }: WeeklyGoalsProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Weekly Goals</h2>
+        <h2 className="text-[11px] font-bold uppercase tracking-widest text-white/50">Weekly Goals</h2>
       </div>
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
         <div className="px-4 py-3 border-b border-border/50 text-xs font-semibold text-foreground">
           This Week · {done} of {goals.length} done
         </div>

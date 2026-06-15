@@ -13,7 +13,7 @@ import { StatGrid, type StatCounterProps } from "@/components/blocks/StatCounter
 import { CardSpotlight } from "@/components/blocks/CardSpotlight";
 import { BentoGrid, type BentoItem } from "@/components/blocks/BentoGrid";
 import { LogoMarquee, type LogoMarqueeItem } from "@/components/blocks/LogoMarquee";
-import { InfiniteMovingCards, Marquee3D } from "@/components/aceternity";
+import { InfiniteMovingCards } from "@/components/aceternity";
 import type { MovingCard } from "@/components/aceternity";
 import { Spotlight } from "@/components/motion/Spotlight";
 import {
@@ -168,7 +168,7 @@ export function CustomersHero({
         >
           <span className="inline-flex items-center gap-1.5">
             <IconRenderer name="star" className="size-4 text-warning" size={16} />
-            4.9/5 average rating
+            Loved by early users
           </span>
           <span className="inline-flex items-center gap-1.5">
             <IconRenderer
@@ -176,11 +176,11 @@ export function CustomersHero({
               className="size-4 text-accent"
               size={16}
             />
-            12,000+ careers leveled up
+            38+ AI-powered tools
           </span>
           <span className="inline-flex items-center gap-1.5">
             <IconRenderer name="globe" className="size-4 text-accent" size={16} />
-            Trusted across 40+ countries
+            Growing team — join us
           </span>
         </motion.div>
       </Stack>
@@ -207,7 +207,6 @@ export function CustomersLogoMarquee({
         <div className="relative w-full rounded-2xl border border-border/60 bg-card/60 py-8 backdrop-blur-[var(--blur-glass)]">
           <LogoMarquee items={logos} speed={32} gap={20} />
         </div>
-        <Marquee3D items={logos.map((l) => l.name)} className="mt-4 opacity-60" />
       </Stack>
     </Section>
   );

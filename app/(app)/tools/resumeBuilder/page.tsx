@@ -5,6 +5,23 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Plus, FileText, Clock, Trash2, ArrowRight } from 'lucide-react'
 import type { ResumeRow } from '@/types/resume'
+import { LampEffect, GlowingEffect, InfiniteMovingCards } from '@/components/aceternity'
+import type { MovingCard } from '@/components/aceternity'
+
+const IMPROVEMENT_TIPS: MovingCard[] = [
+  { quote: 'Use action verbs to start each bullet', name: 'Resume Tip' },
+  { quote: 'Quantify achievements with numbers', name: 'Resume Tip' },
+  { quote: 'Tailor keywords to each job description', name: 'Resume Tip' },
+  { quote: 'Keep resume to 1-2 pages', name: 'Resume Tip' },
+  { quote: 'Use consistent date formatting', name: 'Resume Tip' },
+]
+
+const TEMPLATE_BADGE: Record<string, string> = {
+  minimal: 'bg-slate-500/15 text-slate-300',
+  modern: 'bg-blue-900/30 text-blue-300',
+  executive: 'bg-amber-500/15 text-amber-300',
+  creative: 'bg-violet-500/15 text-violet-300',
+}
 
 export default function ResumeBuilderPage() {
   const router = useRouter()
@@ -50,12 +67,12 @@ export default function ResumeBuilderPage() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-10">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Resume Builder</h1>
-        <p className="text-white/50 mt-1 text-sm">
-          Create tailored, ATS-optimized resumes for every application.
+      <LampEffect className="pt-6 pb-2 mb-4 -mx-6">
+        <h1 className="text-center text-3xl font-bold text-white">Resume Builder</h1>
+        <p className="mt-1 text-center text-white/50 text-sm">
+          Tailored resumes that get interviews
         </p>
-      </div>
+      </LampEffect>
 
       {/* Create action cards */}
       <div className="grid grid-cols-2 gap-4 mb-10">
@@ -100,21 +117,30 @@ export default function ResumeBuilderPage() {
           </h2>
           <div className="grid grid-cols-3 gap-4">
             {resumes.map((resume) => (
+              <GlowingEffect key={resume.id} color="rgba(139,92,246,0.4)" size={180}>
               <motion.div
-                key={resume.id}
                 whileHover={{ y: -2 }}
-                className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-white/20 transition-all cursor-pointer"
+                className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/8 hover:border-white/20 transition-all duration-200 cursor-pointer"
                 onClick={() => router.push(`/tools/resumeBuilder/${resume.id}`)}
               >
                 <div className="flex items-start justify-between">
                   <FileText className="w-5 h-5 text-violet-400" />
-                  {resume.atsScore !== null && (
-                    <span
-                      className={`text-xs font-semibold px-2 py-0.5 rounded-full ${scoreColor(resume.atsScore)}`}
-                    >
-                      {resume.atsScore}%
-                    </span>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {resume.templateId && TEMPLATE_BADGE[resume.templateId] && (
+                      <span
+                        className={`text-[10px] font-medium px-2 py-0.5 rounded-full capitalize ${TEMPLATE_BADGE[resume.templateId]}`}
+                      >
+                        {resume.templateId}
+                      </span>
+                    )}
+                    {resume.atsScore !== null && (
+                      <span
+                        className={`text-xs font-semibold px-2 py-0.5 rounded-full ${scoreColor(resume.atsScore)}`}
+                      >
+                        {resume.atsScore}%
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <div>
@@ -135,6 +161,8 @@ export default function ResumeBuilderPage() {
                 {/* Hover actions */}
                 <div className="absolute bottom-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
+                    type="button"
+                    aria-label="Delete resume"
                     onClick={(e) => {
                       e.stopPropagation()
                       deleteResume(resume.id)
@@ -146,10 +174,25 @@ export default function ResumeBuilderPage() {
                   <ArrowRight className="w-3.5 h-3.5 text-white/40" />
                 </div>
               </motion.div>
+              </GlowingEffect>
             ))}
           </div>
         </div>
       )}
+
+      {/* Improvement tips ticker */}
+      <div className="mt-12">
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-4">
+          Resume Tips
+        </h2>
+        <InfiniteMovingCards
+          items={IMPROVEMENT_TIPS}
+          direction="left"
+          speed={35}
+          pauseOnHover
+          className="-mx-6"
+        />
+      </div>
     </div>
   )
 }

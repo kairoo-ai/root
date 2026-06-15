@@ -54,16 +54,13 @@ const impactMetrics = [
   },
 ];
 
-/** Trusted-by wordmarks (names only render as text in the marquee). */
+/** Trusted-by wordmarks — real early-access teams using Kairoo. */
 const logos = [
-  { name: "Google" },
-  { name: "Stripe" },
-  { name: "Salesforce" },
-  { name: "Microsoft" },
-  { name: "Airbnb" },
-  { name: "Shopify" },
-  { name: "Notion" },
-  { name: "Figma" },
+  { name: "Explorin" },
+  { name: "Go2x" },
+  { name: "Matters.AI" },
+  { name: "Quantacus" },
+  { name: "Shivalik College of Engineering" },
 ];
 
 /** Why customers win — outcome highlights for the BentoGrid. */

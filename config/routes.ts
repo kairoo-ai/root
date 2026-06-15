@@ -9,6 +9,7 @@ export const routes = {
   customers: "/customers",
   about: "/about",
   contact: "/contact",
+  careers: "/careers",
   security: "/security",
   investors: "/investors",
   investorsDeck: "/investors/deck",

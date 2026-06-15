@@ -22,6 +22,7 @@ export const primaryNav: NavItem[] = [
   { label: "Pricing", href: routes.pricing },
   { label: "Customers", href: routes.customers },
   { label: "About", href: routes.about },
+  { label: "Careers", href: routes.careers },
   { label: "Contact", href: routes.contact },
 ];
 
@@ -40,6 +41,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     heading: "Company",
     items: [
       { label: "About", href: routes.about },
+      { label: "Careers", href: routes.careers },
       { label: "Contact", href: routes.contact },
       { label: "Investors", href: routes.investors, requiresAuth: true },
     ],

@@ -2,10 +2,11 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { User, Bell, Shield, CreditCard } from 'lucide-react'
+import { User, Bell, Shield, CreditCard, Link2 } from 'lucide-react'
 
 const tabs = [
   { href: '/settings/profile', label: 'Profile', icon: User },
+  { href: '/settings/connections', label: 'Connections', icon: Link2 },
   { href: '/settings/billing', label: 'Billing', icon: CreditCard },
   { href: '/settings/notifications', label: 'Notifications', icon: Bell },
   { href: '/settings/security', label: 'Security', icon: Shield },
