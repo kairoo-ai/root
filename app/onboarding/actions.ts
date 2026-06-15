@@ -41,8 +41,16 @@ export async function saveOnboardingStep(step: number, data: StepData): Promise<
   const { userId } = await auth()
   if (!userId) redirect('/sign-in')
 
+  const education = data.education
+    ? data.education.map(e => ({
+        ...e,
+        year: e.year ? parseInt(e.year, 10) || undefined : undefined,
+      }))
+    : undefined
+
   await upsertProfile(userId, {
     ...data,
+    education,
     onboardingStep: step + 1,
   })
 }
@@ -51,8 +59,16 @@ export async function completeOnboarding(data: StepData): Promise<void> {
   const { userId } = await auth()
   if (!userId) redirect('/sign-in')
 
+  const education = data.education
+    ? data.education.map(e => ({
+        ...e,
+        year: e.year ? parseInt(e.year, 10) || undefined : undefined,
+      }))
+    : undefined
+
   await upsertProfile(userId, {
     ...data,
+    education,
     onboardingCompleted: true,
     onboardingStep: 7,
   })

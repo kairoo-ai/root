@@ -188,7 +188,7 @@ export function StepCareerGoals({ data, onNext, onBack }: Props) {
           <textarea
             value={careerGoalLong}
             onChange={e => setCareerGoalLong(e.target.value)}
-            placeholder="Tell {process.env.APP_NAME || "Kairoo"} more about what success looks like for you, why you want this change, and any constraints..."
+            placeholder={`Tell ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} more about what success looks like for you, why you want this change, and any constraints...`}
             rows={3}
             className="w-full bg-zinc-800 border border-zinc-700 text-white placeholder:text-zinc-500 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 resize-none"
           />
