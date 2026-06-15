@@ -127,7 +127,7 @@ function SidebarNav() {
                       'flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all',
                       isActive
                         ? 'bg-teal-400/10 font-semibold text-teal-400'
-                        : 'text-white/50 hover:bg-white/6 hover:text-white/90',
+                        : 'text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground',
                     )}
                   >
                     <item.Icon className={cn('h-4 w-4 shrink-0', isActive ? 'text-teal-400' : '')} />
@@ -164,7 +164,7 @@ function SidebarNav() {
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="flex h-screen overflow-hidden bg-[#060f1e]">
+      <div className="flex h-screen overflow-hidden bg-background">
         <CommandPalette />
         <SidebarNav />
         <div className="flex flex-1 flex-col overflow-hidden">
