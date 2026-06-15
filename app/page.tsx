@@ -67,7 +67,7 @@ export default function Home() {
             <span className="block gradient-text mt-2">Command Center</span>
           </h1>
           <p className="max-w-4xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
-            Stop wasting time on scattered career resources. Kairoo merges{' '}
+            Stop wasting time on scattered career resources. {process.env.APP_NAME || "Kairoo"} merges{' '}
             <span className="text-cyan-400 font-semibold">advanced career development tools</span> with{' '}
             <span className="text-purple-400 font-semibold">intelligent learning systems</span> and{' '}
             <span className="text-pink-400 font-semibold">strategic business insights</span>. From personalized AI
@@ -115,7 +115,7 @@ export default function Home() {
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-sm text-gray-500 mb-3">Join 1,000+ professionals already using Kairoo</p>
+            <p className="text-sm text-gray-500 mb-3">Join 1,000+ professionals already using {process.env.APP_NAME || "Kairoo"}</p>
             <div className="flex justify-center items-center space-x-1">
               <div className="flex -space-x-2">
                 <div className="w-8 h-8 bg-linear-to-r from-cyan-400 to-blue-500 rounded-full border-2 border-gray-900 flex items-center justify-center text-white text-xs font-bold">
@@ -325,7 +325,7 @@ export default function Home() {
             transition={{ delay: 0.1 }}
             className="max-w-3xl mx-auto mt-4 text-lg text-gray-400 mb-12"
           >
-            See how professionals and organizations are transforming their careers with Kairoo
+            See how professionals and organizations are transforming their careers with {process.env.APP_NAME || "Kairoo"}
           </motion.p>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
@@ -333,7 +333,7 @@ export default function Home() {
               {
                 title: 'Career Switch Success',
                 quote:
-                  "I went from marketing to data science in just 8 months using Kairoo. The personalized learning path saved me thousands of hours of research. I landed a $125K role at Google!",
+                  "I went from marketing to data science in just 8 months using {process.env.APP_NAME || "Kairoo"}. The personalized learning path saved me thousands of hours of research. I landed a $125K role at Google!",
                 name: 'Sarah Chen',
                 role: 'Data Scientist at Google',
                 tag: 'Career Switcher Success',
@@ -594,7 +594,7 @@ export default function Home() {
               transition={{ delay: 0.1 }}
               className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto mb-8"
             >
-              Join thousands of professionals and organizations already accelerating their growth with Kairoo.{' '}
+              Join thousands of professionals and organizations already accelerating their growth with {process.env.APP_NAME || "Kairoo"}.{' '}
               <span className="text-cyan-400 font-semibold">Start your transformation today.</span>
             </motion.p>
 
@@ -658,7 +658,7 @@ export default function Home() {
         onClose={() => setIsDemoModalOpen(false)}
         title="Interactive Demo"
       >
-        <p className="text-gray-300 mb-6">Experience the power of Kairoo with our interactive demo.</p>
+        <p className="text-gray-300 mb-6">Experience the power of {process.env.APP_NAME || "Kairoo"} with our interactive demo.</p>
         <div className="space-y-4">
           <div className="p-4 bg-gray-800 rounded-lg">
             <h3 className="font-bold text-cyan-400">Try a Career Tool</h3>

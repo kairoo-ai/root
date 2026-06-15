@@ -28,7 +28,7 @@ export default function InvestorDeck() {
             <span className="block gradient-text mt-2">Growth Forecasting</span>
           </h1>
           <p className="max-w-3xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
-            Comprehensive investment materials, financial projections, and growth strategies for Kairoo - the
+            Comprehensive investment materials, financial projections, and growth strategies for {process.env.APP_NAME || "Kairoo"} - the
             future of AI-powered professional development. Join us in transforming how the world learns and grows.
           </p>
 
@@ -83,7 +83,7 @@ export default function InvestorDeck() {
             viewport={{ once: true }}
             className="glass-card p-8 rounded-2xl"
           >
-            <h3 className="text-2xl font-bold mb-6">Why Invest in Kairoo?</h3>
+            <h3 className="text-2xl font-bold mb-6">Why Invest in {process.env.APP_NAME || "Kairoo"}?</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
               {[
                 {

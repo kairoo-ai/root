@@ -3,7 +3,7 @@ import Link from "next/link";
 type LogoProps = {
   /** glyph height in px (wordmark scales relative to it) */
   size?: number;
-  /** show the "Kairoo" wordmark next to the glyph */
+  /** show the (process.env.APP_NAME || "Kairoo") wordmark next to the glyph */
   showWordmark?: boolean;
   /** href to wrap the logo in; omit to render unlinked */
   href?: string;
@@ -51,10 +51,10 @@ export default function Logo({
           className="font-bold tracking-tight text-brand-ink"
           style={{ fontSize: size * 0.72 }}
         >
-          Kairoo
+          {process.env.APP_NAME || "Kairoo"}
         </span>
       )}
-      <span className="sr-only">Kairoo</span>
+      <span className="sr-only">{process.env.APP_NAME || "Kairoo"}</span>
     </span>
   );
 

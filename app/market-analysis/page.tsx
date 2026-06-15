@@ -29,7 +29,7 @@ export default function MarketAnalysis() {
             <span className="block gradient-text mt-2">Go-to-Market Strategy</span>
           </h1>
           <p className="max-w-3xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
-            Comprehensive market research, competitive intelligence, and strategic go-to-market planning for Kairoo's
+            Comprehensive market research, competitive intelligence, and strategic go-to-market planning for {process.env.APP_NAME || "Kairoo"}'s
             entry into the $366B global education technology market.
           </p>
         </motion.div>
@@ -170,7 +170,7 @@ export default function MarketAnalysis() {
               {
                 icon: Crown,
                 color: 'cyan',
-                title: 'Kairoo Advantage',
+                title: '{process.env.APP_NAME || "Kairoo"} Advantage',
                 competitors: [
                   { name: 'Integrated Ecosystem', price: 'Learning + Career + Business tools', weakness: '70% time savings vs multiple tools' },
                   { name: 'AI-Powered Personalization', price: 'Adaptive learning paths', weakness: '3x faster skill acquisition' },

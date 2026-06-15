@@ -74,7 +74,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-          <p>&copy; 2026 Kairoo. All rights reserved. Made with ❤️ for the future of work.</p>
+          <p>&copy; 2026 {process.env.APP_NAME || "Kairoo"}. All rights reserved. Made with ❤️ for the future of work.</p>
         </div>
       </div>
     </footer>

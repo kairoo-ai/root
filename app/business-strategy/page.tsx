@@ -78,7 +78,7 @@ export default function BusinessStrategy() {
             <span className="block gradient-text mt-2">Validation Framework</span>
           </h1>
           <p className="max-w-3xl mx-auto mt-6 text-lg md:text-xl text-gray-300">
-            Comprehensive strategic analysis, market validation, and business intelligence for Kairoo - your
+            Comprehensive strategic analysis, market validation, and business intelligence for {process.env.APP_NAME || "Kairoo"} - your
             complete guide to building and scaling a successful SaaS platform.
           </p>
         </motion.div>
@@ -214,7 +214,7 @@ export default function BusinessStrategy() {
             >
               <h3 className="text-2xl font-bold mb-4 text-cyan-400">Primary Value Proposition</h3>
               <p className="text-xl text-gray-200 font-medium">
-                "Kairoo transforms chaotic career development into strategic growth by combining AI-powered
+                "{process.env.APP_NAME || "Kairoo"} transforms chaotic career development into strategic growth by combining AI-powered
                 learning paths, comprehensive career tools, and business intelligence in one integrated platform, helping
                 professionals and organizations accelerate skill acquisition and achieve measurable career outcomes."
               </p>
@@ -223,7 +223,7 @@ export default function BusinessStrategy() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: Zap, color: 'text-purple-400', title: 'Action-Oriented Tone', desc: '"Stop wasting time on scattered resources. Kairoo delivers personalized career acceleration with AI precision, giving you the competitive edge you need today."' },
+              { icon: Zap, color: 'text-purple-400', title: 'Action-Oriented Tone', desc: '"Stop wasting time on scattered resources. {process.env.APP_NAME || "Kairoo"} delivers personalized career acceleration with AI precision, giving you the competitive edge you need today."' },
               { icon: Shield, color: 'text-cyan-400', title: 'Trust-Building Tone', desc: '"Trusted by thousands of professionals worldwide, Kairoo provides scientifically-backed learning methods and proven career strategies to ensure your growth investment pays dividends."' },
               { icon: Heart, color: 'text-pink-400', title: 'Aspirational Tone', desc: '"Unlock your unlimited potential. Kairoo doesn\'t just teach skills—it transforms lives, turning ambitious dreams into achievable realities through intelligent guidance."' },
             ].map((prop, index) => (

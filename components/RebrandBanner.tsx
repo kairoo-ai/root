@@ -25,7 +25,7 @@ export default function RebrandBanner() {
     <div className="relative z-50 bg-brand-navy text-brand-mist">
       <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-4 py-2 text-sm">
         <span>
-          <strong>AstraPath AI is now Kairoo.</strong> Same mission — the right moment to grow.
+          <strong>AstraPath AI is now {process.env.APP_NAME || "Kairoo"}.</strong> Same mission — the right moment to grow.
         </span>
         <button
           type="button"
