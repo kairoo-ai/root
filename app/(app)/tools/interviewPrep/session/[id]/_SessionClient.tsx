@@ -7,6 +7,7 @@ import { AnswerInput } from '../../_components/AnswerInput'
 import { FeedbackPanel } from '../../_components/FeedbackPanel'
 import { STARHints } from '../../_components/STARHints'
 import { ProgressBar } from '../../_components/ProgressBar'
+import { STARCoach } from './_components/STARCoach'
 import type { SessionWithExchanges, InterviewExchange, FeedbackResult } from '@/types/interview'
 
 interface SessionClientProps {
@@ -86,13 +87,25 @@ export function SessionClient({ session: initialSession }: SessionClientProps) {
       <STARHints />
 
       {phase === 'answering' && (
-        <AnswerInput
-          value={answer}
-          onChange={setAnswer}
-          onSubmit={handleSubmit}
-          disabled={false}
-          onDurationChange={setDuration}
-        />
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+          <div className="flex-1">
+            <AnswerInput
+              value={answer}
+              onChange={setAnswer}
+              onSubmit={handleSubmit}
+              disabled={false}
+              onDurationChange={setDuration}
+            />
+          </div>
+          {answer.trim().length > 0 && (
+            <div className="w-full lg:w-72 lg:shrink-0">
+              <STARCoach
+                answer={answer}
+                question={currentExchange.questionText}
+              />
+            </div>
+          )}
+        </div>
       )}
 
       {phase === 'feedback' && (
