@@ -518,3 +518,82 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* Onboarding theme adaptations for Light Mode */
+html:not(.dark) {
+  .onboarding-container {
+    /* override text colors */
+    .text-white {
+      color: #18181b !important;
+    }
+    .text-zinc-400 {
+      color: #52525b !important;
+    }
+    .text-zinc-300 {
+      color: #3f3f46 !important;
+    }
+    .text-zinc-200 {
+      color: #27272a !important;
+    }
+    .text-zinc-500 {
+      color: #71717a !important;
+    }
+    
+    /* override background colors */
+    .bg-zinc-900\/50 {
+      background-color: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(12px) !important;
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    }
+    .bg-zinc-900\/50 * {
+      /* Keep buttons inside card readable */
+      .bg-teal-500 {
+        color: #ffffff !important;
+      }
+    }
+    .bg-zinc-800 {
+      background-color: #f4f4f5 !important;
+    }
+    .bg-zinc-800\/10 {
+      background-color: rgba(244, 244, 245, 0.5) !important;
+    }
+    .hover\:bg-zinc-700:hover {
+      background-color: #e4e4e7 !important;
+    }
+    .bg-teal-500\/20 {
+      background-color: rgba(13, 148, 136, 0.1) !important;
+    }
+    .bg-zinc-700 {
+      background-color: #e4e4e7 !important;
+    }
+
+    /* override border colors */
+    .border-zinc-800 {
+      border-color: #e4e4e7 !important;
+    }
+    .border-zinc-700 {
+      border-color: #d4d4d8 !important;
+    }
+    
+    /* inputs and placeholders */
+    input, textarea, select {
+      color: #18181b !important;
+      background-color: #f4f4f5 !important;
+      border-color: #d4d4d8 !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #a1a1aa !important;
+    }
+    
+    /* buttons */
+    .border-zinc-700.text-zinc-400 {
+      border-color: #d4d4d8 !important;
+      color: #52525b !important;
+    }
+    .border-zinc-700.text-zinc-400:hover {
+      background-color: #f4f4f5 !important;
+      color: #18181b !important;
+    }
+  }
+}
+
