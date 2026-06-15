@@ -2,12 +2,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Plus, RefreshCw, Clock, Target, Zap } from 'lucide-react'
+import { Plus, RefreshCw, Clock, Target, Zap, LayoutDashboard, GitBranch } from 'lucide-react'
 import { SkillRadarChart } from './_components/SkillRadarChart'
 import { PriorityMatrix } from './_components/PriorityMatrix'
 import { SkillGapCard } from './_components/SkillGapCard'
 import { LearningPlanTimeline } from './_components/LearningPlanTimeline'
 import { SalaryImpactCard } from './_components/SalaryImpactCard'
+import { SkillTreeGraph } from './_components/SkillTreeGraph'
 import type { SkillAssessment } from '@/data/repositories/skillAssessments.repo'
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
 export function SkillGapDashboardClient({ assessments, active: initialActive, learningStyle }: Props) {
   const router = useRouter()
   const [active, setActive] = useState(initialActive)
+  const [view, setView] = useState<'dashboard' | 'skill-tree'>('dashboard')
   const [generatingPlan, setGeneratingPlan] = useState(false)
   const [planError, setPlanError] = useState('')
 
@@ -60,9 +62,31 @@ export function SkillGapDashboardClient({ assessments, active: initialActive, le
             <span className="text-teal-400 font-semibold">{active.targetRole}</span>
           </p>
         </div>
-        <div className="flex gap-2 shrink-0">
+        <div className="flex gap-2 shrink-0 flex-wrap">
+          {/* View toggle */}
+          <div className="flex items-center gap-0.5 bg-muted/30 border border-border rounded-xl p-0.5">
+            {([
+              { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+              { id: 'skill-tree', label: 'Skill Tree', icon: GitBranch },
+            ] as const).map(({ id, label, icon: Icon }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setView(id)}
+                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  view === id
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {label}
+              </button>
+            ))}
+          </div>
           {assessments.length > 1 && (
             <select
+              aria-label="Switch assessment"
               onChange={e => {
                 const found = assessments.find(a => a.id === e.target.value)
                 if (found) setActive(found)
@@ -79,6 +103,7 @@ export function SkillGapDashboardClient({ assessments, active: initialActive, le
             </select>
           )}
           <button
+            type="button"
             onClick={() => router.push('/tools/skillGap/assess')}
             className="flex items-center gap-1.5 text-xs font-semibold bg-teal-500 text-black hover:bg-teal-400 transition-colors px-3 py-2 rounded-xl cursor-pointer"
           >
@@ -87,6 +112,14 @@ export function SkillGapDashboardClient({ assessments, active: initialActive, le
           </button>
         </div>
       </div>
+
+      {/* Skill Tree view */}
+      {view === 'skill-tree' && (
+        <SkillTreeGraph gaps={active.gaps} />
+      )}
+
+      {/* Dashboard view */}
+      {view === 'dashboard' && <>
 
       {/* Stats bar */}
       <div className="grid grid-cols-3 gap-3">
@@ -139,6 +172,7 @@ export function SkillGapDashboardClient({ assessments, active: initialActive, le
             <h2 className="text-sm font-bold text-foreground">All Skill Gaps</h2>
             {active.learningPlan.length === 0 && (
               <button
+                type="button"
                 onClick={generatePlan}
                 disabled={generatingPlan}
                 className="flex items-center gap-1.5 text-xs font-semibold text-teal-400 hover:text-teal-300 border border-teal-500/20 hover:border-teal-500/40 bg-teal-500/[0.08] rounded-xl px-3 py-1.5 cursor-pointer transition-all disabled:opacity-50"
@@ -175,6 +209,8 @@ export function SkillGapDashboardClient({ assessments, active: initialActive, le
           <LearningPlanTimeline plan={active.learningPlan} />
         </div>
       )}
+
+      </> /* end dashboard view */}
     </div>
   )
 }

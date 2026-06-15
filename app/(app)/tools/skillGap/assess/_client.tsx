@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Zap, Minus } from 'lucide-react'
+import { LampEffect, TypewriterEffect } from '@/components/aceternity'
 import type { SkillEntry } from '@/data/schema'
 
 interface Props {
@@ -93,10 +94,22 @@ export function AssessPageClient({ prefillCurrentRole, prefillTargetRole, prefil
         Back
       </button>
 
-      <div className="mb-8">
-        <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Skill Gap Assessment</h1>
-        <p className="text-sm text-muted-foreground mt-1">Rate your current skills and define your target role — AI will map the gap.</p>
-      </div>
+      <LampEffect className="mb-8 -mx-6 px-6 pt-4 pb-2 rounded-2xl">
+        <TypewriterEffect
+          words={[
+            { text: 'Find' },
+            { text: 'your' },
+            { text: 'skill' },
+            { text: 'gaps' },
+            { text: 'and' },
+            { text: 'close' },
+            { text: 'them' },
+            { text: 'fast', className: 'text-teal-400' },
+          ]}
+          className="text-2xl font-bold justify-center"
+        />
+        <p className="text-sm text-muted-foreground mt-2 text-center">Rate your current skills and define your target role — AI will map the gap.</p>
+      </LampEffect>
 
       <div className="space-y-6">
         {/* Roles */}

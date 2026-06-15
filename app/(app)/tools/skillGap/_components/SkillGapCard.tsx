@@ -1,9 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ExternalLink, CheckCircle2, Circle } from 'lucide-react'
+import { ExternalLink, CheckCircle2, Circle, TrendingUp } from 'lucide-react'
 import type { SkillGap, LearningPlanItem, LearningResource } from '@/data/schema'
 import { GlowingEffect } from '@/components/aceternity/GlowingEffect'
+import { getResourcesForSkill, getSalaryDelta } from '@/data/content/skillResources'
 
 const learningStyleOrder: Record<string, string[]> = {
   visual: ['video', 'course', 'article', 'book', 'practice'],
@@ -48,6 +49,8 @@ const resourceTypeIcon: Record<string, string> = {
 export function SkillGapCard({ gap, plan, index, assessmentId, learningStyle }: Props) {
   const pCfg = priorityConfig[gap.priority]
   const dCfg = demandConfig[gap.marketDemand]
+  const salaryDelta = getSalaryDelta(gap.skill)
+  const realResources = getResourcesForSkill(gap.skill).slice(0, 3)
 
   // Local optimistic state for resource completion (sorted by learning style)
   const [resources, setResources] = useState<LearningResource[]>(
@@ -139,7 +142,38 @@ export function SkillGapCard({ gap, plan, index, assessmentId, learningStyle }: 
               <span className="ml-2 text-teal-400">· ~{plan.weeks} week{plan.weeks > 1 ? 's' : ''} to close</span>
             )}
           </p>
+          {salaryDelta && (
+            <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-2 py-1">
+              <TrendingUp className="w-3 h-3 shrink-0" />
+              <span className="font-semibold">+${(salaryDelta.usdDelta / 1000).toFixed(0)}k/yr</span>
+              <span className="text-muted-foreground">salary impact · demand score {salaryDelta.demandScore}</span>
+            </div>
+          )}
         </div>
+
+        {/* Real course resources (shown when no plan resources available) */}
+        {(!plan || resources.length === 0) && realResources.length > 0 && (
+          <div className="space-y-1.5">
+            <p className="text-[11px] font-semibold text-muted-foreground">Recommended Courses</p>
+            {realResources.map((r, ri) => (
+              <div key={ri} className="flex items-center gap-2 text-[11px] text-muted-foreground group">
+                <span>{resourceTypeIcon[r.type] ?? '🔗'}</span>
+                <a
+                  href={r.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 truncate hover:text-foreground hover:underline underline-offset-2 transition-colors"
+                >
+                  {r.title}
+                </a>
+                <span className={`shrink-0 text-[9px] font-bold border rounded-full px-1.5 py-0.5 ${r.free ? 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10' : 'text-muted-foreground border-border bg-muted/20'}`}>
+                  {r.free ? 'FREE' : 'PAID'}
+                </span>
+                <ExternalLink className="w-3 h-3 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Resources */}
         {plan && resources.length > 0 && (

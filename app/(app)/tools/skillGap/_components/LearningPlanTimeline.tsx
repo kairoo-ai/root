@@ -1,5 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
+import { TracingBeam } from '@/components/aceternity'
 import type { LearningPlanItem } from '@/data/schema'
 
 interface Props {
@@ -36,36 +37,38 @@ export function LearningPlanTimeline({ plan }: Props) {
   const totalWeeks = Math.max(...Array.from(weekMap.keys()))
 
   return (
-    <div className="space-y-3">
-      {Array.from({ length: totalWeeks }, (_, i) => i + 1).map(week => {
-        const items = weekMap.get(week) ?? []
-        return (
-          <motion.div
-            key={week}
-            initial={{ opacity: 0, x: -12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.35, delay: (week - 1) * 0.06 }}
-            className="flex gap-4 items-start"
-          >
-            {/* Week pill */}
-            <div className="shrink-0 w-14 h-7 rounded-lg bg-muted/40 border border-border flex items-center justify-center">
-              <span className="text-[10px] font-bold text-muted-foreground">Wk {week}</span>
-            </div>
+    <TracingBeam>
+      <div className="space-y-3">
+        {Array.from({ length: totalWeeks }, (_, i) => i + 1).map(week => {
+          const items = weekMap.get(week) ?? []
+          return (
+            <motion.div
+              key={week}
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.35, delay: (week - 1) * 0.06 }}
+              className="flex gap-4 items-start"
+            >
+              {/* Week pill */}
+              <div className="shrink-0 w-14 h-7 rounded-lg bg-muted/40 border border-border flex items-center justify-center">
+                <span className="text-[10px] font-bold text-muted-foreground">Wk {week}</span>
+              </div>
 
-            {/* Skills active this week */}
-            <div className="flex flex-wrap gap-2 pt-0.5">
-              {items.map((item, ii) => (
-                <span
-                  key={item.skill}
-                  className={`inline-flex items-center text-[11px] font-semibold border rounded-xl px-3 py-1 ${weekColors[(ii + week) % weekColors.length]}`}
-                >
-                  {item.skill}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        )
-      })}
-    </div>
+              {/* Skills active this week */}
+              <div className="flex flex-wrap gap-2 pt-0.5">
+                {items.map((item, ii) => (
+                  <span
+                    key={item.skill}
+                    className={`inline-flex items-center text-[11px] font-semibold border rounded-xl px-3 py-1 ${weekColors[(ii + week) % weekColors.length]}`}
+                  >
+                    {item.skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          )
+        })}
+      </div>
+    </TracingBeam>
   )
 }
