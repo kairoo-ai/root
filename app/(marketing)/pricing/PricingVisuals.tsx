@@ -167,7 +167,7 @@ function PricingHero() {
 
         <motion.div {...reveal(0.78)} className="flex flex-col items-center gap-3 sm:flex-row">
           <Button asChild size="lg">
-            <Link href="/contact">
+            <Link href="/sign-up">
               Get started free
               <IconRenderer name="arrow-right" size={18} />
             </Link>
@@ -300,7 +300,7 @@ function PricingPlans({ tiers }: { tiers: Tier[] }) {
                 size="lg"
                 className="mt-8 w-full"
               >
-                <Link href="/contact">{tier.ctaLabel}</Link>
+                <Link href={tier.key === "enterprise" ? "/contact" : "/sign-up"}>{tier.ctaLabel}</Link>
               </Button>
 
               <p className="mt-3 flex items-center justify-center gap-1.5 text-caption text-muted-foreground">
@@ -546,7 +546,7 @@ function GlowingCTA() {
             </p>
             <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
-                href="/contact"
+                href="/sign-up"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-primary-foreground px-6 text-base font-semibold text-primary transition-colors hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2"
               >
                 Get started free
