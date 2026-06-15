@@ -685,3 +685,76 @@ html:not(.dark) {
     }
   }
 }
+
+/* Global theme overrides for Light Mode */
+html:not(.dark) {
+  /* text color mappings */
+  h1.text-white, h2.text-white, h3.text-white, h4.text-white, h5.text-white, h6.text-white {
+    color: #0f172a !important; /* slate-900 */
+  }
+  .text-white:not(button, button *, .bg-teal-500 *, .bg-primary *, .bg-violet-500 *, .bg-emerald-500 *, .badge *, .tag *, [class*="bg-teal"] *, [class*="bg-violet"] *, [class*="bg-emerald"] *) {
+    color: #0f172a !important;
+  }
+  .text-white\/90 {
+    color: #0f172a !important;
+  }
+  .text-white\/80 {
+    color: #1e293b !important; /* slate-800 */
+  }
+  .text-white\/70 {
+    color: #334155 !important; /* slate-700 */
+  }
+  .text-white\/60 {
+    color: #475569 !important; /* slate-600 */
+  }
+  .text-white\/50 {
+    color: #475569 !important;
+  }
+  .text-white\/40 {
+    color: #64748b !important; /* slate-500 */
+  }
+  .text-white\/30 {
+    color: #94a3b8 !important; /* slate-400 */
+  }
+  .text-zinc-100 {
+    color: #0f172a !important;
+  }
+  .text-zinc-200 {
+    color: #1e293b !important;
+  }
+  .text-zinc-300 {
+    color: #334155 !important;
+  }
+  .text-zinc-400 {
+    color: #475569 !important;
+  }
+  .text-teal-400 {
+    color: #0d9488 !important;
+  }
+  .text-teal-300 {
+    color: #0d9488 !important;
+  }
+  
+  /* card backgrounds and borders */
+  .bg-white\/5 {
+    background-color: #f8fafc !important; /* slate-50 */
+    border-color: #e2e8f0 !important;
+  }
+  .bg-white\/8 {
+    background-color: #f1f5f9 !important; /* slate-100 */
+    border-color: #cbd5e1 !important;
+  }
+  .bg-white\/10 {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+  }
+  .border-white\/10 {
+    border-color: #e2e8f0 !important;
+  }
+  .border-white\/20 {
+    border-color: #cbd5e1 !important;
+  }
+  .bg-teal-500\/5 {
+    background-color: rgba(13, 148, 136, 0.05) !important;
+  }
+}
