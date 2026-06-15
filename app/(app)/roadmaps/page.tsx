@@ -1,8 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { db } from '@/data/client'
-import { roadmaps } from '@/data/schema'
-import { eq, desc } from 'drizzle-orm'
+import { getRoadmapsForUser } from '@/data/repositories/roadmaps.repo'
 import { RoadmapsList } from './_components/RoadmapsList'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
@@ -11,12 +9,7 @@ export default async function RoadmapsPage() {
   const { userId } = await auth()
   if (!userId) redirect('/sign-in')
 
-  const userRoadmaps = await db
-    .select()
-    .from(roadmaps)
-    .where(eq(roadmaps.userId, userId))
-    .orderBy(desc(roadmaps.createdAt))
-    .catch(() => [])
+  const userRoadmaps = await getRoadmapsForUser(userId).catch(() => [])
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
