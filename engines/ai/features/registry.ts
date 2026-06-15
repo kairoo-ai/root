@@ -32,8 +32,10 @@ export interface FeatureDef {
   /** `coming-soon` features render in the UI but never call the model. */
   status: 'ready' | 'coming-soon';
   inputs: FeatureInput[];
-  /** Model tier to use when calling the gateway. All current features use 'fast'. */
+  /** Model tier to use when calling the gateway. */
   tier: ModelTier;
+  /** Override the default 2048 output token cap. Use for features that need long responses. */
+  maxOutputTokens?: number;
   /** Optional system addendum appended to the base system prompt via compose(). */
   systemAddendum?: string;
   buildUserPrompt: (inputs: Record<string, string>) => string;
@@ -53,18 +55,64 @@ export const features: FeatureDef[] = [
     id: 'dynamicRoadmaps', name: 'Dynamic Roadmaps', icon: 'map', color: 'red-400',
     description: 'Generate step-by-step strategic plans to achieve your career goals',
     category: 'career', status: 'ready',
-    tier: 'fast',
+    tier: 'deep',
+    maxOutputTokens: 6000,
     inputs: [
       { id: 'goal', label: 'Career goal', type: 'text', placeholder: 'e.g. Become a Senior Data Scientist', required: true },
-      { id: 'background', label: 'Current background (optional)', type: 'textarea', placeholder: 'Your current role, skills, and experience' },
+      { id: 'background', label: 'Current background', type: 'textarea', placeholder: 'Your current role, years of experience, skills you already have' },
+      { id: 'timeframe', label: 'Timeframe', type: 'select', placeholder: 'How long do you have', options: ['6 months', '12 months', '18 months', '24 months'] },
     ],
-    buildUserPrompt: (i) => `You are an experienced career coach. Build a concrete 12-month roadmap.
-${line('Goal', i.goal)}${line('Current background', i.background)}
-Return markdown with:
-1. **Phase 1 — Foundation (Months 1-3):** core skills, resources, first milestone
-2. **Phase 2 — Specialization (Months 4-8):** advanced skills, 2-3 projects, milestones
-3. **Phase 3 — Application (Months 9-12):** portfolio, networking, job search steps
-For every phase give specific, actionable steps with named resources and a measurable milestone. Tailor difficulty to the stated background when given.`,
+    buildUserPrompt: (i) => `You are a senior career strategist building a detailed, personalized roadmap.
+${line('Goal', i.goal)}${line('Current background', i.background)}${line('Timeframe', i.timeframe || '12 months')}
+
+CRITICAL REQUIREMENTS — every single phase MUST include:
+1. **Named courses with platform**: e.g., "Andrew Ng's Machine Learning Specialization (Coursera, ~3 months)", "CS50P: Python (edX, free)", "The Odin Project Full Stack JavaScript (theodinproject.com, free)"
+2. **Named YouTube channels/playlists**: e.g., "StatQuest with Josh Starmer (statistics + ML)", "Traversy Media (web dev)", "3Blue1Brown (math intuition)", "Fireship (quick concepts)", "NetworkChuck (networking/cloud)"
+3. **Named books**: e.g., "Hands-On ML with Scikit-Learn & TensorFlow by Aurélien Géron", "Clean Code by Robert C. Martin", "Designing Data-Intensive Applications by Martin Kleppmann"
+4. **Specific tools to install and practice with** (with links to official docs)
+5. **Certification to pursue this phase**: exact name, issuing body, estimated cost, and URL — e.g., "Google Data Analytics Certificate (Coursera, ~$200 or financial aid)", "AWS Certified Cloud Practitioner (aws.amazon.com/certification, $100)"
+6. **A concrete project to build** as the phase milestone — specific enough to put on a portfolio
+7. **Communities to join**: e.g., specific subreddits, Discord servers, newsletters
+
+Format each phase exactly like this:
+
+---
+## Phase N — [Name] ([Month range])
+**Goal this phase:** one sentence
+
+### Topics & Weekly Focus
+- Week 1–2: [Specific topic] — [Why it matters]
+- Week 3–4: [Specific topic] — [Why it matters]
+(continue for all weeks in the phase)
+
+### Courses & Structured Learning
+| Resource | Platform | Cost | Time |
+|---|---|---|---|
+| [Exact course name] | [Platform] | [Free/$X] | [Hours/weeks] |
+
+### YouTube Channels for This Phase
+- **[Channel name]**: what to watch and why
+
+### Books (optional but recommended)
+- [Title by Author] — [1-line reason]
+
+### Tools to Install & Practice
+- [Tool name] — [what to do with it] — [docs.example.com]
+
+### Certification to Pursue
+**[Exact certification name]** — [Issuing body] — [Cost] — [Where to register: URL]
+Recommended prep: [Specific prep resource]
+
+### Phase Project (Portfolio Milestone)
+Build: [Specific project description — what it does, what stack, where to deploy]
+This demonstrates: [specific skills]
+
+### Communities & Networking
+- [Specific community name and where to find it]
+
+---
+
+End with a **Month-by-month quick-reference table** and **Job search checklist** for the final phase.`,
   },
   {
     id: 'documentSuite', name: 'Document Suite', icon: 'file-text', color: 'orange-400',
@@ -84,25 +132,45 @@ Return the finished document in markdown, ready to use. Match tone and structure
     id: 'interviewCoach', name: 'Interview Coach', icon: 'mic', color: 'amber-400',
     description: 'Practice interviews with AI feedback and real-time coaching',
     category: 'career', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 3500,
     inputs: [
       { id: 'role', label: 'Role', type: 'text', placeholder: 'Role you are interviewing for', required: true },
+      { id: 'company', label: 'Company (optional)', type: 'text', placeholder: 'e.g. Stripe, early-stage startup, FAANG' },
       { id: 'question', label: 'Interview question', type: 'text', placeholder: 'e.g. Tell me about a time you led a project' },
     ],
-    buildUserPrompt: (i) => `You are an expert interview coach.
-${line('Role', i.role)}${line('Question', i.question || 'Tell me about yourself')}
+    buildUserPrompt: (i) => `You are a senior interview coach who has helped candidates land roles at top companies.
+${line('Role', i.role)}${line('Company/context', i.company)}${line('Question', i.question || 'Tell me about yourself')}
+
 Return markdown with:
-1. **Answer structure** (use STAR where the question is behavioral)
-2. **A strong sample answer** tailored to the role
-3. **Key points to emphasize**
-4. **Common pitfalls to avoid**
-5. **Likely follow-up questions**`,
+
+## Question Type & What They're Really Testing
+Identify what the interviewer is probing for (not just the surface question). Be specific — e.g., "This is testing conflict resolution + cross-functional communication, NOT just leadership."
+
+## Answer Framework
+Use the right structure for the question type (STAR for behavioral, structured opinion for "what do you think about X", breadth-first for "design a system"). Explain the framework briefly.
+
+## Strong Sample Answer
+Write a full, realistic answer tailored to the role${i.company ? ` and ${i.company}'s known culture/values` : ''}. Do NOT make it generic. Use specific metrics, technologies, and outcomes. Length: 250–400 words for behavioral, concise for technical.
+
+## What Makes This Answer Strong
+3–4 bullet points on what the answer does well.
+
+## What to Avoid
+Specific pitfalls that would hurt this answer — not generic "don't be vague" but actual common mistakes on this type of question.
+
+## 3 Likely Follow-Up Questions
+Include a coaching note on each: what they're probing with the follow-up and a 1-sentence answer direction.
+
+## Prep Resources
+Name 1–2 specific resources for this type of question: e.g., "Grokking the Behavioral Interview (educative.io)", "Alex Xu's System Design Interview book", "Leetcode patterns: neetcode.io/roadmap"`,
   },
   {
     id: 'salaryCoach', name: 'Salary Coach', icon: 'trending-up', color: 'yellow-400',
     description: 'Analyze market value and negotiate better compensation',
     category: 'career', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 3000,
     inputs: [
       { id: 'role', label: 'Job title', type: 'text', placeholder: 'e.g. Backend Engineer', required: true },
       { id: 'experience', label: 'Years of experience', type: 'number', placeholder: 'e.g. 5' },
@@ -121,44 +189,113 @@ Return markdown with:
     id: 'careerSimulator', name: 'Career Simulator', icon: 'compass', color: 'lime-400',
     description: 'Simulate career pivots and identify skill gaps',
     category: 'career', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 4000,
     inputs: [
       { id: 'currentRole', label: 'Current role', type: 'text', placeholder: 'e.g. QA Engineer', required: true },
       { id: 'targetRole', label: 'Target role', type: 'text', placeholder: 'e.g. Product Manager', required: true },
+      { id: 'experience', label: 'Years of experience', type: 'number', placeholder: 'e.g. 4' },
     ],
-    buildUserPrompt: (i) => `You are a career-transition strategist. Simulate a pivot.
-${line('From', i.currentRole)}${line('To', i.targetRole)}
+    buildUserPrompt: (i) => `You are a career-transition strategist. Simulate a pivot with deep specificity.
+${line('Current role', i.currentRole)}${line('Target role', i.targetRole)}${line('Years of experience', i.experience)}
+
 Return markdown with:
-1. **Transferable strengths** from the current role
-2. **Skill gaps** to close, ranked by importance
-3. **A realistic transition timeline** with phases
-4. **First 3 concrete actions** to start this week
-5. **Risks** and how to de-risk the move`,
+
+## Transferable Strengths
+List 4–6 specific skills from the current role that directly apply, with a sentence on HOW each transfers.
+
+## Skill Gaps — Ranked by Importance
+For each gap, name it, explain why it's required in the target role, estimate how long to close it, and name the specific resource to use (course, certification, book). Be concrete — not "learn SQL" but "Complete Mode Analytics SQL Tutorial (mode.com/sql-tutorial, free) — 2 weeks".
+
+## Realistic Transition Timeline
+Break into phases. For each phase: what to learn, specific resources, and what milestone signals you're ready to move on. Typical transitions take 3–18 months depending on gap size — be honest.
+
+## First 3 Actions This Week
+Ultra-specific — not "research the field" but "Read [specific book/article], sign up for [specific course], message 3 people on LinkedIn with [specific job title] using this template: [template]".
+
+## Salary Reality Check
+Typical entry-level vs. senior compensation range in the target role. Be honest if there's likely a pay cut initially.
+
+## Risks and How to De-Risk
+Name the 2–3 most common failure modes in this pivot and a specific mitigation for each.`,
   },
   {
     id: 'projectGenerator', name: 'Project Generator', icon: 'code', color: 'green-400',
     description: 'Get portfolio project ideas based on your skills',
     category: 'career', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 4000,
     inputs: [
       { id: 'skills', label: 'Your skills / stack', type: 'text', placeholder: 'e.g. React, Python, SQL', required: true },
       { id: 'level', label: 'Level', type: 'select', placeholder: 'Experience level', options: ['Beginner', 'Intermediate', 'Advanced'] },
+      { id: 'goal', label: 'Job target (optional)', type: 'text', placeholder: 'e.g. Frontend dev at a fintech startup' },
     ],
-    buildUserPrompt: (i) => `You are a senior engineer mentoring someone's portfolio.
-${line('Skills/stack', i.skills)}${line('Level', i.level)}
-Suggest 3 portfolio projects. For each, return markdown with: **title**, a one-line pitch, why it impresses employers, the core features to build, and the specific skills it demonstrates. Scale ambition to the stated level.`,
+    buildUserPrompt: (i) => `You are a senior engineer mentoring someone's portfolio. Give deeply specific project briefs, not vague ideas.
+${line('Skills/stack', i.skills)}${line('Level', i.level)}${line('Job target', i.goal)}
+
+Suggest 3 portfolio projects. For each:
+
+### Project [N]: [Title]
+**One-line pitch:** (what it does, in plain English)
+**Why employers care:** (what real-world problem it mirrors; which companies build things like this)
+
+**Exact feature list to build (v1):**
+1. [Specific feature] — [what technology/pattern it demonstrates]
+2. ...
+
+**Stretch features (v2, after getting hired):**
+- ...
+
+**Tech stack:**
+- Frontend: [specific library/framework + version if relevant]
+- Backend: [specific framework]
+- Database: [specific DB and why]
+- Deployment: [exact platform — Vercel, Railway, Fly.io, AWS Free Tier — with link]
+- Auth: [Clerk / NextAuth / etc.]
+
+**Reference repos to study** (real GitHub repos or open-source projects to learn from):
+- github.com/[real-repo] — [what to learn from it]
+
+**Skills demonstrated:** [comma-separated list exactly matching job description keywords]
+
+Scale ambition to the stated level. Beginner = realistic for someone with 3 months experience. Advanced = could be a showcase at a senior interview.`,
   },
   {
     id: 'trendsAnalyzer', name: 'Trends Analyzer', icon: 'briefcase', color: 'emerald-400',
     description: 'Stay ahead with industry trend analysis',
     category: 'career', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 3000,
     inputs: [
       { id: 'industry', label: 'Industry or field', type: 'text', placeholder: 'e.g. fintech, frontend development', required: true },
+      { id: 'role', label: 'Your role (optional)', type: 'text', placeholder: 'e.g. mid-level backend engineer' },
     ],
-    buildUserPrompt: (i) => `You are an industry analyst.
-${line('Industry/field', i.industry)}
-Return markdown with: **5 current trends shaping this field**, why each matters, the **skills rising in demand** because of them, and **2-3 concrete moves** a professional should make now to stay ahead. Note that your knowledge has a training cutoff and may miss the very latest developments.`,
+    buildUserPrompt: (i) => `You are an industry analyst and career strategist. Note: your training data has a cutoff, so flag any areas where the landscape may have shifted significantly.
+${line('Industry/field', i.industry)}${line('Current role', i.role)}
+
+Return markdown with:
+
+## Top 5 Trends Reshaping ${i.industry || 'This Field'}
+For each trend:
+- **What it is** (plain language)
+- **Evidence it's real** (name actual companies, products, or job posting patterns — e.g., "every major bank now has a dedicated AI team", "Vercel's edge runtime adoption grew 3× in 2024")
+- **Skills rising in demand because of it** — name the specific technologies, certifications, or capabilities
+- **How long before it's table stakes** (already required / 1–2 years / 3–5 years)
+
+## Skills to Add Now (High ROI, Low Learning Curve)
+For each: skill name, why it matters right now, and the fastest way to get it (specific course or cert).
+
+## Skills to Add Soon (High Impact, Takes Time)
+Same format.
+
+## Skills That Are Declining — Don't Over-Invest
+Be direct. Name specific technologies or approaches that are losing market share.
+
+## 3 Concrete Career Moves for Someone in This Field
+Ultra-specific — not "network more" but "Join [specific Slack community / conference / newsletter]" or "Get [specific certification] in the next 6 months because [reason]".
+
+## Where to Track This Field Going Forward
+Name specific newsletters, blogs, podcasts, and communities: e.g., "The Pragmatic Engineer by Gergely Orosz (substack)", "TLDR Newsletter (tldr.tech)", "Hacker News (news.ycombinator.com)".`,
   },
   {
     id: 'reviewAssistant', name: 'Review Assistant', icon: 'award', color: 'teal-400',
@@ -299,14 +436,35 @@ Return markdown with: a **SWOT analysis** (Strengths, Weaknesses, Opportunities,
     id: 'learningTutor', name: 'Learning Tutor', icon: 'graduation-cap', color: 'red-500',
     description: 'AI tutor for any skill or concept',
     category: 'career', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 3500,
     inputs: [
       { id: 'topic', label: 'What do you want to learn', type: 'text', placeholder: 'e.g. how does OAuth work', required: true },
       { id: 'level', label: 'Your level', type: 'select', placeholder: 'Level', options: ['Complete beginner', 'Some knowledge', 'Advanced'] },
     ],
-    buildUserPrompt: (i) => `You are a patient expert tutor.
-${line('Topic', i.topic)}${line('Learner level', i.level)}
-Explain it in markdown with: a **clear core explanation** pitched to the level, a **real-world analogy or example**, **common misconceptions**, a **quick self-check question**, and **what to learn next**.`,
+    buildUserPrompt: (i) => `You are a world-class tutor who makes complex topics genuinely clear. Pitch this at ${i.level || 'some knowledge'} level.
+${line('Topic', i.topic)}
+
+## Core Explanation
+Explain the concept from first principles. Be thorough — don't skip the parts that "everyone knows". Use plain English. If it's a technical concept, explain why it exists (what problem it solves) before explaining how it works.
+
+## Real-World Analogy
+One analogy that makes it click. Then show the places this concept appears in the real world (name actual products, companies, or systems that use it).
+
+## Step-by-Step Breakdown (if applicable)
+If the topic involves a process or sequence (auth flow, compilation, network request, etc.), walk through each step with what happens and why.
+
+## Code Example (if applicable)
+A minimal, working example with comments explaining every non-obvious line. Name the language/framework.
+
+## Common Misconceptions
+The 2–3 things people most often get wrong about this topic.
+
+## Quick Self-Check
+A question the learner should be able to answer now. Then provide the answer below a spoiler heading.
+
+## What to Learn Next (ordered)
+3–4 specific next topics, ordered by importance. For each, name the best resource: e.g., "OAuth 2.0 spec (oauth.net/2)", "JWT.io for visual JWT debugging", "Auth0 blog's 'OAuth vs OIDC' article"`,
   },
   {
     id: 'contractReviewer', name: 'Contract Reviewer', icon: 'shield-check', color: 'orange-500',
@@ -528,13 +686,15 @@ Return markdown with: a **stakeholder map** categorizing each by **influence vs.
     id: 'pathGeneration', name: 'AI Path Generation', icon: 'route', color: 'blue-400',
     description: 'Curated learning paths from web resources',
     category: 'learning', status: 'ready',
-    tier: 'fast',
+    tier: 'deep',
+    maxOutputTokens: 5000,
     inputs: [
       { id: 'skill', label: 'Skill to master', type: 'text', placeholder: 'e.g. machine learning', required: true },
       { id: 'timeline', label: 'Timeline', type: 'select', placeholder: 'How long do you have', options: ['3 months', '6 months', '1 year', '2 years'] },
+      { id: 'level', label: 'Current level', type: 'select', placeholder: 'Your starting point', options: ['Complete beginner', 'Some knowledge', 'Intermediate', 'Advanced'] },
     ],
-    buildUserPrompt: (i) => `You are a curriculum designer creating a structured career learning path.
-${line('Skill / Goal', i.skill)}${line('Timeline', i.timeline || '6 months')}${line('Focus areas', i.focusAreas || '')}
+    buildUserPrompt: (i) => `You are a curriculum designer. Create a structured, resource-rich learning path.
+${line('Skill / Goal', i.skill)}${line('Timeline', i.timeline || '6 months')}${line('Current level', i.level || 'Complete beginner')}
 
 Return ONLY a valid JSON object (no markdown, no prose outside the JSON) in this exact shape:
 {
@@ -544,45 +704,102 @@ Return ONLY a valid JSON object (no markdown, no prose outside the JSON) in this
       "steps": [
         {
           "title": "Step title",
-          "description": "2-3 sentence description of what to do and why",
+          "description": "2-3 sentence description of exactly what to do, what concept to learn, and why it matters at this stage",
           "duration": "X weeks",
           "resources": [
-            { "title": "Resource name", "url": "https://...", "type": "course|article|video|book" }
+            { "title": "Exact resource name (e.g. 'CS50P: Introduction to Programming with Python')", "url": "https://actual-real-url.com", "type": "course|video|book|docs|practice" }
           ],
-          "xpReward": 50
+          "xpReward": 50,
+          "milestone": "What you can do/build after completing this step"
         }
       ]
     }
   ]
 }
 
-Create 3–5 phases with 3–6 steps each. Scale scope to the timeline. Name well-known resources with real URLs.`,
+RULES for resources — you MUST follow:
+- Use ONLY real, well-known resources with accurate URLs. Examples of correct URLs:
+  - Coursera courses: https://www.coursera.org/learn/[course-slug]
+  - YouTube channels: https://www.youtube.com/@[channel-handle]
+  - freeCodeCamp: https://www.freecodecamp.org/learn
+  - The Odin Project: https://www.theodinproject.com
+  - MDN Web Docs: https://developer.mozilla.org
+  - Official docs: https://docs.python.org, https://react.dev, https://docs.aws.amazon.com
+  - edX: https://www.edx.org/learn/[topic]
+  - fast.ai: https://course.fast.ai
+  - Kaggle: https://www.kaggle.com/learn
+- Never invent a URL. If unsure of the exact URL, use the platform homepage (e.g. https://www.coursera.org).
+- Include 2–4 resources per step (mix: 1 structured course + 1 YouTube + 1 practice/project resource)
+- Create 3–5 phases with 3–5 steps each. Scale scope and depth to the timeline and level.`,
   },
   {
     id: 'aiTutor', name: 'AI Tutor Chatbot', icon: 'message-circle', color: 'green-400',
     description: '24/7 contextual learning assistance',
     category: 'learning', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 3000,
     inputs: [
       { id: 'question', label: 'Your question', type: 'textarea', placeholder: 'Ask anything you want explained', required: true },
       { id: 'subject', label: 'Subject (optional)', type: 'text', placeholder: 'e.g. statistics, JavaScript' },
     ],
-    buildUserPrompt: (i) => `You are a friendly, knowledgeable tutor answering a single question (this is one-shot Q&A, not an ongoing chat).
+    buildUserPrompt: (i) => `You are an expert tutor answering a student's specific question. Be thorough, not vague.
 ${line('Question', i.question)}${line('Subject', i.subject)}
-Answer clearly in markdown: directly address the question, give an example, and suggest a good follow-up question the learner could ask next.`,
+
+Answer in markdown:
+
+**Direct answer** — get straight to the point, no filler intro.
+
+**Explanation with example** — show a concrete example (code, diagram description, or real-world scenario). If it's a technical topic, include a runnable code snippet.
+
+**The "why it works" part** — explain the underlying reason, not just the mechanics.
+
+**Common confusion** — what do people usually misunderstand about this?
+
+**Where to go deeper:**
+Name 1–2 specific resources to continue learning: actual article titles, documentation pages, or YouTube videos — e.g., "JavaScript.info's closures chapter (javascript.info/closure)" or "Fireship's '100 seconds of X' video on YouTube".`,
   },
   {
     id: 'projectLearning', name: 'Project-Based Learning', icon: 'wrench', color: 'purple-400',
     description: 'Hands-on portfolio building',
     category: 'learning', status: 'ready',
-    tier: 'fast',
+    tier: 'balanced',
+    maxOutputTokens: 4000,
     inputs: [
       { id: 'skill', label: 'Skill to learn by building', type: 'text', placeholder: 'e.g. REST APIs', required: true },
       { id: 'level', label: 'Level', type: 'select', placeholder: 'Level', options: ['Beginner', 'Intermediate', 'Advanced'] },
     ],
-    buildUserPrompt: (i) => `You are a hands-on coding/skills mentor who teaches by building.
-${line('Skill', i.skill)}${line('Level', i.level)}
-Design one project that teaches this skill. Return markdown with: the **project description**, a **milestone-by-milestone build plan** where each milestone teaches a specific concept, **what you'll learn at each step**, and **stretch goals**. Scale scope to the level.`,
+    buildUserPrompt: (i) => `You are a hands-on engineering mentor who teaches by building real things. Produce a project brief specific enough to start coding today.
+${line('Skill', i.skill)}${line('Level', i.level || 'Beginner')}
+
+## Project: [Name it — make it sound like a real product, not "Todo App v2"]
+**What it does:** one paragraph. Write it like a product description.
+**Why this project teaches ${i.skill}:** what specific aspects of the skill are unavoidable to build this.
+**Estimated time to v1:** X hours/weeks at ${i.level || 'beginner'} level
+
+## Tech Stack
+Name every library, framework, and tool. Include exact package names (e.g., \`express\`, \`prisma\`, \`react-query\`). Note which are optional vs. required.
+
+## Milestone-by-Milestone Build Plan
+For each milestone:
+### Milestone N: [Name]
+**What you're building:** specific feature or component
+**Concept you're learning:** the core skill mechanic this milestone teaches
+**Step-by-step tasks:**
+1. [Concrete task — not "set up routing" but "create \`GET /api/posts\` endpoint that reads from a JSON file and returns \`{ posts: [] }\`"]
+2. ...
+**Stuck? Read:** [specific doc URL or article — e.g., "Express routing guide: expressjs.com/en/guide/routing.html"]
+
+## Testing Your Work
+How to verify each milestone works. Name the tool (curl, Postman, browser DevTools, Jest, etc.).
+
+## Where to Deploy When Done
+Exact platform and free tier: e.g., "Deploy backend on Railway (railway.app) — free tier, no credit card. Deploy frontend on Vercel (vercel.com) — free for personal projects."
+
+## Stretch Goals (v2 — after the job is done)
+3–5 features that push the skill further.
+
+## Similar Real-World Codebases to Study
+Name actual open-source repos on GitHub that do something similar.`,
   },
   {
     id: 'progressTracking', name: 'Progress Tracking', icon: 'trending-up', color: 'orange-400',

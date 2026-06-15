@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
     const tokenStream = generateStream({
       messages,
       tier: feature.tier ?? 'fast',
-      maxOutputTokens: 2048,
+      maxOutputTokens: feature.maxOutputTokens ?? 2048,
     });
 
     const encoder = new TextEncoder();
