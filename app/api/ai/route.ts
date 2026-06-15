@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. Rate-limit by userId (replaces the old IP-based limiter)
-    const rl = rateLimit(userId);
+    const rl = await rateLimit(userId);
     if (!rl.ok) {
       return NextResponse.json(
         { error: 'Too many requests. Please slow down.' },

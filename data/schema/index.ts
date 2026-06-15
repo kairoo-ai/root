@@ -219,3 +219,10 @@ export const chatThreads = pgTable('chat_threads', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
+
+// --- Durable rate limiting (replaces in-memory Map) ---
+export const rateLimitBuckets = pgTable("rate_limit_buckets", {
+  key: text("key").primaryKey(), // e.g. "ai:{userId}"
+  windowStart: timestamp("window_start").defaultNow().notNull(),
+  count: integer("count").notNull().default(0),
+})

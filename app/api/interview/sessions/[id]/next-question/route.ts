@@ -16,7 +16,7 @@ export async function POST(
   const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const rl = rateLimit(userId)
+  const rl = await rateLimit(userId)
   if (!rl.ok) return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
 
   const { id: sessionId } = await params
