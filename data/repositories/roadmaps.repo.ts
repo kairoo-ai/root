@@ -46,6 +46,30 @@ export async function updateRoadmapPlan(
   return row ?? null
 }
 
+export async function getTodaysFocus(userId: string) {
+  const userRoadmaps = await getRoadmapsForUser(userId)
+  for (const roadmap of userRoadmaps) {
+    const plan = roadmap.planJson as RoadmapPlanJson | null
+    if (!plan?.phases) continue
+    for (const phase of plan.phases) {
+      for (const step of phase.steps) {
+        if (step.status === 'in_progress') {
+          return { roadmap, phase, step }
+        }
+      }
+    }
+    // If no in_progress, return the first todo step
+    for (const phase of plan.phases) {
+      for (const step of phase.steps) {
+        if (step.status === 'todo') {
+          return { roadmap, phase, step }
+        }
+      }
+    }
+  }
+  return null
+}
+
 export async function patchStepStatus(
   id: string,
   userId: string,

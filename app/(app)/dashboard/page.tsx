@@ -11,6 +11,7 @@ import { QuickLaunch } from './_components/QuickLaunch'
 import { ActivityFeed } from './_components/ActivityFeed'
 import { UsageWidget } from './_components/UsageWidget'
 import { WeeklyGoals } from './_components/WeeklyGoals'
+import { TodaysFocusWidget } from './_components/TodaysFocusWidget'
 import { getDemoDashboardData } from './_demo/demoData'
 
 export default async function DashboardPage() {
@@ -33,6 +34,7 @@ export default async function DashboardPage() {
             <ActivityFeed activity={demo.activity} />
           </div>
           <div className="space-y-4">
+            <TodaysFocusWidget />
             <UsageWidget used={demo.usedCredits} max={demo.maxCredits} plan={demo.plan} breakdown={demo.breakdown} />
             <WeeklyGoals goals={demo.goals} />
           </div>
@@ -64,6 +66,7 @@ export default async function DashboardPage() {
           <ActivityFeed activity={activity} />
         </div>
         <div className="space-y-4">
+          <TodaysFocusWidget />
           <UsageWidget used={usedCredits} max={maxCredits} plan={plan} breakdown={breakdown.byCategory} />
           <WeeklyGoals goals={goals} />
         </div>
