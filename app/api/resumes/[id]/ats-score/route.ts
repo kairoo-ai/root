@@ -18,9 +18,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: 'No job description provided' }, { status: 400 })
   }
 
-  const { score, found, missing } = computeAtsScore(resume.sections, jd)
+  const result = computeAtsScore(resume.sections, jd)
 
-  await updateResume(userId, id, { atsScore: score, jobDescription: jd })
+  await updateResume(userId, id, { atsScore: result.total, jobDescription: jd })
 
-  return NextResponse.json({ score, found, missing })
+  return NextResponse.json(result)
 }
