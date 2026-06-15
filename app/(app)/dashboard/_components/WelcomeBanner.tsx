@@ -23,12 +23,8 @@ export function WelcomeBanner() {
         <SparklesCore particleCount={20} particleColor="#14b8a6" minSize={0.5} maxSize={1.5} speed={0.2} />
         <div className="relative z-10">
         <p className="text-xs font-semibold text-teal-400 uppercase tracking-widest mb-1">{greeting} ✦</p>
-        <h1 className="text-2xl font-extrabold tracking-tight mb-1.5 text-white">
-          Ready to{' '}
-          <span className="bg-linear-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-            level up
-          </span>
-          , {firstName}?
+        <h1 className="text-2xl font-extrabold text-foreground tracking-tight mb-1.5">
+          Ready to level up, {firstName}?
         </h1>
         <p className="text-sm text-muted-foreground max-w-lg">
           Your AI career tools are ready. Pick up where you left off or start something new.

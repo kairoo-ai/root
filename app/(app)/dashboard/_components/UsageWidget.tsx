@@ -17,8 +17,8 @@ export function UsageWidget({ used, max, plan, breakdown }: UsageWidgetProps) {
 
   return (
     <div>
-      <h2 className="text-[11px] font-bold uppercase tracking-widest text-white/50 mb-3">Usage</h2>
-      <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-4">
+      <h2 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground mb-3">Usage</h2>
+      <div className="rounded-xl border border-border bg-card p-4">
         <div className="flex items-center justify-between mb-4">
           <span className="text-sm font-bold text-foreground">AI Credits</span>
           <span className="text-[10px] font-semibold text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded-full capitalize">{plan}</span>

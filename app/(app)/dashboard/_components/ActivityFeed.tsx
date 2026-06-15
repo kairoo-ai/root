@@ -30,9 +30,9 @@ export function ActivityFeed({ activity }: ActivityFeedProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-[11px] font-bold uppercase tracking-widest text-white/50">Recent Activity</h2>
+        <h2 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Recent Activity</h2>
       </div>
-      <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border/50">
           <div className="flex items-center gap-2">
             <Clock className="w-3.5 h-3.5 text-muted-foreground" />

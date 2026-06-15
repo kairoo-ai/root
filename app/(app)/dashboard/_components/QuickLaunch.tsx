@@ -17,7 +17,7 @@ export function QuickLaunch() {
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-[11px] font-bold uppercase tracking-widest text-white/50">Quick Launch</h2>
+        <h2 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Quick Launch</h2>
         <StatefulButton onClick={() => router.push('/tools')} className="text-xs text-teal-400 hover:text-teal-300 transition-colors cursor-pointer" variant="ghost">
           All 38 tools →
         </StatefulButton>
@@ -26,7 +26,7 @@ export function QuickLaunch() {
         {tools.map((tool, i) => (
           <motion.div key={tool.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.05 }}>
             <CardSpotlight
-              className={cn('group rounded-xl border bg-white/5 backdrop-blur-sm p-4 cursor-pointer transition-all hover:bg-white/8 hover:scale-[1.02] active:scale-[0.98] will-change-transform hover:shadow-lg', tool.border)}
+              className={cn('group rounded-xl border bg-card p-4 cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg', tool.border)}
               onClick={() => router.push(tool.href)}
             >
               <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center mb-3', tool.bg)}>
