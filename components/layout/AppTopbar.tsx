@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { UserButton } from '@clerk/nextjs'
 import { Bell, ChevronRight, Command } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import ThemeToggle from '@/components/ThemeToggle'
 
 const routeLabels: Record<string, string> = {
   '/dashboard': 'Dashboard',
@@ -80,6 +81,7 @@ export function AppTopbar() {
       <div className="flex items-center gap-2">
         {/* Command palette trigger */}
         <button
+          type="button"
           onClick={openCommandPalette}
           aria-label="Open command palette"
           className={cn(
@@ -91,8 +93,11 @@ export function AppTopbar() {
           <span className="hidden sm:inline">K</span>
         </button>
 
+        <ThemeToggle />
+
         {/* Notification bell */}
         <button
+          type="button"
           aria-label="Notifications"
           className={cn(
             'relative flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-white/5',

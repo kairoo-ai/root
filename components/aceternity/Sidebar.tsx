@@ -97,7 +97,7 @@ export function AceternitySidebar({ children, className }: AceternitySidebarProp
       initial={false}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className={cn(
-        'flex shrink-0 flex-col overflow-hidden border-r border-border bg-card',
+        'flex shrink-0 flex-col overflow-hidden border-r border-sidebar-border bg-sidebar',
         className,
       )}
       style={reduce ? { width: open ? 240 : 56 } : undefined}
