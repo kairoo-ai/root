@@ -45,7 +45,7 @@ export default function CompetitiveChart() {
         borderColor: c.series[2],
       },
       {
-        label: 'Kairoo',
+        label: (process.env.APP_NAME || "Kairoo"),
         data: [{ x: 9, y: 4 }],
         backgroundColor: c.seriesFill[0],
         borderColor: c.series[0],

@@ -73,7 +73,7 @@ const SAMPLE_LOGOS = [
 export default function StylePage() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-16 space-y-12">
-      <h1 className="text-h1 text-foreground">Kairoo Design System</h1>
+      <h1 className="text-h1 text-foreground">{process.env.APP_NAME || "Kairoo"} Design System</h1>
 
       <section className="space-y-4">
         <h2 className="text-h3 text-foreground">Color ramps</h2>

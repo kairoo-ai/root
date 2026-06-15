@@ -30,7 +30,7 @@ export function StepPreferences({ data, onNext, onBack, saving }: Props) {
     <div className="p-7">
       <div className="mb-5">
         <h2 className="text-lg font-black text-foreground">Your preferences</h2>
-        <p className="text-xs text-muted-foreground mt-0.5">Kairoo will tailor advice to how you work and learn best.</p>
+        <p className="text-xs text-muted-foreground mt-0.5">{process.env.APP_NAME || "Kairoo"} will tailor advice to how you work and learn best.</p>
       </div>
       <div className="space-y-5">
         <div>
