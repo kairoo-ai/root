@@ -196,3 +196,24 @@ export const skillAssessments = pgTable('skill_assessments', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
+
+// --- Chat Threads ---
+
+export type ChatMessageRole = 'user' | 'assistant'
+
+export type ChatMessage = {
+  id: string           // nanoid/uuid for keying
+  role: ChatMessageRole
+  content: string
+  timestamp: string    // ISO string
+}
+
+export const chatThreads = pgTable('chat_threads', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  featureId: text('feature_id').notNull(),
+  title: text('title').notNull(),
+  messages: jsonb('messages').$type<ChatMessage[]>().notNull().default([]),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
