@@ -146,3 +146,53 @@ export const resumes = pgTable('resumes', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
+
+// --- Skill Gap ---
+
+export type SkillEntry = {
+  name: string
+  level: number        // 0–5
+  category: string
+}
+
+export type TargetSkillEntry = {
+  name: string
+  requiredLevel: number  // 0–5
+  category: string
+  marketDemand: 'high' | 'medium' | 'low'
+}
+
+export type SkillGap = {
+  skill: string
+  category: string
+  currentLevel: number
+  requiredLevel: number
+  delta: number
+  priority: 'critical' | 'important' | 'nice'
+  marketDemand: 'high' | 'medium' | 'low'
+}
+
+export type LearningResource = {
+  title: string
+  url: string
+  type: 'course' | 'book' | 'article' | 'video' | 'practice'
+}
+
+export type LearningPlanItem = {
+  skill: string
+  weeks: number
+  resources: LearningResource[]
+}
+
+export const skillAssessments = pgTable('skill_assessments', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  currentRole: text('current_role').notNull(),
+  targetRole: text('target_role').notNull(),
+  currentSkills: jsonb('current_skills').$type<SkillEntry[]>().notNull().default([]),
+  targetSkills: jsonb('target_skills').$type<TargetSkillEntry[]>().notNull().default([]),
+  gaps: jsonb('gaps').$type<SkillGap[]>().notNull().default([]),
+  learningPlan: jsonb('learning_plan').$type<LearningPlanItem[]>().notNull().default([]),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
