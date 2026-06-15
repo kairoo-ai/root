@@ -7,8 +7,11 @@ export const metadata: Metadata = {
 
 export default function OnboardingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      {children}
+    <div className="dark min-h-screen w-full bg-gradient-to-br from-[#060f1e] via-[#071426] to-[#081830] text-zinc-100 flex items-center justify-center p-4 relative overflow-hidden">
+      <div className="aurora-bg opacity-30" />
+      <div className="relative z-10 w-full max-w-xl flex justify-center">
+        {children}
+      </div>
     </div>
   )
 }
