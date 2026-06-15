@@ -112,7 +112,7 @@ export function CustomersHero({
           className="text-display text-balance text-foreground"
         >
           {lead.map((w, i) => (
-            <span key={`l-${i}`} data-word className="mr-[0.25em] inline-block">
+            <span key={`l-${i}`} data-word className="mr-[0.5em] inline-block">
               {w}
             </span>
           ))}
