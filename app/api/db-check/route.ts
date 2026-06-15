@@ -7,7 +7,7 @@ import { sql } from 'drizzle-orm'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
-  const rawUrl = process.env.DATABASE_URL || ''
+  const rawUrl = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_aVw18bKnZrdC@ep-snowy-leaf-atbdgkfj.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require'
   let redactedUrl = rawUrl
   try {
     const parsed = new URL(rawUrl)
