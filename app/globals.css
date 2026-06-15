@@ -611,9 +611,7 @@ html:not(.dark) {
     .bg-zinc-900\/50 {
       background-color: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(12px) !important;
-      box-shadow:
-        0 20px 25px -5px rgb(0 0 0 / 0.1),
-        0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
     }
     .bg-zinc-900\/50 * {
       /* Keep buttons inside card readable */
@@ -626,6 +624,18 @@ html:not(.dark) {
     }
     .bg-zinc-800\/10 {
       background-color: rgba(244, 244, 245, 0.5) !important;
+    }
+    .bg-zinc-800\/30 {
+      background-color: rgba(244, 244, 245, 0.4) !important;
+    }
+    .bg-zinc-800\/50 {
+      background-color: #f4f4f5 !important;
+    }
+    .bg-zinc-800\/80 {
+      background-color: #e4e4e7 !important;
+    }
+    .bg-zinc-700\/50 {
+      background-color: #e4e4e7 !important;
     }
     .hover\:bg-zinc-700:hover {
       background-color: #e4e4e7 !important;
@@ -642,6 +652,12 @@ html:not(.dark) {
       border-color: #e4e4e7 !important;
     }
     .border-zinc-700 {
+      border-color: #d4d4d8 !important;
+    }
+    .border-zinc-700\/50 {
+      border-color: #e4e4e7 !important;
+    }
+    .border-zinc-600 {
       border-color: #d4d4d8 !important;
     }
 
