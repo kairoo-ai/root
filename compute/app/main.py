@@ -2,13 +2,15 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import settings
-from .routers import health
+from .routers import health, embed
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.embedder = getattr(app.state, "embedder", None)
+    from .services.embedder import Embedder
+    app.state.embedder = Embedder(settings.model_name)
     yield
+    app.state.embedder = None
 
 
 def create_app(load_model: bool = True) -> FastAPI:
@@ -24,6 +26,7 @@ def create_app(load_model: bool = True) -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(health.router)
+    app.include_router(embed.router)
     return app
 
 
