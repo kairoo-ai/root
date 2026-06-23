@@ -10,14 +10,27 @@ const isPublicRoute = createRouteMatcher([
   '/about',
   '/contact',
   '/security',
+  '/careers',
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/webhooks(.*)',
   '/investors(.*)',
   '/privacy',
   '/terms',
+  '/cookies',
+  '/acceptable-use',
+  '/ai-disclosure',
+  '/dpa',
+  '/sub-processors',
   '/legal(.*)',
   '/style(.*)',
+  '/sitemap.xml',
+  '/robots.txt',
+  '/opengraph-image',
+  '/manifest.webmanifest',
+  '/llms.txt',
+  '/humans.txt',
+  '/.well-known(.*)',
 ])
 
 const isAuthRoute = createRouteMatcher([
@@ -39,7 +52,7 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|xml|txt)).*)',
     '/(api|trpc)(.*)',
   ],
 }
