@@ -5,6 +5,7 @@ import {
   aggregateRatingSchema,
   JsonLd,
 } from "@/components/jsonld";
+import { site } from "@/config/site";
 
 const testimonials = [
   {
@@ -58,7 +59,7 @@ export function BreadcrumbJsonLd({ items }: { items: { name: string; path: strin
           "@type": "ListItem",
           position: i + 1,
           name: item.name,
-          item: `${process.env.NEXT_PUBLIC_APP_NAME === "Kairoo" ? "https://kairoo.com" : "https://astrapath.ai"}${item.path}`,
+          item: `${site.baseUrl}${item.path}`,
         })),
       }}
     />
@@ -99,7 +100,7 @@ export function ProductJsonLd({
         "@type": "Product",
         name: `Kairoo ${name}`,
         description,
-        url: "https://kairoo.com/pricing",
+        url: `${site.baseUrl}/pricing`,
         offers: {
           "@type": "Offer",
           price,

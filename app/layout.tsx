@@ -7,6 +7,7 @@ import { clerkAppearance } from "@/lib/clerk-appearance";
 // import RebrandBanner from "@/components/RebrandBanner";
 import CookieConsent from "@/components/CookieConsent";
 import { SchemaOrg } from "@/components/SchemaOrg";
+import { site } from "@/config/site";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   title: `${appName} - The right moment to grow`,
   description:
     `${appName} is AI career development that grows with you - coaching, learning paths, and team analytics for individuals, professionals, and enterprises.`,
-  metadataBase: new URL("https://kairoo.com"),
+  metadataBase: new URL(site.baseUrl),
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
     title: `${appName} - The right moment to grow`,
     description:
       `${appName} merges 32+ AI-powered career tools, intelligent learning paths, and strategic business intelligence into one platform.`,
-    url: "https://kairoo.com",
+    url: site.baseUrl,
     locale: "en_US",
   },
   twitter: {

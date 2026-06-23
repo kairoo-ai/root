@@ -1,13 +1,17 @@
+import { site } from "@/config/site";
+
+const base = site.baseUrl.replace(/\/$/, "");
+
 export async function GET() {
-  const content = `# Kairoo - AI Career Development Platform
-> Kairoo merges 38+ AI-powered career tools, intelligent learning paths, and strategic business intelligence into one platform.
+  const content = `# ${site.name} - AI Career Development Platform
+> ${site.name} merges 38+ AI-powered career tools, intelligent learning paths, and strategic business intelligence into one platform.
 
 ## Docs
-- Features & Tools: https://kairoo.com/features
-- How It Works: https://kairoo.com/how-it-works
-- Pricing: https://kairoo.com/pricing
-- Security & Trust: https://kairoo.com/security
-- About: https://kairoo.com/about
+- Features & Tools: ${base}/features
+- How It Works: ${base}/how-it-works
+- Pricing: ${base}/pricing
+- Security & Trust: ${base}/security
+- About: ${base}/about
 
 ## Key Facts
 - 38+ AI career tools (roadmaps, interview coach, salary coach, etc.)
@@ -18,8 +22,8 @@ export async function GET() {
 - SOC 2 and GDPR compliance-ready
 
 ## Contact
-- Support: support@kairoo.com
-- Investors: investors@kairoo.com
+- Support: ${site.supportEmail}
+- Investors: ${site.investorEmail}
 `;
 
   return new Response(content, {

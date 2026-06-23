@@ -1,3 +1,5 @@
+import { site } from "@/config/site";
+
 export async function GET() {
   const content = `/* TEAM */
   Founder & CEO: TODO
@@ -17,7 +19,7 @@ export async function GET() {
 /* CONTACT */
   GitHub: https://github.com/kairoo
   LinkedIn: https://linkedin.com/company/kairoo
-  Email: hello@kairoo.com
+  Email: hello@${site.baseUrl.replace(/^https?:\/\//, "")}
 `;
 
   return new Response(content, {

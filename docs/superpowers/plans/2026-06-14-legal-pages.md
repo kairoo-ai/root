@@ -65,9 +65,9 @@ export const legal: LegalConfig = {
   legalEntity: "Kairoo (operated by Matters AI)", // TODO confirm registered entity
   jurisdiction: "India", // TODO confirm governing law
   effectiveDate: "2026-06-14",
-  contactEmail: "privacy@kairoo.com", // TODO confirm
-  dpoEmail: "privacy@kairoo.com", // TODO confirm
-  websiteUrl: "https://kairoo.com", // TODO confirm domain
+  contactEmail: "privacy+kairoo@mreshank.com", // TODO confirm
+  dpoEmail: "privacy+kairoo@mreshank.com", // TODO confirm
+  websiteUrl: "https://kairoo.mreshank.com", // TODO confirm domain
   draft: true,
   subProcessors: [
     {
@@ -765,7 +765,7 @@ Expected: all pass; the build route list includes `/privacy`, `/terms`, `/cookie
 
 - [ ] **Step 2: Confirm DRAFT + config wiring**
 
-Confirm every legal page shows the DRAFT banner (because `legal.draft === true`) and that no policy text hardcodes the entity/contact/jurisdiction (all come from `config.ts`). Grep: `grep -rn "privacy@kairoo\|kairoo.com\|India" lib/legal/content/` → expected: NO matches (all such values come via the `c.*` interpolation, not literals).
+Confirm every legal page shows the DRAFT banner (because `legal.draft === true`) and that no policy text hardcodes the entity/contact/jurisdiction (all come from `config.ts`). Grep: `grep -rn "privacy@kairoo\|kairoo.mreshank.com\|India" lib/legal/content/` → expected: NO matches (all such values come via the `c.*` interpolation, not literals).
 
 - [ ] **Step 3: Final commit (if any tweaks)**
 

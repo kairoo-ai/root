@@ -1,5 +1,10 @@
 const appName = process.env.NEXT_PUBLIC_APP_NAME || process.env.APP_NAME || "Kairoo";
-const domain = appName.toLowerCase() === "kairoo" ? "kairoo.com" : "astrapath.ai";
+
+// Production domain — override via NEXT_PUBLIC_APP_URL or fall back to kairoo.mreshank.com
+const envUrl = process.env.NEXT_PUBLIC_APP_URL;
+const domain = envUrl
+  ? envUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")
+  : "kairoo.mreshank.com";
 
 export const site = {
   name: appName,

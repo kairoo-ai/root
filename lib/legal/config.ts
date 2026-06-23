@@ -20,10 +20,10 @@ export const legal: LegalConfig = {
   legalEntity: `${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} (operated by Matters AI)`, // TODO confirm registered entity
   jurisdiction: "India",                            // TODO confirm governing law
   effectiveDate: "2026-06-14",
-  contactEmail: "privacy@kairoo.com",               // TODO confirm
-  dpoEmail: "privacy@kairoo.com",                   // TODO confirm
-  grievanceEmail: "privacy@kairoo.com",              // TODO confirm
-  websiteUrl: "https://kairoo.com",                 // TODO confirm domain
+  contactEmail: "privacy+kairoo@mreshank.com",
+  dpoEmail: "privacy+kairoo@mreshank.com",
+  grievanceEmail: "privacy+kairoo@mreshank.com",
+  websiteUrl: "https://kairoo.mreshank.com",
   draft: true,
   subProcessors: [
     { name: "Google (Gemini API)", purpose: "AI generation of career guidance from user input", region: "USA / Global" },

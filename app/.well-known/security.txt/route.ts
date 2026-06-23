@@ -1,9 +1,13 @@
+import { site } from "@/config/site";
+
+const base = site.baseUrl.replace(/\/$/, "");
+
 export async function GET() {
-  const content = `Contact: mailto:security@kairoo.com
+  const content = `Contact: mailto:security@${site.baseUrl.replace(/^https?:\/\//, "")}
 Expires: 2027-06-24T00:00:00.000Z
 Preferred-Languages: en
-Canonical: https://kairoo.com/.well-known/security.txt
-Policy: https://kairoo.com/security
+Canonical: ${base}/.well-known/security.txt
+Policy: ${base}/security
 `;
 
   return new Response(content, {

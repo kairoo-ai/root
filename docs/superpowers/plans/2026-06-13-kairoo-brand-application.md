@@ -738,10 +738,10 @@ Apply these replacements (string → string), in the listed files:
 
 In `app/investor-deck/page.tsx`:
 
-- `investors@astrapath.ai` → `investors@kairoo.com`
+- `investors@astrapath.ai` → `investors+kairoo@mreshank.com`
 - `linkedin.com/company/astrapath-ai` → `linkedin.com/company/kairoo`
 
-> Note: domain/handle are placeholders pending the §4.3 entity decision; flagged in the spec. Use `kairoo.com` as the working domain.
+> Note: domain/handle are placeholders pending the §4.3 entity decision; flagged in the spec. Use `kairoo.mreshank.com` as the working domain.
 
 - [ ] **Step 3: Verify no stray references remain in app/components**
 

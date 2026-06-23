@@ -99,7 +99,7 @@ original "Kairo" the owner was drawn to.
 
 A name passes if: (1) **no collision in our industry** (careers / HR-tech / edtech /
 learning / self-development), and (2) a **strong domain variant** is obtainable
-(`kairoo.com`, `kairoo.io`, `getkairoo.com`, `usekairoo.com` - exact `.com` is a bonus,
+(`kairoo.mreshank.com`, `kairoo.io`, `getkairoo.mreshank.com`, `usekairoo.mreshank.com` - exact `.com` is a bonus,
 not a requirement). Rationale: short "pretty" coined words from common roots are heavily
 claimed; out-of-industry existence (e.g. a foreign health app) is a far smaller brand/legal
 risk than an in-industry collision. **TODO before public launch:** formal trademark search

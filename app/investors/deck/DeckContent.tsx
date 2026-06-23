@@ -993,7 +993,7 @@ export function DeckContent() {
         tone="gradient"
         headline="Ready to Join Our Journey?"
         body="Connect with our team to learn more about investment opportunities, access detailed financial models, or schedule a product demonstration."
-        primary={{ label: "Contact Investment Team", href: "mailto:investors@kairoo.com" }}
+        primary={{ label: "Contact Investment Team", href: "mailto:investors+kairoo@mreshank.com" }}
         secondary={{ label: "Schedule Demo", href: "/contact" }}
       />
 
@@ -1004,8 +1004,8 @@ export function DeckContent() {
               {
                 icon: <Mail aria-hidden className="size-6 text-accent" />,
                 title: "Investment Inquiries",
-                href: "mailto:investors@kairoo.com",
-                label: "investors@kairoo.com",
+                href: "mailto:investors+kairoo@mreshank.com",
+                label: "investors+kairoo@mreshank.com",
               },
               {
                 icon: <CalendarCheck aria-hidden className="size-6 text-accent" />,

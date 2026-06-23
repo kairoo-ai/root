@@ -60,7 +60,7 @@ Generated 2026-06-14 from: `app/(marketing)/page.tsx`, `app/investors/{page,stra
 - **Financial table** 🔴: M3 1,049/$30.4K/5.2%; M6 3,247/$94.2K/5.0%; M9 7,891/$228.8K/4.8%; M12 15,234/$441.8K/4.5%. Y1: 15.2K paid, $441K MRR.
 - **90-Day MVP Action Plan** 🔴: Days 1–30 Foundation, 31–60 Build & Beta, 61–90 Scale & Launch (Product + Team/GTM workstreams; "$100K ARR pipeline").
 - **Tools & Resources:** dev stack (Next.js+TS, PostgreSQL+Prisma, OpenAI GPT-4, Stripe, Vercel), marketing, operational.
-- **Contact:** investors@kairoo.com · +1 (555) 123-FUND · linkedin.com/company/kairoo (placeholder).
+- **Contact:** investors+kairoo@mreshank.com · +1 (555) 123-FUND · linkedin.com/company/kairoo (placeholder).
 
 ### F. Technical Architecture - `app/investors/architecture/page.tsx`
 

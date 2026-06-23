@@ -85,6 +85,7 @@ const pricingFaq: FAQItem[] = [
 
 import { FaqJsonLd, ProductJsonLd } from "@/components/SchemaOrg";
 import { JsonLd } from "@/components/jsonld";
+import { site } from "@/config/site";
 
 export default function PricingPage() {
   return (
@@ -100,7 +101,7 @@ export default function PricingPage() {
           "@type": "Product",
           name: "Kairoo Enterprise",
           description: "Everything in Pro plus team dashboards, SSO & audit logs, dedicated success manager",
-          url: "https://kairoo.com/pricing",
+          url: `${site.baseUrl}/pricing`,
         }}
       />
       <PricingVisuals tiers={tiers} objections={objections} faq={pricingFaq} />
