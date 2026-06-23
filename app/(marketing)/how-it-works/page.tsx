@@ -197,9 +197,14 @@ const FAQ_ITEMS = [
   },
 ];
 
+import { FaqJsonLd } from "@/components/SchemaOrg";
+
 export default function HowItWorksPage() {
   return (
     <>
+      <FaqJsonLd
+        entries={FAQ_ITEMS.map((f) => ({ question: f.question, answer: f.answer }))}
+      />
       <HowItWorksHero
         eyebrow="How it works"
         words={["Profile.", "Pick.", "Run.", "Grow."]}

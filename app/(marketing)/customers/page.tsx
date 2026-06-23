@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Award } from "lucide-react";
 
 import { CTA } from "@/components/blocks/CTA";
+import { ReviewJsonLd } from "@/components/SchemaOrg";
 
 import { testimonials } from "@/content/testimonials";
 import {
@@ -152,6 +153,21 @@ export default function CustomersPage() {
         }
       />
 
+      <ReviewJsonLd
+        author="Sarah Chen"
+        reviewBody="I went from marketing to data science in just 8 months using Kairoo. The personalized learning path saved me thousands of hours of research."
+        ratingValue={5}
+      />
+      <ReviewJsonLd
+        author="Marcus Rodriguez"
+        reviewBody="Kairoo's AI coaching helped me navigate my promotion to Staff Engineer. Got a 40% raise!"
+        ratingValue={5}
+      />
+      <ReviewJsonLd
+        author="Amanda Park"
+        reviewBody="Our team's productivity increased 300% after implementing Kairoo."
+        ratingValue={5}
+      />
       <CTA
         headline="Write your own success story"
         body="Start building your AI-powered career and learning command center today."

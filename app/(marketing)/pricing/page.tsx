@@ -83,8 +83,27 @@ const pricingFaq: FAQItem[] = [
   },
 ];
 
+import { FaqJsonLd, ProductJsonLd } from "@/components/SchemaOrg";
+import { JsonLd } from "@/components/jsonld";
+
 export default function PricingPage() {
   return (
-    <PricingVisuals tiers={tiers} objections={objections} faq={pricingFaq} />
+    <>
+      <FaqJsonLd
+        entries={pricingFaq.map((f) => ({ question: f.question, answer: f.answer }))}
+      />
+      <ProductJsonLd name="Explorer" description="Free forever plan with 1 active career path" price={0} />
+      <ProductJsonLd name="Pro" description="Unlimited career paths, daily AI coaching, skill gap analysis" price={19} />
+      <JsonLd
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: "Kairoo Enterprise",
+          description: "Everything in Pro plus team dashboards, SSO & audit logs, dedicated success manager",
+          url: "https://kairoo.com/pricing",
+        }}
+      />
+      <PricingVisuals tiers={tiers} objections={objections} faq={pricingFaq} />
+    </>
   );
 }

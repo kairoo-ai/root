@@ -80,16 +80,23 @@ const CHANNELS: ContactChannel[] = [
   },
 ];
 
+import { FaqJsonLd } from "@/components/SchemaOrg";
+
 export default function ContactPage() {
   return (
-    <ContactVisuals
-      supportEmail={site.supportEmail}
-      investorEmail={site.investorEmail}
-      investorsRoute={routes.investors}
-      pricingRoute={routes.pricing}
-      featuresRoute={routes.features}
-      channels={CHANNELS}
-      faq={FAQ_ITEMS}
-    />
+    <>
+      <FaqJsonLd
+        entries={FAQ_ITEMS.map((f) => ({ question: f.question, answer: f.answer }))}
+      />
+      <ContactVisuals
+        supportEmail={site.supportEmail}
+        investorEmail={site.investorEmail}
+        investorsRoute={routes.investors}
+        pricingRoute={routes.pricing}
+        featuresRoute={routes.features}
+        channels={CHANNELS}
+        faq={FAQ_ITEMS}
+      />
+    </>
   );
 }

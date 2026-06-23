@@ -272,11 +272,16 @@ const FAQ_ITEMS: FAQItem[] = [
   },
 ];
 
+import { FaqJsonLd } from "@/components/SchemaOrg";
+
 /* -------------------------------------------------------------------------- */
 
 export default function SecurityPage() {
   return (
     <>
+      <FaqJsonLd
+        entries={FAQ_ITEMS.map((f) => ({ question: f.question, answer: f.answer }))}
+      />
       <SecurityHero
         titleLead="Security built in,"
         titleHighlight="claims kept"
