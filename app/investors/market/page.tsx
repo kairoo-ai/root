@@ -19,10 +19,16 @@ import {
   NinetyDayTable,
 } from "./MarketViz";
 
+const marketTitle = `Market Analysis & Go-to-Market - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`;
+const marketDesc =
+  `Market research, competitive intelligence, and go-to-market strategy for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s entry into the \$366B global EdTech market - TAM/SAM/SOM, competitive matrix, GTM channels, and a 90-day growth plan.`;
+
 export const metadata: Metadata = {
-  title: `Market Analysis & Go-to-Market - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`,
-  description:
-    `Market research, competitive intelligence, and go-to-market strategy for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}'s entry into the \$366B global EdTech market - TAM/SAM/SOM, competitive matrix, GTM channels, and a 90-day growth plan.`,
+  title: marketTitle,
+  description: marketDesc,
+  alternates: { canonical: "/investors/market" },
+  openGraph: { title: marketTitle, description: marketDesc, url: "/investors/market" },
+  twitter: { card: "summary_large_image", title: marketTitle, description: marketDesc },
 };
 
 /* ------------------------------------------------------------------ */

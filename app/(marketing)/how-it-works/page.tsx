@@ -17,10 +17,16 @@ import {
 } from "./HowItWorksVisuals";
 import { PersonaWorkflows, PersonalizationFlow } from "./HowItWorksExtended";
 
+const howTitle = `How It Works - Real workflows, real outcomes | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const howDesc =
+  `See exactly how ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} works: your profile drives every tool, real workflow chains for job search, promotion, and career switches - powered by a Gemini-backed AI engine.`;
+
 export const metadata: Metadata = {
-  title: `How It Works - Real workflows, real outcomes | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    `See exactly how ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} works: your profile drives every tool, real workflow chains for job search, promotion, and career switches - powered by a Gemini-backed AI engine.`,
+  title: howTitle,
+  description: howDesc,
+  alternates: { canonical: "/how-it-works" },
+  openGraph: { title: howTitle, description: howDesc, url: "/how-it-works" },
+  twitter: { card: "summary_large_image", title: howTitle, description: howDesc },
 };
 
 const readyCount = featureRegistry.filter((f) => f.status === "ready").length;

@@ -7,10 +7,16 @@ import PricingVisuals, {
   type PricingObjection,
 } from "./PricingVisuals";
 
+const pricingTitle = `Pricing - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const pricingDesc =
+  "Simple, transparent pricing for your AI career copilot. Start free, upgrade to Pro for unlimited paths and daily coaching, or talk to us about Enterprise. No card required to begin.";
+
 export const metadata: Metadata = {
-  title: `Pricing - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    "Simple, transparent pricing for your AI career copilot. Start free, upgrade to Pro for unlimited paths and daily coaching, or talk to us about Enterprise. No card required to begin.",
+  title: pricingTitle,
+  description: pricingDesc,
+  alternates: { canonical: "/pricing" },
+  openGraph: { title: pricingTitle, description: pricingDesc, url: "/pricing" },
+  twitter: { card: "summary_large_image", title: pricingTitle, description: pricingDesc },
 };
 
 /**

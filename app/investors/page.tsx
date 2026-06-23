@@ -18,10 +18,16 @@ import {
   type HeroStat,
 } from "./InvestorsClient";
 
+const investorsTitle = `Investors - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const investorsDesc =
+  `Everything you need to understand ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} as an investment opportunity: a \$2.5M Series A into a \$366B market. Business strategy, market analysis, the full investor deck, and technical architecture.`;
+
 export const metadata: Metadata = {
-  title: `Investors - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    `Everything you need to understand ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} as an investment opportunity: a \$2.5M Series A into a \$366B market. Business strategy, market analysis, the full investor deck, and technical architecture.`,
+  title: investorsTitle,
+  description: investorsDesc,
+  alternates: { canonical: "/investors" },
+  openGraph: { title: investorsTitle, description: investorsDesc, url: "/investors" },
+  twitter: { card: "summary_large_image", title: investorsTitle, description: investorsDesc },
 };
 
 /* ------------------------------------------------------------------ */

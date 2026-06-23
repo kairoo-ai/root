@@ -8,10 +8,16 @@ import {
   type ComingSoonCard,
 } from "./LearningVisuals";
 
+const learningTitle = `Intelligent Learning Paths - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const learningDesc =
+  "Curated AI learning paths, a 24/7 tutor, and project-based learning that turns any skill goal into a sequenced, hands-on curriculum.";
+
 export const metadata: Metadata = {
-  title: `Intelligent Learning Paths - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    "Curated AI learning paths, a 24/7 tutor, and project-based learning that turns any skill goal into a sequenced, hands-on curriculum.",
+  title: learningTitle,
+  description: learningDesc,
+  alternates: { canonical: "/features/learning" },
+  openGraph: { title: learningTitle, description: learningDesc, url: "/features/learning" },
+  twitter: { card: "summary_large_image", title: learningTitle, description: learningDesc },
 };
 
 // Single source of truth: the learning features come straight from the AI

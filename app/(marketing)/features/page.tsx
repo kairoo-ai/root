@@ -11,10 +11,16 @@ import {
 } from "./FeaturesVisuals";
 import { FullToolCatalog, WorkflowSection, PersonalizationSection } from "./FeaturesExtended";
 
+const featuresTitle = `Features - 38 AI tools for your career | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const featuresDesc =
+  `Every tool ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} ships: career roadmaps, interview coaching, salary negotiation, learning paths, and 30+ more - all personalized to your role, goals, and background.`;
+
 export const metadata = {
-  title: `Features - 38 AI tools for your career | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    `Every tool ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} ships: career roadmaps, interview coaching, salary negotiation, learning paths, and 30+ more - all personalized to your role, goals, and background.`,
+  title: featuresTitle,
+  description: featuresDesc,
+  alternates: { canonical: "/features" },
+  openGraph: { title: featuresTitle, description: featuresDesc, url: "/features" },
+  twitter: { card: "summary_large_image", title: featuresTitle, description: featuresDesc },
 };
 
 const totalFeatures = featureRegistry.length;

@@ -12,10 +12,16 @@ import {
   CustomersBento,
 } from "./CustomersVisuals";
 
+const customersTitle = `Customers - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const customersDesc =
+  `See how professionals and organizations transform their careers with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}: real success stories and the measurable impact on skill acquisition, salary, and team productivity.`;
+
 export const metadata: Metadata = {
-  title: `Customers - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    `See how professionals and organizations transform their careers with ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}: real success stories and the measurable impact on skill acquisition, salary, and team productivity.`,
+  title: customersTitle,
+  description: customersDesc,
+  alternates: { canonical: "/customers" },
+  openGraph: { title: customersTitle, description: customersDesc, url: "/customers" },
+  twitter: { card: "summary_large_image", title: customersTitle, description: customersDesc },
 };
 
 /**

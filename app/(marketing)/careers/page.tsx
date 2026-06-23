@@ -2,10 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, Clock, Users, Zap, Heart, Code2, Megaphone, BarChart3, Pen, Globe } from "lucide-react";
 
+const careersTitle = `Careers - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const careersDesc =
+  `Join ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - we're building the AI-powered career platform for the next generation of professionals. Part-time roles, internships, and student contributor positions open.`;
+
 export const metadata: Metadata = {
-  title: `Careers - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    `Join ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - we're building the AI-powered career platform for the next generation of professionals. Part-time roles, internships, and student contributor positions open.`,
+  title: careersTitle,
+  description: careersDesc,
+  alternates: { canonical: "/careers" },
+  openGraph: { title: careersTitle, description: careersDesc, url: "/careers" },
+  twitter: { card: "summary_large_image", title: careersTitle, description: careersDesc },
 };
 
 const OPEN_ROLES = [

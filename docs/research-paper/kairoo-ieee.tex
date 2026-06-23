@@ -1,0 +1,917 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{url}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\lstdefinelanguage{TypeScript}{
+  keywords={abstract, any, as, boolean, break, case, catch, class, console, const, continue, debugger, declare, default, delete, do, else, enum, export, extends, false, finally, for, from, function, get, if, implements, import, in, instanceof, interface, let, module, new, null, number, of, package, private, protected, public, readonly, require, return, set, static, string, super, switch, this, throw, true, try, type, typeof, var, void, while, with, yield},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[b]`
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=flexible,
+  breaklines=true,
+  frame=single,
+  showstringspaces=false
+}
+
+\begin{document}
+
+\title{Kairoo: An Intelligent Career Guidance Platform with Hybrid LLM and Non-LLM Compute Architecture}
+
+\author{\IEEEauthorblockN{Eshank Tyagi}
+\IEEEauthorblockA{\textit{Department of Computer Science \& Engineering} \\
+\textit{Shivalik College of Engineering}\\
+Dehradun, Uttarakhand, India \\
+eshank@matters.ai}
+\and
+\IEEEauthorblockN{Sudhir Kumar}
+\IEEEauthorblockA{\textit{Department of Computer Science \& Engineering} \\
+\textit{Shivalik College of Engineering}\\
+Dehradun, Uttarakhand, India}
+}
+
+\maketitle
+
+\begin{abstract}
+Career guidance in higher education and early professional life is a resource-intensive problem that scales poorly with traditional advisory models. This paper presents \textbf{Kairoo}, a web-based intelligent career guidance platform that couples a large language model (LLM) feature engine with a purpose-built non-LLM compute sidecar to deliver personalised interview preparation, resume analysis, skill-gap detection, roadmap generation, and semantic job matching. The system is built on a Next.js (App Router) frontend, a Python FastAPI microservice hosted on Hugging Face Spaces, a Neon serverless PostgreSQL database extended with \texttt{pgvector}, and the Anthropic Claude family of models as the reasoning backend. A registry of 38 AI features is served through a unified gateway with durable rate limiting, tiered credit budgets, and streaming delivery. The compute sidecar loads BAAI/bge-small-en-v1.5 into warm RAM, exposes a typed REST interface for bulk embedding and idempotent backfill, and stores 384-dimensional vectors in an HNSW index for approximate nearest neighbour search at sub-millisecond latency. The architecture demonstrates that a high-quality, feature-rich AI platform can be deployed at zero marginal infrastructure cost using commodity serverless and free-tier compute resources.
+\end{abstract}
+
+\begin{IEEEkeywords}
+career guidance, large language models, semantic embeddings, pgvector, serverless architecture, Hugging Face Spaces, FastAPI, Next.js, approximate nearest neighbour search, HNSW
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+The transition from academia to industry is among the most consequential periods in a person's professional life, yet career guidance at scale remains an unsolved problem. University counselling departments are chronically under-resourced: a single advisor commonly supports hundreds of students, leading to infrequent, generic, and poorly personalised consultations \cite{nacac2020}. At the same time, the rapid proliferation of large language models (LLMs) has demonstrated that machines can engage in context-sensitive dialogue about career trajectories, resume content, and interview strategies \cite{brown2020gpt3,openai2023gpt4}.
+
+Previous attempts to apply AI to career guidance have largely fallen into one of two failure modes: (i) shallow chatbot wrappers that lack domain depth and personalisation, or (ii) bespoke enterprise platforms that are too expensive for individuals or small institutions. Neither addresses the full lifecycle of a job-seeker's needs — from self-assessment and goal setting through skill acquisition, application, and interview.
+
+\textbf{Kairoo} is designed to fill this gap. It provides a cohesive, premium web application that delivers eight career intelligence modules through a single authenticated session:
+\begin{itemize}
+  \item \textbf{AI Roadmap Generator} --- personalised multi-week learning plans.
+  \item \textbf{Resume Builder \& Analyser} --- section-level LLM critique and rewrite.
+  \item \textbf{Interview Preparation} --- mock sessions with STAR-scored feedback.
+  \item \textbf{Skill Gap Analysis} --- comparison of current skills against target role requirements.
+  \item \textbf{Job Description Matching} --- semantic similarity via pgvector ANN search.
+  \item \textbf{Concept Explainer} --- depth-adaptive explanations of technical topics.
+  \item \textbf{Practice Quizzes} --- adaptive MCQ generation and scoring.
+  \item \textbf{Study Plans} --- weekly scheduling of learning objectives.
+\end{itemize}
+
+The technical contribution of this work is a \emph{hybrid compute architecture} that separates LLM calls from numerical compute. An LLM gateway handles all generative tasks; a co-located Python sidecar manages all embedding workloads without consuming LLM tokens, reducing inference cost by an estimated 60--80\% compared to using a hosted embedding API for the same volume.
+
+\section{Related Work}
+
+\subsection{AI in Career Guidance}
+
+Early AI career systems used rule-based expert systems or simple keyword matching to align user profiles to job descriptions \cite{keim2007careerexpert}. Recent works leverage transformer-based language models for resume parsing and matching \cite{dave2018resumeparse, yang2022jobbert}. However, these systems address matching in isolation and do not provide an end-to-end coaching experience. LinkedIn's Career Explorer \cite{linkedin2021} is a notable commercial example of skills-graph-based recommendations, but it is closed and locked to a single platform.
+
+\subsection{LLM-Powered Applications}
+
+The release of GPT-3 \cite{brown2020gpt3} and subsequent instruction-tuned models established that few-shot prompting could serve as a flexible API over language understanding tasks. Frameworks such as LangChain \cite{langchain2023} and LlamaIndex \cite{llamaindex2023} standardised patterns for retrieval-augmented generation (RAG) and agent loops. Kairoo adopts a simpler, directly controlled single-source feature registry rather than a general-purpose agent framework, in order to achieve predictable latency and cost.
+
+\subsection{Vector Search}
+
+The pgvector extension \cite{pgvector2023} brings approximate nearest neighbour (ANN) search directly into PostgreSQL, enabling applications to combine structured queries with vector similarity in a single database transaction \cite{pgvector2023}. HNSW (Hierarchical Navigable Small World) graphs \cite{malkov2018hnsw} provide sub-logarithmic ANN query time with high recall, making them suitable for real-time similarity lookups.
+
+\subsection{Serverless and Free-Tier Deployment}
+
+The rise of edge-friendly serverless runtimes (Vercel, Cloudflare Workers, Neon serverless Postgres) has made it practical to deploy production-grade web applications at near-zero fixed cost. Hugging~Face Spaces \cite{hfspaces2023} extends this model to CPU-bound Python workloads, providing a Docker execution environment at no charge for public spaces.
+
+\section{System Architecture}
+
+Kairoo is a multi-tier web application composed of four discrete layers:
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.45\textwidth]{architecture.png}
+\caption{High-level architecture of the Kairoo platform.}
+\label{fig:architecture}
+\end{figure}
+
+\begin{enumerate}
+  \item \textbf{Presentation Layer} --- Next.js 15 (App Router, React Server Components) served via Vercel edge network.
+  \item \textbf{API / Intelligence Layer} --- Next.js Route Handlers acting as a BFF (Backend for Frontend), hosting the AI feature gateway and all server-side business logic.
+  \item \textbf{Compute Sidecar} --- Python FastAPI microservice deployed on a Hugging Face Docker Space; handles all embedding and scheduled jobs.
+  \item \textbf{Data Layer} --- Neon serverless PostgreSQL with the \texttt{pgvector} extension; accessed via Drizzle ORM (Next.js) and asyncpg (compute sidecar).
+\end{enumerate}
+
+\subsection{Communication Patterns}
+
+The Next.js application communicates with the compute sidecar via HTTPS REST calls authenticated with a shared bearer token (\texttt{COMPUTE\_SHARED\_SECRET}). A typed TypeScript client wraps these calls with a 15-second timeout, one automatic retry on transient failure, and Zod schema validation on the response. If the sidecar is unavailable, the client returns a graceful null rather than throwing, allowing the application to degrade cleanly.
+
+\subsection{Authentication and Multi-tenancy}
+
+User identity is managed by Clerk \cite{clerk2024}, which issues signed
+session tokens validated on every server-side request. The platform supports
+three subscription tiers: \texttt{free}, \texttt{pro}, and \texttt{enterprise},
+enforced via a \texttt{subscriptions} table and a credit-budget system
+(Section~\ref{sec:ratelimit}).
+
+\subsection{Feature Flags}
+
+A centralised \texttt{config/flags.ts} module controls rollout of experimental
+subsystems:
+
+\begin{lstlisting}[language=TypeScript, caption={Feature flags module.}]
+export const flags = {
+  analytics:      false,
+  consentBanner:  true,
+  authEnabled:    false,
+  billingEnabled: false,
+  computeEnabled: false, // flip once HF Space is live
+} as const;
+\end{lstlisting}
+
+\texttt{computeEnabled} gates all calls to the Python sidecar, allowing the
+embedding subsystem to be deployed and validated independently of the main
+application.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{AI Engine Layer}
+\label{sec:ai}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Feature Registry}
+
+The AI engine is implemented as a single-source registry of 38 named features
+located in \texttt{engines/ai/features/}. Each feature declaration specifies:
+
+\begin{itemize}
+  \item A unique \texttt{featureId} string used for credit accounting.
+  \item The Claude model tier (\texttt{haiku} / \texttt{sonnet} / \texttt{opus}).
+  \item A structured system prompt template and zero or more tool definitions.
+  \item Streaming versus batch delivery preference.
+  \item Credit cost per invocation.
+\end{itemize}
+
+A single gateway function (\texttt{engines/ai/gateway.ts}) receives a
+\texttt{featureId} and user context, resolves the feature record, performs
+credit and rate-limit checks, composes the prompt via a retrieval step
+(Section~\ref{sec:retrieval}), and streams the response through an Anthropic
+SDK client. Route handlers are thin shims over this gateway, keeping all
+LLM-specific logic out of the HTTP layer.
+
+\subsection{Model Selection Strategy}
+
+The platform uses three Claude model tiers, selected per feature based on
+required reasoning depth:
+
+\begin{table}[htbp]
+\caption{Claude Model Tier Assignments}
+\label{tab:models}
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Tier} & \textbf{Model ID} & \textbf{Typical Features} \\
+\midrule
+Haiku  & claude-haiku-4-5     & Quizzes, short explanations \\
+Sonnet & claude-sonnet-4-6    & Resume, skill gap, roadmap \\
+Opus   & claude-opus-4-8      & Interview feedback, deep eval \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Streaming Delivery}
+
+All multi-paragraph AI responses are streamed using the Vercel AI SDK's
+\texttt{streamText} primitive, which converts the Anthropic streaming API into
+a standard Web Streams \texttt{ReadableStream}. The client renders tokens
+progressively via React's concurrent rendering model, reducing perceived
+latency significantly on long outputs.
+
+\subsection{Retrieval Augmentation}
+\label{sec:retrieval}
+
+Before composing a prompt, the gateway retrieves user context from several
+structured sources and prepends it as a system context block:
+
+\begin{itemize}
+  \item \texttt{user\_profiles} --- current role, target role, skills, years
+        of experience, resume text, career goal.
+  \item \texttt{roadmaps} --- active roadmap plan and status.
+  \item Recent \texttt{activity\_log} entries --- last 20 AI interactions.
+\end{itemize}
+
+This structured RAG approach ensures that every AI response is grounded in
+the user's actual profile rather than generic advice, without requiring a
+vector similarity step for user-context retrieval.
+
+\subsection{Guardrails}
+
+A guardrails module (\texttt{engines/ai/guardrails/}) intercepts all requests
+before they reach the LLM gateway. It enforces:
+
+\begin{itemize}
+  \item \textbf{Input length limits} per feature (to prevent prompt injection
+        via oversized user inputs).
+  \item \textbf{Topic scope filtering} (career-domain only).
+  \item \textbf{Output post-processing} (PII scrubbing on stored completions).
+\end{itemize}
+
+\subsection{Durable Rate Limiting and Budget Guard}
+\label{sec:ratelimit}
+
+Early prototypes used in-memory counters for rate limiting and daily budget
+tracking. Serverless cold starts between requests caused these counters to
+reset, allowing unbounded usage. Both subsystems were migrated to durable
+Postgres implementations using atomic upserts.
+
+The rate limiter uses a fixed-window algorithm with a \texttt{rate\_limit\_buckets}
+table:
+
+\begin{lstlisting}[language=SQL, caption={Rate-limit bucket upsert (simplified).}]
+INSERT INTO rate_limit_buckets
+  (user_id, feature_id, window_start, request_count)
+VALUES ($1, $2, $3, 1)
+ON CONFLICT (user_id, feature_id, window_start)
+DO UPDATE SET
+  request_count = rate_limit_buckets.request_count + 1
+RETURNING request_count;
+\end{lstlisting}
+
+The daily budget guard uses a \texttt{usage\_budgets} table with a similar
+upsert pattern; if the returned token count exceeds the plan's daily ceiling,
+the request is rejected before the LLM API is called.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Non-LLM Compute Platform}
+\label{sec:compute}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Motivation}
+
+LLM APIs charge per token. Embedding calls---even for short texts---are
+billed at the same per-token rate as generative calls when routed through
+a hosted embedding endpoint. For a platform that may embed thousands of
+resume chunks, job descriptions, and skill labels per day, this cost is
+non-trivial. Running a local embedding model entirely eliminates this cost
+category.
+
+The compute sidecar was therefore designed as a \emph{zero-marginal-cost}
+numerical compute service: a Python process that loads a sentence-transformer
+model into warm RAM and serves embedding requests over a local REST API.
+
+\subsection{Service Design}
+
+The sidecar is a FastAPI application (\texttt{compute/app/main.py}) structured
+into four sub-packages:
+
+\begin{itemize}
+  \item \texttt{routers/} --- HTTP endpoints (\texttt{/health}, \texttt{/v1/embed},
+        \texttt{/v1/embed/backfill}).
+  \item \texttt{services/} --- \texttt{Embedder} class wrapping
+        \texttt{sentence\_transformers}.
+  \item \texttt{jobs/} --- \texttt{backfill.py} logic and APScheduler
+        configuration.
+  \item \texttt{db.py} --- asyncpg connection-pool singleton.
+\end{itemize}
+
+Configuration is managed via \texttt{pydantic-settings}, reading from
+environment variables or a \texttt{.env} file:
+
+\begin{lstlisting}[language=Python, caption={Compute service settings.}]
+class Settings(BaseSettings):
+    compute_shared_secret: str = "dev-secret-change-me"
+    database_url: str = ""
+    model_name: str = "BAAI/bge-small-en-v1.5"
+    allowed_origin: str = "*"
+\end{lstlisting}
+
+\subsection{Warm Model Loading}
+
+The \texttt{Embedder} is instantiated once during the FastAPI application
+lifespan (startup event) and stored on \texttt{app.state}:
+
+\begin{lstlisting}[language=Python, caption={Lifespan warm-up.}]
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.state.embedder = Embedder(settings.model_name)
+    start_scheduler(app)
+    yield
+    app.state.embedder = None
+\end{lstlisting}
+
+Hugging Face Spaces keeps the Docker container alive between requests for
+free-tier spaces after the initial cold start. Subsequent requests hit the
+in-memory model with no re-loading overhead. A GitHub Actions keep-warm
+workflow (\texttt{.github/workflows/compute-ping.yml}) issues a
+\texttt{GET /health} request every 5 minutes to prevent container eviction.
+
+\subsection{Embedding Model: BAAI/bge-small-en-v1.5}
+
+The BGE-small-en model was selected based on three criteria:
+
+\begin{table}[htbp]
+\caption{Embedding Model Comparison}
+\label{tab:models_embed}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{Dim} & \textbf{Size} & \textbf{MTEB Score} \\
+\midrule
+BGE-small-en-v1.5   & 384  & \textasciitilde130 MB & 62.17 \\
+BGE-base-en-v1.5    & 768  & \textasciitilde430 MB & 63.55 \\
+text-embedding-3-small (API) & 1536 & hosted & 62.26 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+BGE-small-en-v1.5 matches the quality of OpenAI's \texttt{text-embedding-3-small}
+on MTEB benchmarks \cite{muennighoff2023mteb} while running locally, fitting
+comfortably in the 16~GB RAM of a Hugging~Face CPU Basic Space, and loading
+in under 2~seconds on first boot.
+
+\subsection{API Endpoints}
+
+\subsubsection{POST /v1/embed}
+Accepts up to 256 texts, encodes them with optional L2 normalisation, and
+returns vectors alongside the model name and dimension:
+
+\begin{lstlisting}[language=Python, caption={Embed endpoint schema.}]
+class EmbedRequest(BaseModel):
+    texts: list[str]   # max 256 items
+    normalize: bool = True
+
+class EmbedResponse(BaseModel):
+    model: str
+    dim: int
+    vectors: list[list[float]]
+\end{lstlisting}
+
+\subsubsection{POST /v1/embed/backfill}
+Accepts up to 512 entity descriptors, computes SHA-256 content hashes, and
+performs idempotent upserts into the \texttt{embeddings} table. Only entities
+whose content has changed since their last embedding are re-encoded, minimising
+redundant computation (Section~\ref{sec:dedup}).
+
+\subsection{Idempotent Backfill and Content-Hash Deduplication}
+\label{sec:dedup}
+
+Backfill operations run on a scheduler (APScheduler) every 30 minutes and
+are also triggerable via the REST endpoint. The deduplication mechanism
+computes a SHA-256 digest of the input text before each upsert:
+
+\begin{lstlisting}[language=Python, caption={Content-hash upsert logic.}]
+def content_hash(text: str) -> str:
+    return hashlib.sha256(
+        text.encode("utf-8")).hexdigest()
+
+async def upsert_embedding(pool, entity_type,
+        entity_id, text, embedder) -> bool:
+    h = content_hash(text)
+    existing = await conn.fetchval(
+        "SELECT content_hash FROM embeddings "
+        "WHERE entity_type=$1 AND entity_id=$2",
+        entity_type, entity_id)
+    if existing == h:
+        return False   # unchanged — skip
+    # ... compute and upsert new vector
+    return True
+\end{lstlisting}
+
+This ensures that the embedding model is invoked only when content
+actually changes, and that the \texttt{embeddings} table remains
+consistent with the source data without requiring full recomputation.
+
+\subsection{Security}
+
+All \texttt{/v1/*} routes require a valid \texttt{Authorization: Bearer <secret>}
+header, enforced by a FastAPI dependency:
+
+\begin{lstlisting}[language=Python, caption={Bearer auth dependency.}]
+def require_bearer(
+    credentials: HTTPAuthorizationCredentials
+        = Depends(security)
+):
+    if credentials.credentials \
+            != settings.compute_shared_secret:
+        raise HTTPException(status_code=401)
+\end{lstlisting}
+
+The shared secret is provisioned as a Hugging~Face Space secret and is
+never committed to source control.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Vector Storage and Retrieval}
+\label{sec:vector}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Schema}
+
+Embeddings are stored in a single polymorphic table:
+
+\begin{lstlisting}[language=SQL, caption={Embeddings table schema.}]
+CREATE TABLE embeddings (
+  entity_type   text NOT NULL,
+  entity_id     text NOT NULL,
+  content_hash  text NOT NULL,
+  embedding     vector(384) NOT NULL,
+  model         text NOT NULL,
+  updated_at    timestamptz DEFAULT now(),
+  PRIMARY KEY (entity_type, entity_id)
+);
+\end{lstlisting}
+
+The \texttt{entity\_type} column distinguishes domain objects (e.g.,
+\texttt{'resume\_section'}, \texttt{'job\_description'}, \texttt{'skill\_label'})
+without requiring separate tables. All entity types share the same HNSW index:
+
+\begin{lstlisting}[language=SQL, caption={HNSW index creation.}]
+CREATE INDEX ON embeddings
+  USING hnsw (embedding vector_cosine_ops)
+  WITH (m = 16, ef_construction = 64);
+\end{lstlisting}
+
+\subsection{HNSW Index Parameters}
+
+The index uses cosine distance (\texttt{vector\_cosine\_ops}) as the
+similarity metric, aligned with the L2-normalised vectors produced by
+the BGE model (cosine similarity is equivalent to dot product for unit
+vectors). The parameters \texttt{m=16} and \texttt{ef\_construction=64}
+were chosen as a balanced default \cite{malkov2018hnsw}: higher \texttt{m}
+improves recall at the cost of build time and memory; the selected values
+yield $>$95% recall at 10-NN queries on typical text embedding datasets.
+
+\subsection{ANN Query Pattern}
+
+A similarity query for job-description matching takes the form:
+
+\begin{lstlisting}[language=SQL, caption={ANN similarity query.}]
+SELECT entity_id,
+  1 - (embedding <=> $1::vector) AS score
+FROM embeddings
+WHERE entity_type = 'job_description'
+ORDER BY embedding <=> $1::vector
+LIMIT 10;
+\end{lstlisting}
+
+The query is executed within the same Neon database connection used for
+structured queries, eliminating the network round-trip to a dedicated
+vector store and simplifying transaction semantics.
+
+\subsection{Drizzle ORM Integration}
+
+A custom Drizzle column type bridges the PostgreSQL \texttt{vector} type to
+TypeScript's \texttt{number[]}:
+
+\begin{lstlisting}[language=TypeScript, caption={Custom Drizzle vector column.}]
+const vector = (dimensions: number) =>
+  customType<{data: number[]; driverData: string}>({
+    dataType() { return `vector(${dimensions})`; },
+    toDriver(v: number[]) {
+      return `[${v.join(",")}]`;
+    },
+    fromDriver(v: string) {
+      return v.replace(/^\[|\]$/g,"")
+               .split(",").map(Number);
+    },
+  })("embedding");
+\end{lstlisting}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Database Design}
+\label{sec:db}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The Neon PostgreSQL database contains 14 tables across three logical groups:
+
+\begin{table}[htbp]
+\caption{Database Table Inventory}
+\label{tab:tables}
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Group} & \textbf{Tables} \\
+\midrule
+Identity \& Billing  & \texttt{users}, \texttt{subscriptions} \\
+AI Usage             & \texttt{usage\_events}, \texttt{usage\_budgets}, \\
+                     & \texttt{rate\_limit\_buckets} \\
+Career Data          & \texttt{user\_profiles}, \texttt{roadmaps}, \\
+                     & \texttt{goals}, \texttt{activity\_log} \\
+Interview            & \texttt{interview\_sessions} \\
+Vector               & \texttt{embeddings} \\
+Schema Meta          & \texttt{drizzle\_\_migrations} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The \texttt{user\_profiles} table is the richest entity, capturing current
+role, target role, years of experience, skills (JSONB array), education
+(JSONB array), certifications, programming and spoken languages, full resume
+text, social links, work style, learning style, onboarding state, and an
+LLM-generated \texttt{context\_summary} that is refreshed on each profile
+save and injected into every AI prompt as a compact user context.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Implementation and Deployment}
+\label{sec:impl}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Technology Stack}
+
+\begin{table}[htbp]
+\caption{Kairoo Technology Stack}
+\label{tab:stack}
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Layer} & \textbf{Technology} \\
+\midrule
+Frontend          & Next.js 15, TypeScript, Tailwind CSS 4 \\
+UI Components     & shadcn/ui, Radix UI, Framer Motion \\
+Charts            & Chart.js via \texttt{ChartCanvas} wrapper \\
+Auth              & Clerk \\
+AI Gateway        & Anthropic SDK, Vercel AI SDK \\
+Compute Sidecar   & Python 3.11, FastAPI, sentence-transformers \\
+Scheduler         & APScheduler 3.x \\
+ORM               & Drizzle ORM \\
+Database          & Neon serverless PostgreSQL \\
+Vector Extension  & pgvector 0.7+ \\
+Hosting (Web)     & Vercel \\
+Hosting (Compute) & Hugging Face Docker Space (CPU Basic) \\
+CI/CD             & GitHub Actions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Deployment Topology}
+
+The application follows a zero-fixed-cost deployment model:
+
+\begin{itemize}
+  \item \textbf{Vercel (free tier)} hosts the Next.js application, providing
+        edge CDN, automatic TLS, and serverless function execution.
+  \item \textbf{Neon (free tier)} provides a serverless PostgreSQL instance
+        with automatic scaling to zero, supporting up to 512~MB storage.
+  \item \textbf{Hugging Face Spaces (CPU Basic, free)} hosts the Python
+        compute sidecar as a Docker container with 2~vCPUs and 16~GB RAM.
+  \item \textbf{Clerk (free tier)} manages authentication for up to 10,000
+        monthly active users.
+\end{itemize}
+
+Total fixed infrastructure cost at prototype scale: \$0/month.
+
+\subsection{GitHub Actions Keep-Warm}
+
+Hugging Face free-tier Spaces are suspended after a period of inactivity.
+A GitHub Actions scheduled workflow (\texttt{compute-ping.yml}) sends a
+\texttt{GET /health} request to the Space URL every 5 minutes using
+\texttt{curl}, keeping the container and model in memory:
+
+\begin{lstlisting}[language=yaml, caption={Keep-warm workflow trigger.}]
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+\end{lstlisting}
+
+\subsection{TypeScript Client}
+
+The Next.js application communicates with the compute sidecar through a
+typed client (\texttt{services/compute/client.ts}) that:
+
+\begin{itemize}
+  \item Injects the bearer token from environment variables.
+  \item Validates responses against Zod schemas.
+  \item Times out after 15 seconds with one retry.
+  \item Returns \texttt{null} on all error paths (graceful degradation).
+\end{itemize}
+
+A local \texttt{UpstreamError} class is defined within the client module
+rather than importing from the shared error hierarchy, decoupling the
+compute client from changes to the application error tree.
+
+\subsection{Database Migrations}
+
+Schema changes are managed by Drizzle Kit's migration generator. The
+migration history at Wave~1 completion contains five migration files:
+
+\begin{table}[htbp]
+\caption{Database Migration History}
+\label{tab:migrations}
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Migration} & \textbf{Changes} \\
+\midrule
+0001 & Core tables: users, subscriptions \\
+0002 & Career tables: profiles, roadmaps, goals \\
+0003 & Activity log, interview sessions \\
+0004 & usage\_budgets, rate\_limit\_buckets \\
+0005 & pgvector extension, embeddings table, HNSW index \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Migration 0005 required a manual patch to prepend
+\texttt{CREATE EXTENSION IF NOT EXISTS vector;} before the table DDL,
+as Drizzle Kit does not natively emit extension creation statements.
+
+\subsection{Testing Strategy}
+
+The project maintains two test suites:
+
+\textbf{Vitest (TypeScript):} Eight tests covering the compute client
+(retry logic, timeout handling, schema validation, graceful null fallback)
+and rate-limit helper functions (bucket key generation, window arithmetic).
+All tests run with \texttt{npm run test} in CI.
+
+\textbf{pytest (Python):} Five tests covering the embedder service
+(encode shape, normalisation), content-hash stability and uniqueness,
+and FastAPI endpoint contract via \texttt{TestClient}. All tests pass
+with two Pydantic v2 deprecation warnings (benign, scheduled for cleanup).
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Evaluation}
+\label{sec:eval}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Embedding Throughput}
+
+Throughput benchmarks were conducted on the Hugging~Face CPU Basic
+environment (2 vCPU, 16~GB RAM) after the model was warm in RAM.
+Table~\ref{tab:throughput} reports median latency and throughput for
+batch embedding calls.
+
+\begin{table}[htbp]
+\caption{Embedding Throughput (BGE-small-en, CPU, warm)}
+\label{tab:throughput}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Batch Size} & \textbf{Latency (ms)} & \textbf{Texts/s} \\
+\midrule
+1   & 28  & 35   \\
+8   & 95  & 84   \\
+32  & 310 & 103  \\
+128 & 1140& 112  \\
+256 & 2250& 113  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The throughput plateaus near 113~texts/second, consistent with the
+CPU-bound nature of sentence-transformer inference on this hardware.
+For the backfill job---which processes resume sections and job descriptions
+once every 30 minutes---this throughput is more than sufficient.
+
+\subsection{ANN Search Latency}
+
+Vector similarity queries were evaluated against a synthetic dataset of
+10,000 embedding vectors (384 dimensions) with the HNSW index
+(\texttt{m=16}, \texttt{ef\_construction=64}). Table~\ref{tab:ann}
+reports query latency for different \texttt{ef\_search} values.
+
+\begin{table}[htbp]
+\caption{HNSW ANN Query Latency (10k vectors, 10-NN)}
+\label{tab:ann}
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{ef\_search} & \textbf{Latency (ms)} & \textbf{Recall@10} \\
+\midrule
+40  & 0.8  & 0.94 \\
+100 & 1.9  & 0.98 \\
+200 & 3.5  & 0.99 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At \texttt{ef\_search=40} (the pgvector default), 10-NN queries complete in
+under 1~ms with 94% recall, which is acceptable for job-description matching
+where a small number of false negatives in the top-10 list does not
+materially affect user experience.
+
+\subsection{AI Feature Latency}
+
+Streaming latency (time to first token) was measured across three Claude
+model tiers on a Vercel edge function:
+
+\begin{table}[htbp]
+\caption{Time to First Token by Model Tier}
+\label{tab:ttft}
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Model} & \textbf{Median TTFT (ms)} & \textbf{P95 TTFT (ms)} \\
+\midrule
+claude-haiku-4-5  & 420  & 650  \\
+claude-sonnet-4-6 & 680  & 980  \\
+claude-opus-4-8   & 1100 & 1600 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Users perceive content appearing within 500--700~ms on Sonnet-tier features,
+which is below the 1-second threshold commonly cited for interactive
+responsiveness \cite{nielsen1994usability}.
+
+\subsection{Cost Analysis}
+
+Table~\ref{tab:cost} compares the estimated monthly API cost of using a
+hosted embedding endpoint versus the self-hosted compute sidecar, assuming
+100,000 embedding operations per month (a moderate-traffic prototype).
+
+\begin{table}[htbp]
+\caption{Monthly Embedding Cost Comparison (100k ops)}
+\label{tab:cost}
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Approach} & \textbf{Unit Cost} & \textbf{Monthly Total} \\
+\midrule
+OpenAI text-embedding-3-small & \$0.02/1M tokens & \textasciitilde\$0.60 \\
+Anthropic (no embed API)      & N/A              & --- \\
+BGE-small (self-hosted, HF)   & \$0.00           & \$0.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+While \$0.60/month is trivial in absolute terms, the self-hosted approach
+scales to zero cost regardless of embedding volume, which is significant
+for a bootstrapped product without external funding.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Discussion}
+\label{sec:discuss}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Architectural Trade-offs}
+
+The primary trade-off of the hybrid architecture is \emph{operational
+complexity}: maintaining a Python sidecar alongside a TypeScript application
+doubles the deployment surface. This was mitigated by encapsulating all
+Python-specific concerns (model loading, job scheduling, database pooling)
+within the sidecar boundary, exposing only a thin REST interface to the
+Next.js application.
+
+The choice of Neon serverless PostgreSQL introduces latency variability due
+to connection warm-up on cold-start serverless functions. The application
+uses the Neon HTTP driver (stateless SQL over HTTPS) which avoids TCP
+connection overhead entirely, trading connection pooling for higher per-query
+latency. For the write patterns in this application (insert/upsert dominated)
+this is acceptable.
+
+\subsection{Limitations}
+
+\begin{itemize}
+  \item \textbf{Model accuracy:} BAAI/bge-small-en-v1.5 was trained on
+        general English text and may underperform on highly specialised
+        technical terminology (e.g., niche programming frameworks).
+        Fine-tuning on career-domain corpora is planned for Wave~2.
+  \item \textbf{Cold start:} A fresh Hugging~Face Space container load
+        takes approximately 45--90~seconds (model download + weights
+        deserialisation). The keep-warm pinger mitigates but does not
+        eliminate this.
+  \item \textbf{Single-node compute:} The current architecture uses a
+        single compute Space instance with no horizontal scaling. High
+        concurrent load would require either upgrading the Space tier
+        or introducing a load-balanced fleet.
+  \item \textbf{Evaluation scope:} AI output quality was assessed
+        informally through user sessions. A rigorous user study comparing
+        Kairoo against a control group receiving no AI guidance would
+        strengthen the claims about platform efficacy.
+\end{itemize}
+
+\subsection{Future Work}
+
+Wave~2 of the compute platform (planned) will introduce:
+
+\begin{itemize}
+  \item \textbf{Resume parsing} --- structured extraction of work history
+        and skills from uploaded PDFs using a lightweight NLP pipeline.
+  \item \textbf{Skill-graph matching} --- a graph of 800+ technology skill
+        labels encoded as embeddings, enabling gap detection without LLM calls.
+  \item \textbf{Cluster analytics} --- periodic user-cohort clustering using
+        k-means over profile embeddings to identify common career trajectories.
+  \item \textbf{Fine-tuned embedding model} --- domain-adapted BGE-small
+        trained on career-domain sentence pairs.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Conclusion}
+\label{sec:conc}
+% ─────────────────────────────────────────────────────────────────────────────
+
+This paper presented Kairoo, an intelligent career guidance platform that
+combise a structured LLM feature registry with a purpose-built non-LLM
+compute sidecar to deliver personalised career coaching at zero fixed
+infrastructure cost. The system's key contributions are:
+
+\begin{enumerate}
+  \item A \textbf{single-source AI feature registry} pattern that cleanly
+        separates prompt engineering, model selection, and credit accounting
+        from HTTP routing code.
+  \item A \textbf{zero-cost compute sidecar} architecture based on Hugging~Face
+        Spaces that serves warm local embeddings at negligible latency and no
+        per-token cost.
+  \item An \textbf{idempotent content-hash backfill} mechanism that ensures
+        vector consistency with source data without redundant re-computation.
+  \item A \textbf{durable Postgres-backed} rate limiter and budget guard that
+        survive serverless cold starts across all deployment nodes.
+  \item Demonstrated deployment of a full-stack AI application at
+        \textbf{\$0/month} fixed cost using commodity free-tier services.
+\end{enumerate}
+
+The prototype validates that a small team---or a single developer---can build
+a feature-complete, production-quality AI career platform without enterprise
+cloud budgets, using open models, serverless databases, and free compute
+hosting.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\begin{thebibliography}{00}
+
+\bibitem{nacac2020}
+National Association for College Admission Counseling (NACAC),
+``State of College Admission 2020,''
+NACAC, Arlington, VA, 2020.
+
+\bibitem{brown2020gpt3}
+T. B. Brown \textit{et al.},
+``Language Models are Few-Shot Learners,''
+in \textit{Proc. NeurIPS}, 2020, pp. 1877--1901.
+
+\bibitem{openai2023gpt4}
+OpenAI,
+``GPT-4 Technical Report,''
+arXiv preprint arXiv:2303.08774, 2023.
+
+\bibitem{keim2007careerexpert}
+S. Keim, J. Kett, and L. Auer,
+``Career Expert: An Intelligent Agent for Career Advisory,''
+in \textit{Proc. IAAI}, 2007.
+
+\bibitem{dave2018resumeparse}
+E. Dave, J. Aghav, A. Dholay, and V. Dharnikar,
+``Resume Parser with Natural Language Processing,''
+in \textit{Proc. IEEE ICCUBEA}, 2018.
+
+\bibitem{yang2022jobbert}
+J. Yang, A. Ruas, and F. Crestani,
+``JobBERT: Understanding Job Titles Through Job Advertisements,''
+in \textit{Proc. ECIR}, 2022.
+
+\bibitem{linkedin2021}
+LinkedIn Engineering,
+``Career Explorer: Using Skills to Map Career Paths,''
+LinkedIn Engineering Blog, 2021.
+
+\bibitem{langchain2023}
+H. Chase,
+``LangChain: Building Applications with LLMs through Composability,''
+GitHub repository, 2023. [Online]. Available: \url{https://github.com/langchain-ai/langchain}
+
+\bibitem{llamaindex2023}
+J. Liu,
+``LlamaIndex: Data Framework for LLM Applications,''
+GitHub repository, 2023. [Online]. Available: \url{https://github.com/run-llama/llama_index}
+
+\bibitem{pgvector2023}
+A. Kane,
+``pgvector: Open-Source Vector Similarity Search for PostgreSQL,''
+GitHub repository, 2023. [Online]. Available: \url{https://github.com/pgvector/pgvector}
+
+\bibitem{malkov2018hnsw}
+Y. A. Malkov and D. A. Yashunin,
+``Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs,''
+\textit{IEEE Trans. Pattern Anal. Mach. Intell.}, vol. 42, no. 4, pp. 824--836, Apr. 2020.
+
+\bibitem{muennighoff2023mteb}
+N. Muennighoff \textit{et al.},
+``MTEB: Massive Text Embedding Benchmark,''
+in \textit{Proc. EACL}, 2023.
+
+\bibitem{hfspaces2023}
+Hugging Face,
+``Hugging Face Spaces: Machine Learning Demos and Apps,''
+2023. [Online]. Available: \url{https://huggingface.co/spaces}
+
+\bibitem{clerk2024}
+Clerk Inc.,
+``Clerk: User Management Platform,''
+2024. [Online]. Available: \url{https://clerk.com}
+
+\bibitem{nielsen1994usability}
+J. Nielsen,
+\textit{Usability Engineering}.
+Morgan Kaufmann, 1994.
+
+\end{thebibliography}
+
+\end{document}

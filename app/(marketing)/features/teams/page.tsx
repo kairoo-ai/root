@@ -12,10 +12,16 @@ import {
   type PillarCard,
 } from "./TeamsVisuals";
 
+const teamsTitle = `Team & Enterprise Analytics - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const teamsDesc =
+  "Enterprise-grade team analytics for skill tracking, development planning, and performance. Real-time team insights, predictive analytics, and goal alignment - visualized in the Team Skill Matrix.";
+
 export const metadata: Metadata = {
-  title: `Team & Enterprise Analytics - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    "Enterprise-grade team analytics for skill tracking, development planning, and performance. Real-time team insights, predictive analytics, and goal alignment - visualized in the Team Skill Matrix.",
+  title: teamsTitle,
+  description: teamsDesc,
+  alternates: { canonical: "/features/teams" },
+  openGraph: { title: teamsTitle, description: teamsDesc, url: "/features/teams" },
+  twitter: { card: "summary_large_image", title: teamsTitle, description: teamsDesc },
 };
 
 /**

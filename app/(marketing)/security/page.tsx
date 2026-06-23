@@ -22,10 +22,16 @@ import {
   type LifecycleStep,
 } from "./SecurityVisuals";
 
+const securityTitle = `Security & Trust | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`;
+const securityDesc =
+  `How ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} protects your data: a layered security model across network, application, and data; our compliance posture (SOC 2, GDPR, HIPAA, ISO 27001) framed honestly as in-progress; and the performance targets we hold ourselves to.`;
+
 export const metadata: Metadata = {
-  title: `Security & Trust | ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}`,
-  description:
-    `How ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} protects your data: a layered security model across network, application, and data; our compliance posture (SOC 2, GDPR, HIPAA, ISO 27001) framed honestly as in-progress; and the performance targets we hold ourselves to.`,
+  title: securityTitle,
+  description: securityDesc,
+  alternates: { canonical: "/security" },
+  openGraph: { title: securityTitle, description: securityDesc, url: "/security" },
+  twitter: { card: "summary_large_image", title: securityTitle, description: securityDesc },
 };
 
 /* -------------------------------------------------------------------------- */

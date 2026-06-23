@@ -8,10 +8,16 @@ import ContactVisuals, {
   type ContactChannel,
 } from "./ContactVisuals";
 
+const contactTitle = `Contact ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - Talk to us or book a demo`;
+const contactDesc =
+  `Get in touch with the ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} team. Send a message, book a product demo, reach support, or connect with investor relations.`;
+
 export const metadata: Metadata = {
-  title: `Contact ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} - Talk to us or book a demo`,
-  description:
-    `Get in touch with the ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} team. Send a message, book a product demo, reach support, or connect with investor relations.`,
+  title: contactTitle,
+  description: contactDesc,
+  alternates: { canonical: "/contact" },
+  openGraph: { title: contactTitle, description: contactDesc, url: "/contact" },
+  twitter: { card: "summary_large_image", title: contactTitle, description: contactDesc },
 };
 
 /**

@@ -22,10 +22,16 @@ import {
   RoadmapTimeline,
 } from "./StrategyClient";
 
+const strategyTitle = `SaaS Strategy & Validation Framework - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`;
+const strategyDesc =
+  `Comprehensive strategic analysis, market validation, and business intelligence for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}: a 94/100 validation score, core problem analysis, value-proposition suite, three ideal customer profiles, MoSCoW feature prioritization, and the implementation roadmap.`;
+
 export const metadata: Metadata = {
-  title: `SaaS Strategy & Validation Framework - ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"} Investors`,
-  description:
-    `Comprehensive strategic analysis, market validation, and business intelligence for ${process.env.NEXT_PUBLIC_APP_NAME || "Kairoo"}: a 94/100 validation score, core problem analysis, value-proposition suite, three ideal customer profiles, MoSCoW feature prioritization, and the implementation roadmap.`,
+  title: strategyTitle,
+  description: strategyDesc,
+  alternates: { canonical: "/investors/strategy" },
+  openGraph: { title: strategyTitle, description: strategyDesc, url: "/investors/strategy" },
+  twitter: { card: "summary_large_image", title: strategyTitle, description: strategyDesc },
 };
 
 /* Section heading helper - consistent typographic rhythm across the page. */
